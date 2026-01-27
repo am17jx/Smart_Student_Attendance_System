@@ -1,0 +1,439 @@
+import { Request, Response, NextFunction } from "express";
+import { prisma } from "../prisma/client";
+import catchAsync from "../utils/catchAsync";
+import AppError from "../utils/AppError";
+
+export const createMaterial = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const { name, departmentId, stageId } = req.body;
+
+    // Validation
+    if (!name || name.trim() === '') {
+        return next(new AppError('Material name is required', 400));
+    }
+
+    if (!departmentId) {
+        return next(new AppError('Department ID is required', 400));
+    }
+
+    if (!stageId) {
+        return next(new AppError('Stage ID is required', 400));
+    }
+
+    // Check if department exists
+    const department = await prisma.department.findUnique({
+        where: { id: BigInt(departmentId) }
+    });
+
+    if (!department) {
+        return next(new AppError('Department not found', 404));
+    }
+
+    // Check if stage exists
+    const stage = await prisma.stage.findUnique({
+        where: { id: BigInt(stageId) }
+    });
+
+    if (!stage) {
+        return next(new AppError('Stage not found', 404));
+    }
+
+    // Check for duplicate
+    const existing = await prisma.material.findFirst({
+        where: {
+            name: name.trim(),
+            department_id: BigInt(departmentId),
+            stage_id: BigInt(stageId)
+        }
+    });
+
+    if (existing) {
+        return next(new AppError('Material with this name already exists for this department and stage', 400));
+    }
+
+    const material = await prisma.material.create({
+        data: {
+            name: name.trim(),
+            department_id: BigInt(departmentId),
+            stage_id: BigInt(stageId)
+        },
+    });
+
+    res.status(201).json({
+        status: "success",
+        data: {
+            material: {
+                ...material,
+                id: material.id.toString(),
+                department_id: material.department_id.toString(),
+                stage_id: material.stage_id.toString()
+            },
+        },
+    });
+});
+
+export const getAllMaterials = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const materials = await prisma.material.findMany({
+        include: {
+            department: true,
+            stage: true
+        },
+        orderBy: {
+            name: 'asc'
+        }
+    });
+
+    const safeMaterials = materials.map(m => ({
+        ...m,
+        id: m.id.toString(),
+        department_id: m.department_id.toString(),
+        stage_id: m.stage_id.toString(),
+        department: {
+            ...m.department,
+            id: m.department.id.toString()
+        },
+        stage: {
+            ...m.stage,
+            id: m.stage.id.toString()
+        }
+    }));
+
+    res.status(200).json({
+        status: "success",
+        data: {
+            materials: safeMaterials,
+        },
+    });
+});
+
+export const deleteMaterial = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+
+    // Check if material exists
+    const existing = await prisma.material.findUnique({
+        where: { id: BigInt(id) }
+    });
+
+    if (!existing) {
+        return next(new AppError('Material not found', 404));
+    }
+
+    await prisma.material.delete({
+        where: {
+            id: BigInt(id),
+        },
+    });
+
+    res.status(200).json({
+        status: "success",
+        message: "Material deleted successfully"
+    });
+});
+
+export const updateMaterial = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    const { name, departmentId, stageId } = req.body;
+
+    // Validation
+    if (!name || name.trim() === '') {
+        return next(new AppError('Material name is required', 400));
+    }
+
+    // Check if material exists
+    const existing = await prisma.material.findUnique({
+        where: { id: BigInt(id) }
+    });
+
+    if (!existing) {
+        return next(new AppError('Material not found', 404));
+    }
+
+    // If departmentId provided, check if it exists
+    if (departmentId) {
+        const department = await prisma.department.findUnique({
+            where: { id: BigInt(departmentId) }
+        });
+
+        if (!department) {
+            return next(new AppError('Department not found', 404));
+        }
+    }
+
+    // If stageId provided, check if it exists
+    if (stageId) {
+        const stage = await prisma.stage.findUnique({
+            where: { id: BigInt(stageId) }
+        });
+
+        if (!stage) {
+            return next(new AppError('Stage not found', 404));
+        }
+    }
+
+    const material = await prisma.material.update({
+        where: {
+            id: BigInt(id),
+        },
+        data: {
+            name: name.trim(),
+            ...(departmentId && { department_id: BigInt(departmentId) }),
+            ...(stageId && { stage_id: BigInt(stageId) })
+        },
+    });
+
+    res.status(200).json({
+        status: "success",
+        data: {
+            material: {
+                ...material,
+                id: material.id.toString(),
+                department_id: material.department_id.toString(),
+                stage_id: material.stage_id.toString()
+            },
+        },
+    });
+});
+
+export const getMaterialsByDepartment = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const { departmentId } = req.params;
+
+    // Check if department exists
+    const department = await prisma.department.findUnique({
+        where: { id: BigInt(departmentId) }
+    });
+
+    if (!department) {
+        return next(new AppError('Department not found', 404));
+    }
+
+    const materials = await prisma.material.findMany({
+        where: {
+            department_id: BigInt(departmentId),
+        },
+        include: {
+            stage: true
+        },
+        orderBy: {
+            name: 'asc'
+        }
+    });
+
+    const safeMaterials = materials.map(m => ({
+        ...m,
+        id: m.id.toString(),
+        department_id: m.department_id.toString(),
+        stage_id: m.stage_id.toString(),
+        stage: {
+            ...m.stage,
+            id: m.stage.id.toString()
+        }
+    }));
+
+    res.status(200).json({
+        status: "success",
+        data: {
+            materials: safeMaterials,
+        },
+    });
+});
+
+export const getMaterialsByStage = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const { stageId } = req.params;
+
+    // Check if stage exists
+    const stage = await prisma.stage.findUnique({
+        where: { id: BigInt(stageId) }
+    });
+
+    if (!stage) {
+        return next(new AppError('Stage not found', 404));
+    }
+
+    const materials = await prisma.material.findMany({
+        where: {
+            stage_id: BigInt(stageId),
+        },
+        include: {
+            department: true
+        },
+        orderBy: {
+            name: 'asc'
+        }
+    });
+
+    const safeMaterials = materials.map(m => ({
+        ...m,
+        id: m.id.toString(),
+        department_id: m.department_id.toString(),
+        stage_id: m.stage_id.toString(),
+        department: {
+            ...m.department,
+            id: m.department.id.toString()
+        }
+    }));
+
+    res.status(200).json({
+        status: "success",
+        data: {
+            materials: safeMaterials,
+        },
+    });
+});
+
+
+/**
+ * Assign teacher to material
+ * Creates a record in TeacherMaterial junction table
+ * POST /api/v1/materials/:id/assign-teacher
+ */
+export const assignTeacherToMaterial = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    const { teacherId } = req.body;
+
+    if (!teacherId) {
+        return next(new AppError('Teacher ID is required', 400));
+    }
+
+    // Check if material exists
+    const material = await prisma.material.findUnique({
+        where: { id: BigInt(id) },
+        include: {
+            department: true,
+            stage: true
+        }
+    });
+
+    if (!material) {
+        return next(new AppError('Material not found', 404));
+    }
+
+    // Check if teacher exists
+    const teacher = await prisma.teacher.findUnique({
+        where: { id: BigInt(teacherId) },
+        include: {
+            department: true
+        }
+    });
+
+    if (!teacher) {
+        return next(new AppError('Teacher not found', 404));
+    }
+
+    // Check if teacher belongs to the same department as the material
+    if (teacher.department_id && material.department_id !== teacher.department_id) {
+        return next(new AppError('Teacher does not belong to the same department as this material', 400));
+    }
+
+    // Check if teacher is already assigned
+    const existing = await prisma.teacherMaterial.findFirst({
+        where: {
+            teacher_id: BigInt(teacherId),
+            material_id: BigInt(id)
+        }
+    });
+
+    if (existing) {
+        return next(new AppError('Teacher is already assigned to this material', 400));
+    }
+
+    // Create the assignment
+    const assignment = await prisma.teacherMaterial.create({
+        data: {
+            teacher_id: BigInt(teacherId),
+            material_id: BigInt(id)
+        }
+    });
+
+    res.status(201).json({
+        status: "success",
+        message: "Teacher assigned to material successfully",
+        data: {
+            assignment: {
+                id: assignment.id.toString(),
+                teacher_id: assignment.teacher_id.toString(),
+                material_id: assignment.material_id.toString(),
+                created_at: assignment.created_at
+            },
+            material: {
+                id: material.id.toString(),
+                name: material.name,
+                department: material.department.name,
+                stage: material.stage.name
+            },
+            teacher: {
+                id: teacher.id.toString(),
+                name: teacher.name,
+                email: teacher.email,
+                department: teacher.department?.name || 'N/A'
+            }
+        }
+    });
+});
+
+
+/**
+ * Remove teacher from material
+ * Deletes the record from TeacherMaterial junction table
+ * DELETE /api/v1/materials/:id/remove-teacher
+ */
+export const removeTeacherFromMaterial = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    const { teacherId } = req.body;
+
+    if (!teacherId) {
+        return next(new AppError('Teacher ID is required', 400));
+    }
+
+    // Check if material exists
+    const material = await prisma.material.findUnique({
+        where: { id: BigInt(id) }
+    });
+
+    if (!material) {
+        return next(new AppError('Material not found', 404));
+    }
+
+    // Check if teacher exists
+    const teacher = await prisma.teacher.findUnique({
+        where: { id: BigInt(teacherId) }
+    });
+
+    if (!teacher) {
+        return next(new AppError('Teacher not found', 404));
+    }
+
+    // Find the assignment
+    const assignment = await prisma.teacherMaterial.findFirst({
+        where: {
+            teacher_id: BigInt(teacherId),
+            material_id: BigInt(id)
+        }
+    });
+
+    if (!assignment) {
+        return next(new AppError('Teacher is not assigned to this material', 404));
+    }
+
+    // Delete the assignment
+    await prisma.teacherMaterial.delete({
+        where: {
+            id: assignment.id
+        }
+    });
+
+    res.status(200).json({
+        status: "success",
+        message: "Teacher removed from material successfully",
+        data: {
+            teacher: {
+                id: teacher.id.toString(),
+                name: teacher.name
+            },
+            material: {
+                id: material.id.toString(),
+                name: material.name
+            }
+        }
+    });
+});
+
+

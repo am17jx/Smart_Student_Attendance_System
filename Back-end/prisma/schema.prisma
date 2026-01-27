@@ -1,0 +1,229 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Department {
+  id         BigInt   @id @default(autoincrement())
+  name       String   @unique
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  students  Student[]
+  teachers  Teacher[]
+  materials Material[]
+}
+
+model Stage {
+  id         BigInt   @id @default(autoincrement())
+  name       String
+  level      Int      @unique
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  students  Student[]
+  materials Material[]
+}
+
+model Student {
+  id                   BigInt  @id @default(autoincrement())
+  student_id           String  @unique
+  name                 String
+  email                String  @unique
+  password             String
+  must_change_password Boolean @default(true)
+  is_verified          Boolean @default(false)
+  fingerprint_hash     String?
+
+  // Email verification fields
+  email_verification_token   String?   @unique
+  email_verification_expires DateTime?
+  password_reset_token       String?   @unique
+  password_reset_expires     DateTime?
+  email_verified_at          DateTime?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  department_id BigInt?
+  department    Department? @relation(fields: [department_id], references: [id], onDelete: SetNull)
+
+  stage_id BigInt?
+  stage    Stage?  @relation(fields: [stage_id], references: [id], onDelete: SetNull)
+
+  attendance_records AttendanceRecord[]
+  qr_tokens          QRToken[]
+  failed_attempts    FailedAttempt[]
+
+  @@index([department_id])
+  @@index([stage_id])
+  @@index([email])
+  @@index([email_verification_token])
+  @@index([password_reset_token])
+}
+
+model Teacher {
+  id         BigInt   @id @default(autoincrement())
+  name       String
+  email      String   @unique
+  password   String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  department_id BigInt?
+  department    Department? @relation(fields: [department_id], references: [id], onDelete: SetNull)
+
+  sessions          Session[]
+  teacher_materials TeacherMaterial[]
+
+  @@index([department_id])
+  @@index([email])
+}
+
+model TeacherMaterial {
+  id         BigInt   @id @default(autoincrement())
+  created_at DateTime @default(now())
+
+  teacher_id BigInt
+  teacher    Teacher @relation(fields: [teacher_id], references: [id], onDelete: Cascade)
+
+  material_id BigInt
+  material    Material @relation(fields: [material_id], references: [id], onDelete: Cascade)
+
+  @@unique([teacher_id, material_id])
+  @@index([teacher_id])
+  @@index([material_id])
+}
+
+model Admin {
+  id         BigInt   @id @default(autoincrement())
+  name       String
+  email      String   @unique
+  password   String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@index([email])
+}
+
+model Material {
+  id         BigInt   @id @default(autoincrement())
+  name       String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  department_id BigInt
+  department    Department @relation(fields: [department_id], references: [id], onDelete: Cascade)
+
+  stage_id BigInt
+  stage    Stage  @relation(fields: [stage_id], references: [id], onDelete: Cascade)
+
+  sessions         Session[]
+  teacherMaterials TeacherMaterial[]
+
+  @@unique([name, department_id, stage_id])
+  @@index([department_id])
+  @@index([stage_id])
+}
+
+model Geofence {
+  id            BigInt   @id @default(autoincrement())
+  name          String   @unique
+  latitude      Float
+  longitude     Float
+  radius_meters Int      @default(100)
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+
+  sessions Session[]
+}
+
+model Session {
+  id           BigInt   @id @default(autoincrement())
+  session_date DateTime @default(now())
+  qr_secret    String
+  is_active    Boolean  @default(true)
+  created_at   DateTime @default(now())
+  expires_at   DateTime
+
+  teacher_id BigInt
+  teacher    Teacher @relation(fields: [teacher_id], references: [id], onDelete: Cascade)
+
+  material_id BigInt
+  material    Material @relation(fields: [material_id], references: [id], onDelete: Cascade)
+
+  geofence_id BigInt
+  geofence    Geofence @relation(fields: [geofence_id], references: [id], onDelete: Restrict)
+
+  qr_tokens          QRToken[]
+  attendance_records AttendanceRecord[]
+  failed_attempts    FailedAttempt[]
+
+  @@index([teacher_id])
+  @@index([material_id])
+  @@index([geofence_id])
+  @@index([session_date])
+  @@index([is_active])
+}
+
+model QRToken {
+  id           BigInt    @id @default(autoincrement())
+  token_hash   String    @unique
+  generated_at DateTime  @default(now())
+  expires_at   DateTime
+  used_at      DateTime?
+
+  session_id BigInt
+  session    Session @relation(fields: [session_id], references: [id], onDelete: Cascade)
+
+  used_by_student_id BigInt?
+  used_by_student    Student? @relation(fields: [used_by_student_id], references: [id], onDelete: SetNull)
+
+  @@index([session_id])
+  @@index([used_by_student_id])
+  @@index([expires_at])
+}
+
+model AttendanceRecord {
+  id         BigInt   @id @default(autoincrement())
+  token_hash String
+  latitude   Float?
+  longitude  Float?
+  marked_by  String   @default("qr_scan")
+  marked_at  DateTime @default(now())
+
+  session_id BigInt
+  session    Session @relation(fields: [session_id], references: [id], onDelete: Cascade)
+
+  student_id BigInt
+  student    Student @relation(fields: [student_id], references: [id], onDelete: Cascade)
+
+  @@unique([student_id, session_id])
+  @@index([session_id])
+  @@index([marked_at])
+}
+
+model FailedAttempt {
+  id               BigInt   @id @default(autoincrement())
+  error_type       String
+  error_message    String?
+  ip_address       String?
+  device_info      String?
+  fingerprint_hash String?
+  attempted_at     DateTime @default(now())
+
+  session_id BigInt?
+  session    Session? @relation(fields: [session_id], references: [id], onDelete: SetNull)
+
+  student_id BigInt?
+  student    Student? @relation(fields: [student_id], references: [id], onDelete: SetNull)
+
+  @@index([session_id])
+  @@index([student_id])
+  @@index([attempted_at])
+  @@index([error_type])
+}
