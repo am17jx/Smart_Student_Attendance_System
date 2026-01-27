@@ -62,6 +62,7 @@ export default function ForgotPasswordPage() {
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
+
                         {submitted ? (
                             <div className="flex flex-col gap-4">
                                 <div className="rounded-md bg-green-50 p-4 text-sm text-green-700 dark:bg-green-900/20 dark:text-green-300">
