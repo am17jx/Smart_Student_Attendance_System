@@ -352,7 +352,19 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
         if (!ok) throw new AppError("Invalid email or password", 401);
 
         const token = signToken({ id: admin.id.toString(), email: admin.email, role: "admin" });
-        return res.status(200).json({ status: "success", message: "Login successful", role: "admin", token });
+        return res.status(200).json({
+            status: "success",
+            message: "Login successful",
+            data: {
+                token,
+                user: {
+                    id: admin.id.toString(),
+                    name: admin.name,
+                    email: admin.email,
+                    role: "admin"
+                }
+            }
+        });
     }
 
     // Teacher
@@ -362,7 +374,19 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
         if (!ok) throw new AppError("Invalid email or password", 401);
 
         const token = signToken({ id: teacher.id.toString(), email: teacher.email, role: "teacher" });
-        return res.status(200).json({ status: "success", message: "Login successful", role: "teacher", token });
+        return res.status(200).json({
+            status: "success",
+            message: "Login successful",
+            data: {
+                token,
+                user: {
+                    id: teacher.id.toString(),
+                    name: teacher.name,
+                    email: teacher.email,
+                    role: "teacher"
+                }
+            }
+        });
     }
 
     // Student
@@ -397,15 +421,45 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
         }
 
         if (student.must_change_password) {
-            // Generate token so student can change password
+            // Generate reset token for email flow
+            const resetToken = generateToken();
+            const resetTokenHash = crypto.createHash('sha256').update(resetToken).digest('hex');
+            const resetExpires = new Date(Date.now() + 30 * 60 * 1000); // 30 minutes
+
+            // Save token to DB
+            await prisma.student.update({
+                where: { id: student.id },
+                data: {
+                    password_reset_token: resetTokenHash,
+                    password_reset_expires: resetExpires,
+                },
+            });
+
+            // Send Email
+            try {
+                await emailService.sendPasswordResetEmail(student.email, student.name, resetToken);
+                console.log(`✅ Password reset email sent to ${student.email} (Triggered by temp password login)`);
+            } catch (error) {
+                console.error('❌ Failed to send password reset email:', error);
+            }
+
+            // Generate token (JWT) so they can also change it manually if they want
             const token = signToken({ id: student.id.toString(), email: student.email, role: "student" });
 
             return res.status(200).json({
                 status: "must_change_password",
-                message: "Please change your temporary password",
-                token,  // ✅ Include token for authentication
-                studentId: student.id.toString(),
-                redirect: "/change-password",
+                message: "تم إرسال رابط تعيين كلمة المرور إلى بريدك الإلكتروني. يرجى تغيير كلمة المرور.",
+                data: {
+                    token,  // ✅ Include token for authentication
+                    user: {
+                        id: student.id.toString(),
+                        name: student.name,
+                        email: student.email,
+                        role: "student"
+                    },
+                    studentId: student.id.toString(),
+                    redirect: "/change-password",
+                }
             });
         }
 
@@ -445,7 +499,19 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
             // Don't fail login if email fails
         }
 
-        return res.status(200).json({ status: "success", message: "Login successful", role: "student", token });
+        return res.status(200).json({
+            status: "success",
+            message: "Login successful",
+            data: {
+                token,
+                user: {
+                    id: student.id.toString(),
+                    name: student.name,
+                    email: student.email,
+                    role: "student"
+                }
+            }
+        });
     }
 
     // Not found
@@ -669,3 +735,31 @@ export const resendVerificationEmail = catchAsync(async (req: Request, res: Resp
     }
 });
 
+/**
+ * Logout
+ * POST /api/auth/logout
+ */
+export const logout = (req: Request, res: Response) => {
+    res.status(200).json({
+        status: 'success',
+        message: 'تم تسجيل الخروج بنجاح'
+    });
+};
+
+/**
+ * Get Profile
+ * GET /api/auth/profile
+ */
+export const getProfile = catchAsync(async (req: Request, res: Response) => {
+    if (!req.user) {
+        throw new AppError('غير مصرح', 401);
+    }
+
+    // Return the user data attached by the auth middleware
+    res.status(200).json({
+        status: 'success',
+        data: {
+            user: req.user
+        }
+    });
+});

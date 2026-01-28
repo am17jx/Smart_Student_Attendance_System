@@ -115,20 +115,60 @@ export const endSession = catchAsync(async (req: Request, res: Response, next: N
 });
 
 export const getAllSessions = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const sessions = await prisma.session.findMany()
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
+    const search = req.query.search as string || "";
+    const skip = (page - 1) * limit;
+
+    const where: any = {};
+    if (search) {
+        where.OR = [
+            { material: { name: { contains: search } } }, // Removed mode: 'insensitive' as detailed in previous issues often causing db specific errors if not configured, keeping simple for now or assuming default collation
+            { teacher: { name: { contains: search } } },
+            { geofence: { name: { contains: search } } }
+        ];
+    }
+
+    const [total, sessions] = await Promise.all([
+        prisma.session.count({ where }),
+        prisma.session.findMany({
+            where,
+            include: {
+                material: true,
+                teacher: true,
+                geofence: true
+            },
+            orderBy: {
+                created_at: 'desc'
+            },
+            skip,
+            take: limit
+        })
+    ]);
+
     const safeSessions = sessions.map(s => ({
         ...s,
         id: s.id.toString(),
         material_id: s.material_id.toString(),
         teacher_id: s.teacher_id.toString(),
-        geofence_id: s.geofence_id.toString()
-    }))
+        geofence_id: s.geofence_id.toString(),
+        material: s.material ? { ...s.material, id: s.material.id.toString() } : undefined,
+        teacher: s.teacher ? { ...s.teacher, id: s.teacher.id.toString(), department_id: s.teacher.department_id?.toString() } : undefined,
+        geofence: s.geofence ? { ...s.geofence, id: s.geofence.id.toString() } : undefined
+    }));
+
     res.status(200).json({
         status: "success",
         data: {
             sessions: safeSessions,
+            meta: {
+                page,
+                limit,
+                total,
+                pages: Math.ceil(total / limit)
+            }
         },
-    })
+    });
 })
 
 

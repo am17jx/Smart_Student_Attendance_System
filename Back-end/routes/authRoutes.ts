@@ -10,7 +10,10 @@ import {
     forgotPassword,
     resetPassword,
     verifyEmail,
-    resendVerificationEmail
+
+    resendVerificationEmail,
+    logout,
+    getProfile
 } from "../controllers/AuthController";
 import { validateRequest } from "../middleware/validateRequest";
 import { adminAuthMiddleware, authMiddleware } from "../middleware/authMiddleware";
@@ -22,6 +25,9 @@ router.post("/login",
     validateRequest,   // 1. Validate request
     login              // 2. Login (rate limiting for students only happens inside)
 );
+
+router.post("/logout", logout);
+router.get("/profile", authMiddleware, getProfile);
 
 
 // Create Admin (Admin-only) - No rate limiting

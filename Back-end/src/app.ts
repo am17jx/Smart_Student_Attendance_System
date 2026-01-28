@@ -13,7 +13,18 @@ import sessionRoutes from '../routes/sessionRoutes';
 import qrcodeRoutes from '../routes/qrcodeRoutes';
 import attendanceRoutes from '../routes/attendanceRoutes';
 import dashboardRoutes from '../routes/dashboardRoutes';
+import teacherRoutes from '../routes/teacherRoutes';
+import studentRoutes from '../routes/studentRoutes';
+
+
+// Handle BigInt serialization
+(BigInt.prototype as any).toJSON = function () {
+    return this.toString();
+};
+
 const app = express();
+
+
 
 app.use((req, res, next) => {
     console.log(`📡 [${new Date().toISOString()}] ${req.method} ${req.url}`);
@@ -61,6 +72,8 @@ app.use('/api/v1/sessions', sessionRoutes);
 app.use('/api/v1/qrcodes', qrcodeRoutes);
 app.use('/api/v1/attendance', attendanceRoutes);
 app.use('/api/v1/dashboard', dashboardRoutes);
+app.use('/api/v1/teachers', teacherRoutes);
+app.use('/api/v1/students', studentRoutes);
 // API Status - Simple check
 app.get('/', (req: Request, res: Response) => {
     res.status(200).json({

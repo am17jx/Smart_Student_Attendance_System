@@ -39,11 +39,16 @@ export const createTeacher = catchAsync(async (req: Request, res: Response, next
 });
 
 export const getAllTeachers = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const teachers = await prisma.teacher.findMany();
+    const teachers = await prisma.teacher.findMany({
+        include: {
+            department: true
+        }
+    });
     const safeTeachers = teachers.map(t => ({
         ...t,
         id: t.id.toString(),
-        department_id: t.department_id?.toString()
+        department_id: t.department_id?.toString(),
+        department: t.department?.name || "Unassigned"
     }));
 
     res.status(200).json({
