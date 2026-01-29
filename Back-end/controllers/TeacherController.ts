@@ -5,7 +5,7 @@ import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/AppError";
 
 export const createTeacher = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const { name, email, password, departmentId } = req.body;
+    const { name, email, password, departmentId, materialIds } = req.body;
 
     const existingTeacher = await prisma.teacher.findUnique({
         where: { email }
@@ -21,8 +21,21 @@ export const createTeacher = catchAsync(async (req: Request, res: Response, next
             name,
             email,
             password: hashedPassword,
-            department_id: departmentId ? BigInt(departmentId) : null
+            department_id: departmentId ? BigInt(departmentId) : null,
+            teacher_materials: materialIds && Array.isArray(materialIds) ? {
+                create: materialIds.map((id: string) => ({
+                    material_id: BigInt(id)
+                }))
+            } : undefined
         },
+        include: {
+            department: true,
+            teacher_materials: {
+                include: {
+                    material: true
+                }
+            }
+        }
     });
 
     res.status(201).json({
@@ -32,7 +45,11 @@ export const createTeacher = catchAsync(async (req: Request, res: Response, next
                 name: teacher.name,
                 email: teacher.email,
                 id: teacher.id.toString(),
-                department_id: teacher.department_id?.toString()
+                department_id: teacher.department_id?.toString(),
+                materials: teacher.teacher_materials.map(tm => ({
+                    id: tm.material_id.toString(),
+                    name: tm.material.name
+                }))
             },
         },
     });
@@ -41,14 +58,23 @@ export const createTeacher = catchAsync(async (req: Request, res: Response, next
 export const getAllTeachers = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const teachers = await prisma.teacher.findMany({
         include: {
-            department: true
+            department: true,
+            teacher_materials: {
+                include: {
+                    material: true
+                }
+            }
         }
     });
     const safeTeachers = teachers.map(t => ({
         ...t,
         id: t.id.toString(),
         department_id: t.department_id?.toString(),
-        department: t.department?.name || "Unassigned"
+        department: t.department?.name || "Unassigned",
+        materials: t.teacher_materials.map(tm => ({
+            id: tm.material_id.toString(),
+            name: tm.material.name
+        }))
     }));
 
     res.status(200).json({
@@ -61,14 +87,30 @@ export const getAllTeachers = catchAsync(async (req: Request, res: Response, nex
 
 export const updateTeacher = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
-    const { name, email, departmentId } = req.body;
+    const { name, email, departmentId, materialIds } = req.body;
 
     const teacher = await prisma.teacher.update({
         where: { id: BigInt(id) },
         data: {
             name,
             email,
-            department_id: departmentId ? BigInt(departmentId) : undefined
+            department_id: departmentId ? BigInt(departmentId) : undefined,
+            ...(materialIds && Array.isArray(materialIds) ? {
+                teacher_materials: {
+                    deleteMany: {}, // Remove all existing assignments
+                    create: materialIds.map((mid: string) => ({
+                        material_id: BigInt(mid)
+                    }))
+                }
+            } : {})
+        },
+        include: {
+            department: true,
+            teacher_materials: {
+                include: {
+                    material: true
+                }
+            }
         }
     });
 
@@ -78,7 +120,11 @@ export const updateTeacher = catchAsync(async (req: Request, res: Response, next
             teacher: {
                 ...teacher,
                 id: teacher.id.toString(),
-                department_id: teacher.department_id?.toString()
+                department_id: teacher.department_id?.toString(),
+                materials: teacher.teacher_materials.map(tm => ({
+                    id: tm.material_id.toString(),
+                    name: tm.material.name
+                }))
             }
         }
     });

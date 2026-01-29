@@ -75,7 +75,10 @@ export const getAllMaterials = catchAsync(async (req: Request, res: Response, ne
     const materials = await prisma.material.findMany({
         include: {
             department: true,
-            stage: true
+            stage: true,
+            _count: {
+                select: { teacherMaterials: true }
+            }
         },
         orderBy: {
             name: 'asc'
@@ -94,7 +97,8 @@ export const getAllMaterials = catchAsync(async (req: Request, res: Response, ne
         stage: {
             ...m.stage,
             id: m.stage.id.toString()
-        }
+        },
+        teachersCount: (m as any)._count?.teacherMaterials || 0
     }));
 
     res.status(200).json({
@@ -280,8 +284,64 @@ export const getMaterialsByStage = catchAsync(async (req: Request, res: Response
 });
 
 
+// ... existing code ...
+export const getTeacherMaterials = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    // req.user is populated by teacherAuthMiddleware
+    const teacherId = req.user?.id;
+
+    if (!teacherId) {
+        throw new AppError("Teacher ID not found in request", 401);
+    }
+
+    // Find all materials assigned to this teacher via TeacherMaterial junction table
+    // We need to query materials where there is a teacher_material record for this teacher
+    const materials = await prisma.material.findMany({
+        where: {
+            teacherMaterials: {
+                some: {
+                    teacher_id: BigInt(teacherId)
+                }
+            }
+        },
+        include: {
+            department: true,
+            stage: true,
+            _count: {
+                select: { teacherMaterials: true }
+            }
+        },
+        orderBy: {
+            name: 'asc'
+        }
+    });
+
+    const safeMaterials = materials.map(m => ({
+        ...m,
+        id: m.id.toString(),
+        department_id: m.department_id.toString(),
+        stage_id: m.stage_id.toString(),
+        department: {
+            ...m.department,
+            id: m.department.id.toString()
+        },
+        stage: {
+            ...m.stage,
+            id: m.stage.id.toString()
+        },
+        teachersCount: (m as any)._count?.teacherMaterials || 0
+    }));
+
+    res.status(200).json({
+        status: "success",
+        data: {
+            materials: safeMaterials,
+        },
+    });
+});
+
 /**
  * Assign teacher to material
+
  * Creates a record in TeacherMaterial junction table
  * POST /api/v1/materials/:id/assign-teacher
  */

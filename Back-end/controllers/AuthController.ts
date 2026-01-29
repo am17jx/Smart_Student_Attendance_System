@@ -406,20 +406,6 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
             throw new AppError("Invalid email or password", 401);
         }
 
-        // ✅ Check if email is verified
-        if (!student.is_verified) {
-            await logFailedAttemptUtil({
-                errorType: "EMAIL_NOT_VERIFIED",
-                errorMessage: `Student login failed: Email not verified for ${email}`,
-                studentId: student.id.toString(),
-                sessionId: null,
-                fingerprintHash: fingerprint ? hashFingerprint(fingerprint) : null,
-                deviceInfo: req.headers["user-agent"] || "Unknown",
-                ipAddress: req.ip || req.socket.remoteAddress || "Unknown",
-            });
-            throw new AppError("يرجى تفعيل بريدك الإلكتروني أولاً. تحقق من بريدك الوارد.", 403);
-        }
-
         if (student.must_change_password) {
             // Generate reset token for email flow
             const resetToken = generateToken();
@@ -461,6 +447,20 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
                     redirect: "/change-password",
                 }
             });
+        }
+
+        // ✅ Check if email is verified
+        if (!student.is_verified) {
+            await logFailedAttemptUtil({
+                errorType: "EMAIL_NOT_VERIFIED",
+                errorMessage: `Student login failed: Email not verified for ${email}`,
+                studentId: student.id.toString(),
+                sessionId: null,
+                fingerprintHash: fingerprint ? hashFingerprint(fingerprint) : null,
+                deviceInfo: req.headers["user-agent"] || "Unknown",
+                ipAddress: req.ip || req.socket.remoteAddress || "Unknown",
+            });
+            throw new AppError("يرجى تفعيل بريدك الإلكتروني أولاً. تحقق من بريدك الوارد.", 403);
         }
 
         if (fingerprint) {
@@ -622,6 +622,9 @@ export const resetPassword = catchAsync(async (req: Request, res: Response) => {
             password_reset_token: null,
             password_reset_expires: null,
             must_change_password: false,
+            // Verify email also since they proved ownership
+            is_verified: true,
+            email_verified_at: new Date(),
         },
     });
 

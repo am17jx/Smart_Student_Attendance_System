@@ -102,3 +102,22 @@ export const deleteStudent = catchAsync(async (req: Request, res: Response, next
         message: "Student deleted successfully"
     });
 });
+
+export const resetFingerprint = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+
+    const student = await prisma.student.update({
+        where: { id: BigInt(id) },
+        data: {
+            fingerprint_hash: null
+        }
+    });
+
+    console.log(`[ADMIN] Fingerprint reset for student: ${id}`);
+
+    res.status(200).json({
+        status: "success",
+        message: "تم إعادة تعيين بصمة الجهاز للطالب بنجاح"
+    });
+});
+

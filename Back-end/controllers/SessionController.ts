@@ -114,7 +114,75 @@ export const endSession = catchAsync(async (req: Request, res: Response, next: N
     });
 });
 
+// ... existing code ...
+export const getTeacherSessions = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    // req.user is populated by teacherAuthMiddleware
+    const teacherId = req.user?.id;
+
+    if (!teacherId) {
+        throw new AppError("Teacher ID not found in request", 401);
+    }
+
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
+    const search = req.query.search as string || "";
+    const skip = (page - 1) * limit;
+
+    const where: any = {
+        teacher_id: BigInt(teacherId)
+    };
+
+    if (search) {
+        where.OR = [
+            { material: { name: { contains: search } } },
+            { geofence: { name: { contains: search } } }
+        ];
+    }
+
+    const [total, sessions] = await Promise.all([
+        prisma.session.count({ where }),
+        prisma.session.findMany({
+            where,
+            include: {
+                material: true,
+                teacher: true,
+                geofence: true
+            },
+            orderBy: {
+                created_at: 'desc'
+            },
+            skip,
+            take: limit
+        })
+    ]);
+
+    const safeSessions = sessions.map(s => ({
+        ...s,
+        id: s.id.toString(),
+        material_id: s.material_id.toString(),
+        teacher_id: s.teacher_id.toString(),
+        geofence_id: s.geofence_id.toString(),
+        material: s.material ? { ...s.material, id: s.material.id.toString() } : undefined,
+        teacher: s.teacher ? { ...s.teacher, id: s.teacher.id.toString(), department_id: s.teacher.department_id?.toString() } : undefined,
+        geofence: s.geofence ? { ...s.geofence, id: s.geofence.id.toString() } : undefined
+    }));
+
+    res.status(200).json({
+        status: "success",
+        data: {
+            sessions: safeSessions,
+            meta: {
+                page,
+                limit,
+                total,
+                pages: Math.ceil(total / limit)
+            }
+        },
+    });
+});
+
 export const getAllSessions = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    // ... existing code ...
     const page = parseInt(req.query.page as string) || 1;
     const limit = parseInt(req.query.limit as string) || 10;
     const search = req.query.search as string || "";
