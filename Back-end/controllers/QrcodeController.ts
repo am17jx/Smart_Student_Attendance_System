@@ -17,7 +17,7 @@ export const generateQrForSession = catchAsync(async (req: Request, res: Respons
     const { session_id } = req.params;
 
     const session = await prisma.session.findUnique({
-        where: { id: BigInt(session_id) },
+        where: { id: BigInt(session_id as string) },
     });
 
     if (!session?.is_active) {
@@ -36,7 +36,7 @@ export const generateQrForSession = catchAsync(async (req: Request, res: Respons
     const qrToken = await prisma.qRToken.create({
         data: {
             token_hash: tokenHash,
-            session_id: BigInt(session_id),
+            session_id: BigInt(session_id as string),
             expires_at: new Date(Date.now() + 5 * 60 * 1000), // 5 minutes
         },
     });
@@ -93,7 +93,7 @@ export const scanQrAndAttend = catchAsync(async (req: Request, res: Response, ne
 
     // ✅ البحث عن token محدد
     const qrToken = await prisma.qRToken.findUnique({
-        where: { id: BigInt(id) },
+        where: { id: BigInt(id as string) },
         include: {
             session: {
                 include: {
@@ -221,7 +221,7 @@ export const getSessionQrCodes = catchAsync(async (req: Request, res: Response, 
     const { session_id } = req.params;
 
     const qrTokens = await prisma.qRToken.findMany({
-        where: { session_id: BigInt(session_id) },
+        where: { session_id: BigInt(session_id as string) },
     });
 
     res.status(200).json({

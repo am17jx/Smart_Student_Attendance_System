@@ -72,8 +72,45 @@ export const adminAuthMiddleware = catchAsync(async (req: Request, res: Response
             throw new AppError("Access denied: Admin role required", 403);
         }
 
-        req.user = decoded;
-        req.admin = decoded;
+        console.log('🔍 [authMiddleware] Decoded JWT:', {
+            id: decoded.id,
+            email: decoded.email
+        });
+
+        // Fetch full admin data from database to get department_id
+        const admin = await prisma.admin.findUnique({
+            where: { id: BigInt(decoded.id) },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                department_id: true
+            }
+        });
+
+        console.log('🔍 [authMiddleware] Fetched admin from DB:', {
+            id: admin?.id?.toString(),
+            email: admin?.email,
+            department_id: admin?.department_id?.toString() || 'NULL/undefined'
+        });
+
+        if (!admin) {
+            throw new AppError("Admin not found", 404);
+        }
+
+        // Set req.user with full admin data
+        req.user = {
+            id: admin.id,
+            email: admin.email,
+            department_id: admin.department_id
+        } as any;
+        req.admin = admin as any;
+
+        console.log('✅ [authMiddleware] Set req.user:', {
+            id: (req.user as any).id?.toString(),
+            department_id: (req.user as any).department_id?.toString() || 'NULL/undefined'
+        });
+
         next();
     } catch (err) {
         if (err instanceof AppError) throw err;

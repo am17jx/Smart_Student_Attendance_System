@@ -232,12 +232,12 @@ export const change_teacher_password = catchAsync(async (req: Request, res: Resp
         throw new AppError("Authentication required", 401);
     }
 
-    if (BigInt(req.user.id) !== BigInt(teacherId)) {
+    if (BigInt(req.user.id) !== BigInt(teacherId as string)) {
         throw new AppError("Unauthorized: Cannot change another user's password", 403);
     }
 
     const user = await prisma.teacher.findUnique({
-        where: { id: BigInt(teacherId) },
+        where: { id: BigInt(teacherId as string) },
     });
 
     if (!user) {
@@ -252,7 +252,7 @@ export const change_teacher_password = catchAsync(async (req: Request, res: Resp
     const hashedNewPassword = await bcrypt.hash(newPassword, 10);
 
     await prisma.teacher.update({
-        where: { id: BigInt(teacherId) },
+        where: { id: BigInt(teacherId as string) },
         data: { password: hashedNewPassword },
     });
 
@@ -276,12 +276,12 @@ export const change_student_password = catchAsync(async (req: Request, res: Resp
         throw new AppError("Authentication required", 401);
     }
 
-    if (BigInt(req.user.id) !== BigInt(studentId)) {
+    if (BigInt(req.user.id) !== BigInt(studentId as string)) {
         throw new AppError("Unauthorized: Cannot change another user's password", 403);
     }
 
     const user = await prisma.student.findUnique({
-        where: { id: BigInt(studentId) },
+        where: { id: BigInt(studentId as string) },
     });
 
     if (!user) {
@@ -296,7 +296,7 @@ export const change_student_password = catchAsync(async (req: Request, res: Resp
     const hashedNewPassword = await bcrypt.hash(newPassword, 10);
 
     await prisma.student.update({
-        where: { id: BigInt(studentId) },
+        where: { id: BigInt(studentId as string) },
         data: { password: hashedNewPassword, must_change_password: false },
     });
 
@@ -312,7 +312,7 @@ export const reset_student_password = catchAsync(async (req: Request, res: Respo
     const { studentId } = req.params;
 
     const user = await prisma.student.findUnique({
-        where: { id: BigInt(studentId) },
+        where: { id: BigInt(studentId as string) },
     });
 
     if (!user) {
@@ -323,7 +323,7 @@ export const reset_student_password = catchAsync(async (req: Request, res: Respo
     const hashedPassword = await bcrypt.hash(tempPassword, 10);
 
     await prisma.student.update({
-        where: { id: BigInt(studentId) },
+        where: { id: BigInt(studentId as string) },
         data: { password: hashedPassword, must_change_password: true },
     });
 
@@ -596,7 +596,7 @@ export const resetPassword = catchAsync(async (req: Request, res: Response) => {
     const { token, newPassword } = req.body;
 
     // 1) Hash the token from URL
-    const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+    const hashedToken = crypto.createHash('sha256').update(token as string).digest('hex');
 
     // 2) Find student with valid token
     const student = await prisma.student.findFirst({
@@ -645,7 +645,7 @@ export const verifyEmail = catchAsync(async (req: Request, res: Response) => {
     const { token } = req.params;
 
     // 1) Hash the token
-    const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+    const hashedToken = crypto.createHash('sha256').update(token as string).digest('hex');
 
     // 2) Find student with valid token
     const student = await prisma.student.findFirst({

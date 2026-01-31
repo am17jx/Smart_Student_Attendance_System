@@ -15,6 +15,8 @@ import attendanceRoutes from '../routes/attendanceRoutes';
 import dashboardRoutes from '../routes/dashboardRoutes';
 import teacherRoutes from '../routes/teacherRoutes';
 import studentRoutes from '../routes/studentRoutes';
+import promotionRoutes from '../routes/promotionRoutes';
+import enrollmentRoutes from '../routes/enrollmentRoutes';
 
 
 // Handle BigInt serialization
@@ -74,6 +76,8 @@ app.use('/api/v1/attendance', attendanceRoutes);
 app.use('/api/v1/dashboard', dashboardRoutes);
 app.use('/api/v1/teachers', teacherRoutes);
 app.use('/api/v1/students', studentRoutes);
+app.use('/api/v1/promotion', promotionRoutes);
+app.use('/api/v1/enrollment', enrollmentRoutes);
 // API Status - Simple check
 app.get('/', (req: Request, res: Response) => {
     res.status(200).json({

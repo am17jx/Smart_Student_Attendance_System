@@ -1,63 +1,121 @@
 import { Request, Response, NextFunction } from "express";
 import { prisma } from "../prisma/client";
 import catchAsync from "../utils/catchAsync";
+import { getDepartmentFilter, validateDepartmentAccess } from "../utils/accessControl";
 import AppError from "../utils/AppError";
 
+
 export const getAllStudents = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const page = parseInt(req.query.page as string) || 1;
-    const limit = parseInt(req.query.limit as string) || 10;
-    const search = req.query.search as string || "";
-    const skip = (page - 1) * limit;
+    try {
+        const page = parseInt(req.query.page as string) || 1;
+        const limit = parseInt(req.query.limit as string) || 10;
+        const search = req.query.search as string || "";
+        const departmentId = req.query.departmentId as string;
+        const stageId = req.query.stageId as string;
+        const skip = (page - 1) * limit;
 
-    const where: any = {};
-    if (search) {
-        where.OR = [
-            { name: { contains: search } },
-            { email: { contains: search } }
-        ];
-    }
+        // Get admin user from request (set by auth middleware)
+        const admin = (req as any).user;
 
-    const [total, students] = await Promise.all([
-        prisma.student.count({ where }),
-        prisma.student.findMany({
-            where,
-            include: {
-                department: true,
-                stage: true
+        console.log(`🔍 [getAllStudents] Received request with params:`, {
+            page, limit, search, departmentId, stageId, skip,
+            adminId: admin?.id?.toString(),
+            adminDeptId: admin?.department_id?.toString() || 'NULL/undefined'
+        });
+
+        const where: any = {};
+
+        // Apply department filter based on admin role
+        const deptFilter = getDepartmentFilter(admin);
+        if (deptFilter) {
+            Object.assign(where, deptFilter);
+            console.log(`🔒 [getAllStudents] Applied department filter:`, deptFilter);
+        }
+
+        if (search) {
+            where.OR = [
+                { name: { contains: search } },
+                { email: { contains: search } }
+            ];
+        }
+
+        // Allow additional department filtering if admin has access
+        if (departmentId) {
+            const requestedDeptId = BigInt(departmentId);
+            // Validate admin has access to requested department
+            validateDepartmentAccess(admin, requestedDeptId);
+            where.department_id = requestedDeptId;
+            console.log(`🔍 [getAllStudents] Filtering by departmentId: ${departmentId}`);
+        }
+
+        if (stageId) {
+            where.stage_id = BigInt(stageId);
+            console.log(`🔍 [getAllStudents] Filtering by stageId: ${stageId}`);
+        }
+
+        console.log(`🔍 [getAllStudents] Query where clause:`, JSON.stringify(where, (key, value) =>
+            typeof value === 'bigint' ? value.toString() : value
+        ));
+
+        const [total, students] = await Promise.all([
+            prisma.student.count({ where }),
+            prisma.student.findMany({
+                where,
+                include: {
+                    department: true,
+                    stage: true
+                },
+                skip,
+                take: limit
+            })
+        ]);
+
+        console.log(`✅ [getAllStudents] Found ${total} total students, returning ${students.length} students`);
+
+        if (students.length > 0) {
+            console.log(`📝 [getAllStudents] First student:`, {
+                id: students[0].id.toString(),
+                name: students[0].name,
+                dept_id: students[0].department_id?.toString(),
+                stage_id: students[0].stage_id?.toString()
+            });
+        }
+
+        const safeStudents = students.map(s => ({
+            ...s,
+            id: s.id.toString(),
+            department_id: s.department_id?.toString(),
+            stage_id: s.stage_id?.toString(),
+            // Convert BigInts to strings if any others exist, usually just ID and FKs
+            department: s.department ? {
+                ...s.department,
+                id: s.department.id.toString()
+            } : undefined,
+            stage: s.stage ? {
+                ...s.stage,
+                id: s.stage.id.toString()
+            } : undefined,
+        }));
+
+        const response = {
+            status: "success",
+            data: {
+                students: safeStudents,
+                meta: {
+                    page,
+                    limit,
+                    total,
+                    pages: Math.ceil(total / limit)
+                }
             },
-            skip,
-            take: limit
-        })
-    ]);
+        };
 
-    const safeStudents = students.map(s => ({
-        ...s,
-        id: s.id.toString(),
-        department_id: s.department_id?.toString(),
-        stage_id: s.stage_id?.toString(),
-        // Convert BigInts to strings if any others exist, usually just ID and FKs
-        department: s.department ? {
-            ...s.department,
-            id: s.department.id.toString()
-        } : undefined,
-        stage: s.stage ? {
-            ...s.stage,
-            id: s.stage.id.toString()
-        } : undefined,
-    }));
-
-    res.status(200).json({
-        status: "success",
-        data: {
-            students: safeStudents,
-            meta: {
-                page,
-                limit,
-                total,
-                pages: Math.ceil(total / limit)
-            }
-        },
-    });
+        console.log(`📤 [getAllStudents] Sending response with ${safeStudents.length} students`);
+        res.status(200).json(response);
+    } catch (error) {
+        console.error(`❌ [getAllStudents] Error:`, error);
+        throw error;
+    }
 });
 
 export const updateStudent = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
@@ -65,12 +123,12 @@ export const updateStudent = catchAsync(async (req: Request, res: Response, next
     const { name, email, departmentId, stageId } = req.body;
 
     const student = await prisma.student.update({
-        where: { id: BigInt(id) },
+        where: { id: BigInt(id as string) },
         data: {
             name,
             email,
-            department_id: departmentId ? BigInt(departmentId) : undefined,
-            stage_id: stageId ? BigInt(stageId) : undefined
+            department_id: departmentId ? BigInt(departmentId as string) : undefined,
+            stage_id: stageId ? BigInt(stageId as string) : undefined
         },
         include: {
             department: true,
@@ -94,7 +152,7 @@ export const updateStudent = catchAsync(async (req: Request, res: Response, next
 export const deleteStudent = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
     await prisma.student.delete({
-        where: { id: BigInt(id) }
+        where: { id: BigInt(id as string) }
     });
 
     res.status(200).json({
@@ -107,7 +165,7 @@ export const resetFingerprint = catchAsync(async (req: Request, res: Response, n
     const { id } = req.params;
 
     const student = await prisma.student.update({
-        where: { id: BigInt(id) },
+        where: { id: BigInt(id as string) },
         data: {
             fingerprint_hash: null
         }

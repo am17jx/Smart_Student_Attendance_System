@@ -63,7 +63,7 @@ export const deleteStage = catchAsync(async (req: Request, res: Response, next: 
 
     // Check if stage exists
     const existing = await prisma.stage.findUnique({
-        where: { id: BigInt(id) }
+        where: { id: BigInt(id as string) }
     });
 
     if (!existing) {
@@ -72,7 +72,7 @@ export const deleteStage = catchAsync(async (req: Request, res: Response, next: 
 
     await prisma.stage.delete({
         where: {
-            id: BigInt(id),
+            id: BigInt(id as string),
         },
     });
 
@@ -97,7 +97,7 @@ export const updateStage = catchAsync(async (req: Request, res: Response, next: 
 
     // Check if stage exists
     const existing = await prisma.stage.findUnique({
-        where: { id: BigInt(id) }
+        where: { id: BigInt(id as string) }
     });
 
     if (!existing) {
@@ -106,7 +106,7 @@ export const updateStage = catchAsync(async (req: Request, res: Response, next: 
 
     const stage = await prisma.stage.update({
         where: {
-            id: BigInt(id),
+            id: BigInt(id as string),
         },
         data: {
             name: name.trim(),

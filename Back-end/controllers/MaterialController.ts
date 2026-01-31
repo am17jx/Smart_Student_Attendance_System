@@ -2,9 +2,11 @@ import { Request, Response, NextFunction } from "express";
 import { prisma } from "../prisma/client";
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/AppError";
+import { getDepartmentFilter, validateDepartmentAccess } from "../utils/accessControl";
 
 export const createMaterial = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const { name, departmentId, stageId } = req.body;
+    const { name, departmentId, stageId, semester } = req.body;
+    const admin = (req as any).user;
 
     // Validation
     if (!name || name.trim() === '') {
@@ -14,6 +16,9 @@ export const createMaterial = catchAsync(async (req: Request, res: Response, nex
     if (!departmentId) {
         return next(new AppError('Department ID is required', 400));
     }
+
+    // Validate department access
+    validateDepartmentAccess(admin, BigInt(departmentId));
 
     if (!stageId) {
         return next(new AppError('Stage ID is required', 400));
@@ -54,7 +59,8 @@ export const createMaterial = catchAsync(async (req: Request, res: Response, nex
         data: {
             name: name.trim(),
             department_id: BigInt(departmentId),
-            stage_id: BigInt(stageId)
+            stage_id: BigInt(stageId),
+            semester: semester || 'FULL_YEAR'
         },
     });
 
@@ -72,7 +78,14 @@ export const createMaterial = catchAsync(async (req: Request, res: Response, nex
 });
 
 export const getAllMaterials = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const admin = (req as any).user;
+
+    // Apply department filter based on admin role
+    const deptFilter = getDepartmentFilter(admin);
+    const where = deptFilter || {};
+
     const materials = await prisma.material.findMany({
+        where,
         include: {
             department: true,
             stage: true,
@@ -114,7 +127,7 @@ export const deleteMaterial = catchAsync(async (req: Request, res: Response, nex
 
     // Check if material exists
     const existing = await prisma.material.findUnique({
-        where: { id: BigInt(id) }
+        where: { id: BigInt(id as string) }
     });
 
     if (!existing) {
@@ -123,7 +136,7 @@ export const deleteMaterial = catchAsync(async (req: Request, res: Response, nex
 
     await prisma.material.delete({
         where: {
-            id: BigInt(id),
+            id: BigInt(id as string),
         },
     });
 
@@ -135,7 +148,7 @@ export const deleteMaterial = catchAsync(async (req: Request, res: Response, nex
 
 export const updateMaterial = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
-    const { name, departmentId, stageId } = req.body;
+    const { name, departmentId, stageId, semester } = req.body;
 
     // Validation
     if (!name || name.trim() === '') {
@@ -144,7 +157,7 @@ export const updateMaterial = catchAsync(async (req: Request, res: Response, nex
 
     // Check if material exists
     const existing = await prisma.material.findUnique({
-        where: { id: BigInt(id) }
+        where: { id: BigInt(id as string) }
     });
 
     if (!existing) {
@@ -175,12 +188,13 @@ export const updateMaterial = catchAsync(async (req: Request, res: Response, nex
 
     const material = await prisma.material.update({
         where: {
-            id: BigInt(id),
+            id: BigInt(id as string),
         },
         data: {
             name: name.trim(),
             ...(departmentId && { department_id: BigInt(departmentId) }),
-            ...(stageId && { stage_id: BigInt(stageId) })
+            ...(stageId && { stage_id: BigInt(stageId) }),
+            ...(semester && { semester: semester })
         },
     });
 
@@ -202,7 +216,7 @@ export const getMaterialsByDepartment = catchAsync(async (req: Request, res: Res
 
     // Check if department exists
     const department = await prisma.department.findUnique({
-        where: { id: BigInt(departmentId) }
+        where: { id: BigInt(departmentId as string) }
     });
 
     if (!department) {
@@ -211,7 +225,7 @@ export const getMaterialsByDepartment = catchAsync(async (req: Request, res: Res
 
     const materials = await prisma.material.findMany({
         where: {
-            department_id: BigInt(departmentId),
+            department_id: BigInt(departmentId as string),
         },
         include: {
             stage: true
@@ -245,7 +259,7 @@ export const getMaterialsByStage = catchAsync(async (req: Request, res: Response
 
     // Check if stage exists
     const stage = await prisma.stage.findUnique({
-        where: { id: BigInt(stageId) }
+        where: { id: BigInt(stageId as string) }
     });
 
     if (!stage) {
@@ -254,7 +268,7 @@ export const getMaterialsByStage = catchAsync(async (req: Request, res: Response
 
     const materials = await prisma.material.findMany({
         where: {
-            stage_id: BigInt(stageId),
+            stage_id: BigInt(stageId as string),
         },
         include: {
             department: true
@@ -284,22 +298,23 @@ export const getMaterialsByStage = catchAsync(async (req: Request, res: Response
 });
 
 
-// ... existing code ...
+// Get teacher materials
 export const getTeacherMaterials = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    // req.user is populated by teacherAuthMiddleware
-    const teacherId = req.user?.id;
+    // req.teacher is populated by teacherAuthMiddleware
+    const teacher = (req as any).teacher;
 
-    if (!teacherId) {
-        throw new AppError("Teacher ID not found in request", 401);
+    if (!teacher) {
+        return next(new AppError('Teacher not found', 401));
     }
 
+    console.log('🔍 [getTeacherMaterials] Fetching materials for teacher:', teacher.id.toString());
+
     // Find all materials assigned to this teacher via TeacherMaterial junction table
-    // We need to query materials where there is a teacher_material record for this teacher
     const materials = await prisma.material.findMany({
         where: {
             teacherMaterials: {
                 some: {
-                    teacher_id: BigInt(teacherId)
+                    teacher_id: teacher.id
                 }
             }
         },
@@ -331,8 +346,11 @@ export const getTeacherMaterials = catchAsync(async (req: Request, res: Response
         teachersCount: (m as any)._count?.teacherMaterials || 0
     }));
 
+    console.log('✅ [getTeacherMaterials] Found', safeMaterials.length, 'materials');
+
     res.status(200).json({
         status: "success",
+        results: safeMaterials.length,
         data: {
             materials: safeMaterials,
         },
@@ -355,7 +373,7 @@ export const assignTeacherToMaterial = catchAsync(async (req: Request, res: Resp
 
     // Check if material exists
     const material = await prisma.material.findUnique({
-        where: { id: BigInt(id) },
+        where: { id: BigInt(id as string) },
         include: {
             department: true,
             stage: true
@@ -387,7 +405,7 @@ export const assignTeacherToMaterial = catchAsync(async (req: Request, res: Resp
     const existing = await prisma.teacherMaterial.findFirst({
         where: {
             teacher_id: BigInt(teacherId),
-            material_id: BigInt(id)
+            material_id: BigInt(id as string)
         }
     });
 
@@ -399,7 +417,7 @@ export const assignTeacherToMaterial = catchAsync(async (req: Request, res: Resp
     const assignment = await prisma.teacherMaterial.create({
         data: {
             teacher_id: BigInt(teacherId),
-            material_id: BigInt(id)
+            material_id: BigInt(id as string)
         }
     });
 
@@ -445,7 +463,7 @@ export const removeTeacherFromMaterial = catchAsync(async (req: Request, res: Re
 
     // Check if material exists
     const material = await prisma.material.findUnique({
-        where: { id: BigInt(id) }
+        where: { id: BigInt(id as string) }
     });
 
     if (!material) {
@@ -465,7 +483,7 @@ export const removeTeacherFromMaterial = catchAsync(async (req: Request, res: Re
     const assignment = await prisma.teacherMaterial.findFirst({
         where: {
             teacher_id: BigInt(teacherId),
-            material_id: BigInt(id)
+            material_id: BigInt(id as string)
         }
     });
 
@@ -495,5 +513,3 @@ export const removeTeacherFromMaterial = catchAsync(async (req: Request, res: Re
         }
     });
 });
-
-

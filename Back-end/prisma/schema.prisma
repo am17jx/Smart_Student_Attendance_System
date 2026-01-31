@@ -7,6 +7,30 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum AcademicStatus {
+  REGULAR // منتظم
+  CARRYING // محمّل
+  REPEATING // معيد
+}
+
+enum SubjectResultStatus {
+  PASSED // ناجح
+  FAILED // راسب
+  BLOCKED_BY_ABSENCE // محروم من الغياب
+  IN_PROGRESS // مستمر
+}
+
+enum PromotionDecision {
+  PROMOTED // ترقية
+  PROMOTED_WITH_CARRY // ترقية مع تحميل
+  REPEAT_YEAR // إعادة السنة
+}
+
+enum AdminRole {
+  DEAN // عميد الكلية - صلاحيات على كل الأقسام
+  DEPARTMENT_HEAD // رئيس قسم - صلاحيات على قسم واحد فقط
+}
+
 model Department {
   id         BigInt   @id @default(autoincrement())
   name       String   @unique
@@ -16,6 +40,10 @@ model Department {
   students  Student[]
   teachers  Teacher[]
   materials Material[]
+  admins    Admin[]
+
+  // Promotion relation
+  promotion_config PromotionConfig?
 }
 
 model Stage {
@@ -27,6 +55,10 @@ model Stage {
 
   students  Student[]
   materials Material[]
+
+  // Promotion relations
+  promotions_from PromotionRecord[] @relation("StageFrom")
+  promotions_to   PromotionRecord[] @relation("StageTo")
 }
 
 model Student {
@@ -46,6 +78,10 @@ model Student {
   password_reset_expires     DateTime?
   email_verified_at          DateTime?
 
+  // Promotion fields
+  academic_status AcademicStatus @default(REGULAR)
+  academic_year   String? // مثال: "2025-2026"
+
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
@@ -58,6 +94,11 @@ model Student {
   attendance_records AttendanceRecord[]
   qr_tokens          QRToken[]
   failed_attempts    FailedAttempt[]
+
+  // Promotion relations
+  enrollments       Enrollment[]
+  promotion_records PromotionRecord[]
+  carried_subjects  CarriedSubject[]
 
   @@index([department_id])
   @@index([stage_id])
@@ -107,7 +148,20 @@ model Admin {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
+  // Access Control based on department_id:
+  // NULL = Dean (Full Access to all departments)
+  // NOT NULL = Department Head (Access restricted to specific department)
+  department_id BigInt?
+  department    Department? @relation(fields: [department_id], references: [id], onDelete: SetNull)
+
   @@index([email])
+  @@index([department_id])
+}
+
+enum Semester {
+  SEMESTER_1
+  SEMESTER_2
+  FULL_YEAR
 }
 
 model Material {
@@ -122,8 +176,17 @@ model Material {
   stage_id BigInt
   stage    Stage  @relation(fields: [stage_id], references: [id], onDelete: Cascade)
 
+  // Promotion & Semester fields
+  semester        Semester @default(FULL_YEAR)
+  is_core_subject Boolean  @default(false) // مادة أساسية؟
+  prerequisites   String? // IDs المواد المتطلبة (JSON)
+
   sessions         Session[]
   teacherMaterials TeacherMaterial[]
+
+  // Promotion relations
+  enrollments      Enrollment[]
+  carried_subjects CarriedSubject[]
 
   @@unique([name, department_id, stage_id])
   @@index([department_id])
@@ -226,4 +289,86 @@ model FailedAttempt {
   @@index([student_id])
   @@index([attempted_at])
   @@index([error_type])
+}
+
+// ============================================
+// Promotion System Models
+// ============================================
+
+model Enrollment {
+  id            BigInt              @id @default(autoincrement())
+  academic_year String // السنة الدراسية مثل "2025-2026"
+  result_status SubjectResultStatus @default(IN_PROGRESS)
+  is_carried    Boolean             @default(false) // هل المادة محمّلة من سنة سابقة
+  created_at    DateTime            @default(now())
+  updated_at    DateTime            @updatedAt
+
+  student_id BigInt
+  student    Student @relation(fields: [student_id], references: [id], onDelete: Cascade)
+
+  material_id BigInt
+  material    Material @relation(fields: [material_id], references: [id], onDelete: Cascade)
+
+  @@unique([student_id, material_id, academic_year])
+  @@index([student_id])
+  @@index([material_id])
+  @@index([academic_year])
+  @@index([result_status])
+}
+
+model PromotionRecord {
+  id                 BigInt            @id @default(autoincrement())
+  academic_year_from String // السنة المنقول منها
+  academic_year_to   String // السنة المنقول إليها
+  decision           PromotionDecision
+  failed_count       Int               @default(0) // عدد المواد الراسبة
+  carried_count      Int               @default(0) // عدد المواد المحمّلة
+  notes              String? // ملاحظات إضافية
+  processed_at       DateTime          @default(now())
+  processed_by       String? // اسم الأدمن الذي نفذ الترحيل
+
+  student_id BigInt
+  student    Student @relation(fields: [student_id], references: [id], onDelete: Cascade)
+
+  stage_from_id BigInt?
+  stage_from    Stage?  @relation("StageFrom", fields: [stage_from_id], references: [id], onDelete: SetNull)
+
+  stage_to_id BigInt?
+  stage_to    Stage?  @relation("StageTo", fields: [stage_to_id], references: [id], onDelete: SetNull)
+
+  @@index([student_id])
+  @@index([academic_year_from])
+  @@index([academic_year_to])
+  @@index([decision])
+}
+
+model CarriedSubject {
+  id            BigInt   @id @default(autoincrement())
+  academic_year String // السنة التي حُمّلت فيها المادة
+  created_at    DateTime @default(now())
+
+  student_id BigInt
+  student    Student @relation(fields: [student_id], references: [id], onDelete: Cascade)
+
+  material_id BigInt
+  material    Material @relation(fields: [material_id], references: [id], onDelete: Cascade)
+
+  @@unique([student_id, material_id, academic_year])
+  @@index([student_id])
+  @@index([material_id])
+  @@index([academic_year])
+}
+
+model PromotionConfig {
+  id                           BigInt   @id @default(autoincrement())
+  max_carry_subjects           Int      @default(2) // أقصى عدد للمواد المحمّلة
+  fail_threshold_for_repeat    Int      @default(3) // إذا رسب بـ 3 فأكثر يعيد
+  disable_carry_for_final_year Boolean  @default(false) // السماح بالتحميل في السنة الأخيرة
+  block_carry_for_core         Boolean  @default(false) // منع تحميل المواد الأساسية
+  repeat_mode                  String   @default("repeat_failed_only") // أو "repeat_full_year"
+  created_at                   DateTime @default(now())
+  updated_at                   DateTime @updatedAt
+
+  department_id BigInt     @unique
+  department    Department @relation(fields: [department_id], references: [id], onDelete: Cascade)
 }

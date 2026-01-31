@@ -40,9 +40,9 @@ export const createSession = catchAsync(async (req: Request, res: Response, next
 
     const session = await prisma.session.create({
         data: {
-            material_id: BigInt(materialId),
-            teacher_id: BigInt(teacherId),
-            geofence_id: BigInt(geofenceId),
+            material_id: BigInt(materialId as string),
+            teacher_id: BigInt(teacherId as string),
+            geofence_id: BigInt(geofenceId as string),
             qr_secret: crypto.randomInt(100000, 999999).toString(),
             expires_at: new Date(Date.now() + 60 * 60 * 1000),
         },
@@ -65,22 +65,71 @@ export const createSession = catchAsync(async (req: Request, res: Response, next
 
 export const getSessionById = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
-    const session = await prisma.session.findUnique({ where: { id: BigInt(id) } })
+
+    const session = await prisma.session.findUnique({
+        where: { id: BigInt(id as string) },
+        include: {
+            material: {
+                include: {
+                    department: true,
+                    stage: true
+                }
+            },
+            teacher: {
+                include: {
+                    department: true
+                }
+            },
+            geofence: true
+        }
+    });
+
     if (!session) {
-        throw new AppError("Session not found", 404)
+        throw new AppError("Session not found", 404);
     }
+
+    // Serialize BigInt values
+    const serializedSession = {
+        ...session,
+        id: session.id.toString(),
+        material_id: session.material_id.toString(),
+        teacher_id: session.teacher_id.toString(),
+        geofence_id: session.geofence_id.toString(),
+        material: session.material ? {
+            ...session.material,
+            id: session.material.id.toString(),
+            department_id: session.material.department_id.toString(),
+            stage_id: session.material.stage_id.toString(),
+            department: session.material.department ? {
+                ...session.material.department,
+                id: session.material.department.id.toString()
+            } : undefined,
+            stage: session.material.stage ? {
+                ...session.material.stage,
+                id: session.material.stage.id.toString()
+            } : undefined
+        } : undefined,
+        teacher: session.teacher ? {
+            ...session.teacher,
+            id: session.teacher.id.toString(),
+            department_id: session.teacher.department_id?.toString(),
+            department: session.teacher.department ? {
+                ...session.teacher.department,
+                id: session.teacher.department.id.toString()
+            } : undefined
+        } : undefined,
+        geofence: session.geofence ? {
+            ...session.geofence,
+            id: session.geofence.id.toString()
+        } : undefined
+    };
+
     res.status(200).json({
         status: "success",
         data: {
-            session: {
-                ...session,
-                id: session.id.toString(),
-                material_id: session.material_id.toString(),
-                teacher_id: session.teacher_id.toString(),
-                geofence_id: session.geofence_id.toString()
-            },
+            session: serializedSession
         },
-    })
+    });
 })
 
 export const endSession = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
@@ -88,7 +137,7 @@ export const endSession = catchAsync(async (req: Request, res: Response, next: N
 
     // Check if session exists first
     const existing = await prisma.session.findUnique({
-        where: { id: BigInt(id) }
+        where: { id: BigInt(id as string) }
     });
 
     if (!existing) {
@@ -96,7 +145,7 @@ export const endSession = catchAsync(async (req: Request, res: Response, next: N
     }
 
     const session = await prisma.session.update({
-        where: { id: BigInt(id) },
+        where: { id: BigInt(id as string) },
         data: { is_active: false }
     });
 
@@ -246,7 +295,7 @@ export const updateSession = catchAsync(async (req: Request, res: Response, next
 
     // Check if session exists first
     const existing = await prisma.session.findUnique({
-        where: { id: BigInt(id) }
+        where: { id: BigInt(id as string) }
     });
 
     if (!existing) {
@@ -256,14 +305,14 @@ export const updateSession = catchAsync(async (req: Request, res: Response, next
     // Build update data with proper field names and types
     const updateData: any = {};
     if (materialId) {
-        updateData.material_id = BigInt(materialId);
+        updateData.material_id = BigInt(materialId as string);
     }
     if (geofenceId) {
-        updateData.geofence_id = BigInt(geofenceId);
+        updateData.geofence_id = BigInt(geofenceId as string);
     }
 
     const session = await prisma.session.update({
-        where: { id: BigInt(id) },
+        where: { id: BigInt(id as string) },
         data: updateData
     });
 

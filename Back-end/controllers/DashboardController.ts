@@ -5,19 +5,52 @@ import catchAsync from '../utils/catchAsync';
 import AppError from '../utils/AppError';
 
 export const getAdminDashboard = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const totalStudents = await prisma.student.count();
-    const totalTeachers = await prisma.teacher.count();
-    const totalDepartments = await prisma.department.count();
-    const totalMaterials = await prisma.material.count();
+    const admin = (req as any).user;
 
-    // Use AttendanceRecord as a proxy for recent system activity
+    console.log('🔍 [getAdminDashboard] Admin:', {
+        id: admin?.id?.toString(),
+        department_id: admin?.department_id?.toString() || 'NULL (Dean)'
+    });
+
+    // Determine department filter
+    const departmentFilter = admin.department_id
+        ? { department_id: admin.department_id }
+        : {}; // Dean sees all
+
+    const totalStudents = await prisma.student.count({
+        where: departmentFilter
+    });
+
+    const totalTeachers = await prisma.teacher.count({
+        where: departmentFilter
+    });
+
+    const totalDepartments = admin.department_id
+        ? 1  // Department Head sees only their department
+        : await prisma.department.count();
+
+    const totalMaterials = await prisma.material.count({
+        where: departmentFilter
+    });
+
+    // Filter recent activity by department
     const recentActivity = await prisma.attendanceRecord.findMany({
+        where: admin.department_id ? {
+            student: { department_id: admin.department_id }
+        } : {},
         take: 5,
         orderBy: { marked_at: 'desc' },
         include: {
             student: { select: { name: true, email: true } },
             session: { select: { material: { select: { name: true } } } }
         }
+    });
+
+    console.log('✅ [getAdminDashboard] Stats:', {
+        students: totalStudents,
+        teachers: totalTeachers,
+        departments: totalDepartments,
+        materials: totalMaterials
     });
 
     res.status(200).json({
@@ -51,6 +84,76 @@ export const getTeacherDashboard = catchAsync(async (req: Request, res: Response
         where: { teacher_id: teacherId }
     });
 
+    // Get today's start and end
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    // Get sessions created this month
+    const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0, 23, 59, 59, 999);
+
+    const sessionsThisMonth = await prisma.session.count({
+        where: {
+            teacher_id: teacherId,
+            created_at: {
+                gte: startOfMonth,
+                lte: endOfMonth
+            }
+        }
+    });
+
+    // Today's students (attendance records for today's sessions)
+    const todaysSessions = await prisma.session.findMany({
+        where: {
+            teacher_id: teacherId,
+            created_at: {
+                gte: today,
+                lt: tomorrow
+            }
+        },
+        select: { id: true }
+    });
+
+    const todaySessionIds = todaysSessions.map(s => s.id);
+
+    const todayAttendance = todaySessionIds.length > 0 ? await prisma.attendanceRecord.count({
+        where: {
+            session_id: { in: todaySessionIds }
+        }
+    }) : 0;
+
+    // Calculate attendance rate: (total attendance records / (total sessions * average expected students))
+    // For simplicity, we'll calculate based on actual attendance vs sessions
+    const allTeacherSessions = await prisma.session.findMany({
+        where: { teacher_id: teacherId },
+        include: {
+            attendance_records: true,
+            material: true
+        }
+    });
+
+    let totalExpectedAttendance = 0;
+    let totalActualAttendance = 0;
+
+    for (const session of allTeacherSessions) {
+        // Count students from the session's material stage
+        if (session.material) {
+            const studentCount = await prisma.student.count({
+                where: {
+                    stage_id: session.material.stage_id
+                }
+            });
+            totalExpectedAttendance += studentCount;
+        }
+        totalActualAttendance += session.attendance_records.length;
+    }
+
+    const attendanceRate = totalExpectedAttendance > 0
+        ? Math.round((totalActualAttendance / totalExpectedAttendance) * 100)
+        : 0;
+
     // Recent sessions
     const recentSessions = await prisma.session.findMany({
         where: { teacher_id: teacherId },
@@ -66,7 +169,10 @@ export const getTeacherDashboard = catchAsync(async (req: Request, res: Response
         data: {
             stats: {
                 materials: materialsCount,
-                sessions: sessionsCount
+                sessions: sessionsCount,
+                sessionsThisMonth: sessionsThisMonth,
+                todayAttendance: todayAttendance,
+                attendanceRate: attendanceRate
             },
             recentSessions
         }

@@ -58,7 +58,7 @@ export const deleteDepartment = catchAsync(async (req: Request, res: Response, n
 
     // Check if department exists
     const existing = await prisma.department.findUnique({
-        where: { id: BigInt(id) }
+        where: { id: BigInt(id as string) }
     });
 
     if (!existing) {
@@ -67,7 +67,7 @@ export const deleteDepartment = catchAsync(async (req: Request, res: Response, n
 
     await prisma.department.delete({
         where: {
-            id: BigInt(id),
+            id: BigInt(id as string),
         },
     });
 
@@ -88,7 +88,7 @@ export const updateDeparment = catchAsync(async (req: Request, res: Response, ne
 
     // Check if department exists
     const existing = await prisma.department.findUnique({
-        where: { id: BigInt(id) }
+        where: { id: BigInt(id as string) }
     });
 
     if (!existing) {
@@ -97,7 +97,7 @@ export const updateDeparment = catchAsync(async (req: Request, res: Response, ne
 
     const department = await prisma.department.update({
         where: {
-            id: BigInt(id),
+            id: BigInt(id as string),
         },
         data: {
             name: name.trim(),

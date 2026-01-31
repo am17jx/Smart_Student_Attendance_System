@@ -92,7 +92,7 @@ export const updateGeofence = catchAsync(async (req: Request, res: Response, nex
 
     // Check if geofence exists
     const existing = await prisma.geofence.findUnique({
-        where: { id: BigInt(id) }
+        where: { id: BigInt(id as string) }
     });
 
     if (!existing) {
@@ -131,7 +131,7 @@ export const updateGeofence = catchAsync(async (req: Request, res: Response, nex
     }
 
     const geofence = await prisma.geofence.update({
-        where: { id: BigInt(id) },
+        where: { id: BigInt(id as string) },
         data: {
             name: name.trim(),
             latitude,
@@ -156,7 +156,7 @@ export const deleteGeofence = catchAsync(async (req: Request, res: Response, nex
 
     // Check if geofence exists
     const existing = await prisma.geofence.findUnique({
-        where: { id: BigInt(id) }
+        where: { id: BigInt(id as string) }
     });
 
     if (!existing) {
@@ -164,7 +164,7 @@ export const deleteGeofence = catchAsync(async (req: Request, res: Response, nex
     }
 
     await prisma.geofence.delete({
-        where: { id: BigInt(id) },
+        where: { id: BigInt(id as string) },
     });
 
     res.status(200).json({
