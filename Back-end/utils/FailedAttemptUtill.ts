@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { prisma } from "../prisma/client";
 import catchAsync from "./catchAsync";
+import logger from './logger';
 
 // Utility function for logging failed attempts (no response sent)
 export async function logFailedAttemptUtil(data: {
@@ -25,7 +26,7 @@ export async function logFailedAttemptUtil(data: {
             },
         });
     } catch (error) {
-        console.error("[ERROR] Failed to log failed attempt:", error);
+        logger.error('[ERROR] Failed to log failed attempt', { error });
         // Don't throw - we don't want logging failures to break the main flow
     }
 }

@@ -1,4 +1,4 @@
-# 🎓 Privacy-Preserving Student Attendance System
+# 🎓 نظام تسجيل حضور الطلاب الذكي (Smart Student Attendance System)
 
 > Secure attendance management using rotating QR codes, JWT tokens, and browser fingerprinting
 

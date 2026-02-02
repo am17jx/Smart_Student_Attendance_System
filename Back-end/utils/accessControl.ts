@@ -1,3 +1,5 @@
+import logger from './logger';
+
 export interface AdminUser {
     id: bigint;
     email: string;
@@ -11,23 +13,23 @@ export interface AdminUser {
  */
 export function getDepartmentFilter(admin: AdminUser): { department_id: bigint } | undefined {
     if (!admin) {
-        console.error('❌ getDepartmentFilter: Invalid admin object', admin);
+        logger.error('getDepartmentFilter: Invalid admin object', { admin });
         throw new Error('Admin data is missing');
     }
 
-    console.log('🔍 getDepartmentFilter:', {
+    logger.debug('getDepartmentFilter', {
         admin_id: admin.id?.toString(),
         department_id: admin.department_id?.toString()
     });
 
     // NULL or undefined department_id = Dean (Full Access)
     if (!admin.department_id) {
-        console.log('✅ Dean detected (department_id=NULL/undefined), no filter applied');
+        logger.debug('Dean detected (department_id=NULL/undefined), no filter applied');
         return undefined;
     }
 
     // NOT NULL department_id = Department Head (Restricted Access)
-    console.log('✅ Department Head detected, filtering by department:', admin.department_id.toString());
+    logger.debug('Department Head detected, filtering by department', { department_id: admin.department_id.toString() });
     return { department_id: admin.department_id };
 }
 

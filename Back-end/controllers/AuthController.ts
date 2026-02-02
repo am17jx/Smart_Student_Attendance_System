@@ -197,7 +197,7 @@ export const sign_student = catchAsync(async (req: Request, res: Response, next:
             emailSent = true;
             logger.info(`✅ Welcome and verification emails sent to ${email}`);
         } catch (emailError) {
-            console.error('❌ Failed to send emails:', emailError);
+            logger.error('Failed to send emails', { error: emailError, email });
             // Email failed but user is created - this is acceptable
             // User can request resend verification email later
         }
@@ -427,7 +427,7 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
                 await emailService.sendPasswordResetEmail(student.email, student.name, resetToken);
                 logger.info(`✅ Password reset email sent to ${student.email} (Triggered by temp password login)`);
             } catch (error) {
-                console.error('❌ Failed to send password reset email:', error);
+                logger.error('Failed to send password reset email', { error, email: student.email });
             }
 
             // Generate token (JWT) so they can also change it manually if they want
@@ -496,7 +496,7 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
             );
             logger.info(`✅ Login notification sent to ${student.email}`);
         } catch (error) {
-            console.error('❌ Failed to send login notification:', error);
+            logger.error('Failed to send login notification', { error, email: student.email });
             // Don't fail login if email fails
         }
 
@@ -583,7 +583,7 @@ export const forgotPassword = catchAsync(async (req: Request, res: Response) => 
             },
         });
 
-        console.error('❌ Failed to send password reset email:', error);
+        logger.error('Failed to send password reset email', { error, email: student.email });
         throw new AppError('حدث خطأ في إرسال البريد الإلكتروني، يرجى المحاولة لاحقاً', 500);
     }
 });
@@ -734,7 +734,7 @@ export const resendVerificationEmail = catchAsync(async (req: Request, res: Resp
             message: 'تم إرسال رابط التحقق إلى بريدك الإلكتروني',
         });
     } catch (error) {
-        console.error('❌ Failed to resend verification email:', error);
+        logger.error('Failed to resend verification email', { error, email: student.email });
         throw new AppError('حدث خطأ في إرسال البريد الإلكتروني، يرجى المحاولة لاحقاً', 500);
     }
 });

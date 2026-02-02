@@ -114,7 +114,7 @@ export const getAllStudents = catchAsync(async (req: Request, res: Response, nex
         logger.info(`📤 [getAllStudents] Sending response with ${safeStudents.length} students`);
         res.status(200).json(response);
     } catch (error) {
-        console.error(`❌ [getAllStudents] Error:`, error);
+        logger.error('[getAllStudents] Error', { error });
         throw error;
     }
 });

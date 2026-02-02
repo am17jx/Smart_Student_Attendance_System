@@ -1,5 +1,6 @@
 import cron from 'node-cron';
 import { prisma } from '../prisma/client';
+import logger from './logger';
 
 /**
  * Cleanup Job for Expired QR Tokens
@@ -37,11 +38,11 @@ export const startCleanupJobs = () => {
                 }
             });
 
-            console.log(`✅ Cleanup job: Deleted ${result.count} expired/used QR tokens`);
+            logger.info(`Cleanup job: Deleted ${result.count} expired/used QR tokens`);
         } catch (error) {
-            console.error('❌ Cleanup job failed:', error);
+            logger.error('Cleanup job failed', { error });
         }
     });
 
-    console.log('🔄 Cleanup jobs started');
+    logger.info('Cleanup jobs started');
 };
