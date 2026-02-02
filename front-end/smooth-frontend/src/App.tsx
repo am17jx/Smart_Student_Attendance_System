@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 // Pages
 import Login from "./pages/Login";
@@ -60,33 +61,42 @@ const App = () => (
             <Route path="/teacher/reset-password" element={<ResetPassword />} />
             <Route path="/admin/reset-password" element={<ResetPassword />} />
             <Route path="/verify-email/:token" element={<VerifyEmail />} />
-            <Route path="/change-password" element={<ChangePassword />} />
+            <Route path="/change-password" element={<ProtectedRoute><ChangePassword /></ProtectedRoute>} />
             <Route path="/dashboard" element={<DashboardRedirect />} />
-            <Route path="/dashboard/admin" element={<Dashboard />} />
-            <Route path="/dashboard/teacher" element={<Dashboard />} />
-            <Route path="/dashboard/student" element={<Dashboard />} />
-            <Route path="/teachers" element={<Teachers />} />
-            <Route path="/students" element={<Students />} />
-            <Route path="/my-students" element={<MyStudents />} />
-            <Route path="/materials" element={<Materials />} />
-            <Route path="/my-materials" element={<MyMaterials />} />
-            <Route path="/departments" element={<Departments />} />
-            <Route path="/stages" element={<Stages />} />
-            <Route path="/sessions" element={<Sessions />} />
-            <Route path="/sessions/:id" element={<SessionDetails />} />
-            <Route path="/sessions/:id/report" element={<SessionAttendance />} />
-            <Route path="/my-sessions" element={<MySessions />} />
-            <Route path="/geofences" element={<Geofences />} />
-            <Route path="/attendance" element={<Attendance />} />
-            <Route path="/my-attendance" element={<Attendance />} />
-            <Route path="/attendance/stats" element={<AttendanceStats />} />
-            <Route path="/teacher/attendance-stats" element={<TeacherAttendanceStats />} />
-            <Route path="/scan-qr" element={<ScanQR />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/promotion" element={<StudentPromotion />} />
-            <Route path="/promotion-config" element={<PromotionConfig />} />
-            <Route path="/enrollments" element={<StudentEnrollments />} />
-            <Route path="/failed-attempts" element={<FailedAttempts />} />
+
+            {/* Admin Routes */}
+            <Route path="/dashboard/admin" element={<ProtectedRoute allowedRoles={['admin']}><Dashboard /></ProtectedRoute>} />
+            <Route path="/teachers" element={<ProtectedRoute allowedRoles={['admin']}><Teachers /></ProtectedRoute>} />
+            <Route path="/students" element={<ProtectedRoute allowedRoles={['admin']}><Students /></ProtectedRoute>} />
+            <Route path="/materials" element={<ProtectedRoute allowedRoles={['admin']}><Materials /></ProtectedRoute>} />
+            <Route path="/departments" element={<ProtectedRoute allowedRoles={['admin']}><Departments /></ProtectedRoute>} />
+            <Route path="/stages" element={<ProtectedRoute allowedRoles={['admin']}><Stages /></ProtectedRoute>} />
+            <Route path="/sessions" element={<ProtectedRoute allowedRoles={['admin']}><Sessions /></ProtectedRoute>} />
+            <Route path="/sessions/:id" element={<ProtectedRoute allowedRoles={['admin']}><SessionDetails /></ProtectedRoute>} />
+            <Route path="/geofences" element={<ProtectedRoute allowedRoles={['admin']}><Geofences /></ProtectedRoute>} />
+            <Route path="/attendance" element={<ProtectedRoute allowedRoles={['admin']}><Attendance /></ProtectedRoute>} />
+            <Route path="/attendance/stats" element={<ProtectedRoute allowedRoles={['admin']}><AttendanceStats /></ProtectedRoute>} />
+            <Route path="/promotion" element={<ProtectedRoute allowedRoles={['admin']}><StudentPromotion /></ProtectedRoute>} />
+            <Route path="/promotion-config" element={<ProtectedRoute allowedRoles={['admin']}><PromotionConfig /></ProtectedRoute>} />
+            <Route path="/enrollments" element={<ProtectedRoute allowedRoles={['admin']}><StudentEnrollments /></ProtectedRoute>} />
+            <Route path="/failed-attempts" element={<ProtectedRoute allowedRoles={['admin']}><FailedAttempts /></ProtectedRoute>} />
+
+            {/* Teacher Routes */}
+            <Route path="/dashboard/teacher" element={<ProtectedRoute allowedRoles={['teacher']}><Dashboard /></ProtectedRoute>} />
+            <Route path="/my-students" element={<ProtectedRoute allowedRoles={['teacher']}><MyStudents /></ProtectedRoute>} />
+            <Route path="/my-sessions" element={<ProtectedRoute allowedRoles={['teacher']}><MySessions /></ProtectedRoute>} />
+            <Route path="/sessions/:id/report" element={<ProtectedRoute allowedRoles={['teacher']}><SessionAttendance /></ProtectedRoute>} />
+            <Route path="/teacher/attendance-stats" element={<ProtectedRoute allowedRoles={['teacher']}><TeacherAttendanceStats /></ProtectedRoute>} />
+
+            {/* Student Routes */}
+            <Route path="/dashboard/student" element={<ProtectedRoute allowedRoles={['student']}><Dashboard /></ProtectedRoute>} />
+            <Route path="/my-materials" element={<ProtectedRoute allowedRoles={['student']}><MyMaterials /></ProtectedRoute>} />
+            <Route path="/my-attendance" element={<ProtectedRoute allowedRoles={['student']}><Attendance /></ProtectedRoute>} />
+            <Route path="/scan-qr" element={<ProtectedRoute allowedRoles={['student']}><ScanQR /></ProtectedRoute>} />
+
+            {/* Shared Authenticated Routes */}
+            <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

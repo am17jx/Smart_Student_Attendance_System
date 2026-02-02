@@ -116,6 +116,10 @@ model Teacher {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
+  // Password Reset Fields
+  password_reset_token   String?   @unique
+  password_reset_expires DateTime?
+
   department_id BigInt?
   department    Department? @relation(fields: [department_id], references: [id], onDelete: SetNull)
 
@@ -148,6 +152,10 @@ model Admin {
   password   String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+
+  // Password Reset Fields
+  password_reset_token   String?   @unique
+  password_reset_expires DateTime?
 
   // Access Control based on department_id:
   // NULL = Dean (Full Access to all departments)
