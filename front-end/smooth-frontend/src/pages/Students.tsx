@@ -43,18 +43,18 @@ export default function Students() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  // We separate editing from creating because creating now uses a specialized admin endpoint
+
   const [editingStudent, setEditingStudent] = useState<StudentType | null>(null);
 
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Get current user to check department
+
   const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
   const isDepartmentHead = !!currentUser.department_id;
 
-  // 1. Fetch Students
+
   const { data: studentsData, isLoading } = useQuery({
     queryKey: ['students', page, searchQuery],
     queryFn: async () => {
@@ -69,7 +69,7 @@ export default function Students() {
 
   const students = studentsData || [];
 
-  // 2. Fetch Departments
+
   const { data: departments } = useQuery({
     queryKey: ['departments'],
     queryFn: async () => {
@@ -78,10 +78,10 @@ export default function Students() {
     }
   });
 
-  // Get current user's department name
+
   const userDepartment = departments?.find(d => d.id === currentUser.department_id);
 
-  // 3. Fetch Stages
+
   const { data: stages } = useQuery({
     queryKey: ['stages'],
     queryFn: async () => {
@@ -90,7 +90,7 @@ export default function Students() {
     }
   });
 
-  // 4. Create Mutation (Using Admin Registration)
+
   const createMutation = useMutation({
     mutationFn: (data: any) => adminApi.registerStudent(data),
     onSuccess: (data) => {
@@ -108,7 +108,7 @@ export default function Students() {
     }
   });
 
-  // 5. Update Mutation (Standard Update)
+
   const updateMutation = useMutation({
     mutationFn: ({ id, data }: { id: string; data: any }) => studentsApi.update(id, data),
     onSuccess: () => {
@@ -122,7 +122,7 @@ export default function Students() {
     }
   });
 
-  // 6. Delete Mutation
+
   const deleteMutation = useMutation({
     mutationFn: (id: string) => studentsApi.delete(id),
     onSuccess: () => {
@@ -134,7 +134,7 @@ export default function Students() {
     }
   });
 
-  // 7. Reset Fingerprint Mutation
+
   const resetFingerprintMutation = useMutation({
     mutationFn: (id: string) => studentsApi.resetFingerprint(id),
     onSuccess: () => {
@@ -152,14 +152,14 @@ export default function Students() {
     const name = formData.get("name") as string;
     const email = formData.get("email") as string;
 
-    // Validations
+
     if (!name || !email) {
       toast({ title: "يرجى ملء جميع الحقول المطلوبة", variant: "destructive" });
       return;
     }
 
     if (editingStudent) {
-      // Update logic
+
       const stageId = formData.get("stageId") as string;
       const departmentId = formData.get("departmentId") as string;
 
@@ -168,7 +168,7 @@ export default function Students() {
         data: { name, email, stageId, departmentId }
       });
     } else {
-      // Registration Logic
+
       const studentId = formData.get("studentId") as string;
       const stageId = formData.get("stageId") as string;
       const departmentId = formData.get("departmentId") as string;
@@ -205,11 +205,11 @@ export default function Students() {
     setIsDialogOpen(true);
   };
 
-  // Helper to find name by ID
+
   const getDeptName = (id?: string) => departments?.find(d => d.id === id)?.name || '-';
   const getStageName = (id?: string) => stages?.find(s => s.id === id)?.name || '-';
 
-  // Columns definition
+
   const getAttendanceBadge = (rate: number = 0) => {
     if (rate >= 85) return <Badge className="bg-success text-success-foreground">{rate}%</Badge>;
     if (rate >= 70) return <Badge className="bg-warning text-warning-foreground">{rate}%</Badge>;

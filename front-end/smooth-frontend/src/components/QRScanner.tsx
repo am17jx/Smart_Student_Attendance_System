@@ -59,11 +59,11 @@ export function QRScanner({ onScanSuccess, onScanError, isActive, onStop }: QRSc
                 config,
                 (decodedText) => {
                     if (isProcessingRef.current) {
-                        console.log("Already processing a scan, ignoring...");
+
                         return;
                     }
 
-                    console.log("QR Code detected:", decodedText);
+
                     isProcessingRef.current = true;
 
                     stopScanning().then(() => {
@@ -107,7 +107,7 @@ export function QRScanner({ onScanSuccess, onScanError, isActive, onStop }: QRSc
             // Get the video element created by Html5Qrcode
             const videoElement = document.querySelector('#qr-reader video') as HTMLVideoElement;
             if (!videoElement || !videoElement.srcObject) {
-                console.log("Video element not found");
+
                 return;
             }
 
@@ -115,7 +115,7 @@ export function QRScanner({ onScanSuccess, onScanError, isActive, onStop }: QRSc
             const track = mediaStream.getVideoTracks()[0];
 
             if (!track) {
-                console.log("No video track found");
+
                 return;
             }
 
@@ -135,9 +135,9 @@ export function QRScanner({ onScanSuccess, onScanError, isActive, onStop }: QRSc
                     setZoomLevel(settings.zoom as number || 1);
                 }
 
-                console.log("Zoom capabilities:", zoomCaps);
+
             } else {
-                console.log("Zoom not supported by this camera");
+
                 setSupportsZoom(false);
             }
         } catch (err) {

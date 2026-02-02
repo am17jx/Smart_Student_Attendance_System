@@ -31,7 +31,7 @@ export default function Departments() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingDepartment, setEditingDepartment] = useState<DepartmentType | null>(null);
 
-  // 1. Fetch
+
   const { data, isLoading } = useQuery({
     queryKey: ['departments'],
     queryFn: async () => {
@@ -40,7 +40,7 @@ export default function Departments() {
     }
   });
 
-  // 2. Mutations
+
   const createMutation = useMutation({
     mutationFn: (data: { name: string }) => departmentsApi.create(data.name),
     onSuccess: () => {
@@ -54,10 +54,6 @@ export default function Departments() {
     }
   });
 
-  // Note: API might not implement Update for Departments yet. Assuming it does or adding stub.
-  // Checking api.ts earlier... `departmentsApi` had getAll and create, delete. 
-  // It DID NOT have update. I will only implement Create and Delete for now or check if I need to add update to api.ts.
-  // For now, I will comment out update logic or only allow name edit if I add it.
 
   const deleteMutation = useMutation({
     mutationFn: (id: string) => departmentsApi.delete(id),
@@ -77,9 +73,6 @@ export default function Departments() {
     const name = formData.get("name") as string;
 
     if (editingDepartment) {
-      // Update API missing? 
-      // We'll skip update for now or implement "Create" as update substitute if backend supports Upsert? Unlikely.
-      // I'll show a toast saying "Update not supported yet" or just disable edit.
       toast({ title: "عذراً، تعديل الأقسام غير مدعوم حالياً", variant: "destructive" });
     } else {
       createMutation.mutate({ name });
@@ -99,15 +92,7 @@ export default function Departments() {
 
   const columns = [
     { key: "name", header: "اسم القسم" },
-    // { 
-    //   key: "teachersCount", 
-    //   header: "المعلمين",
-    //   render: (dept: DepartmentType) => (
-    //     <Badge variant="secondary">{dept.teachersCount || 0} معلم</Badge>
-    //   )
-    // },
-    // API response Department Type might not have counts. If it does, uncomment.
-    // Given previous api file view, Department interface was simplified.
+
     {
       key: "actions",
       header: "الإجراءات",

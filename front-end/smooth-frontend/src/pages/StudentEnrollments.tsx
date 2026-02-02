@@ -26,7 +26,7 @@ export default function StudentEnrollments() {
     const [searchQuery, setSearchQuery] = useState("");
     const [enrollments, setEnrollments] = useState<EnrollmentWithStatus[]>([]);
 
-    // Fetch students
+
     const { data: studentsData } = useQuery({
         queryKey: ['students', 1, searchQuery],
         queryFn: async () => {
@@ -35,7 +35,7 @@ export default function StudentEnrollments() {
         },
     });
 
-    // Fetch all materials
+
     const { data: materials } = useQuery({
         queryKey: ['materials'],
         queryFn: async () => {
@@ -44,7 +44,7 @@ export default function StudentEnrollments() {
         }
     });
 
-    // Fetch enrollments for selected student
+
     const { data: enrollmentsData, isLoading, refetch } = useQuery({
         queryKey: ['student-enrollments', selectedStudentId, academicYear],
         queryFn: async () => {
@@ -55,14 +55,14 @@ export default function StudentEnrollments() {
         enabled: !!selectedStudentId,
     });
 
-    // Update enrollments state when data changes
+
     useEffect(() => {
         if (enrollmentsData) {
             setEnrollments(enrollmentsData.map((e: any) => ({ ...e, newStatus: e.result_status })));
         }
     }, [enrollmentsData]);
 
-    // Bulk create enrollments
+
     const bulkCreateMutation = useMutation({
         mutationFn: (data: { student_id: string; material_ids: string[]; academic_year: string }) =>
             enrollmentApi.bulkCreate(data),
@@ -75,7 +75,7 @@ export default function StudentEnrollments() {
         }
     });
 
-    // Bulk update status
+
     const bulkUpdateMutation = useMutation({
         mutationFn: (updates: Array<{ id: string; result_status: string }>) =>
             enrollmentApi.bulkUpdateStatus(updates),
@@ -107,10 +107,10 @@ export default function StudentEnrollments() {
         bulkUpdateMutation.mutate(updates);
     };
 
-    // Get selected student details
+
     const selectedStudent = studentsData?.find(s => s.id === selectedStudentId);
 
-    // Filter materials based on student's department and stage
+
     const relevantMaterials = materials?.filter(m =>
         selectedStudent &&
         m.department_id === selectedStudent.department_id &&

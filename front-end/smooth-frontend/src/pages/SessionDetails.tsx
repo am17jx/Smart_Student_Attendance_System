@@ -32,10 +32,7 @@ export default function SessionDetails() {
         queryKey: ['session-attendance', id],
         queryFn: async () => {
             if (!id) throw new Error("Session ID is required");
-            console.log("🔍 Fetching attendance for session:", id);
             const response = await attendanceApi.getBySession(id);
-            console.log("📊 Attendance API Response:", response);
-            console.log("📋 Attendance Records:", response.data?.records);
             return response.data?.records || [];
         },
         enabled: !!id,
@@ -265,15 +262,13 @@ export default function SessionDetails() {
                                         onClick={async () => {
                                             setIsDownloadingReport(true);
                                             try {
-                                                console.log('📥 [UI] Starting PDF download for session:', id);
+
 
                                                 // Get the PDF blob directly
                                                 const blob = await attendanceApi.getReport(id!);
 
-                                                console.log('✅ [UI] Blob received:', {
-                                                    size: blob.size,
-                                                    type: blob.type
-                                                });
+
+
 
                                                 // Validate blob
                                                 if (!blob || blob.size === 0) {
@@ -292,7 +287,7 @@ export default function SessionDetails() {
                                                 link.remove();
                                                 window.URL.revokeObjectURL(url);
 
-                                                console.log('✅ [UI] PDF download initiated successfully');
+
                                             } catch (error) {
                                                 console.error('❌ [UI] Failed to download report:', error);
                                                 alert(`فشل تنزيل التقرير: ${error instanceof Error ? error.message : 'خطأ غير معروف'}`);
@@ -327,6 +322,6 @@ export default function SessionDetails() {
                     </CardContent>
                 </Card>
             </div>
-        </DashboardLayout>
+        </DashboardLayout >
     );
 }

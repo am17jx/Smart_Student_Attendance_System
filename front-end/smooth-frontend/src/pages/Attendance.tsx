@@ -99,7 +99,7 @@ export default function Attendance() {
     return <Badge className="bg-success text-success-foreground">حاضر</Badge>;
   };
 
-  console.log("Attendance Data:", attendance);
+
 
   const formatDate = (dateValue: string | null | undefined) => {
     if (!dateValue || isNaN(new Date(dateValue).getTime())) return '-';
