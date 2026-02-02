@@ -307,3 +307,13 @@
 {"level":"info","message":"📚 [getMyStudents] Teacher has","timestamp":"2026-02-02 11:01:54"}
 {"level":"info","message":"🔍 [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-02 11:01:55"}
 {"level":"info","message":"✅ [getTeacherMaterials] Found","timestamp":"2026-02-02 11:01:55"}
+{"level":"info","message":"👥 [getMyStudents] Fetching students for teacher:","timestamp":"2026-02-02 11:39:04"}
+{"level":"info","message":"📚 [getMyStudents] Teacher has","timestamp":"2026-02-02 11:39:04"}
+{"level":"info","message":"🔍 [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-02 11:39:06"}
+{"level":"info","message":"✅ [getTeacherMaterials] Found","timestamp":"2026-02-02 11:39:06"}
+{"level":"info","message":"👥 [getMyStudents] Fetching students for teacher:","timestamp":"2026-02-02 11:39:08"}
+{"level":"info","message":"📚 [getMyStudents] Teacher has","timestamp":"2026-02-02 11:39:08"}
+{"level":"info","message":"🔍 [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-02 11:39:25"}
+{"level":"info","message":"✅ [getTeacherMaterials] Found","timestamp":"2026-02-02 11:39:25"}
+{"level":"info","message":"👥 [getMyStudents] Fetching students for teacher:","timestamp":"2026-02-02 11:39:25"}
+{"level":"info","message":"📚 [getMyStudents] Teacher has","timestamp":"2026-02-02 11:39:25"}

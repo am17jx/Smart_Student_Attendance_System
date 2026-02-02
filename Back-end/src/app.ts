@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
+import compression from 'compression';
 import AppError from '../utils/AppError';
 import { prisma } from '../prisma/client';
 import { requestIdMiddleware } from '../middleware/requestIdMiddleware';
@@ -56,6 +57,9 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+
+// 3. Compression - Compress all responses
+app.use(compression());
 
 // Request ID Middleware - Add unique ID to each request
 app.use(requestIdMiddleware);

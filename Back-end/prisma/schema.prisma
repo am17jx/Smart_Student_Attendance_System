@@ -101,9 +101,9 @@ model Student {
   carried_subjects  CarriedSubject[]
   absenceWarnings   AbsenceWarning[]
 
-  @@index([department_id])
-  @@index([stage_id])
+  @@index([department_id, stage_id])
   @@index([email])
+  @@index([student_id])
   @@index([email_verification_token])
   @@index([password_reset_token])
 }
@@ -277,6 +277,7 @@ model AttendanceRecord {
 
   @@unique([student_id, session_id])
   @@index([session_id])
+  @@index([student_id])
   @@index([marked_at])
   @@index([status])
 }
