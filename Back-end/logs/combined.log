@@ -331,3 +331,109 @@
 {"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-02 21:38:11"}
 {"level":"http","message":"POST /api/v1/auth/logout","timestamp":"2026-02-02 21:38:15"}
 {"level":"info","message":"Cleanup job: Deleted 0 expired/used QR tokens","timestamp":"2026-02-02 22:00:00"}
+{"level":"debug","message":"Checking environment variables...","timestamp":"2026-02-02 23:39:28"}
+{"level":"debug","message":"PORT from env: 4000","timestamp":"2026-02-02 23:39:28"}
+{"level":"debug","message":"DATABASE_URL is defined: true","timestamp":"2026-02-02 23:39:28"}
+{"level":"info","message":"Server running on port 4000","timestamp":"2026-02-02 23:39:28"}
+{"level":"info","message":"Environment: development","timestamp":"2026-02-02 23:39:28"}
+{"level":"info","message":"Cleanup jobs started","timestamp":"2026-02-02 23:39:28"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-02 23:40:16"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-02 23:40:17"}
+{"id":"109","level":"debug","message":"Looking for teacher","timestamp":"2026-02-02 23:40:17","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-02 23:40:17"}
+{"level":"http","message":"GET /api/v1/materials/my-materials","timestamp":"2026-02-02 23:40:18"}
+{"id":"109","level":"debug","message":"Looking for teacher","timestamp":"2026-02-02 23:40:18","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-02 23:40:18"}
+{"level":"info","message":"🔍 [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-02 23:40:18"}
+{"level":"info","message":"✅ [getTeacherMaterials] Found","timestamp":"2026-02-02 23:40:18"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-02 23:40:20"}
+{"id":"109","level":"debug","message":"Looking for teacher","timestamp":"2026-02-02 23:40:20","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-02 23:40:20"}
+{"level":"http","message":"GET /api/v1/teachers/my-students","timestamp":"2026-02-02 23:40:21"}
+{"id":"109","level":"debug","message":"Looking for teacher","timestamp":"2026-02-02 23:40:21","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-02 23:40:21"}
+{"level":"info","message":"👥 [getMyStudents] Fetching students for teacher:","timestamp":"2026-02-02 23:40:21"}
+{"level":"info","message":"📚 [getMyStudents] Teacher has","timestamp":"2026-02-02 23:40:21"}
+{"level":"http","message":"GET /api/v1/attendance/teacher-stats","timestamp":"2026-02-02 23:40:21"}
+{"id":"109","level":"debug","message":"Looking for teacher","timestamp":"2026-02-02 23:40:21","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-02 23:40:21"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-02 23:40:25"}
+{"id":"109","level":"debug","message":"Looking for teacher","timestamp":"2026-02-02 23:40:25","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-02 23:40:25"}
+{"level":"http","message":"GET /api/v1/attendance/teacher-stats","timestamp":"2026-02-02 23:40:28"}
+{"id":"109","level":"debug","message":"Looking for teacher","timestamp":"2026-02-02 23:40:28","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-02 23:40:28"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-02 23:40:29"}
+{"id":"109","level":"debug","message":"Looking for teacher","timestamp":"2026-02-02 23:40:29","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-02 23:40:29"}
+{"level":"info","message":"Cleanup job: Deleted 0 expired/used QR tokens","timestamp":"2026-02-03 00:00:00"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-03 00:03:54"}
+{"id":"109","level":"debug","message":"Looking for teacher","timestamp":"2026-02-03 00:03:54","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-03 00:03:54"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-03 00:03:57"}
+{"id":"109","level":"debug","message":"Looking for teacher","timestamp":"2026-02-03 00:03:57","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-03 00:03:57"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-03 00:25:01"}
+{"id":"109","level":"debug","message":"Looking for teacher","timestamp":"2026-02-03 00:25:01","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-03 00:25:01"}
+{"level":"http","message":"POST /api/v1/auth/logout","timestamp":"2026-02-03 00:25:02"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-03 00:25:42"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-03 00:25:43"}
+{"id":"109","level":"debug","message":"Looking for teacher","timestamp":"2026-02-03 00:25:43","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-03 00:25:43"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-03 00:25:50"}
+{"id":"109","level":"debug","message":"Looking for teacher","timestamp":"2026-02-03 00:25:50","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-03 00:25:50"}
+{"level":"http","message":"POST /api/v1/auth/forgot-password","timestamp":"2026-02-03 00:30:30"}
+{"level":"http","message":"POST /api/v1/auth/forgot-password","timestamp":"2026-02-03 00:30:49"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-03 00:34:04"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-03 00:34:04"}
+{"id":"109","level":"debug","message":"Looking for teacher","timestamp":"2026-02-03 00:34:04","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-03 00:34:04"}
+{"level":"http","message":"POST /api/v1/auth/logout","timestamp":"2026-02-03 00:34:07"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-03 00:34:11"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-03 00:34:11"}
+{"id":"109","level":"debug","message":"Looking for teacher","timestamp":"2026-02-03 00:34:11","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-03 00:34:11"}
+{"level":"http","message":"POST /api/v1/auth/logout","timestamp":"2026-02-03 00:34:13"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-03 00:34:16"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-03 00:34:16"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-03 00:34:16","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-03 00:34:16"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-03 00:34:19"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-03 00:34:19","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-03 00:34:19"}
+{"level":"http","message":"GET /api/v1/materials/my-materials","timestamp":"2026-02-03 00:34:20"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-03 00:34:20","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-03 00:34:20"}
+{"level":"info","message":"🔍 [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-03 00:34:20"}
+{"level":"info","message":"✅ [getTeacherMaterials] Found","timestamp":"2026-02-03 00:34:20"}
+{"level":"http","message":"GET /api/v1/teachers/my-students","timestamp":"2026-02-03 00:34:21"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-03 00:34:21","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-03 00:34:21"}
+{"level":"info","message":"👥 [getMyStudents] Fetching students for teacher:","timestamp":"2026-02-03 00:34:21"}
+{"level":"info","message":"📚 [getMyStudents] Teacher has","timestamp":"2026-02-03 00:34:21"}
+{"level":"info","message":"🔍 [getMyStudents] Unique dept/stage combinations:","timestamp":"2026-02-03 00:34:21"}
+{"level":"info","message":"🔍 [getMyStudents] OR conditions:","timestamp":"2026-02-03 00:34:21"}
+{"level":"info","message":"✅ [getMyStudents] Found","timestamp":"2026-02-03 00:34:21"}
+{"level":"info","message":"Sample student:","timestamp":"2026-02-03 00:34:21"}
+{"level":"http","message":"GET /api/v1/sessions/my-sessions?page=1&limit=10&search=","timestamp":"2026-02-03 00:34:25"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-03 00:34:25","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-03 00:34:25"}
+{"level":"http","message":"GET /api/v1/attendance/teacher-stats","timestamp":"2026-02-03 00:34:26"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-03 00:34:26","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-03 00:34:26"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-03 00:34:29"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-03 00:34:29","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-03 00:34:29"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-03 00:34:50"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-03 00:34:50","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-03 00:34:50"}
+{"level":"http","message":"GET /api/v1/attendance/teacher-stats","timestamp":"2026-02-03 00:34:51"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-03 00:34:51","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-03 00:34:51"}
+{"level":"http","message":"POST /api/v1/auth/forgot-password","timestamp":"2026-02-03 00:38:07"}
+{"level":"info","message":"Email sent to ameerahmed0780@gmail.com","timestamp":"2026-02-03 00:41:31"}
+{"level":"info","message":"Email sent to ameerahmed0780@gmail.com","timestamp":"2026-02-03 00:41:55"}
+{"level":"http","message":"POST /api/v1/auth/forgot-password","timestamp":"2026-02-03 00:43:31"}
+{"level":"http","message":"POST /api/v1/auth/forgot-password","timestamp":"2026-02-03 00:44:15"}
