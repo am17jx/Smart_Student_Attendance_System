@@ -17,13 +17,15 @@ import {
 } from "../controllers/AuthController";
 import { validateRequest } from "../middleware/validateRequest";
 import { adminAuthMiddleware, authMiddleware } from "../middleware/authMiddleware";
+import { authLimiter } from "../middleware/rateLimiter";
 
 const router = express.Router();
 
-// Login route - NO rate limiting for Admin/Teacher, only Students (handled in controller)
+// Login route - Rate limited to prevent brute force
 router.post("/login",
-    validateRequest,   // 1. Validate request
-    login              // 2. Login (rate limiting for students only happens inside)
+    authLimiter,       // Rate limit login attempts
+    validateRequest,   // Validate request
+    login              // Login
 );
 
 router.post("/logout", logout);
@@ -78,6 +80,7 @@ router.post("/teacher/change-password/:teacherId",
  * Request password reset email (Public route)
  */
 router.post("/forgot-password",
+    authLimiter,       // Rate limit to prevent abuse
     validateRequest,
     forgotPassword
 );
@@ -87,6 +90,7 @@ router.post("/forgot-password",
  * Reset password using token from email (Public route)
  */
 router.post("/reset-password",
+    authLimiter,       // Rate limit to prevent abuse
     validateRequest,
     resetPassword
 );
