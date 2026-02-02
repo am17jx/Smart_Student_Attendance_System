@@ -1,6 +1,23 @@
-# 🔒 دليل الأمان (Security Guide)
+# 🔒 دليل الأمان# Security Policy
 
-## 📋 نظرة عامة
+## Recent Improvements (Feb 2026)
+
+### 1. API Security
+-   **Credential Leaks Fixed**: The API no longer returns temporary passwords in JSON responses. All credentials are sent via secure side-channels (email).
+-   **Input Validation**: Strict validation on all public endpoints using `express-validator`.
+
+### 2. Network Security (CORS)
+-   **Restricted Origins**: CORS is configured to only allow requests from:
+    -   Production Domain (via `FRONTEND_URL`)
+    -   Localhost (Ports 3000, 5173)
+    -   Local Network IPs (192.168.x.x, 10.x.x.x, 172.x.x.x)
+-   **Logging**: Blocked cross-origin requests are logged to the server console for monitoring.
+
+### 3. Frontend Access Control
+-   **Role-Based Access Control (RBAC)**: Implemented `ProtectedRoute` component to restrict access to pages based on user roles (`admin`, `teacher`, `student`).
+-   **Authentication State**: Managed via secure Context API, checking valid tokens before rendering sensitive content.
+
+## Authentication
 
 يتضمن النظام عدة طبقات من الحماية لضمان أمان البيانات والمستخدمين.
 

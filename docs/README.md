@@ -1,63 +1,26 @@
-# 📚 فهرس التوثيق (Documentation Index)
+# Student Attendance System Documentation
 
-مرحباً بك في توثيق نظام حضور الطلاب الذكي!
+Welcome to the comprehensive documentation for the Student Attendance System.
 
-## 📖 الوثائق المتاحة
+## 📚 Documentation Structure
 
-| الوثيقة | الوصف | الجمهور المستهدف |
-|---------|-------|-----------------|
-| [README.md](../README.md) | نظرة عامة على المشروع | الجميع |
-| [INSTALLATION.md](./INSTALLATION.md) | دليل التثبيت والتشغيل | المطورين |
-| [API.md](./API.md) | توثيق واجهة برمجة التطبيقات | المطورين |
-| [DATABASE.md](./DATABASE.md) | توثيق قاعدة البيانات | المطورين |
-| [FRONTEND.md](./FRONTEND.md) | توثيق الواجهة الأمامية | المطورين |
-| [SECURITY.md](./SECURITY.md) | دليل الأمان | المطورين / المشرفين |
-| [USER_GUIDE.md](./USER_GUIDE.md) | دليل المستخدم | المستخدمين النهائيين |
+### [Backend Documentation](./backend/README.md)
+Detailed information about the API, Database, and Server logic.
+-   [API Endpoints](./backend/API.md)
+-   [Database Schema](./backend/DATABASE.md)
+-   [Project Overview](./backend/01-project-overview)
 
----
+### [Frontend Documentation](./frontend/README.md)
+Information about the React Client application.
+-   [Installation & Setup](./frontend/INSTALLATION.md)
+-   [Project Structure](./frontend/PROJECT_STRUCTURE.md)
+-   [Components](./frontend/COMPONENTS.md)
 
-## 🚀 البدء السريع
+### General Information
+-   [Security Policy](../docs/SECURITY.md)
+-   [Installation Guide (General)](../docs/INSTALLATION.md)
+-   [User Guide](../docs/USER_GUIDE.md)
 
-### للمطورين
+## 🚀 Getting Started
 
-1. ابدأ بـ [INSTALLATION.md](./INSTALLATION.md) لإعداد البيئة
-2. راجع [API.md](./API.md) لفهم الـ endpoints
-3. راجع [DATABASE.md](./DATABASE.md) لفهم هيكل البيانات
-
-### للمستخدمين
-
-1. راجع [USER_GUIDE.md](./USER_GUIDE.md) لتعلم استخدام النظام
-
----
-
-## 📊 ملخص المشروع
-
-### الأرقام الرئيسية
-
-| المقياس | القيمة |
-|---------|--------|
-| Controllers | 14 |
-| Routes | 13 |
-| Database Models | 18 |
-| Frontend Pages | 25 |
-| API Endpoints | 50+ |
-
-### الميزات الرئيسية
-
-✅ نظام حضور بـ QR Code ديناميكي  
-✅ التحقق من الموقع الجغرافي  
-✅ لوحات تحكم لـ 3 أدوار  
-✅ تقارير PDF  
-✅ نظام ترحيل أكاديمي  
-✅ حماية أمنية متعددة الطبقات  
-
----
-
-## 📞 الدعم
-
-- 📧 **البريد**: support@example.com
-- 📱 **الهاتف**: +964-XXX-XXX-XXXX
-
----
-
-**آخر تحديث**: فبراير 2026
+If you are new to the project, start with the **[Installation Guide](../docs/INSTALLATION.md)** to set up both the backend and frontend.
