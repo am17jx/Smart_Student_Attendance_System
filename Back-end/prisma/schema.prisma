@@ -99,6 +99,7 @@ model Student {
   enrollments       Enrollment[]
   promotion_records PromotionRecord[]
   carried_subjects  CarriedSubject[]
+  absenceWarnings   AbsenceWarning[]
 
   @@index([department_id])
   @@index([stage_id])
@@ -187,6 +188,7 @@ model Material {
   // Promotion relations
   enrollments      Enrollment[]
   carried_subjects CarriedSubject[]
+  absenceWarnings  AbsenceWarning[]
 
   @@unique([name, department_id, stage_id])
   @@index([department_id])
@@ -251,13 +253,21 @@ model QRToken {
   @@index([expires_at])
 }
 
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+  EXCUSED
+}
+
 model AttendanceRecord {
-  id         BigInt   @id @default(autoincrement())
-  token_hash String
+  id         BigInt           @id @default(autoincrement())
+  token_hash String?
   latitude   Float?
   longitude  Float?
-  marked_by  String   @default("qr_scan")
-  marked_at  DateTime @default(now())
+  marked_by  String           @default("qr_scan")
+  status     AttendanceStatus @default(PRESENT)
+  marked_at  DateTime         @default(now())
 
   session_id BigInt
   session    Session @relation(fields: [session_id], references: [id], onDelete: Cascade)
@@ -268,6 +278,7 @@ model AttendanceRecord {
   @@unique([student_id, session_id])
   @@index([session_id])
   @@index([marked_at])
+  @@index([status])
 }
 
 model FailedAttempt {
@@ -371,4 +382,32 @@ model PromotionConfig {
 
   department_id BigInt     @unique
   department    Department @relation(fields: [department_id], references: [id], onDelete: Cascade)
+}
+
+// نظام إنذارات الغياب
+enum WarningType {
+  NOTICE // تنبيه 3%
+  FIRST_WARNING // إنذار أولي 5%
+  FINAL_WARNING // إنذار نهائي 7%
+  ABSENCE_FAIL // رسوب بالغياب 10-15%
+  EXPULSION_WARNING // تحذير فصل 7 أيام متتالية
+}
+
+model AbsenceWarning {
+  id                 BigInt      @id @default(autoincrement())
+  warning_type       WarningType
+  absence_percentage Float // نسبة الغياب عند إرسال الإنذار
+  consecutive_days   Int? // الأيام المتتالية للغياب (للفصل)
+  email_sent         Boolean     @default(false) // هل تم إرسال البريد
+  sent_at            DateTime    @default(now())
+
+  student_id BigInt
+  student    Student @relation(fields: [student_id], references: [id], onDelete: Cascade)
+
+  material_id BigInt?
+  material    Material? @relation(fields: [material_id], references: [id], onDelete: SetNull)
+
+  @@index([student_id])
+  @@index([material_id])
+  @@index([warning_type])
 }

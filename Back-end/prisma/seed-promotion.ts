@@ -162,11 +162,11 @@ async function main() {
         config = await prisma.promotionConfig.create({
             data: {
                 department_id: department.id,
-                maxCarrySubjects: 2,
-                failThresholdForRepeat: 3,
-                disableCarryForFinalYear: false,
-                blockCarryForCore: false,
-                repeatMode: 'repeat_failed_only',
+                max_carry_subjects: 2,
+                fail_threshold_for_repeat: 3,
+                disable_carry_for_final_year: false,
+                block_carry_for_core: false,
+                repeat_mode: 'repeat_failed_only',
             }
         });
         console.log('✅ Promotion config created');

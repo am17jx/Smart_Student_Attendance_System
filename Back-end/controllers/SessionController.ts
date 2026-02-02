@@ -3,6 +3,8 @@ import { prisma } from "../prisma/client";
 import catchAsync from "../utils/catchAsync";
 import crypto from "crypto";
 import AppError from "../utils/AppError";
+import logger from "../utils/logger";
+import absenceWarningService from "../utils/absenceWarningService";
 
 export const createSession = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { materialId, teacherId, geofenceId } = req.body;
@@ -44,7 +46,7 @@ export const createSession = catchAsync(async (req: Request, res: Response, next
             teacher_id: BigInt(teacherId as string),
             geofence_id: BigInt(geofenceId as string),
             qr_secret: crypto.randomInt(100000, 999999).toString(),
-            expires_at: new Date(Date.now() + 60 * 60 * 1000),
+            expires_at: new Date(Date.now() + 5 * 60 * 1000),
         },
     })
     res.status(201).json({
@@ -134,32 +136,91 @@ export const getSessionById = catchAsync(async (req: Request, res: Response, nex
 
 export const endSession = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
+    const sessionId = BigInt(id as string);
 
-    // Check if session exists first
-    const existing = await prisma.session.findUnique({
-        where: { id: BigInt(id as string) }
+    // 1. Get session with material details to know the target students
+    const session = await prisma.session.findUnique({
+        where: { id: sessionId },
+        include: {
+            material: true
+        }
     });
 
-    if (!existing) {
+    if (!session) {
         return next(new AppError('Session not found', 404));
     }
 
-    const session = await prisma.session.update({
-        where: { id: BigInt(id as string) },
+    // 2. Mark session as inactive
+    const updatedSession = await prisma.session.update({
+        where: { id: sessionId },
         data: { is_active: false }
     });
+
+    // 3. Automatic Absence Marking
+    // Get all students supposed to be in this session (same department & stage)
+    const allStudents = await prisma.student.findMany({
+        where: {
+            department_id: session.material.department_id,
+            stage_id: session.material.stage_id
+        },
+        select: { id: true }
+    });
+
+    // Get students who already marked attendance
+    const presentRecords = await prisma.attendanceRecord.findMany({
+        where: {
+            session_id: sessionId
+        },
+        select: { student_id: true }
+    });
+
+    const presentStudentIds = new Set(presentRecords.map(r => r.student_id));
+
+    // Identify absent students
+    const absentStudents = allStudents.filter(s => !presentStudentIds.has(s.id));
+
+    logger.info(`📊 Ending Session ${sessionId}: Found ${absentStudents.length} absent students to mark.`);
+
+    // Bulk create absence records
+    if (absentStudents.length > 0) {
+        await prisma.attendanceRecord.createMany({
+            data: absentStudents.map(s => ({
+                session_id: sessionId,
+                student_id: s.id,
+                status: 'ABSENT', // Using string literal if enum import is tricky, or ensure generic compatibility
+                marked_at: new Date(),
+                marked_by: 'system_auto'
+            })),
+            skipDuplicates: true
+        });
+
+        // Get material_id from session for warning checks
+        const session = await prisma.session.findUnique({
+            where: { id: sessionId },
+            select: { material_id: true }
+        });
+
+        if (session) {
+            // Check and send warnings for each absent student (async, don't block response)
+            absentStudents.forEach(student => {
+                absenceWarningService.checkAndSendWarning(student.id, session.material_id)
+                    .catch(err => logger.error(`Warning check failed for student ${student.id}: ${err}`));
+            });
+        }
+    }
 
     res.status(200).json({
         status: "success",
         data: {
             session: {
-                ...session,
-                id: session.id.toString(),
-                material_id: session.material_id.toString(),
-                teacher_id: session.teacher_id.toString(),
-                geofence_id: session.geofence_id.toString()
-            },
-        },
+                ...updatedSession,
+                id: updatedSession.id.toString(),
+                material_id: updatedSession.material_id.toString(),
+                teacher_id: updatedSession.teacher_id.toString(),
+                geofence_id: updatedSession.geofence_id.toString(),
+                marked_absent_count: absentStudents.length
+            }
+        }
     });
 });
 

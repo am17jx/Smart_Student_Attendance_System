@@ -11,6 +11,7 @@ import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/AppError";
 import { logFailedAttemptUtil } from "../utils/FailedAttemptUtill";
 import emailService from "../utils/emailService";
+import logger from "../utils/logger";
 dotenv.config();
 
 
@@ -70,7 +71,7 @@ export const createAdmin = catchAsync(async (req: Request, res: Response, next: 
         },
     });
 
-    console.log(`[ADMIN] New admin created: ${email}, ID: ${newAdmin.id}`);
+    logger.info(`[ADMIN] New admin created: ${email}, ID: ${newAdmin.id}`);
 
     res.status(201).json({
         status: "success",
@@ -122,7 +123,7 @@ export const Teacher_sign = catchAsync(async (req: Request, res: Response, next:
         },
     });
 
-    console.log(`[ADMIN] Teacher created: ${email}, ID: ${newUser.id}`);
+    logger.info(`[ADMIN] Teacher created: ${email}, ID: ${newUser.id}`);
 
     res.status(201).json({
         status: "success",
@@ -187,14 +188,14 @@ export const sign_student = catchAsync(async (req: Request, res: Response, next:
             },
         });
 
-        console.log(`[ADMIN] Student created: ${email}, ID: ${newUser.id}`);
+        logger.info(`[ADMIN] Student created: ${email}, ID: ${newUser.id}`);
 
         // Try to send emails immediately after creation
         try {
             await emailService.sendWelcomeEmail(email, name, tempPassword);
             await emailService.sendVerificationEmail(email, name, verificationToken);
             emailSent = true;
-            console.log(`✅ Welcome and verification emails sent to ${email}`);
+            logger.info(`✅ Welcome and verification emails sent to ${email}`);
         } catch (emailError) {
             console.error('❌ Failed to send emails:', emailError);
             // Email failed but user is created - this is acceptable
@@ -256,7 +257,7 @@ export const change_teacher_password = catchAsync(async (req: Request, res: Resp
         data: { password: hashedNewPassword },
     });
 
-    console.log(`[AUTH] Password changed for teacher: ${user.email}`);
+    logger.info(`[AUTH] Password changed for teacher: ${user.email}`);
 
     res.status(200).json({
         status: "success",
@@ -300,7 +301,7 @@ export const change_student_password = catchAsync(async (req: Request, res: Resp
         data: { password: hashedNewPassword, must_change_password: false },
     });
 
-    console.log(`[AUTH] Password changed for student: ${user.email}`);
+    logger.info(`[AUTH] Password changed for student: ${user.email}`);
 
     res.status(200).json({
         status: "success",
@@ -327,7 +328,7 @@ export const reset_student_password = catchAsync(async (req: Request, res: Respo
         data: { password: hashedPassword, must_change_password: true },
     });
 
-    console.log(`[ADMIN] Password reset for student: ${user.email}`);
+    logger.info(`[ADMIN] Password reset for student: ${user.email}`);
 
     res.status(200).json({
         status: "success",
@@ -424,7 +425,7 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
             // Send Email
             try {
                 await emailService.sendPasswordResetEmail(student.email, student.name, resetToken);
-                console.log(`✅ Password reset email sent to ${student.email} (Triggered by temp password login)`);
+                logger.info(`✅ Password reset email sent to ${student.email} (Triggered by temp password login)`);
             } catch (error) {
                 console.error('❌ Failed to send password reset email:', error);
             }
@@ -493,7 +494,7 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
                 new Date(),
                 ipAddress
             );
-            console.log(`✅ Login notification sent to ${student.email}`);
+            logger.info(`✅ Login notification sent to ${student.email}`);
         } catch (error) {
             console.error('❌ Failed to send login notification:', error);
             // Don't fail login if email fails
@@ -566,7 +567,7 @@ export const forgotPassword = catchAsync(async (req: Request, res: Response) => 
     // 4) Send email
     try {
         await emailService.sendPasswordResetEmail(student.email, student.name, resetToken);
-        console.log(`✅ Password reset email sent to ${student.email}`);
+        logger.info(`✅ Password reset email sent to ${student.email}`);
 
         res.status(200).json({
             status: 'success',
@@ -628,7 +629,7 @@ export const resetPassword = catchAsync(async (req: Request, res: Response) => {
         },
     });
 
-    console.log(`✅ Password reset successful for ${student.email}`);
+    logger.info(`✅ Password reset successful for ${student.email}`);
 
     res.status(200).json({
         status: 'success',
@@ -672,7 +673,7 @@ export const verifyEmail = catchAsync(async (req: Request, res: Response) => {
         },
     });
 
-    console.log(`✅ Email verified for ${student.email}`);
+    logger.info(`✅ Email verified for ${student.email}`);
 
     res.status(200).json({
         status: 'success',
@@ -726,7 +727,7 @@ export const resendVerificationEmail = catchAsync(async (req: Request, res: Resp
     // 5) Send email
     try {
         await emailService.sendVerificationEmail(student.email, student.name, verificationToken);
-        console.log(`✅ Verification email resent to ${student.email}`);
+        logger.info(`✅ Verification email resent to ${student.email}`);
 
         res.status(200).json({
             status: 'success',

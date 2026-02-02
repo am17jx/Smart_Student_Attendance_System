@@ -3,6 +3,7 @@ import { prisma } from "../prisma/client";
 import catchAsync from "../utils/catchAsync";
 import { getDepartmentFilter, validateDepartmentAccess } from "../utils/accessControl";
 import AppError from "../utils/AppError";
+import logger from "../utils/logger";
 
 
 export const getAllStudents = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
@@ -17,7 +18,7 @@ export const getAllStudents = catchAsync(async (req: Request, res: Response, nex
         // Get admin user from request (set by auth middleware)
         const admin = (req as any).user;
 
-        console.log(`🔍 [getAllStudents] Received request with params:`, {
+        logger.info(`🔍 [getAllStudents] Received request with params:`, {
             page, limit, search, departmentId, stageId, skip,
             adminId: admin?.id?.toString(),
             adminDeptId: admin?.department_id?.toString() || 'NULL/undefined'
@@ -29,7 +30,7 @@ export const getAllStudents = catchAsync(async (req: Request, res: Response, nex
         const deptFilter = getDepartmentFilter(admin);
         if (deptFilter) {
             Object.assign(where, deptFilter);
-            console.log(`🔒 [getAllStudents] Applied department filter:`, deptFilter);
+            logger.info(`🔒 [getAllStudents] Applied department filter:`, deptFilter);
         }
 
         if (search) {
@@ -45,15 +46,15 @@ export const getAllStudents = catchAsync(async (req: Request, res: Response, nex
             // Validate admin has access to requested department
             validateDepartmentAccess(admin, requestedDeptId);
             where.department_id = requestedDeptId;
-            console.log(`🔍 [getAllStudents] Filtering by departmentId: ${departmentId}`);
+            logger.info(`🔍 [getAllStudents] Filtering by departmentId: ${departmentId}`);
         }
 
         if (stageId) {
             where.stage_id = BigInt(stageId);
-            console.log(`🔍 [getAllStudents] Filtering by stageId: ${stageId}`);
+            logger.info(`🔍 [getAllStudents] Filtering by stageId: ${stageId}`);
         }
 
-        console.log(`🔍 [getAllStudents] Query where clause:`, JSON.stringify(where, (key, value) =>
+        logger.info(`🔍 [getAllStudents] Query where clause:`, JSON.stringify(where, (key, value) =>
             typeof value === 'bigint' ? value.toString() : value
         ));
 
@@ -70,10 +71,10 @@ export const getAllStudents = catchAsync(async (req: Request, res: Response, nex
             })
         ]);
 
-        console.log(`✅ [getAllStudents] Found ${total} total students, returning ${students.length} students`);
+        logger.info(`✅ [getAllStudents] Found ${total} total students, returning ${students.length} students`);
 
         if (students.length > 0) {
-            console.log(`📝 [getAllStudents] First student:`, {
+            logger.info(`📝 [getAllStudents] First student:`, {
                 id: students[0].id.toString(),
                 name: students[0].name,
                 dept_id: students[0].department_id?.toString(),
@@ -110,7 +111,7 @@ export const getAllStudents = catchAsync(async (req: Request, res: Response, nex
             },
         };
 
-        console.log(`📤 [getAllStudents] Sending response with ${safeStudents.length} students`);
+        logger.info(`📤 [getAllStudents] Sending response with ${safeStudents.length} students`);
         res.status(200).json(response);
     } catch (error) {
         console.error(`❌ [getAllStudents] Error:`, error);
@@ -171,7 +172,7 @@ export const resetFingerprint = catchAsync(async (req: Request, res: Response, n
         }
     });
 
-    console.log(`[ADMIN] Fingerprint reset for student: ${id}`);
+    logger.info(`[ADMIN] Fingerprint reset for student: ${id}`);
 
     res.status(200).json({
         status: "success",

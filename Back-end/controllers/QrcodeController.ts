@@ -4,6 +4,7 @@ import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/AppError";
 import QRCode from "qrcode";
 import crypto from "crypto";
+import logger from "../utils/logger";
 
 // Helper: Constant-time comparison
 function timingSafeEqual(a: string, b: string): boolean {
@@ -37,7 +38,7 @@ export const generateQrForSession = catchAsync(async (req: Request, res: Respons
         data: {
             token_hash: tokenHash,
             session_id: BigInt(session_id as string),
-            expires_at: new Date(Date.now() + 5 * 60 * 1000), // 5 minutes
+            expires_at: new Date(Date.now() + 90 * 1000), // 90 seconds (30s rotation + 60s buffer for scanning)
         },
     });
 
@@ -80,6 +81,14 @@ export const scanQrAndAttend = catchAsync(async (req: Request, res: Response, ne
     const ip = req.ip || req.socket.remoteAddress;
     const userAgent = req.headers['user-agent'];
 
+    logger.info(`🔍 [scanQrAndAttend] Request received:`, {
+        hasToken: !!token,
+        hasId: !!id,
+        hasLocation: !!(latitude && longitude),
+        studentId: studentId?.toString(),
+        tokenId: id
+    });
+
     if (!studentId) {
         throw new AppError("Student not authenticated", 401);
     }
@@ -97,7 +106,8 @@ export const scanQrAndAttend = catchAsync(async (req: Request, res: Response, ne
         include: {
             session: {
                 include: {
-                    geofence: true
+                    geofence: true,
+                    material: true  // ✅ Added to check student eligibility
                 }
             }
         },
@@ -105,6 +115,7 @@ export const scanQrAndAttend = catchAsync(async (req: Request, res: Response, ne
 
     // التحقق من صلاحية الـ token
     if (!qrToken) {
+        logger.warn(`❌ [scanQrAndAttend] QR Token not found:`, { tokenId: id });
         await prisma.failedAttempt.create({
             data: {
                 student_id: studentId,
@@ -117,6 +128,14 @@ export const scanQrAndAttend = catchAsync(async (req: Request, res: Response, ne
         throw new AppError("Invalid QR code", 400);
     }
 
+    logger.info(`✅ [scanQrAndAttend] QR Token found:`, {
+        tokenId: qrToken.id.toString(),
+        sessionId: qrToken.session_id.toString(),
+        expiresAt: qrToken.expires_at,
+        usedAt: qrToken.used_at,
+        now: new Date()
+    });
+
     // Geofence Validation
     if (qrToken.session.geofence) {
         const distance = getDistanceFromLatLonInMeters(
@@ -126,7 +145,13 @@ export const scanQrAndAttend = catchAsync(async (req: Request, res: Response, ne
             qrToken.session.geofence.longitude
         );
 
+        logger.info(`📍 [scanQrAndAttend] Geofence check:`, {
+            distance: Math.round(distance),
+            allowed: qrToken.session.geofence.radius_meters
+        });
+
         if (distance > qrToken.session.geofence.radius_meters) {
+            logger.warn(`❌ [scanQrAndAttend] Geofence validation failed`);
             await prisma.failedAttempt.create({
                 data: {
                     student_id: studentId,
@@ -142,6 +167,7 @@ export const scanQrAndAttend = catchAsync(async (req: Request, res: Response, ne
     }
 
     if (qrToken.used_at) {
+        logger.warn(`❌ [scanQrAndAttend] Token already used at:`, qrToken.used_at);
         await prisma.failedAttempt.create({
             data: {
                 student_id: studentId,
@@ -156,6 +182,11 @@ export const scanQrAndAttend = catchAsync(async (req: Request, res: Response, ne
     }
 
     if (qrToken.expires_at < new Date()) {
+        logger.warn(`❌ [scanQrAndAttend] Token expired:`, {
+            expiresAt: qrToken.expires_at,
+            now: new Date(),
+            diff: (new Date().getTime() - qrToken.expires_at.getTime()) / 1000 + 's'
+        });
         await prisma.failedAttempt.create({
             data: {
                 student_id: studentId,
@@ -175,7 +206,14 @@ export const scanQrAndAttend = catchAsync(async (req: Request, res: Response, ne
         .update(token + qrToken.session.qr_secret)
         .digest("hex");
 
+    logger.info(`🔐 [scanQrAndAttend] Hash validation:`, {
+        expectedHashPrefix: expectedHash.substring(0, 10) + '...',
+        storedHashPrefix: qrToken.token_hash.substring(0, 10) + '...',
+        match: expectedHash === qrToken.token_hash
+    });
+
     if (!timingSafeEqual(expectedHash, qrToken.token_hash)) {
+        logger.warn(`❌ [scanQrAndAttend] Hash mismatch!`);
         await prisma.failedAttempt.create({
             data: {
                 student_id: studentId,
@@ -187,6 +225,55 @@ export const scanQrAndAttend = catchAsync(async (req: Request, res: Response, ne
             }
         });
         throw new AppError("Invalid QR code", 400);
+    }
+
+    // ✅ التحقق من أن الطالب ينتمي لنفس المرحلة/القسم الذي تنتمي له المادة
+    const student = await prisma.student.findUnique({
+        where: { id: studentId }
+    });
+
+    if (!student) {
+        throw new AppError("Student not found", 404);
+    }
+
+    const material = qrToken.session.material;
+
+    // التحقق من أن الطالب لديه قسم ومرحلة
+    if (!student.department_id || !student.stage_id) {
+        logger.error(`❌ [scanQrAndAttend] Student missing department or stage:`, {
+            studentId: student.id.toString(),
+            hasDept: !!student.department_id,
+            hasStage: !!student.stage_id
+        });
+        throw new AppError("بيانات الطالب غير مكتملة. يرجى التواصل مع الإدارة.", 400);
+    }
+
+    logger.info(`👤 [scanQrAndAttend] Student authorization check:`, {
+        studentId: student.id.toString(),
+        studentDept: student.department_id.toString(),
+        studentStage: student.stage_id.toString(),
+        materialDept: material.department_id.toString(),
+        materialStage: material.stage_id.toString(),
+        materialName: material.name
+    });
+
+    if (student.department_id !== material.department_id || student.stage_id !== material.stage_id) {
+        logger.warn(`❌ [scanQrAndAttend] Unauthorized student attempt:`, {
+            studentName: student.name,
+            materialName: material.name
+        });
+
+        await prisma.failedAttempt.create({
+            data: {
+                student_id: studentId,
+                session_id: qrToken.session_id,
+                error_type: "UNAUTHORIZED_STUDENT",
+                error_message: `Student stage/department mismatch. Student: ${student.stage_id}/${student.department_id}, Material: ${material.stage_id}/${material.department_id}`,
+                ip_address: typeof ip === 'string' ? ip : undefined,
+                device_info: userAgent
+            }
+        });
+        throw new AppError("عذراً، أنت غير مسجل في هذه المادة. هذه الجلسة مخصصة لطلاب قسم ومرحلة أخرى.", 403);
     }
 
     // ✅ تسجيل الحضور في معاملة واحدة (transaction)
@@ -208,6 +295,8 @@ export const scanQrAndAttend = catchAsync(async (req: Request, res: Response, ne
             },
         }),
     ]);
+
+    logger.info(`✅ Attendance recorded: Student ${studentId} in Session ${qrToken.session_id}`);
 
     res.status(200).json({
         status: "success",
