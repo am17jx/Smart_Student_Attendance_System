@@ -75,8 +75,7 @@ export const createAdmin = catchAsync(async (req: Request, res: Response, next: 
 
     res.status(201).json({
         status: "success",
-        message: "Admin created successfully with temporary password",
-        tempPassword,
+        message: "Admin created successfully. Password sent via secure channel.",
         user: {
             id: newAdmin.id.toString(),
             name: newAdmin.name,
@@ -127,8 +126,7 @@ export const Teacher_sign = catchAsync(async (req: Request, res: Response, next:
 
     res.status(201).json({
         status: "success",
-        message: "Teacher created successfully with temporary password",
-        tempPassword,
+        message: "Teacher created successfully. Password sent via secure channel.",
         user: {
             id: newUser.id.toString(),
             name: newUser.name,
@@ -205,9 +203,8 @@ export const sign_student = catchAsync(async (req: Request, res: Response, next:
         res.status(201).json({
             status: "success",
             message: emailSent
-                ? "Student created successfully. Welcome email sent with temporary password."
+                ? "Student created successfully. Welcome email sent."
                 : "Student created successfully. Email sending failed - please use 'Resend Verification' option.",
-            tempPassword,
             emailSent, // ✅ Frontend knows if email was sent
             user: {
                 id: newUser.id.toString(),
@@ -332,8 +329,7 @@ export const reset_student_password = catchAsync(async (req: Request, res: Respo
 
     res.status(200).json({
         status: "success",
-        message: "Password reset successfully",
-        tempPassword,
+        message: "Password reset successfully. New password sent via email.",
     });
 });
 
@@ -537,17 +533,37 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
 export const forgotPassword = catchAsync(async (req: Request, res: Response) => {
     const { email } = req.body;
 
-    // 1) Find student by email
-    const student = await prisma.student.findUnique({
-        where: { email },
-    });
+    let userType: 'student' | 'teacher' | 'admin' | null = null;
+    let user: any = null;
 
-    if (!student) {
-        // Don't reveal if email exists or not (security)
-        return res.status(200).json({
-            status: 'success',
-            message: 'إذا كان البريد الإلكتروني موجوداً، سيتم إرسال رابط إعادة التعيين',
-        });
+    // 1) Submit to Students First
+    const student = await prisma.student.findUnique({ where: { email } });
+    if (student) {
+        userType = 'student';
+        user = student;
+    }
+
+    // 2) Then Teachers
+    if (!user) {
+        const teacher = await prisma.teacher.findUnique({ where: { email } });
+        if (teacher) {
+            userType = 'teacher';
+            user = teacher;
+        }
+    }
+
+    // 3) Then Admins
+    if (!user) {
+        const admin = await prisma.admin.findUnique({ where: { email } });
+        if (admin) {
+            userType = 'admin';
+            user = admin;
+        }
+    }
+
+    if (!user) {
+        // User requested to explicitly know if account exists
+        throw new AppError('ليس لديك حساب في الموقع', 404);
     }
 
     // 2) Generate reset token
@@ -555,19 +571,28 @@ export const forgotPassword = catchAsync(async (req: Request, res: Response) => 
     const resetTokenHash = crypto.createHash('sha256').update(resetToken).digest('hex');
     const resetExpires = new Date(Date.now() + 30 * 60 * 1000); // 30 minutes
 
-    // 3) Save token to database
-    await prisma.student.update({
-        where: { id: student.id },
-        data: {
-            password_reset_token: resetTokenHash,
-            password_reset_expires: resetExpires,
-        },
-    });
+    // 3) Save token to database based on user type
+    if (userType === 'student') {
+        await prisma.student.update({
+            where: { id: user.id },
+            data: { password_reset_token: resetTokenHash, password_reset_expires: resetExpires },
+        });
+    } else if (userType === 'teacher') {
+        await prisma.teacher.update({
+            where: { id: user.id },
+            data: { password_reset_token: resetTokenHash, password_reset_expires: resetExpires },
+        });
+    } else if (userType === 'admin') {
+        await prisma.admin.update({
+            where: { id: user.id },
+            data: { password_reset_token: resetTokenHash, password_reset_expires: resetExpires },
+        });
+    }
 
     // 4) Send email
     try {
-        await emailService.sendPasswordResetEmail(student.email, student.name, resetToken);
-        logger.info(`✅ Password reset email sent to ${student.email}`);
+        await emailService.sendPasswordResetEmail(user.email, user.name, resetToken);
+        logger.info(`✅ Password reset email sent to ${user.email} (${userType})`);
 
         res.status(200).json({
             status: 'success',
@@ -575,15 +600,12 @@ export const forgotPassword = catchAsync(async (req: Request, res: Response) => 
         });
     } catch (error) {
         // Rollback token if email fails
-        await prisma.student.update({
-            where: { id: student.id },
-            data: {
-                password_reset_token: null,
-                password_reset_expires: null,
-            },
-        });
+        const clearData = { password_reset_token: null, password_reset_expires: null };
+        if (userType === 'student') await prisma.student.update({ where: { id: user.id }, data: clearData });
+        else if (userType === 'teacher') await prisma.teacher.update({ where: { id: user.id }, data: clearData });
+        else if (userType === 'admin') await prisma.admin.update({ where: { id: user.id }, data: clearData });
 
-        logger.error('Failed to send password reset email', { error, email: student.email });
+        logger.error('Failed to send password reset email', { error, email: user.email });
         throw new AppError('حدث خطأ في إرسال البريد الإلكتروني، يرجى المحاولة لاحقاً', 500);
     }
 });
@@ -599,43 +621,84 @@ export const resetPassword = catchAsync(async (req: Request, res: Response) => {
     // 1) Hash the token from URL
     const hashedToken = crypto.createHash('sha256').update(token as string).digest('hex');
 
-    // 2) Find student with valid token
+    let userType: 'student' | 'teacher' | 'admin' | null = null;
+    let user: any = null;
+
+    // 2) Find user with valid token (Check all tables)
+    // Check Student
     const student = await prisma.student.findFirst({
         where: {
             password_reset_token: hashedToken,
-            password_reset_expires: {
-                gt: new Date(), // Token not expired
-            },
+            password_reset_expires: { gt: new Date() },
         },
     });
 
-    if (!student) {
+    if (student) {
+        userType = 'student';
+        user = student;
+    }
+
+    // Check Teacher
+    if (!user) {
+        const teacher = await prisma.teacher.findFirst({
+            where: {
+                password_reset_token: hashedToken,
+                password_reset_expires: { gt: new Date() },
+            },
+        });
+        if (teacher) {
+            userType = 'teacher';
+            user = teacher;
+        }
+    }
+
+    // Check Admin
+    if (!user) {
+        const admin = await prisma.admin.findFirst({
+            where: {
+                password_reset_token: hashedToken,
+                password_reset_expires: { gt: new Date() },
+            },
+        });
+        if (admin) {
+            userType = 'admin';
+            user = admin;
+        }
+    }
+
+    if (!user) {
         throw new AppError('الرمز غير صحيح أو منتهي الصلاحية', 400);
     }
 
     // 3) Update password and clear token
     const hashedPassword = await bcrypt.hash(newPassword, 12);
 
-    await prisma.student.update({
-        where: { id: student.id },
-        data: {
-            password: hashedPassword,
-            password_reset_token: null,
-            password_reset_expires: null,
-            must_change_password: false,
-            // Verify email also since they proved ownership
-            is_verified: true,
-            email_verified_at: new Date(),
-        },
-    });
+    const updateData: any = {
+        password: hashedPassword,
+        password_reset_token: null,
+        password_reset_expires: null,
+    };
 
-    logger.info(`✅ Password reset successful for ${student.email}`);
+    if (userType === 'student') {
+        updateData.must_change_password = false;
+        updateData.is_verified = true;
+        updateData.email_verified_at = new Date();
+        await prisma.student.update({ where: { id: user.id }, data: updateData });
+    } else if (userType === 'teacher') {
+        await prisma.teacher.update({ where: { id: user.id }, data: updateData });
+    } else if (userType === 'admin') {
+        await prisma.admin.update({ where: { id: user.id }, data: updateData });
+    }
+
+    logger.info(`✅ Password reset successful for ${user.email} (${userType})`);
 
     res.status(200).json({
         status: 'success',
         message: 'تم تغيير كلمة المرور بنجاح، يمكنك الآن تسجيل الدخول',
     });
 });
+
+
 
 
 /**

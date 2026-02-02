@@ -11,12 +11,8 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Demo users for testing without backend
-const DEMO_USERS: Record<string, User> = {
-  'admin@demo.com': { id: '1', name: 'أحمد المدير', email: 'admin@demo.com', role: 'admin' },
-  'teacher@demo.com': { id: '2', name: 'محمد الأستاذ', email: 'teacher@demo.com', role: 'teacher' },
-  'student@demo.com': { id: '3', name: 'علي الطالب', email: 'student@demo.com', role: 'student' },
-};
+// Legacy DEMO_USERS removed for security
+
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);

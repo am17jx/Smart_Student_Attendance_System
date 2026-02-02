@@ -437,3 +437,124 @@
 {"level":"info","message":"Email sent to ameerahmed0780@gmail.com","timestamp":"2026-02-03 00:41:55"}
 {"level":"http","message":"POST /api/v1/auth/forgot-password","timestamp":"2026-02-03 00:43:31"}
 {"level":"http","message":"POST /api/v1/auth/forgot-password","timestamp":"2026-02-03 00:44:15"}
+{"level":"debug","message":"Checking environment variables...","timestamp":"2026-02-03 00:57:50"}
+{"level":"debug","message":"PORT from env: 4000","timestamp":"2026-02-03 00:57:50"}
+{"level":"debug","message":"DATABASE_URL is defined: true","timestamp":"2026-02-03 00:57:50"}
+{"level":"info","message":"Server running on port 4000","timestamp":"2026-02-03 00:57:50"}
+{"level":"info","message":"Environment: development","timestamp":"2026-02-03 00:57:50"}
+{"level":"info","message":"Cleanup jobs started","timestamp":"2026-02-03 00:57:50"}
+{"level":"http","message":"POST /api/v1/auth/forgot-password","timestamp":"2026-02-03 00:57:50"}
+{"level":"debug","message":"Checking environment variables...","timestamp":"2026-02-03 00:59:10"}
+{"level":"debug","message":"PORT from env: 4000","timestamp":"2026-02-03 00:59:10"}
+{"level":"debug","message":"DATABASE_URL is defined: true","timestamp":"2026-02-03 00:59:10"}
+{"level":"info","message":"Server running on port 4000","timestamp":"2026-02-03 00:59:10"}
+{"level":"info","message":"Environment: development","timestamp":"2026-02-03 00:59:10"}
+{"level":"info","message":"Cleanup jobs started","timestamp":"2026-02-03 00:59:10"}
+{"level":"http","message":"POST /api/v1/auth/forgot-password","timestamp":"2026-02-03 00:59:17"}
+{"level":"http","message":"POST /api/v1/auth/forgot-password","timestamp":"2026-02-03 00:59:25"}
+{"level":"http","message":"POST /api/v1/auth/forgot-password","timestamp":"2026-02-03 00:59:26"}
+{"level":"info","message":"Cleanup job: Deleted 0 expired/used QR tokens","timestamp":"2026-02-03 01:00:00"}
+{"level":"debug","message":"Checking environment variables...","timestamp":"2026-02-03 01:20:17"}
+{"level":"debug","message":"PORT from env: 4000","timestamp":"2026-02-03 01:20:17"}
+{"level":"debug","message":"DATABASE_URL is defined: true","timestamp":"2026-02-03 01:20:17"}
+{"level":"info","message":"Server running on port 4000","timestamp":"2026-02-03 01:20:17"}
+{"level":"info","message":"Environment: development","timestamp":"2026-02-03 01:20:17"}
+{"level":"info","message":"Cleanup jobs started","timestamp":"2026-02-03 01:20:17"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-03 01:22:51"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-03 01:22:53"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-03 01:22:54"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-03 01:22:57"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-03 01:23:23"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-03 01:23:28"}
+{"level":"debug","message":"Checking environment variables...","timestamp":"2026-02-03 01:24:10"}
+{"level":"debug","message":"PORT from env: 4000","timestamp":"2026-02-03 01:24:10"}
+{"level":"debug","message":"DATABASE_URL is defined: true","timestamp":"2026-02-03 01:24:10"}
+{"level":"info","message":"Server running on port 4000","timestamp":"2026-02-03 01:24:10"}
+{"level":"info","message":"Environment: development","timestamp":"2026-02-03 01:24:10"}
+{"level":"info","message":"Cleanup jobs started","timestamp":"2026-02-03 01:24:10"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-03 01:24:17"}
+{"level":"warn","message":"BLOCKED BY CORS: Origin 'https://localhost:3000' is not allowed.","timestamp":"2026-02-03 01:24:17"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-03 01:24:19"}
+{"level":"warn","message":"BLOCKED BY CORS: Origin 'https://localhost:3000' is not allowed.","timestamp":"2026-02-03 01:24:19"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-03 01:24:20"}
+{"level":"warn","message":"BLOCKED BY CORS: Origin 'https://localhost:3000' is not allowed.","timestamp":"2026-02-03 01:24:20"}
+{"level":"debug","message":"Checking environment variables...","timestamp":"2026-02-03 01:25:26"}
+{"level":"debug","message":"PORT from env: 4000","timestamp":"2026-02-03 01:25:26"}
+{"level":"debug","message":"DATABASE_URL is defined: true","timestamp":"2026-02-03 01:25:26"}
+{"level":"info","message":"Server running on port 4000","timestamp":"2026-02-03 01:25:26"}
+{"level":"info","message":"Environment: development","timestamp":"2026-02-03 01:25:26"}
+{"level":"info","message":"Cleanup jobs started","timestamp":"2026-02-03 01:25:26"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-03 01:25:28"}
+{"level":"http","message":"GET /api/v1/dashboard/admin","timestamp":"2026-02-03 01:25:28"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-03 01:25:28"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-03 01:25:28"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-03 01:25:28"}
+{"department_id":"NULL (Dean)","id":"264","level":"info","message":"🔍 [getAdminDashboard] Admin:","timestamp":"2026-02-03 01:25:28"}
+{"departments":4,"level":"info","materials":149,"message":"✅ [getAdminDashboard] Stats:","students":80,"teachers":5,"timestamp":"2026-02-03 01:25:29"}
+{"level":"debug","message":"Checking environment variables...","timestamp":"2026-02-03 01:26:07"}
+{"level":"debug","message":"PORT from env: 4000","timestamp":"2026-02-03 01:26:07"}
+{"level":"debug","message":"DATABASE_URL is defined: true","timestamp":"2026-02-03 01:26:07"}
+{"level":"info","message":"Server running on port 4000","timestamp":"2026-02-03 01:26:07"}
+{"level":"info","message":"Environment: development","timestamp":"2026-02-03 01:26:07"}
+{"level":"info","message":"Cleanup jobs started","timestamp":"2026-02-03 01:26:07"}
+{"level":"http","message":"GET /api/v1/dashboard/admin","timestamp":"2026-02-03 01:26:07"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-03 01:26:07"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-03 01:26:07"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-03 01:26:07"}
+{"department_id":"NULL (Dean)","id":"264","level":"info","message":"🔍 [getAdminDashboard] Admin:","timestamp":"2026-02-03 01:26:07"}
+{"departments":4,"level":"info","materials":149,"message":"✅ [getAdminDashboard] Stats:","students":80,"teachers":5,"timestamp":"2026-02-03 01:26:08"}
+{"level":"http","message":"GET /api/v1/geofences","timestamp":"2026-02-03 01:26:10"}
+{"level":"http","message":"GET /api/v1/geofences","timestamp":"2026-02-03 01:26:11"}
+{"level":"http","message":"GET /api/v1/sessions?page=1&limit=10&search=","timestamp":"2026-02-03 01:26:11"}
+{"level":"http","message":"GET /api/v1/materials","timestamp":"2026-02-03 01:26:11"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-03 01:26:11"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-03 01:26:11"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-03 01:26:11"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-03 01:26:11"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-03 01:26:11"}
+{"level":"http","message":"GET /api/v1/stages","timestamp":"2026-02-03 01:26:12"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-03 01:26:12"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-03 01:26:12"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-03 01:26:12"}
+{"level":"http","message":"GET /api/v1/sessions?page=1&limit=10&search=","timestamp":"2026-02-03 01:26:13"}
+{"level":"http","message":"GET /api/v1/materials","timestamp":"2026-02-03 01:26:13"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-03 01:26:13"}
+{"level":"http","message":"GET /api/v1/geofences","timestamp":"2026-02-03 01:26:13"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-03 01:26:13"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-03 01:26:13"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-03 01:26:13"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-03 01:26:13"}
+{"level":"http","message":"GET /api/v1/stages","timestamp":"2026-02-03 01:26:18"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-03 01:26:18"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-03 01:26:18"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-03 01:26:18"}
+{"level":"http","message":"GET /api/v1/materials","timestamp":"2026-02-03 01:26:20"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-03 01:26:20"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-03 01:26:20"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-03 01:26:20"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-03 01:26:20"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-03 01:26:20"}
+{"level":"http","message":"GET /api/v1/stages","timestamp":"2026-02-03 01:26:20"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-03 01:26:20"}
+{"level":"http","message":"GET /api/v1/departments","timestamp":"2026-02-03 01:26:20"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-03 01:26:20"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-03 01:26:20"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-03 01:26:20"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-03 01:26:20"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-03 01:26:20"}
+{"level":"http","message":"GET /api/v1/departments","timestamp":"2026-02-03 01:26:23"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-03 01:26:23"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-03 01:26:24"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-03 01:26:24"}
+{"level":"http","message":"GET /api/v1/materials","timestamp":"2026-02-03 01:26:24"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-03 01:26:24"}
+{"level":"http","message":"GET /api/v1/teachers","timestamp":"2026-02-03 01:26:24"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-03 01:26:24"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-03 01:26:24"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-03 01:26:24"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-03 01:26:24"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-03 01:26:24"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-03 01:26:24"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-03 01:26:24"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-03 01:26:24"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-03 01:26:24"}
