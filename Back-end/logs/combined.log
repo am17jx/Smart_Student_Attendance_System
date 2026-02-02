@@ -317,3 +317,16 @@
 {"level":"info","message":"✅ [getTeacherMaterials] Found","timestamp":"2026-02-02 11:39:25"}
 {"level":"info","message":"👥 [getMyStudents] Fetching students for teacher:","timestamp":"2026-02-02 11:39:25"}
 {"level":"info","message":"📚 [getMyStudents] Teacher has","timestamp":"2026-02-02 11:39:25"}
+{"level":"info","message":"👥 [getMyStudents] Fetching students for teacher:","timestamp":"2026-02-02 12:03:21"}
+{"level":"info","message":"📚 [getMyStudents] Teacher has","timestamp":"2026-02-02 12:03:21"}
+{"level":"debug","message":"Checking environment variables...","timestamp":"2026-02-02 21:15:39"}
+{"level":"debug","message":"PORT from env: 4000","timestamp":"2026-02-02 21:15:39"}
+{"level":"debug","message":"DATABASE_URL is defined: true","timestamp":"2026-02-02 21:15:39"}
+{"level":"info","message":"Server running on port 4000","timestamp":"2026-02-02 21:15:39"}
+{"level":"info","message":"Environment: development","timestamp":"2026-02-02 21:15:39"}
+{"level":"info","message":"Cleanup jobs started","timestamp":"2026-02-02 21:15:39"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-02 21:38:10"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-02 21:38:11"}
+{"id":"109","level":"debug","message":"Looking for teacher","timestamp":"2026-02-02 21:38:11","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-02 21:38:11"}
+{"level":"http","message":"POST /api/v1/auth/logout","timestamp":"2026-02-02 21:38:15"}

@@ -5,6 +5,7 @@ import { prisma } from "../prisma/client";
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/AppError";
 import { hashFingerprint } from "../controllers/AuthController"
+import logger from "../utils/logger";
 
 dotenv.config();
 
@@ -72,7 +73,7 @@ export const adminAuthMiddleware = catchAsync(async (req: Request, res: Response
             throw new AppError("Access denied: Admin role required", 403);
         }
 
-        console.log('🔍 [authMiddleware] Decoded JWT:', {
+        logger.debug('[authMiddleware] Decoded JWT', {
             id: decoded.id,
             email: decoded.email
         });
@@ -88,7 +89,7 @@ export const adminAuthMiddleware = catchAsync(async (req: Request, res: Response
             }
         });
 
-        console.log('🔍 [authMiddleware] Fetched admin from DB:', {
+        logger.debug('[authMiddleware] Fetched admin from DB', {
             id: admin?.id?.toString(),
             email: admin?.email,
             department_id: admin?.department_id?.toString() || 'NULL/undefined'
@@ -106,7 +107,7 @@ export const adminAuthMiddleware = catchAsync(async (req: Request, res: Response
         } as any;
         req.admin = admin as any;
 
-        console.log('✅ [authMiddleware] Set req.user:', {
+        logger.debug('[authMiddleware] Set req.user', {
             id: (req.user as any).id?.toString(),
             department_id: (req.user as any).department_id?.toString() || 'NULL/undefined'
         });
@@ -133,13 +134,13 @@ export const teacherAuthMiddleware = catchAsync(async (req: Request, res: Respon
             throw new AppError("Access denied: Teacher role required", 403);
         }
 
-        console.log('🔍 Looking for teacher with ID:', decoded.id, 'Type:', typeof decoded.id);
+        logger.debug(`Looking for teacher`, { id: decoded.id, type: typeof decoded.id });
 
         const teacher = await prisma.teacher.findUnique({
             where: { id: BigInt(decoded.id) },
         });
 
-        console.log('👨‍🏫 Teacher found:', teacher ? 'YES' : 'NO');
+        logger.debug(`Teacher found: ${teacher ? 'YES' : 'NO'}`);
 
         if (!teacher) {
             throw new AppError("Teacher not found", 404);

@@ -2,8 +2,10 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
+import logger from '../utils/logger';
+
 async function updateAdmin() {
-    console.log('🔧 Updating admin account to correct department...');
+    logger.info('Updating admin account to correct department...');
 
     // Update admin with ID 266 to be Department Head of "هندسة شبكات الحاسوب" (ID: 730)
     const updatedAdmin = await prisma.admin.update({
@@ -17,16 +19,17 @@ async function updateAdmin() {
         where: { id: 730n }
     });
 
-    console.log(`\n✅ Updated admin: ${updatedAdmin.email}`);
-    console.log(`   - Name: ${updatedAdmin.name}`);
-    console.log(`   - Department: ${dept?.name}`);
-    console.log(`   - Department ID: ${updatedAdmin.department_id}`);
-    console.log(`\n🔄 Please LOGOUT and LOGIN again to see the changes!`);
+    logger.info(`Updated admin: ${updatedAdmin.email}`, {
+        name: updatedAdmin.name,
+        department: dept?.name,
+        departmentId: updatedAdmin.department_id?.toString()
+    });
+    logger.info('Please LOGOUT and LOGIN again to see the changes!');
 }
 
 updateAdmin()
     .catch((e) => {
-        console.error('❌ Error:', e);
+        logger.error('Error', e);
         process.exit(1);
     })
     .finally(async () => {

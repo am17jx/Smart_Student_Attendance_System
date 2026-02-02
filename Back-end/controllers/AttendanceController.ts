@@ -852,7 +852,7 @@ export const generateAttendanceReportOLD = catchAsync(
             res.send(pdfBuffer);
 
         } catch (error) {
-            console.error('❌ [generateAttendanceReport] Puppeteer Error:', error);
+            logger.error('[generateAttendanceReport] Puppeteer Error', { error });
             return next(new AppError('فشل إنشاء ملف PDF', 500));
         }
     }

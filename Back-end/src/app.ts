@@ -5,6 +5,7 @@ import compression from 'compression';
 import AppError from '../utils/AppError';
 import { prisma } from '../prisma/client';
 import { requestIdMiddleware } from '../middleware/requestIdMiddleware';
+import logger from '../utils/logger';
 import authRoutes from '../routes/authRoutes';
 import departmentRoutes from '../routes/departmentRoutes';
 import stageRoutes from '../routes/stageRoutes';
@@ -30,7 +31,7 @@ const app = express();
 
 
 app.use((req, res, next) => {
-    console.log(`📡 [${new Date().toISOString()}] ${req.method} ${req.url}`);
+    logger.http(`${req.method} ${req.url}`);
     next();
 });
 

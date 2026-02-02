@@ -5,13 +5,14 @@ import { NextFunction } from "express";
 import { calculateDistance } from "../utils/geofenceUtil";
 import { logFailedAttemptUtil } from "../utils/FailedAttemptUtill";
 import { Request, Response } from "express";
+import logger from "../utils/logger";
 
 
 export const checkGeofence = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
         // ✅ Skip geofence check for teachers and admins - only check students
         if (req.user?.role === "teacher" || req.user?.role === "admin") {
-            console.log(`[GEOFENCE] Skipping check for ${req.user.role}: ${req.user.email}`);
+            logger.info(`[GEOFENCE] Skipping check for ${req.user.role}: ${req.user.email}`);
             return next();
         }
 
@@ -59,7 +60,7 @@ export const checkGeofence = catchAsync(
             );
         }
 
-        console.log(`[GEOFENCE] Student verified inside bounds. Distance: ${distance.toFixed(2)}m`);
+        logger.info(`[GEOFENCE] Student verified inside bounds. Distance: ${distance.toFixed(2)}m`);
 
         // ✅ Inside the bounds - Continue
         next();

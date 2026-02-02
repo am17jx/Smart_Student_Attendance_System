@@ -1,13 +1,15 @@
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
+import logger from '../utils/logger';
 
 const prisma = new PrismaClient();
 
 async function main() {
-    console.log('🌱 Starting seed...');
+    logger.info('Starting seed...');
 
     // Clean existing data (optional - comment out if you want to keep existing data)
-    console.log('🧹 Cleaning existing data...');
+    // Clean existing data
+    logger.info('Cleaning existing data...');
     await prisma.failedAttempt.deleteMany();
     await prisma.attendanceRecord.deleteMany();
     await prisma.qRToken.deleteMany();
@@ -21,7 +23,8 @@ async function main() {
     await prisma.department.deleteMany();
 
     // 1. Create Departments
-    console.log('📚 Creating departments...');
+    // 1. Create Departments
+    logger.info('Creating departments...');
     const csDept = await prisma.department.create({
         data: { name: 'Computer Science' }
     });
@@ -31,7 +34,8 @@ async function main() {
     });
 
     // 2. Create Stages
-    console.log('🎓 Creating stages...');
+    // 2. Create Stages
+    logger.info('Creating stages...');
     const stage1 = await prisma.stage.create({
         data: { name: 'First Year', level: 1 }
     });
@@ -41,7 +45,8 @@ async function main() {
     });
 
     // 3. Create Admin
-    console.log('👨‍💼 Creating admin...');
+    // 3. Create Admin
+    logger.info('Creating admin...');
     const admin = await prisma.admin.create({
         data: {
             name: 'Admin User',
@@ -49,10 +54,11 @@ async function main() {
             password: await bcrypt.hash('admin123', 10)
         }
     });
-    console.log(`✅ Admin created: ${admin.email} / admin123`);
+    logger.info(`Admin created: ${admin.email} / admin123`);
 
     // 4. Create Teachers
-    console.log('👨‍🏫 Creating teachers...');
+    // 4. Create Teachers
+    logger.info('Creating teachers...');
     const teacher1 = await prisma.teacher.create({
         data: {
             name: 'Dr. Ahmed Ali',
@@ -61,7 +67,7 @@ async function main() {
             department_id: csDept.id
         }
     });
-    console.log(`✅ Teacher created: ${teacher1.email} / teacher123`);
+    logger.info(`Teacher created: ${teacher1.email} / teacher123`);
 
     const teacher2 = await prisma.teacher.create({
         data: {
@@ -71,10 +77,11 @@ async function main() {
             department_id: mathDept.id
         }
     });
-    console.log(`✅ Teacher created: ${teacher2.email} / teacher123`);
+    logger.info(`Teacher created: ${teacher2.email} / teacher123`);
 
     // 5. Create Students
-    console.log('👨‍🎓 Creating students...');
+    // 5. Create Students
+    logger.info('Creating students...');
     const student1 = await prisma.student.create({
         data: {
             student_id: 'CS2024001',
@@ -87,7 +94,7 @@ async function main() {
             stage_id: stage1.id
         }
     });
-    console.log(`✅ Student created: ${student1.email} / student123`);
+    logger.info(`Student created: ${student1.email} / student123`);
 
     const student2 = await prisma.student.create({
         data: {
@@ -101,7 +108,7 @@ async function main() {
             stage_id: stage1.id
         }
     });
-    console.log(`✅ Student created: ${student2.email} / student123`);
+    logger.info(`Student created: ${student2.email} / student123`);
 
     const student3 = await prisma.student.create({
         data: {
@@ -115,10 +122,11 @@ async function main() {
             stage_id: stage2.id
         }
     });
-    console.log(`✅ Student created (temp password): ${student3.email} / temppass`);
+    logger.info(`Student created (temp password): ${student3.email} / temppass`);
 
     // 6. Create Geofence (University boundaries)
-    console.log('🗺️ Creating geofence...');
+    // 6. Create Geofence (University boundaries)
+    logger.info('Creating geofence...');
     const geofence = await prisma.geofence.create({
         data: {
             name: 'University Campus',
@@ -127,10 +135,11 @@ async function main() {
             radius_meters: 500 // 500 meters radius
         }
     });
-    console.log(`✅ Geofence created: ${geofence.name} (${geofence.radius_meters}m radius)`);
+    logger.info(`Geofence created: ${geofence.name} (${geofence.radius_meters}m radius)`);
 
     // 7. Create Materials
-    console.log('📖 Creating materials...');
+    // 7. Creating Materials
+    logger.info('Creating materials...');
     const material1 = await prisma.material.create({
         data: {
             name: 'Data Structures',
@@ -154,10 +163,11 @@ async function main() {
             stage_id: stage1.id
         }
     });
-    console.log(`✅ Materials created: ${material1.name}, ${material2.name}, ${material3.name}`);
+    logger.info(`Materials created: ${material1.name}, ${material2.name}, ${material3.name}`);
 
     // 8. Create a Sample Session
-    console.log('📅 Creating sample session...');
+    // 8. Create a Sample Session
+    logger.info('Creating sample session...');
     const session = await prisma.session.create({
         data: {
             session_date: new Date(),
@@ -169,9 +179,9 @@ async function main() {
             geofence_id: geofence.id
         }
     });
-    console.log(`✅ Session created for ${material1.name}`);
+    logger.info(`Session created for ${material1.name}`);
 
-    console.log('\n✅ Seed completed successfully!\n');
+    logger.info('Seed completed successfully!');
     console.log('📋 Summary:');
     console.log('─────────────────────────────────────────');
     console.log('👨‍💼 Admin:');
@@ -194,7 +204,7 @@ async function main() {
 
 main()
     .catch((e) => {
-        console.error('❌ Error during seed:', e);
+        logger.error('Error during seed', e);
         process.exit(1);
     })
     .finally(async () => {
