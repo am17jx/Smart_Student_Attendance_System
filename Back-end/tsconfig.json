@@ -22,7 +22,8 @@
         "middleware/**/*",
         "utils/**/*",
         "prisma/**/*",
-        "types/**/*"
+        "types/**/*",
+        "./*.ts"
     ],
     "exclude": [
         "node_modules"

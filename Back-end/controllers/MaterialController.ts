@@ -3,6 +3,7 @@ import { prisma } from "../prisma/client";
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/AppError";
 import { getDepartmentFilter, validateDepartmentAccess } from "../utils/accessControl";
+import logger from "../utils/logger";
 
 export const createMaterial = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { name, departmentId, stageId, semester } = req.body;
@@ -307,7 +308,7 @@ export const getTeacherMaterials = catchAsync(async (req: Request, res: Response
         return next(new AppError('Teacher not found', 401));
     }
 
-    console.log('🔍 [getTeacherMaterials] Fetching materials for teacher:', teacher.id.toString());
+    logger.info('🔍 [getTeacherMaterials] Fetching materials for teacher:', teacher.id.toString());
 
     // Find all materials assigned to this teacher via TeacherMaterial junction table
     const materials = await prisma.material.findMany({
@@ -346,7 +347,7 @@ export const getTeacherMaterials = catchAsync(async (req: Request, res: Response
         teachersCount: (m as any)._count?.teacherMaterials || 0
     }));
 
-    console.log('✅ [getTeacherMaterials] Found', safeMaterials.length, 'materials');
+    logger.info('✅ [getTeacherMaterials] Found', safeMaterials.length, 'materials');
 
     res.status(200).json({
         status: "success",

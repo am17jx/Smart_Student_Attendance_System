@@ -1,0 +1,309 @@
+{"department_id":"NULL (Dean)","id":"264","level":"info","message":"🔍 [getAdminDashboard] Admin:","timestamp":"2026-02-01 23:02:06"}
+{"departments":4,"level":"info","materials":149,"message":"✅ [getAdminDashboard] Stats:","students":80,"teachers":5,"timestamp":"2026-02-01 23:02:06"}
+{"department_id":"NULL (Dean)","id":"264","level":"info","message":"🔍 [getAdminDashboard] Admin:","timestamp":"2026-02-01 23:06:26"}
+{"departments":4,"level":"info","materials":149,"message":"✅ [getAdminDashboard] Stats:","students":80,"teachers":5,"timestamp":"2026-02-01 23:06:26"}
+{"department_id":"NULL (Dean)","id":"264","level":"info","message":"🔍 [getAdminDashboard] Admin:","timestamp":"2026-02-01 23:16:13"}
+{"departments":4,"level":"info","materials":149,"message":"✅ [getAdminDashboard] Stats:","students":80,"teachers":5,"timestamp":"2026-02-01 23:16:13"}
+{"department_id":"NULL (Dean)","id":"264","level":"info","message":"🔍 [getAdminDashboard] Admin:","timestamp":"2026-02-01 23:16:30"}
+{"departments":4,"level":"info","materials":149,"message":"✅ [getAdminDashboard] Stats:","students":80,"teachers":5,"timestamp":"2026-02-01 23:16:30"}
+{"adminDeptId":"NULL/undefined","adminId":"264","level":"info","limit":100,"message":"🔍 [getAllStudents] Received request with params:","page":1,"search":"","skip":0,"timestamp":"2026-02-01 23:20:31"}
+{"level":"info","message":"🔍 [getAllStudents] Query where clause:","timestamp":"2026-02-01 23:20:31"}
+{"level":"info","message":"✅ [getAllStudents] Found 80 total students, returning 80 students","timestamp":"2026-02-01 23:20:31"}
+{"dept_id":"729","id":"237","level":"info","message":"📝 [getAllStudents] First student:","name":"Salma Ali","stage_id":"819","timestamp":"2026-02-01 23:20:31"}
+{"level":"info","message":"📤 [getAllStudents] Sending response with 80 students","timestamp":"2026-02-01 23:20:31"}
+{"adminDeptId":"NULL/undefined","adminId":"264","level":"info","limit":100,"message":"🔍 [getAllStudents] Received request with params:","page":1,"search":"ي","skip":0,"timestamp":"2026-02-01 23:20:44"}
+{"level":"info","message":"🔍 [getAllStudents] Query where clause:","timestamp":"2026-02-01 23:20:44"}
+{"level":"info","message":"✅ [getAllStudents] Found 0 total students, returning 0 students","timestamp":"2026-02-01 23:20:44"}
+{"level":"info","message":"📤 [getAllStudents] Sending response with 0 students","timestamp":"2026-02-01 23:20:44"}
+{"adminDeptId":"NULL/undefined","adminId":"264","level":"info","limit":100,"message":"🔍 [getAllStudents] Received request with params:","page":1,"search":"","skip":0,"timestamp":"2026-02-01 23:20:45"}
+{"level":"info","message":"🔍 [getAllStudents] Query where clause:","timestamp":"2026-02-01 23:20:45"}
+{"level":"info","message":"✅ [getAllStudents] Found 80 total students, returning 80 students","timestamp":"2026-02-01 23:20:45"}
+{"dept_id":"729","id":"237","level":"info","message":"📝 [getAllStudents] First student:","name":"Salma Ali","stage_id":"819","timestamp":"2026-02-01 23:20:45"}
+{"level":"info","message":"📤 [getAllStudents] Sending response with 80 students","timestamp":"2026-02-01 23:20:45"}
+{"adminDeptId":"NULL/undefined","adminId":"264","level":"info","limit":100,"message":"🔍 [getAllStudents] Received request with params:","page":1,"search":"d","skip":0,"timestamp":"2026-02-01 23:20:46"}
+{"level":"info","message":"🔍 [getAllStudents] Query where clause:","timestamp":"2026-02-01 23:20:46"}
+{"level":"info","message":"✅ [getAllStudents] Found 54 total students, returning 54 students","timestamp":"2026-02-01 23:20:46"}
+{"dept_id":"729","id":"237","level":"info","message":"📝 [getAllStudents] First student:","name":"Salma Ali","stage_id":"819","timestamp":"2026-02-01 23:20:46"}
+{"level":"info","message":"📤 [getAllStudents] Sending response with 54 students","timestamp":"2026-02-01 23:20:46"}
+{"adminDeptId":"NULL/undefined","adminId":"264","level":"info","limit":100,"message":"🔍 [getAllStudents] Received request with params:","page":1,"search":"di","skip":0,"timestamp":"2026-02-01 23:20:47"}
+{"level":"info","message":"🔍 [getAllStudents] Query where clause:","timestamp":"2026-02-01 23:20:47"}
+{"level":"info","message":"✅ [getAllStudents] Found 2 total students, returning 2 students","timestamp":"2026-02-01 23:20:47"}
+{"dept_id":"730","id":"257","level":"info","message":"📝 [getAllStudents] First student:","name":"Dina Nabil","stage_id":"819","timestamp":"2026-02-01 23:20:47"}
+{"level":"info","message":"📤 [getAllStudents] Sending response with 2 students","timestamp":"2026-02-01 23:20:47"}
+{"adminDeptId":"NULL/undefined","adminId":"264","level":"info","limit":100,"message":"🔍 [getAllStudents] Received request with params:","page":1,"search":"d","skip":0,"timestamp":"2026-02-01 23:20:47"}
+{"level":"info","message":"🔍 [getAllStudents] Query where clause:","timestamp":"2026-02-01 23:20:47"}
+{"level":"info","message":"✅ [getAllStudents] Found 54 total students, returning 54 students","timestamp":"2026-02-01 23:20:47"}
+{"dept_id":"729","id":"237","level":"info","message":"📝 [getAllStudents] First student:","name":"Salma Ali","stage_id":"819","timestamp":"2026-02-01 23:20:47"}
+{"level":"info","message":"📤 [getAllStudents] Sending response with 54 students","timestamp":"2026-02-01 23:20:47"}
+{"adminDeptId":"NULL/undefined","adminId":"264","level":"info","limit":100,"message":"🔍 [getAllStudents] Received request with params:","page":1,"search":"di","skip":0,"timestamp":"2026-02-01 23:20:52"}
+{"level":"info","message":"🔍 [getAllStudents] Query where clause:","timestamp":"2026-02-01 23:20:52"}
+{"level":"info","message":"✅ [getAllStudents] Found 2 total students, returning 2 students","timestamp":"2026-02-01 23:20:52"}
+{"dept_id":"730","id":"257","level":"info","message":"📝 [getAllStudents] First student:","name":"Dina Nabil","stage_id":"819","timestamp":"2026-02-01 23:20:52"}
+{"level":"info","message":"📤 [getAllStudents] Sending response with 2 students","timestamp":"2026-02-01 23:20:52"}
+{"adminDeptId":"NULL/undefined","adminId":"264","level":"info","limit":100,"message":"🔍 [getAllStudents] Received request with params:","page":1,"search":"din","skip":0,"timestamp":"2026-02-01 23:20:52"}
+{"level":"info","message":"🔍 [getAllStudents] Query where clause:","timestamp":"2026-02-01 23:20:52"}
+{"level":"info","message":"✅ [getAllStudents] Found 2 total students, returning 2 students","timestamp":"2026-02-01 23:20:52"}
+{"dept_id":"730","id":"257","level":"info","message":"📝 [getAllStudents] First student:","name":"Dina Nabil","stage_id":"819","timestamp":"2026-02-01 23:20:52"}
+{"level":"info","message":"📤 [getAllStudents] Sending response with 2 students","timestamp":"2026-02-01 23:20:52"}
+{"adminDeptId":"NULL/undefined","adminId":"264","level":"info","limit":100,"message":"🔍 [getAllStudents] Received request with params:","page":1,"search":"dina","skip":0,"timestamp":"2026-02-01 23:20:52"}
+{"level":"info","message":"🔍 [getAllStudents] Query where clause:","timestamp":"2026-02-01 23:20:52"}
+{"level":"info","message":"✅ [getAllStudents] Found 2 total students, returning 2 students","timestamp":"2026-02-01 23:20:52"}
+{"dept_id":"730","id":"257","level":"info","message":"📝 [getAllStudents] First student:","name":"Dina Nabil","stage_id":"819","timestamp":"2026-02-01 23:20:52"}
+{"level":"info","message":"📤 [getAllStudents] Sending response with 2 students","timestamp":"2026-02-01 23:20:52"}
+{"adminDeptId":"NULL/undefined","adminId":"264","level":"info","limit":100,"message":"🔍 [getAllStudents] Received request with params:","page":1,"search":"din","skip":0,"timestamp":"2026-02-01 23:20:53"}
+{"level":"info","message":"🔍 [getAllStudents] Query where clause:","timestamp":"2026-02-01 23:20:53"}
+{"level":"info","message":"✅ [getAllStudents] Found 2 total students, returning 2 students","timestamp":"2026-02-01 23:20:53"}
+{"dept_id":"730","id":"257","level":"info","message":"📝 [getAllStudents] First student:","name":"Dina Nabil","stage_id":"819","timestamp":"2026-02-01 23:20:53"}
+{"level":"info","message":"📤 [getAllStudents] Sending response with 2 students","timestamp":"2026-02-01 23:20:53"}
+{"adminDeptId":"NULL/undefined","adminId":"264","level":"info","limit":100,"message":"🔍 [getAllStudents] Received request with params:","page":1,"search":"di","skip":0,"timestamp":"2026-02-01 23:20:54"}
+{"level":"info","message":"🔍 [getAllStudents] Query where clause:","timestamp":"2026-02-01 23:20:54"}
+{"level":"info","message":"✅ [getAllStudents] Found 2 total students, returning 2 students","timestamp":"2026-02-01 23:20:54"}
+{"dept_id":"730","id":"257","level":"info","message":"📝 [getAllStudents] First student:","name":"Dina Nabil","stage_id":"819","timestamp":"2026-02-01 23:20:54"}
+{"level":"info","message":"📤 [getAllStudents] Sending response with 2 students","timestamp":"2026-02-01 23:20:54"}
+{"adminDeptId":"NULL/undefined","adminId":"264","level":"info","limit":100,"message":"🔍 [getAllStudents] Received request with params:","page":1,"search":"d","skip":0,"timestamp":"2026-02-01 23:20:54"}
+{"level":"info","message":"🔍 [getAllStudents] Query where clause:","timestamp":"2026-02-01 23:20:54"}
+{"level":"info","message":"✅ [getAllStudents] Found 54 total students, returning 54 students","timestamp":"2026-02-01 23:20:54"}
+{"dept_id":"729","id":"237","level":"info","message":"📝 [getAllStudents] First student:","name":"Salma Ali","stage_id":"819","timestamp":"2026-02-01 23:20:54"}
+{"level":"info","message":"📤 [getAllStudents] Sending response with 54 students","timestamp":"2026-02-01 23:20:54"}
+{"adminDeptId":"NULL/undefined","adminId":"264","level":"info","limit":100,"message":"🔍 [getAllStudents] Received request with params:","page":1,"search":"","skip":0,"timestamp":"2026-02-01 23:20:54"}
+{"level":"info","message":"🔍 [getAllStudents] Query where clause:","timestamp":"2026-02-01 23:20:54"}
+{"level":"info","message":"✅ [getAllStudents] Found 80 total students, returning 80 students","timestamp":"2026-02-01 23:20:54"}
+{"dept_id":"729","id":"237","level":"info","message":"📝 [getAllStudents] First student:","name":"Salma Ali","stage_id":"819","timestamp":"2026-02-01 23:20:54"}
+{"level":"info","message":"📤 [getAllStudents] Sending response with 80 students","timestamp":"2026-02-01 23:20:54"}
+{"adminDeptId":"NULL/undefined","adminId":"264","level":"info","limit":100,"message":"🔍 [getAllStudents] Received request with params:","page":1,"search":"D","skip":0,"timestamp":"2026-02-01 23:21:00"}
+{"level":"info","message":"🔍 [getAllStudents] Query where clause:","timestamp":"2026-02-01 23:21:00"}
+{"level":"info","message":"✅ [getAllStudents] Found 2 total students, returning 2 students","timestamp":"2026-02-01 23:21:00"}
+{"dept_id":"730","id":"257","level":"info","message":"📝 [getAllStudents] First student:","name":"Dina Nabil","stage_id":"819","timestamp":"2026-02-01 23:21:00"}
+{"level":"info","message":"📤 [getAllStudents] Sending response with 2 students","timestamp":"2026-02-01 23:21:00"}
+{"adminDeptId":"NULL/undefined","adminId":"264","level":"info","limit":100,"message":"🔍 [getAllStudents] Received request with params:","page":1,"search":"Di","skip":0,"timestamp":"2026-02-01 23:21:01"}
+{"level":"info","message":"🔍 [getAllStudents] Query where clause:","timestamp":"2026-02-01 23:21:01"}
+{"level":"info","message":"✅ [getAllStudents] Found 2 total students, returning 2 students","timestamp":"2026-02-01 23:21:01"}
+{"dept_id":"730","id":"257","level":"info","message":"📝 [getAllStudents] First student:","name":"Dina Nabil","stage_id":"819","timestamp":"2026-02-01 23:21:01"}
+{"level":"info","message":"📤 [getAllStudents] Sending response with 2 students","timestamp":"2026-02-01 23:21:01"}
+{"adminDeptId":"NULL/undefined","adminId":"264","level":"info","limit":100,"message":"🔍 [getAllStudents] Received request with params:","page":1,"search":"Din","skip":0,"timestamp":"2026-02-01 23:21:01"}
+{"level":"info","message":"🔍 [getAllStudents] Query where clause:","timestamp":"2026-02-01 23:21:01"}
+{"level":"info","message":"✅ [getAllStudents] Found 2 total students, returning 2 students","timestamp":"2026-02-01 23:21:01"}
+{"dept_id":"730","id":"257","level":"info","message":"📝 [getAllStudents] First student:","name":"Dina Nabil","stage_id":"819","timestamp":"2026-02-01 23:21:01"}
+{"level":"info","message":"📤 [getAllStudents] Sending response with 2 students","timestamp":"2026-02-01 23:21:01"}
+{"adminDeptId":"NULL/undefined","adminId":"264","level":"info","limit":100,"message":"🔍 [getAllStudents] Received request with params:","page":1,"search":"Dina","skip":0,"timestamp":"2026-02-01 23:21:01"}
+{"level":"info","message":"🔍 [getAllStudents] Query where clause:","timestamp":"2026-02-01 23:21:01"}
+{"level":"info","message":"✅ [getAllStudents] Found 2 total students, returning 2 students","timestamp":"2026-02-01 23:21:01"}
+{"dept_id":"730","id":"257","level":"info","message":"📝 [getAllStudents] First student:","name":"Dina Nabil","stage_id":"819","timestamp":"2026-02-01 23:21:01"}
+{"level":"info","message":"📤 [getAllStudents] Sending response with 2 students","timestamp":"2026-02-01 23:21:01"}
+{"adminDeptId":"NULL/undefined","adminId":"264","level":"info","limit":100,"message":"🔍 [getAllStudents] Received request with params:","page":1,"search":"Dina","skip":0,"timestamp":"2026-02-01 23:21:25"}
+{"level":"info","message":"🔍 [getAllStudents] Query where clause:","timestamp":"2026-02-01 23:21:25"}
+{"level":"info","message":"✅ [getAllStudents] Found 2 total students, returning 2 students","timestamp":"2026-02-01 23:21:25"}
+{"dept_id":"730","id":"257","level":"info","message":"📝 [getAllStudents] First student:","name":"Dina Nabil","stage_id":"819","timestamp":"2026-02-01 23:21:25"}
+{"level":"info","message":"📤 [getAllStudents] Sending response with 2 students","timestamp":"2026-02-01 23:21:25"}
+{"adminDeptId":"NULL/undefined","adminId":"264","level":"info","limit":100,"message":"🔍 [getAllStudents] Received request with params:","page":1,"search":"","skip":0,"timestamp":"2026-02-01 23:21:34"}
+{"level":"info","message":"🔍 [getAllStudents] Query where clause:","timestamp":"2026-02-01 23:21:34"}
+{"level":"info","message":"✅ [getAllStudents] Found 80 total students, returning 80 students","timestamp":"2026-02-01 23:21:34"}
+{"dept_id":"729","id":"237","level":"info","message":"📝 [getAllStudents] First student:","name":"Salma Ali","stage_id":"819","timestamp":"2026-02-01 23:21:34"}
+{"level":"info","message":"📤 [getAllStudents] Sending response with 80 students","timestamp":"2026-02-01 23:21:34"}
+{"department_id":"NULL (Dean)","id":"264","level":"info","message":"🔍 [getAdminDashboard] Admin:","timestamp":"2026-02-01 23:36:57"}
+{"departments":4,"level":"info","materials":149,"message":"✅ [getAdminDashboard] Stats:","students":80,"teachers":5,"timestamp":"2026-02-01 23:36:57"}
+{"department_id":"NULL (Dean)","id":"264","level":"info","message":"🔍 [getAdminDashboard] Admin:","timestamp":"2026-02-01 23:37:20"}
+{"departments":4,"level":"info","materials":149,"message":"✅ [getAdminDashboard] Stats:","students":80,"teachers":5,"timestamp":"2026-02-01 23:37:20"}
+{"department_id":"NULL (Dean)","id":"264","level":"info","message":"🔍 [getAdminDashboard] Admin:","timestamp":"2026-02-01 23:43:47"}
+{"departments":4,"level":"info","materials":149,"message":"✅ [getAdminDashboard] Stats:","students":80,"teachers":5,"timestamp":"2026-02-01 23:43:47"}
+{"department_id":"NULL (Dean)","id":"264","level":"info","message":"🔍 [getAdminDashboard] Admin:","timestamp":"2026-02-01 23:43:50"}
+{"departments":4,"level":"info","materials":149,"message":"✅ [getAdminDashboard] Stats:","students":80,"teachers":5,"timestamp":"2026-02-01 23:43:50"}
+{"department_id":"NULL (Dean)","id":"264","level":"info","message":"🔍 [getAdminDashboard] Admin:","timestamp":"2026-02-01 23:43:55"}
+{"departments":4,"level":"info","materials":149,"message":"✅ [getAdminDashboard] Stats:","students":80,"teachers":5,"timestamp":"2026-02-01 23:43:55"}
+{"level":"info","message":"🔍 Getting attendance for session:","timestamp":"2026-02-01 23:50:58"}
+{"level":"info","message":"📊 Found","timestamp":"2026-02-01 23:50:58"}
+{"level":"info","message":"✅ Sending serialized records:","timestamp":"2026-02-01 23:50:58"}
+{"level":"info","message":"🔍 Getting attendance for session:","timestamp":"2026-02-01 23:53:28"}
+{"level":"info","message":"📊 Found","timestamp":"2026-02-01 23:53:28"}
+{"level":"info","message":"✅ Sending serialized records:","timestamp":"2026-02-01 23:53:28"}
+{"level":"info","message":"🔍 Getting attendance for session:","timestamp":"2026-02-01 23:53:33"}
+{"level":"info","message":"📊 Found","timestamp":"2026-02-01 23:53:33"}
+{"level":"info","message":"✅ Sending serialized records:","timestamp":"2026-02-01 23:53:33"}
+{"level":"info","message":"🔍 Getting attendance for session:","timestamp":"2026-02-01 23:53:38"}
+{"level":"info","message":"📊 Found","timestamp":"2026-02-01 23:53:38"}
+{"level":"info","message":"✅ Sending serialized records:","timestamp":"2026-02-01 23:53:38"}
+{"level":"info","message":"🔍 Getting attendance for session:","timestamp":"2026-02-01 23:57:26"}
+{"level":"info","message":"📊 Found","timestamp":"2026-02-01 23:57:26"}
+{"level":"info","message":"✅ Sending serialized records:","timestamp":"2026-02-01 23:57:26"}
+{"level":"info","message":"🔍 [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-02 00:21:32"}
+{"level":"info","message":"✅ [getTeacherMaterials] Found","timestamp":"2026-02-02 00:21:32"}
+{"level":"info","message":"🔍 [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-02 00:21:57"}
+{"level":"info","message":"✅ [getTeacherMaterials] Found","timestamp":"2026-02-02 00:21:57"}
+{"level":"info","message":"📊 Ending Session 223: Found 5 absent students to mark.","timestamp":"2026-02-02 00:22:51"}
+{"level":"info","message":"📧 Absence warning email sent: ABSENCE_FAIL to rania.kamel.80ec77@gmail.com","timestamp":"2026-02-02 00:22:53"}
+{"level":"info","message":"✅ Absence warning created: ABSENCE_FAIL for student Rania Kamel in Advanced Networking","timestamp":"2026-02-02 00:22:53"}
+{"level":"info","message":"📧 Absence warning email sent: ABSENCE_FAIL to fatima.salem.d9758c@gmail.com","timestamp":"2026-02-02 00:22:53"}
+{"level":"info","message":"✅ Absence warning created: ABSENCE_FAIL for student Fatima Salem in Advanced Networking","timestamp":"2026-02-02 00:22:53"}
+{"level":"info","message":"📧 Absence warning email sent: ABSENCE_FAIL to rania.nabil.a3d228@gmail.com","timestamp":"2026-02-02 00:22:54"}
+{"level":"info","message":"✅ Absence warning created: ABSENCE_FAIL for student Rania Nabil in Advanced Networking","timestamp":"2026-02-02 00:22:54"}
+{"level":"info","message":"📧 Absence warning email sent: ABSENCE_FAIL to ali.ezzat.a94933@gmail.com","timestamp":"2026-02-02 00:22:54"}
+{"level":"info","message":"✅ Absence warning created: ABSENCE_FAIL for student Ali Ezzat in Advanced Networking","timestamp":"2026-02-02 00:22:54"}
+{"level":"info","message":"📧 Absence warning email sent: ABSENCE_FAIL to hoda.yasser.5a8e76@gmail.com","timestamp":"2026-02-02 00:22:54"}
+{"level":"info","message":"✅ Absence warning created: ABSENCE_FAIL for student Hoda Yasser in Advanced Networking","timestamp":"2026-02-02 00:22:54"}
+{"level":"info","message":"🔍 [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-02 00:23:26"}
+{"level":"info","message":"✅ [getTeacherMaterials] Found","timestamp":"2026-02-02 00:23:26"}
+{"level":"info","message":"🔍 [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-02 00:26:21"}
+{"level":"info","message":"✅ [getTeacherMaterials] Found","timestamp":"2026-02-02 00:26:21"}
+{"level":"info","message":"🔍 [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-02 00:28:22"}
+{"level":"info","message":"✅ [getTeacherMaterials] Found","timestamp":"2026-02-02 00:28:22"}
+{"level":"info","message":"📊 Ending Session 224: Found 5 absent students to mark.","timestamp":"2026-02-02 00:28:41"}
+{"level":"info","message":"🔍 [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-02 00:28:48"}
+{"level":"info","message":"✅ [getTeacherMaterials] Found","timestamp":"2026-02-02 00:28:48"}
+{"level":"info","message":"🔍 Getting attendance for session:","timestamp":"2026-02-02 00:28:52"}
+{"level":"info","message":"📊 Found","timestamp":"2026-02-02 00:28:52"}
+{"level":"info","message":"✅ Sending serialized records:","timestamp":"2026-02-02 00:28:52"}
+{"level":"info","message":"🔍 Getting attendance for session:","timestamp":"2026-02-02 00:28:57"}
+{"level":"info","message":"📊 Found","timestamp":"2026-02-02 00:28:57"}
+{"level":"info","message":"✅ Sending serialized records:","timestamp":"2026-02-02 00:28:57"}
+{"level":"info","message":"🔍 Getting attendance for session:","timestamp":"2026-02-02 00:29:02"}
+{"level":"info","message":"📊 Found","timestamp":"2026-02-02 00:29:02"}
+{"level":"info","message":"✅ Sending serialized records:","timestamp":"2026-02-02 00:29:02"}
+{"level":"info","message":"🔍 Getting attendance for session:","timestamp":"2026-02-02 00:29:05"}
+{"level":"info","message":"📊 Found","timestamp":"2026-02-02 00:29:05"}
+{"level":"info","message":"✅ Sending serialized records:","timestamp":"2026-02-02 00:29:05"}
+{"level":"info","message":"🔍 Getting attendance for session:","timestamp":"2026-02-02 00:29:11"}
+{"level":"info","message":"📊 Found","timestamp":"2026-02-02 00:29:11"}
+{"level":"info","message":"✅ Sending serialized records:","timestamp":"2026-02-02 00:29:11"}
+{"level":"info","message":"🔍 Getting attendance for session:","timestamp":"2026-02-02 10:06:29"}
+{"level":"info","message":"📊 Found","timestamp":"2026-02-02 10:06:29"}
+{"level":"info","message":"✅ Sending serialized records:","timestamp":"2026-02-02 10:06:29"}
+{"level":"info","message":"🔍 Getting attendance for session:","timestamp":"2026-02-02 10:06:30"}
+{"level":"info","message":"📊 Found","timestamp":"2026-02-02 10:06:30"}
+{"level":"info","message":"✅ Sending serialized records:","timestamp":"2026-02-02 10:06:30"}
+{"level":"info","message":"🔍 [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-02 10:06:35"}
+{"level":"info","message":"✅ [getTeacherMaterials] Found","timestamp":"2026-02-02 10:06:35"}
+{"level":"info","message":"🔍 [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-02 10:07:45"}
+{"level":"info","message":"✅ [getTeacherMaterials] Found","timestamp":"2026-02-02 10:07:45"}
+{"level":"info","message":"📊 Ending Session 225: Found 5 absent students to mark.","timestamp":"2026-02-02 10:07:54"}
+{"level":"info","message":"🔍 [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-02 10:11:16"}
+{"level":"info","message":"✅ [getTeacherMaterials] Found","timestamp":"2026-02-02 10:11:16"}
+{"level":"info","message":"🔍 [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-02 10:11:37"}
+{"level":"info","message":"✅ [getTeacherMaterials] Found","timestamp":"2026-02-02 10:11:37"}
+{"level":"info","message":"🔍 [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-02 10:11:39"}
+{"level":"info","message":"✅ [getTeacherMaterials] Found","timestamp":"2026-02-02 10:11:39"}
+{"level":"info","message":"📊 Ending Session 226: Found 5 absent students to mark.","timestamp":"2026-02-02 10:12:02"}
+{"level":"info","message":"🔍 [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-02 10:12:12"}
+{"level":"info","message":"✅ [getTeacherMaterials] Found","timestamp":"2026-02-02 10:12:12"}
+{"level":"info","message":"📊 Ending Session 227: Found 5 absent students to mark.","timestamp":"2026-02-02 10:12:33"}
+{"level":"info","message":"🔍 [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-02 10:16:20"}
+{"level":"info","message":"✅ [getTeacherMaterials] Found","timestamp":"2026-02-02 10:16:20"}
+{"level":"info","message":"📊 Ending Session 228: Found 5 absent students to mark.","timestamp":"2026-02-02 10:16:43"}
+{"level":"info","message":"🔍 [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-02 10:16:53"}
+{"level":"info","message":"✅ [getTeacherMaterials] Found","timestamp":"2026-02-02 10:16:53"}
+{"level":"info","message":"👥 [getMyStudents] Fetching students for teacher:","timestamp":"2026-02-02 10:16:56"}
+{"level":"info","message":"📚 [getMyStudents] Teacher has","timestamp":"2026-02-02 10:16:56"}
+{"level":"info","message":"🔍 [getMyStudents] Unique dept/stage combinations:","timestamp":"2026-02-02 10:16:56"}
+{"level":"info","message":"🔍 [getMyStudents] OR conditions:","timestamp":"2026-02-02 10:16:56"}
+{"level":"info","message":"✅ [getMyStudents] Found","timestamp":"2026-02-02 10:16:56"}
+{"level":"info","message":"Sample student:","timestamp":"2026-02-02 10:16:56"}
+{"level":"info","message":"✅ Login notification sent to ali.ezzat.a94933@gmail.com","timestamp":"2026-02-02 10:17:54"}
+{"level":"info","message":"👥 [getMyStudents] Fetching students for teacher:","timestamp":"2026-02-02 10:18:03"}
+{"level":"info","message":"📚 [getMyStudents] Teacher has","timestamp":"2026-02-02 10:18:03"}
+{"level":"info","message":"🔍 [getMyStudents] Unique dept/stage combinations:","timestamp":"2026-02-02 10:18:03"}
+{"level":"info","message":"🔍 [getMyStudents] OR conditions:","timestamp":"2026-02-02 10:18:03"}
+{"level":"info","message":"✅ [getMyStudents] Found","timestamp":"2026-02-02 10:18:03"}
+{"level":"info","message":"Sample student:","timestamp":"2026-02-02 10:18:03"}
+{"level":"info","message":"🔍 [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-02 10:18:07"}
+{"level":"info","message":"✅ [getTeacherMaterials] Found","timestamp":"2026-02-02 10:18:07"}
+{"hasId":true,"hasLocation":true,"hasToken":true,"level":"info","message":"🔍 [scanQrAndAttend] Request received:","studentId":"275","timestamp":"2026-02-02 10:18:19","tokenId":"104"}
+{"expiresAt":"2026-02-02T07:19:48.254Z","level":"info","message":"✅ [scanQrAndAttend] QR Token found:","now":"2026-02-02T07:18:19.061Z","sessionId":"229","timestamp":"2026-02-02 10:18:19","tokenId":"104","usedAt":null}
+{"allowed":50,"distance":30,"level":"info","message":"📍 [scanQrAndAttend] Geofence check:","timestamp":"2026-02-02 10:18:19"}
+{"expectedHashPrefix":"cac3a578a2...","level":"info","match":true,"message":"🔐 [scanQrAndAttend] Hash validation:","storedHashPrefix":"cac3a578a2...","timestamp":"2026-02-02 10:18:19"}
+{"level":"info","message":"✅ Attendance recorded: Student 275 in Session 229","timestamp":"2026-02-02 10:18:19"}
+{"level":"info","message":"📊 Ending Session 229: Found 4 absent students to mark.","timestamp":"2026-02-02 10:18:22"}
+{"level":"info","message":"🔍 Getting attendance for session:","timestamp":"2026-02-02 10:25:38"}
+{"level":"info","message":"📊 Found","timestamp":"2026-02-02 10:25:38"}
+{"level":"info","message":"✅ Sending serialized records:","timestamp":"2026-02-02 10:25:38"}
+{"level":"info","message":"🔍 Getting attendance for session:","timestamp":"2026-02-02 10:25:49"}
+{"level":"info","message":"📊 Found","timestamp":"2026-02-02 10:25:49"}
+{"level":"info","message":"✅ Sending serialized records:","timestamp":"2026-02-02 10:25:49"}
+{"level":"info","message":"🔍 Getting attendance for session:","timestamp":"2026-02-02 10:28:13"}
+{"level":"info","message":"📊 Found","timestamp":"2026-02-02 10:28:14"}
+{"level":"info","message":"✅ Sending serialized records:","timestamp":"2026-02-02 10:28:14"}
+{"level":"info","message":"🔍 Getting attendance for session:","timestamp":"2026-02-02 10:28:19"}
+{"level":"info","message":"📊 Found","timestamp":"2026-02-02 10:28:19"}
+{"level":"info","message":"✅ Sending serialized records:","timestamp":"2026-02-02 10:28:19"}
+{"level":"info","message":"🔍 [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-02 10:28:30"}
+{"level":"info","message":"✅ [getTeacherMaterials] Found","timestamp":"2026-02-02 10:28:30"}
+{"level":"info","message":"🔍 [getStudentDashboard] Fetching dashboard for student:","studentId":"275","timestamp":"2026-02-02 10:28:38"}
+{"attendedCount":1,"level":"info","message":"✅ [getStudentDashboard] Dashboard data prepared:","percentage":"7.14","status":"danger","studentId":"275","timestamp":"2026-02-02 10:28:38","totalSessions":14}
+{"level":"info","message":"🔍 [getStudentDashboard] Fetching dashboard for student:","studentId":"275","timestamp":"2026-02-02 10:28:42"}
+{"attendedCount":1,"level":"info","message":"✅ [getStudentDashboard] Dashboard data prepared:","percentage":"7.14","status":"danger","studentId":"275","timestamp":"2026-02-02 10:28:42","totalSessions":14}
+{"hasId":true,"hasLocation":true,"hasToken":true,"level":"info","message":"🔍 [scanQrAndAttend] Request received:","studentId":"275","timestamp":"2026-02-02 10:29:02","tokenId":"105"}
+{"expiresAt":"2026-02-02T07:30:31.886Z","level":"info","message":"✅ [scanQrAndAttend] QR Token found:","now":"2026-02-02T07:29:02.807Z","sessionId":"230","timestamp":"2026-02-02 10:29:02","tokenId":"105","usedAt":null}
+{"allowed":50,"distance":12213829,"level":"info","message":"📍 [scanQrAndAttend] Geofence check:","timestamp":"2026-02-02 10:29:02"}
+{"level":"warn","message":"❌ [scanQrAndAttend] Geofence validation failed","timestamp":"2026-02-02 10:29:02"}
+{"level":"info","message":"📊 Ending Session 230: Found 5 absent students to mark.","timestamp":"2026-02-02 10:29:14"}
+{"level":"info","message":"🔍 Getting attendance for session:","timestamp":"2026-02-02 10:29:18"}
+{"level":"info","message":"📊 Found","timestamp":"2026-02-02 10:29:18"}
+{"level":"info","message":"✅ Sending serialized records:","timestamp":"2026-02-02 10:29:18"}
+{"level":"info","message":"🔍 Getting attendance for session:","timestamp":"2026-02-02 10:29:23"}
+{"level":"info","message":"📊 Found","timestamp":"2026-02-02 10:29:23"}
+{"level":"info","message":"✅ Sending serialized records:","timestamp":"2026-02-02 10:29:23"}
+{"level":"info","message":"🔍 Getting attendance for session:","timestamp":"2026-02-02 10:31:44"}
+{"level":"info","message":"📊 Found","timestamp":"2026-02-02 10:31:44"}
+{"level":"info","message":"✅ Sending serialized records:","timestamp":"2026-02-02 10:31:44"}
+{"level":"info","message":"🔍 Getting attendance for session:","timestamp":"2026-02-02 10:32:07"}
+{"level":"info","message":"📊 Found","timestamp":"2026-02-02 10:32:07"}
+{"level":"info","message":"✅ Sending serialized records:","timestamp":"2026-02-02 10:32:07"}
+{"level":"info","message":"🔍 Getting attendance for session:","timestamp":"2026-02-02 10:34:32"}
+{"level":"info","message":"📊 Found","timestamp":"2026-02-02 10:34:32"}
+{"level":"info","message":"✅ Sending serialized records:","timestamp":"2026-02-02 10:34:32"}
+{"level":"info","message":"🔍 Getting attendance for session:","timestamp":"2026-02-02 10:34:35"}
+{"level":"info","message":"📊 Found","timestamp":"2026-02-02 10:34:35"}
+{"level":"info","message":"✅ Sending serialized records:","timestamp":"2026-02-02 10:34:35"}
+{"level":"info","message":"🔍 [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-02 10:34:39"}
+{"level":"info","message":"✅ [getTeacherMaterials] Found","timestamp":"2026-02-02 10:34:39"}
+{"level":"info","message":"👥 [getMyStudents] Fetching students for teacher:","timestamp":"2026-02-02 10:34:40"}
+{"level":"info","message":"📚 [getMyStudents] Teacher has","timestamp":"2026-02-02 10:34:40"}
+{"level":"info","message":"🔍 [getMyStudents] Unique dept/stage combinations:","timestamp":"2026-02-02 10:34:40"}
+{"level":"info","message":"🔍 [getMyStudents] OR conditions:","timestamp":"2026-02-02 10:34:40"}
+{"level":"info","message":"✅ [getMyStudents] Found","timestamp":"2026-02-02 10:34:40"}
+{"level":"info","message":"Sample student:","timestamp":"2026-02-02 10:34:40"}
+{"level":"info","message":"🔍 [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-02 10:41:42"}
+{"level":"info","message":"✅ [getTeacherMaterials] Found","timestamp":"2026-02-02 10:41:42"}
+{"hasId":true,"hasLocation":true,"hasToken":true,"level":"info","message":"🔍 [scanQrAndAttend] Request received:","studentId":"275","timestamp":"2026-02-02 10:41:55","tokenId":"106"}
+{"expiresAt":"2026-02-02T07:43:23.942Z","level":"info","message":"✅ [scanQrAndAttend] QR Token found:","now":"2026-02-02T07:41:55.638Z","sessionId":"231","timestamp":"2026-02-02 10:41:55","tokenId":"106","usedAt":null}
+{"allowed":50,"distance":26,"level":"info","message":"📍 [scanQrAndAttend] Geofence check:","timestamp":"2026-02-02 10:41:55"}
+{"expectedHashPrefix":"a4fce79e1c...","level":"info","match":true,"message":"🔐 [scanQrAndAttend] Hash validation:","storedHashPrefix":"a4fce79e1c...","timestamp":"2026-02-02 10:41:55"}
+{"level":"info","materialDept":"730","materialName":"Advanced Networking","materialStage":"822","message":"👤 [scanQrAndAttend] Student authorization check:","studentDept":"730","studentId":"275","studentStage":"822","timestamp":"2026-02-02 10:41:55"}
+{"level":"info","message":"✅ Attendance recorded: Student 275 in Session 231","timestamp":"2026-02-02 10:41:55"}
+{"level":"info","message":"📊 Ending Session 231: Found 4 absent students to mark.","timestamp":"2026-02-02 10:42:01"}
+{"level":"info","message":"🔍 Getting attendance for session:","timestamp":"2026-02-02 10:42:06"}
+{"level":"info","message":"📊 Found","timestamp":"2026-02-02 10:42:06"}
+{"level":"info","message":"✅ Sending serialized records:","timestamp":"2026-02-02 10:42:06"}
+{"level":"info","message":"🔍 Getting attendance for session:","timestamp":"2026-02-02 10:42:11"}
+{"level":"info","message":"📊 Found","timestamp":"2026-02-02 10:42:11"}
+{"level":"info","message":"✅ Sending serialized records:","timestamp":"2026-02-02 10:42:11"}
+{"level":"info","message":"🔍 Getting attendance for session:","timestamp":"2026-02-02 10:43:35"}
+{"level":"info","message":"📊 Found","timestamp":"2026-02-02 10:43:35"}
+{"level":"info","message":"✅ Sending serialized records:","timestamp":"2026-02-02 10:43:35"}
+{"level":"info","message":"🔍 Getting attendance for session:","timestamp":"2026-02-02 10:43:40"}
+{"level":"info","message":"📊 Found","timestamp":"2026-02-02 10:43:40"}
+{"level":"info","message":"✅ Sending serialized records:","timestamp":"2026-02-02 10:43:40"}
+{"level":"info","message":"🔍 Getting attendance for session:","timestamp":"2026-02-02 10:43:45"}
+{"level":"info","message":"📊 Found","timestamp":"2026-02-02 10:43:45"}
+{"level":"info","message":"✅ Sending serialized records:","timestamp":"2026-02-02 10:43:45"}
+{"level":"info","message":"🔍 Getting attendance for session:","timestamp":"2026-02-02 11:00:42"}
+{"level":"info","message":"📊 Found","timestamp":"2026-02-02 11:00:42"}
+{"level":"info","message":"✅ Sending serialized records:","timestamp":"2026-02-02 11:00:42"}
+{"level":"info","message":"🔍 Getting attendance for session:","timestamp":"2026-02-02 11:00:47"}
+{"level":"info","message":"📊 Found","timestamp":"2026-02-02 11:00:47"}
+{"level":"info","message":"✅ Sending serialized records:","timestamp":"2026-02-02 11:00:47"}
+{"level":"info","message":"🔍 Getting attendance for session:","timestamp":"2026-02-02 11:00:53"}
+{"level":"info","message":"📊 Found","timestamp":"2026-02-02 11:00:53"}
+{"level":"info","message":"✅ Sending serialized records:","timestamp":"2026-02-02 11:00:53"}
+{"level":"info","message":"👥 [getMyStudents] Fetching students for teacher:","timestamp":"2026-02-02 11:01:16"}
+{"level":"info","message":"📚 [getMyStudents] Teacher has","timestamp":"2026-02-02 11:01:16"}
+{"level":"info","message":"🔍 [getMyStudents] Unique dept/stage combinations:","timestamp":"2026-02-02 11:01:16"}
+{"level":"info","message":"🔍 [getMyStudents] OR conditions:","timestamp":"2026-02-02 11:01:16"}
+{"level":"info","message":"✅ [getMyStudents] Found","timestamp":"2026-02-02 11:01:16"}
+{"level":"info","message":"Sample student:","timestamp":"2026-02-02 11:01:16"}
+{"level":"info","message":"🔍 [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-02 11:01:23"}
+{"level":"info","message":"✅ [getTeacherMaterials] Found","timestamp":"2026-02-02 11:01:23"}
+{"level":"info","message":"🔍 [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-02 11:01:53"}
+{"level":"info","message":"✅ [getTeacherMaterials] Found","timestamp":"2026-02-02 11:01:53"}
+{"level":"info","message":"👥 [getMyStudents] Fetching students for teacher:","timestamp":"2026-02-02 11:01:54"}
+{"level":"info","message":"📚 [getMyStudents] Teacher has","timestamp":"2026-02-02 11:01:54"}
+{"level":"info","message":"🔍 [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-02 11:01:55"}
+{"level":"info","message":"✅ [getTeacherMaterials] Found","timestamp":"2026-02-02 11:01:55"}

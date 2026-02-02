@@ -4,12 +4,13 @@ import bcrypt from "bcryptjs";
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/AppError";
 import { getDepartmentFilter } from "../utils/accessControl";
+import logger from "../utils/logger";
 
 export const createTeacher = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { name, email, password, departmentId, materialIds } = req.body;
     const admin = (req as any).user;
 
-    console.log('🔍 [createTeacher] Request:', {
+    logger.info('🔍 [createTeacher] Request:', {
         admin_id: admin.id?.toString(),
         admin_dept: admin.department_id?.toString(),
         requested_dept: departmentId
@@ -27,11 +28,11 @@ export const createTeacher = catchAsync(async (req: Request, res: Response, next
             throw new AppError('Department Heads can only create teachers in their own department', 403);
         }
 
-        console.log('✅ [createTeacher] Department Head - auto-assigned to dept:', admin.department_id.toString());
+        logger.info('✅ [createTeacher] Department Head - auto-assigned to dept:', admin.department_id.toString());
     } else {
         // Dean: can create teacher in any department
         finalDepartmentId = departmentId ? BigInt(departmentId) : null;
-        console.log('✅ [createTeacher] Dean - assigned to dept:', finalDepartmentId?.toString() || 'NULL');
+        logger.info('✅ [createTeacher] Dean - assigned to dept:', finalDepartmentId?.toString() || 'NULL');
     }
 
     const existingTeacher = await prisma.teacher.findUnique({
@@ -189,7 +190,7 @@ export const getMyStudents = catchAsync(async (req: Request, res: Response, next
         return next(new AppError('Teacher not found', 404));
     }
 
-    console.log('👥 [getMyStudents] Fetching students for teacher:', teacher.id.toString());
+    logger.info('👥 [getMyStudents] Fetching students for teacher:', teacher.id.toString());
 
     // 1. Get teacher's assigned materials with dept/stage info
     const teacherMaterials = await prisma.teacherMaterial.findMany({
@@ -220,7 +221,7 @@ export const getMyStudents = catchAsync(async (req: Request, res: Response, next
         }
     });
 
-    console.log('📚 [getMyStudents] Teacher has', teacherMaterials.length, 'materials');
+    logger.info('📚 [getMyStudents] Teacher has', teacherMaterials.length, 'materials');
 
     if (teacherMaterials.length === 0) {
         return res.status(200).json({
@@ -246,7 +247,7 @@ export const getMyStudents = catchAsync(async (req: Request, res: Response, next
         }
     });
 
-    console.log('🔍 [getMyStudents] Unique dept/stage combinations:', deptStageCombinations.size);
+    logger.info('🔍 [getMyStudents] Unique dept/stage combinations:', deptStageCombinations.size);
 
     // 3. Fetch all students matching these dept/stage combinations
     const orConditions = Array.from(deptStageCombinations.values()).map(combo => ({
@@ -254,7 +255,7 @@ export const getMyStudents = catchAsync(async (req: Request, res: Response, next
         stage_id: combo.stage_id
     }));
 
-    console.log('🔍 [getMyStudents] OR conditions:', JSON.stringify(orConditions, (key, value) =>
+    logger.info('🔍 [getMyStudents] OR conditions:', JSON.stringify(orConditions, (key, value) =>
         typeof value === 'bigint' ? value.toString() : value
     ));
 
@@ -287,9 +288,9 @@ export const getMyStudents = catchAsync(async (req: Request, res: Response, next
         ]
     });
 
-    console.log('✅ [getMyStudents] Found', students.length, 'students');
+    logger.info('✅ [getMyStudents] Found', students.length, 'students');
     if (students.length > 0) {
-        console.log('Sample student:', students[0].name, 'Dept:', students[0].department?.name);
+        logger.info('Sample student:', students[0].name, 'Dept:', students[0].department?.name);
     }
 
     // 4. Serialize response
