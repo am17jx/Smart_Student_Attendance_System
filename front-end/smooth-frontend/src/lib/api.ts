@@ -209,17 +209,13 @@ async function apiBlobRequest(
   };
 
   try {
-    console.log('🔍 [API] Requesting Blob from:', endpoint);
+
     const response = await fetch(`${API_BASE_URL}${endpoint}`, {
       ...options,
       headers,
     });
 
-    console.log('📥 [API] Blob Response:', {
-      status: response.status,
-      contentType: response.headers.get('content-type'),
-      contentLength: response.headers.get('content-length')
-    });
+
 
     if (!response.ok) {
       // Try to get error message from response
@@ -236,7 +232,7 @@ async function apiBlobRequest(
     }
 
     const blob = await response.blob();
-    console.log('✅ [API] Blob received successfully. Size:', blob.size, 'Type:', blob.type);
+
 
     if (blob.size === 0) {
       throw new Error('الملف المُحمل فارغ');

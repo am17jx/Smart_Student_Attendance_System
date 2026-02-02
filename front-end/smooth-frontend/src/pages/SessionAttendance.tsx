@@ -29,13 +29,13 @@ export default function SessionAttendance() {
             setIsDownloading(true);
             const blob = await attendanceApi.getReport(id!);
 
-            console.log("📦 Downloaded Blob:", { size: blob.size, type: blob.type });
+
 
             // Check file signature (Magic Bytes)
             const arrayBuffer = await blob.arrayBuffer();
             const firstBytes = new Uint8Array(arrayBuffer.slice(0, 5));
             const headerString = new TextDecoder().decode(firstBytes);
-            console.log("🧐 Blob Header (First 5 bytes):", headerString);
+
 
             if (headerString !== '%PDF-') {
                 console.error("❌ Invalid PDF Header:", headerString);

@@ -36,7 +36,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { sessionsApi, Session as SessionType, materialsApi, geofencesApi, qrApi } from "@/lib/api";
-// Note: locationsApi might need to be added to api.ts if not present.
+
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 import { useAuth } from "@/contexts/AuthContext";

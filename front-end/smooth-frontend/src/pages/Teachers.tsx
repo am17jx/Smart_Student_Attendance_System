@@ -60,7 +60,7 @@ export default function Teachers() {
   // القسم المختار للأستاذ (لتصفية المواد)
   const [selectedDepartmentId, setSelectedDepartmentId] = useState<string>("");
 
-  // 1. Fetch Teachers
+
   const { data: teachersData, isLoading: isLoadingTeachers } = useQuery({
     queryKey: ['teachers'],
     queryFn: async () => {
@@ -69,7 +69,7 @@ export default function Teachers() {
     }
   });
 
-  // 2. Fetch Departments
+
   const { data: departmentsData } = useQuery({
     queryKey: ['departments'],
     queryFn: async () => {
@@ -78,7 +78,7 @@ export default function Teachers() {
     }
   });
 
-  // 3. Fetch Materials
+
   const { data: materialsData } = useQuery({
     queryKey: ['materials'],
     queryFn: async () => {
@@ -87,7 +87,7 @@ export default function Teachers() {
     }
   });
 
-  // Mutations
+
   const createMutation = useMutation({
     mutationFn: (data: any) => teachersApi.create(data),
     onSuccess: () => {
@@ -128,42 +128,9 @@ export default function Teachers() {
   });
 
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
 
-    const name = formData.get("name") as string;
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
-    const departmentId = formData.get("departmentId") as string;
 
-    const payload = {
-      name,
-      email,
-      departmentId: departmentId || undefined,
-      materialIds: selectedMaterialIds
-    };
 
-    if (editingTeacher) {
-      updateMutation.mutate({
-        id: editingTeacher.id,
-        data: payload
-      });
-    } else {
-      updateMutation.mutate({ // Oops, logic error in my thought. Should be create or update.
-        // Fixing logic here:
-        id: "", // Dummy
-        data: {} // Dummy
-      });
-      // Correcting below:
-      createMutation.mutate({
-        ...payload,
-        password // Password only needed for create
-      });
-    }
-  };
-
-  // Correction of the if/else logic for mutation above inside the actual render:
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -196,8 +163,7 @@ export default function Teachers() {
 
   const handleEdit = (teacher: TeacherType) => {
     setEditingTeacher(teacher);
-    // Pre-populate selected materials
-    // Assuming teacher type now has 'materials' array from backend update
+
     const currentMaterials = (teacher as any).materials?.map((m: any) => m.id) || [];
     setSelectedMaterialIds(currentMaterials);
     // تعيين قسم الأستاذ المختار
@@ -213,11 +179,9 @@ export default function Teachers() {
     );
   };
 
-  // تصفية المواد حسب القسم المختار
+
   const filteredMaterials = materialsData?.filter(material => {
-    // إذا لم يتم اختيار قسم، اعرض كل المواد
     if (!selectedDepartmentId) return true;
-    // اعرض فقط المواد التي تنتمي للقسم المختار
     return material.department_id === selectedDepartmentId;
   }) || [];
 
@@ -289,7 +253,7 @@ export default function Teachers() {
               setSelectedMaterialIds([]);
               setSelectedDepartmentId("");
             } else if (!editingTeacher) {
-              // عند إضافة معلم جديد، تعيين القسم الافتراضي لرئيس القسم
+
               const adminDeptId = JSON.parse(localStorage.getItem('user') || '{}').department_id;
               if (adminDeptId) {
                 setSelectedDepartmentId(adminDeptId);

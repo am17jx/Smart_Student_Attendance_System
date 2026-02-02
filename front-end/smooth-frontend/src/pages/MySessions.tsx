@@ -134,16 +134,10 @@ export default function MySessions() {
                 <DataTable
                     data={sessionsData || []}
                     columns={columns}
-                    searchKey="material" // Assuming simple client-side search or handled by table filtering if complex
-                // Note: Server-side search logic in `useQuery` implies `searchQuery` state usage for API. 
-                // `DataTable` usually expects `searchKey` for client-side or we pass specific search handler.
-                // For now, relying on DataTable's potential internal input to drive external state? 
-                // Usually DataTable has its own search. If we want server-side search coupled:
-                // We need custom search input outside or pass a handler to DataTable if it supports it.
-                // Let's stick to standard layout, search might be client-side only for this page subset or standard pagination.
+                    searchKey="material"
                 />
 
-                {/* Simple Pagination Controls if needed, matching Students.tsx style */}
+
                 <div className="flex items-center justify-center gap-2 mt-4">
                     <Button
                         variant="outline"

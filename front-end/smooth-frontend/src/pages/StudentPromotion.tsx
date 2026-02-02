@@ -11,20 +11,20 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { departmentsApi, stagesApi, promotionApi, PromotionPreview } from "@/lib/api";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { GraduationCap, ArrowRight, CheckCircle2, AlertCircle, RotateCcw } from "lucide-react";
-import { DataTable } from "@/components/ui/data-table";
+import { DataTable, Column } from "@/components/ui/data-table";
 
 export default function StudentPromotion() {
     const { toast } = useToast();
     const queryClient = useQueryClient();
     const [step, setStep] = useState(1);
 
-    // Form state
+
     const [departmentId, setDepartmentId] = useState("");
     const [stageId, setStageId] = useState("");
     const [fromYear, setFromYear] = useState("");
     const [toYear, setToYear] = useState("");
 
-    // Fetch departments
+
     const { data: departments } = useQuery({
         queryKey: ['departments'],
         queryFn: async () => {
@@ -33,7 +33,7 @@ export default function StudentPromotion() {
         }
     });
 
-    // Fetch stages
+
     const { data: stages } = useQuery({
         queryKey: ['stages'],
         queryFn: async () => {
@@ -42,7 +42,7 @@ export default function StudentPromotion() {
         }
     });
 
-    // Preview mutation
+
     const previewMutation = useMutation({
         mutationFn: () => promotionApi.getPreview(departmentId, stageId, fromYear),
         onSuccess: () => {
@@ -53,7 +53,7 @@ export default function StudentPromotion() {
         }
     });
 
-    // Execute mutation
+
     const executeMutation = useMutation({
         mutationFn: () => promotionApi.execute({
             department_id: departmentId,
@@ -98,7 +98,9 @@ export default function StudentPromotion() {
         }
     };
 
-    const previewColumns = [
+    type PromotionPreviewWithId = PromotionPreview & { id: string };
+
+    const previewColumns: Column<PromotionPreviewWithId>[] = [
         { key: "studentName", header: "اسم الطالب" },
         { key: "studentNumber", header: "الرقم الجامعي" },
         { key: "currentStage", header: "المرحلة الحالية" },
@@ -135,7 +137,7 @@ export default function StudentPromotion() {
                     <p className="text-muted-foreground">نقل الطلاب من مرحلة إلى أخرى بناءً على نتائجهم</p>
                 </div>
 
-                {/* Step 1: Selection */}
+
                 {step === 1 && (
                     <Card>
                         <CardHeader>
@@ -209,7 +211,7 @@ export default function StudentPromotion() {
                     </Card>
                 )}
 
-                {/* Step 2: Preview */}
+
                 {step === 2 && previewMutation.data && (
                     <Card>
                         <CardHeader>
@@ -221,25 +223,25 @@ export default function StudentPromotion() {
                                 <div className="p-4 bg-success/10 rounded-lg">
                                     <div className="text-sm text-muted-foreground">ترقية كاملة</div>
                                     <div className="text-2xl font-bold text-success">
-                                        {previewMutation.data.data?.filter((s: PromotionPreview) => s.decision === 'PROMOTED').length || 0}
+                                        {previewMutation.data.data?.data?.filter((s: PromotionPreview) => s.decision === 'PROMOTED').length || 0}
                                     </div>
                                 </div>
                                 <div className="p-4 bg-warning/10 rounded-lg">
                                     <div className="text-sm text-muted-foreground">ترقية مع تحميل</div>
                                     <div className="text-2xl font-bold text-warning">
-                                        {previewMutation.data.data?.filter((s: PromotionPreview) => s.decision === 'PROMOTED_WITH_CARRY').length || 0}
+                                        {previewMutation.data.data?.data?.filter((s: PromotionPreview) => s.decision === 'PROMOTED_WITH_CARRY').length || 0}
                                     </div>
                                 </div>
                                 <div className="p-4 bg-destructive/10 rounded-lg">
                                     <div className="text-sm text-muted-foreground">إعادة</div>
                                     <div className="text-2xl font-bold text-destructive">
-                                        {previewMutation.data.data?.filter((s: PromotionPreview) => s.decision === 'REPEAT_YEAR').length || 0}
+                                        {previewMutation.data.data?.data?.filter((s: PromotionPreview) => s.decision === 'REPEAT_YEAR').length || 0}
                                     </div>
                                 </div>
                             </div>
 
                             <DataTable
-                                data={previewMutation.data.data || []}
+                                data={previewMutation.data.data?.data?.map(s => ({ ...s, id: s.studentId })) || []}
                                 columns={previewColumns}
                                 pageSize={100}
                             />
@@ -260,7 +262,7 @@ export default function StudentPromotion() {
                     </Card>
                 )}
 
-                {/* Step 3: Success */}
+
                 {step === 3 && (
                     <Card>
                         <CardHeader>
