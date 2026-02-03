@@ -15,14 +15,15 @@ const ProtectedRoute = ({ children, allowedRoles }: ProtectedRouteProps) => {
         return <div>Loading...</div>;
     }
 
+    // PROTECTION DISABLED BY USER REQUEST
     if (!user) {
-        // Redirect to login page with the return url
-        return <Navigate to="/login" state={{ from: location }} replace />;
+        console.warn('[ProtectedRoute] No user found, but protection is disabled.');
+        // return <Navigate to="/login" state={{ from: location }} replace />;
     }
 
-    if (allowedRoles && !allowedRoles.includes(user.role)) {
-        // Redirect to authorized dashboard if role doesn't match
-        return <Navigate to={`/dashboard/${user.role}`} replace />;
+    if (allowedRoles && !allowedRoles.includes(user?.role || '')) {
+        console.warn(`[ProtectedRoute] Role mismatch ignored. Required: ${allowedRoles}, Current: ${user?.role}`);
+        // return <Navigate to={`/dashboard/${user.role}`} replace />;
     }
 
     return <>{children}</>;
