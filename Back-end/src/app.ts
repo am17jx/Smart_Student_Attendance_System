@@ -49,32 +49,7 @@ app.use(helmet({
 
 // 2. CORS - Configure Cross-Origin Resource Sharing
 const corsOptions = {
-    origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
-        // Allow requests with no origin (like mobile apps or curl requests)
-        if (!origin) return callback(null, true);
-
-        const allowedOrigins = [
-            process.env.FRONTEND_URL,
-            'https://localhost:5173',
-            'https://localhost:3000',
-            'https://127.0.0.1:5173',
-            'https://127.0.0.1:3000',
-            // Allow local network IPs (192.168.x.x, 10.x.x.x, 172.x.x.x) on common ports
-            /^http:\/\/(192\.168|10\.\d{1,3}|172\.\d{1,3})\.\d{1,3}\.\d{1,3}(:\d+)?$/
-        ].filter(Boolean);
-
-        const isAllowed = allowedOrigins.some(allowed => {
-            if (allowed instanceof RegExp) return allowed.test(origin);
-            return allowed === origin;
-        });
-
-        if (isAllowed) {
-            callback(null, true);
-        } else {
-            logger.warn(`BLOCKED BY CORS: Origin '${origin}' is not allowed.`);
-            callback(new Error(`Not allowed by CORS: ${origin}`));
-        }
-    },
+    origin: true, // Allow all origins for easier mobile/local testing
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Fingerprint'],
