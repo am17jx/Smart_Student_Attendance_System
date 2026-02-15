@@ -657,8 +657,17 @@ export const promotionApi = {
   getPreview: (departmentId: string, stageId: string, academicYear: string) =>
     apiRequest<{ data: PromotionPreview[] }>(`/promotion/preview?department_id=${departmentId}&stage_id=${stageId}&academic_year=${encodeURIComponent(academicYear)}`),
 
+  getEligible: (academicYear: string) =>
+    apiRequest<{ data: any[]; total: number }>(`/promotion/eligible?academic_year=${encodeURIComponent(academicYear)}`),
+
   execute: (data: { department_id: string; stage_id: string; from_year: string; to_year: string }) =>
     apiRequest<{ message: string; data: any[] }>('/promotion/execute', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
+
+  executeSelected: (data: { student_ids: string[]; from_year: string; to_year: string }) =>
+    apiRequest<{ message: string; data: any[] }>('/promotion/execute-selected', {
       method: 'POST',
       body: JSON.stringify(data),
     }),

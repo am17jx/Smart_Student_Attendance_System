@@ -12,8 +12,14 @@ router.use(adminMiddleware as any);
 // معاينة الترحيل
 router.get('/preview', PromotionController.getPromotionPreview);
 
+// جلب الطلاب المؤهلين (مبسّط - بالسنة فقط)
+router.get('/eligible', PromotionController.getEligibleStudents);
+
 // تنفيذ الترحيل
 router.post('/execute', PromotionController.executePromotion);
+
+// ترحيل طلاب محددين
+router.post('/execute-selected', PromotionController.executeSelectedPromotion);
 
 // سجل الترحيل لطالب
 router.get('/history/:studentId', PromotionController.getStudentHistory);

@@ -43,6 +43,86 @@ export class PromotionController {
     }
 
     /**
+     * GET /api/v1/promotion/eligible
+     * جلب جميع الطلاب المؤهلين للترحيل حسب السنة فقط
+     */
+    static async getEligibleStudents(req: Request, res: Response) {
+        try {
+            const { academic_year } = req.query;
+
+            if (!academic_year) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'academic_year is required',
+                });
+            }
+
+            const eligible = await PromotionService.getAllEligibleStudents(
+                academic_year as string
+            );
+
+            const serialized = JSON.parse(
+                JSON.stringify(eligible, (key, value) =>
+                    typeof value === 'bigint' ? value.toString() : value
+                )
+            );
+
+            res.status(200).json({
+                success: true,
+                data: serialized,
+                total: serialized.length,
+            });
+        } catch (error: any) {
+            res.status(500).json({
+                success: false,
+                message: error.message,
+            });
+        }
+    }
+
+    /**
+     * POST /api/v1/promotion/execute-selected
+     * ترحيل طلاب محددين فقط
+     */
+    static async executeSelectedPromotion(req: Request, res: Response) {
+        try {
+            const { student_ids, from_year, to_year } = req.body;
+            const processedBy = (req as any).user?.name || 'Admin';
+
+            if (!student_ids || !Array.isArray(student_ids) || !from_year || !to_year) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'student_ids (array), from_year, and to_year are required',
+                });
+            }
+
+            const results = await PromotionService.executeSelectedPromotion(
+                student_ids.map((id: string) => BigInt(id)),
+                from_year,
+                to_year,
+                processedBy
+            );
+
+            const serialized = JSON.parse(
+                JSON.stringify(results, (key, value) =>
+                    typeof value === 'bigint' ? value.toString() : value
+                )
+            );
+
+            res.status(200).json({
+                success: true,
+                message: 'Promotion completed',
+                data: serialized,
+            });
+        } catch (error: any) {
+            res.status(500).json({
+                success: false,
+                message: error.message,
+            });
+        }
+    }
+
+    /**
      * POST /api/v1/promotion/execute
      * تنفيذ عملية الترحيل الفعلية
      */
@@ -121,10 +201,7 @@ export class PromotionController {
         }
     }
 
-    /**
-     * GET /api/v1/promotion/config/:departmentId
-     * جلب إعدادات الترحيل للقسم
-     */
+
     static async getConfig(req: Request, res: Response) {
         try {
             const { departmentId } = req.params;

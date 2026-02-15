@@ -231,11 +231,18 @@ export default function StudentEnrollments() {
 
                             <div className="space-y-2">
                                 <Label>السنة الدراسية</Label>
-                                <Input
-                                    placeholder="مثال: 2024-2025"
-                                    value={academicYear}
-                                    onChange={(e) => setAcademicYear(e.target.value)}
-                                />
+                                <Select value={academicYear} onValueChange={setAcademicYear}>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="اختر السنة الدراسية" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {Array.from({ length: 6 }, (_, i) => {
+                                            const y = new Date().getFullYear() - 2 + i;
+                                            const val = `${y}-${y + 1}`;
+                                            return <SelectItem key={val} value={val}>{val}</SelectItem>;
+                                        })}
+                                    </SelectContent>
+                                </Select>
                             </div>
                         </div>
 

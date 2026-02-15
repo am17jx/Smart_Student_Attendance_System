@@ -68,6 +68,7 @@ export const createTeacher = catchAsync(async (req: Request, res: Response, next
 
     res.status(201).json({
         status: "success",
+
         data: {
             teacher: {
                 name: teacher.name,
