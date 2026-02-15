@@ -27,6 +27,143 @@ export interface PromotionConfig {
 
 export class PromotionService {
     /**
+     * جلب جميع الطلاب المؤهلين للترحيل حسب السنة الدراسية فقط
+     * بدون الحاجة لتحديد القسم أو المرحلة
+     */
+    static async getAllEligibleStudents(academicYear: string) {
+        // جلب كل الطلاب الذين لديهم تسجيلات في هذه السنة
+        const students = await prisma.student.findMany({
+            where: {
+                enrollments: {
+                    some: {
+                        academic_year: academicYear,
+                    },
+                },
+            },
+            include: {
+                stage: true,
+                department: true,
+                enrollments: {
+                    where: { academic_year: academicYear },
+                    include: { material: true },
+                },
+            },
+        });
+
+        console.log(`[Eligible] Found ${students.length} students with enrollments in ${academicYear}`);
+
+        const results = [];
+
+        // تجميع المراحل لتحديد المرحلة التالية
+        const stagesCache = new Map<string, any>();
+
+        for (const student of students) {
+            if (!student.stage_id || !student.department_id) {
+                console.log(`[Eligible] Skipping student ${student.name} - no stage_id(${student.stage_id}) or department_id(${student.department_id})`);
+                continue;
+            }
+
+            const config = await this.getPromotionConfig(student.department_id);
+            const currentStage = student.stage;
+
+            // كاش المراحل التالية
+            let nextStage: any = null;
+            if (currentStage) {
+                const cacheKey = currentStage.id.toString();
+                if (stagesCache.has(cacheKey)) {
+                    nextStage = stagesCache.get(cacheKey);
+                } else {
+                    nextStage = await prisma.stage.findFirst({
+                        where: { level: currentStage.level + 1 },
+                    });
+                    stagesCache.set(cacheKey, nextStage);
+                }
+            }
+
+            const decision = await this.calculateStudentDecision(
+                student, config, nextStage, currentStage
+            );
+
+            results.push({
+                ...decision,
+                departmentName: student.department?.name ?? null,
+                departmentId: student.department_id,
+            });
+        }
+
+        console.log(`[Eligible] Returning ${results.length} eligible students`);
+        return results;
+    }
+
+    /**
+     * ترحيل طلاب محددين فقط
+     */
+    static async executeSelectedPromotion(
+        studentIds: bigint[],
+        fromYear: string,
+        toYear: string,
+        processedBy: string
+    ): Promise<any[]> {
+        const results: any[] = [];
+
+        for (const studentId of studentIds) {
+            try {
+                const student = await prisma.student.findUnique({
+                    where: { id: studentId },
+                    include: {
+                        stage: true,
+                        department: true,
+                        enrollments: {
+                            where: { academic_year: fromYear },
+                            include: { material: true },
+                        },
+                    },
+                });
+
+                if (!student || !student.stage_id || !student.department_id) {
+                    results.push({ success: false, studentId: studentId.toString(), error: 'Student not found' });
+                    continue;
+                }
+
+                const config = await this.getPromotionConfig(student.department_id);
+                const currentStage = student.stage;
+                const nextStage = currentStage
+                    ? await prisma.stage.findFirst({ where: { level: currentStage.level + 1 } })
+                    : null;
+
+                const decision = await this.calculateStudentDecision(
+                    student, config, nextStage, currentStage
+                );
+
+                let result;
+                if (decision.decision === 'PROMOTED') {
+                    result = await this.promoteStudent(decision, fromYear, toYear, processedBy);
+                } else if (decision.decision === 'PROMOTED_WITH_CARRY') {
+                    result = await this.carryStudent(decision, fromYear, toYear, processedBy);
+                } else if (decision.decision === 'REPEAT_YEAR') {
+                    result = await this.repeatStudent(decision, fromYear, toYear, processedBy);
+                }
+
+                results.push({
+                    success: true,
+                    studentId: studentId.toString(),
+                    studentName: student.name,
+                    decision: decision.decision,
+                    result,
+                });
+            } catch (error: any) {
+                results.push({
+                    success: false,
+                    studentId: studentId.toString(),
+                    error: error.message,
+                });
+            }
+        }
+
+        return results;
+    }
+
+    /**
      * معاينة نتائج الترحيل قبل التنفيذ
      */
     static async getPromotionPreview(
