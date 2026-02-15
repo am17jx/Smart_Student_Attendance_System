@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./Back-end
+      dockerfile: Dockerfile
+    container_name: attendance-backend
+    ports:
+      - "4000:4000"
+    env_file:
+      - ./Back-end/.env
+    restart: always
+
+  frontend:
+    build:
+      context: ./front-end/smooth-frontend
+      dockerfile: Dockerfile
+    container_name: attendance-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: always
