@@ -51,6 +51,9 @@ export default function FailedAttemptsPage() {
             'INVALID_HASH': 'رمز غير صحيح',
             'TOKEN_EXPIRED': 'انتهت الصلاحية',
             'TOKEN_ALREADY_USED': 'تم استخدام الرمز',
+            'INVALID_CREDENTIALS': 'بيانات دخول خاطئة',
+            'EMAIL_NOT_VERIFIED': 'بريد غير مفعّل',
+            'FINGERPRINT_MISMATCH': 'جهاز غير مطابق',
         };
         return labels[errorType] || errorType;
     };
@@ -61,6 +64,9 @@ export default function FailedAttemptsPage() {
             'UNAUTHORIZED_STUDENT': { bg: 'bg-destructive/10', text: 'text-destructive' },
             'TOKEN_EXPIRED': { bg: 'bg-muted', text: 'text-muted-foreground' },
             'INVALID_HASH': { bg: 'bg-destructive/10', text: 'text-destructive' },
+            'INVALID_CREDENTIALS': { bg: 'bg-orange-500/10', text: 'text-orange-600' },
+            'EMAIL_NOT_VERIFIED': { bg: 'bg-yellow-500/10', text: 'text-yellow-600' },
+            'FINGERPRINT_MISMATCH': { bg: 'bg-purple-500/10', text: 'text-purple-600' },
         };
         const badge = badges[errorType] || { bg: 'bg-muted', text: 'text-muted-foreground' };
         return (

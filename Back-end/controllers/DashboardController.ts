@@ -231,10 +231,10 @@ export const getTeacherDashboard = catchAsync(async (req: Request, res: Response
         where: { session_id: { in: allSessionIds } }
     }) : [];
 
-    // Get failed attempts for this teacher's sessions
+    // 4. Get failed attempts for this teacher's sessions
     const failedAttempts = allSessionIds.length > 0 ? await prisma.failedAttempt.findMany({
         where: { session_id: { in: allSessionIds } },
-        take: 10,
+        take: 15,
         orderBy: { attempted_at: 'desc' },
         include: {
             student: { select: { name: true, student_id: true } },
