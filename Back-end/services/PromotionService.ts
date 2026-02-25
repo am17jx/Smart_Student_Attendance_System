@@ -1,4 +1,4 @@
-import { PrismaClient, AcademicStatus, SubjectResultStatus, PromotionDecision } from '@prisma/client';
+import { PrismaClient, PromotionDecision } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -464,13 +464,21 @@ export class PromotionService {
                 });
             }
 
-            // تسجيل الطالب في مواد المرحلة الجديدة
+            // تسجيل الطالب في مواد المرحلة الجديدة (مع استثناء المواد المحمّلة لتفادي التكرار)
             if (studentPreview.nextStageId) {
+                // IDs المواد المحمّلة من المرحلة السابقة
+                const carriedIds = new Set(
+                    studentPreview.carriedSubjects.map(s => s.id.toString())
+                );
+
                 const materials = await tx.material.findMany({
                     where: { stage_id: studentPreview.nextStageId },
                 });
 
                 for (const material of materials) {
+                    // تخطي المادة إذا كانت ضمن المحمّلة (ستُضاف لاحقاً بـ is_carried: true)
+                    if (carriedIds.has(material.id.toString())) continue;
+
                     await tx.enrollment.create({
                         data: {
                             student_id: studentPreview.studentId,
@@ -483,7 +491,7 @@ export class PromotionService {
                 }
             }
 
-            // تسجيل المواد المحمّلة
+            // تسجيل المواد المحمّلة (is_carried: true)
             for (const subject of studentPreview.carriedSubjects) {
                 await tx.enrollment.create({
                     data: {
@@ -495,6 +503,7 @@ export class PromotionService {
                     },
                 });
             }
+
 
             return promotionRecord;
         });

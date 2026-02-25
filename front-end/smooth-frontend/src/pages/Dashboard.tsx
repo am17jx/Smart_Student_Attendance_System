@@ -80,7 +80,10 @@ function AdminDashboard() {
     queryFn: async () => {
       const response = await dashboardApi.getAdminDashboard();
       return response.data;
-    }
+    },
+    staleTime: 60 * 1000,        // keep data fresh for 60s — no refetch on revisit
+    gcTime: 5 * 60 * 1000,       // keep in memory for 5 minutes
+    refetchOnWindowFocus: false, // don't refetch when switching tabs
   });
 
   if (isLoading) {
@@ -241,7 +244,10 @@ function TeacherDashboard() {
     queryFn: async () => {
       const response = await dashboardApi.getTeacherDashboard();
       return response.data;
-    }
+    },
+    staleTime: 60 * 1000,        // keep data fresh for 60s — no refetch on revisit
+    gcTime: 5 * 60 * 1000,       // keep in memory for 5 minutes
+    refetchOnWindowFocus: false, // don't refetch when switching tabs
   });
 
   if (isLoading) {
@@ -431,7 +437,10 @@ function StudentDashboard() {
     queryFn: async () => {
       const response = await dashboardApi.getStudentDashboard();
       return response.data;
-    }
+    },
+    staleTime: 60 * 1000,        // keep data fresh for 60s — no refetch on revisit
+    gcTime: 5 * 60 * 1000,       // keep in memory for 5 minutes
+    refetchOnWindowFocus: false, // don't refetch when switching tabs
   });
 
   if (isLoading) {

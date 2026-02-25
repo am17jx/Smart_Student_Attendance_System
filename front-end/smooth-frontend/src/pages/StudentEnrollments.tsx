@@ -10,7 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { studentsApi, materialsApi, enrollmentApi, Enrollment } from "@/lib/api";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
-import { BookCheck, CheckCircle2, XCircle, Ban, Save } from "lucide-react";
+import { BookCheck, CheckCircle2, XCircle, Ban, Save, EyeOff, Eye } from "lucide-react";
 import { DataTable } from "@/components/ui/data-table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -25,6 +25,7 @@ export default function StudentEnrollments() {
     const [academicYear, setAcademicYear] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
     const [enrollments, setEnrollments] = useState<EnrollmentWithStatus[]>([]);
+    const [hidePassed, setHidePassed] = useState(false);
 
 
     const { data: studentsData } = useQuery({
@@ -48,11 +49,11 @@ export default function StudentEnrollments() {
     const { data: enrollmentsData, isLoading, refetch } = useQuery({
         queryKey: ['student-enrollments', selectedStudentId, academicYear],
         queryFn: async () => {
-            if (!selectedStudentId) return [];
+            if (!selectedStudentId || !academicYear) return [];
             const response = await enrollmentApi.getStudentEnrollments(selectedStudentId, academicYear);
             return Array.isArray(response.data) ? response.data : [];
         },
-        enabled: !!selectedStudentId,
+        enabled: !!selectedStudentId && !!academicYear,
     });
 
 
@@ -265,22 +266,43 @@ export default function StudentEnrollments() {
                     </CardContent>
                 </Card>
 
+                {/* تحذير: اختر سنة دراسية أولاً */}
+                {selectedStudentId && !academicYear && (
+                    <div className="flex items-center gap-3 p-4 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg">
+                        <span className="text-amber-600 text-xl">⚠️</span>
+                        <p className="text-sm text-amber-800 dark:text-amber-300 font-medium">
+                            يرجى اختيار <strong>السنة الدراسية</strong> لعرض مواد الطالب للسنة المحددة فقط.
+                        </p>
+                    </div>
+                )}
+
                 {selectedStudentId && enrollmentsData && enrollmentsData.length > 0 && (
                     <Card>
                         <CardHeader>
-                            <div className="flex justify-between items-center">
+                            <div className="flex justify-between items-center flex-wrap gap-2">
                                 <div>
                                     <CardTitle>نتائج المواد</CardTitle>
                                     <CardDescription>حدد نتيجة كل مادة للطالب</CardDescription>
                                 </div>
-                                <Button
-                                    onClick={handleSaveAll}
-                                    disabled={bulkUpdateMutation.isPending}
-                                    className="gradient-primary"
-                                >
-                                    <Save className="h-4 w-4 ml-2" />
-                                    {bulkUpdateMutation.isPending ? "جاري الحفظ..." : "حفظ جميع التغييرات"}
-                                </Button>
+                                <div className="flex items-center gap-2">
+                                    <Button
+                                        variant={hidePassed ? "default" : "outline"}
+                                        size="sm"
+                                        onClick={() => setHidePassed(p => !p)}
+                                        className="gap-2"
+                                    >
+                                        {hidePassed ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
+                                        {hidePassed ? "إظهار المواد الناجح بها" : "إخفاء المواد الناجح بها"}
+                                    </Button>
+                                    <Button
+                                        onClick={handleSaveAll}
+                                        disabled={bulkUpdateMutation.isPending}
+                                        className="gradient-primary"
+                                    >
+                                        <Save className="h-4 w-4 ml-2" />
+                                        {bulkUpdateMutation.isPending ? "جاري الحفظ..." : "حفظ جميع التغييرات"}
+                                    </Button>
+                                </div>
                             </div>
                         </CardHeader>
                         <CardContent>
@@ -319,58 +341,52 @@ export default function StudentEnrollments() {
                                         <TabsList className="grid w-full grid-cols-3 mb-4">
                                             <TabsTrigger value="SEMESTER_1">الفصل الأول ({enrollments.filter(e => e.material?.semester === 'SEMESTER_1').length})</TabsTrigger>
                                             <TabsTrigger value="SEMESTER_2">الفصل الثاني ({enrollments.filter(e => e.material?.semester === 'SEMESTER_2').length})</TabsTrigger>
-                                            <TabsTrigger value="FULL_YEAR">سنوي ({enrollments.filter(e => (!e.material?.semester || e.material?.semester === 'FULL_YEAR')).length})</TabsTrigger>
+                                            <TabsTrigger value="FULL_YEAR">سنوي ({enrollments.filter(e => e.material?.semester === 'FULL_YEAR').length})</TabsTrigger>
                                         </TabsList>
 
-                                        <div className="grid grid-cols-4 gap-4 mb-4">
-                                            <div className="p-4 bg-success/10 rounded-lg">
-                                                <div className="text-sm text-muted-foreground">ناجح</div>
-                                                <div className="text-2xl font-bold text-success">
-                                                    {enrollments.filter(e => (e.newStatus || e.result_status) === 'PASSED').length}
-                                                </div>
-                                            </div>
-                                            <div className="p-4 bg-destructive/10 rounded-lg">
-                                                <div className="text-sm text-muted-foreground">راسب</div>
-                                                <div className="text-2xl font-bold text-destructive">
-                                                    {enrollments.filter(e => (e.newStatus || e.result_status) === 'FAILED').length}
-                                                </div>
-                                            </div>
-                                            <div className="p-4 bg-warning/10 rounded-lg">
-                                                <div className="text-sm text-muted-foreground">محجوب</div>
-                                                <div className="text-2xl font-bold text-warning">
-                                                    {enrollments.filter(e => (e.newStatus || e.result_status) === 'BLOCKED_BY_ABSENCE').length}
-                                                </div>
-                                            </div>
-                                            <div className="p-4 bg-muted rounded-lg">
-                                                <div className="text-sm text-muted-foreground">قيد الدراسة</div>
-                                                <div className="text-2xl font-bold">
-                                                    {enrollments.filter(e => (e.newStatus || e.result_status) === 'IN_PROGRESS').length}
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <TabsContent value="SEMESTER_1">
-                                            <DataTable
-                                                data={enrollments.filter(e => e.material?.semester === 'SEMESTER_1')}
-                                                columns={columns}
-                                                pageSize={100}
-                                            />
-                                        </TabsContent>
-                                        <TabsContent value="SEMESTER_2">
-                                            <DataTable
-                                                data={enrollments.filter(e => e.material?.semester === 'SEMESTER_2')}
-                                                columns={columns}
-                                                pageSize={100}
-                                            />
-                                        </TabsContent>
-                                        <TabsContent value="FULL_YEAR">
-                                            <DataTable
-                                                data={enrollments.filter(e => !e.material?.semester || e.material?.semester === 'FULL_YEAR')}
-                                                columns={columns}
-                                                pageSize={100}
-                                            />
-                                        </TabsContent>
+                                        {(['SEMESTER_1', 'SEMESTER_2', 'FULL_YEAR'] as const).map(sem => {
+                                            const semEnrollments = enrollments
+                                                .filter(e => e.material?.semester === sem)
+                                                .filter(e => hidePassed ? (e.newStatus || e.result_status) !== 'PASSED' : true);
+                                            return (
+                                                <TabsContent key={sem} value={sem}>
+                                                    {/* إحصاءات الفصل */}
+                                                    <div className="grid grid-cols-4 gap-4 mb-4">
+                                                        <div className="p-4 bg-success/10 rounded-lg">
+                                                            <div className="text-sm text-muted-foreground">ناجح</div>
+                                                            <div className="text-2xl font-bold text-success">
+                                                                {semEnrollments.filter(e => (e.newStatus || e.result_status) === 'PASSED').length}
+                                                            </div>
+                                                        </div>
+                                                        <div className="p-4 bg-destructive/10 rounded-lg">
+                                                            <div className="text-sm text-muted-foreground">راسب</div>
+                                                            <div className="text-2xl font-bold text-destructive">
+                                                                {semEnrollments.filter(e => (e.newStatus || e.result_status) === 'FAILED').length}
+                                                            </div>
+                                                        </div>
+                                                        <div className="p-4 bg-warning/10 rounded-lg">
+                                                            <div className="text-sm text-muted-foreground">محجوب</div>
+                                                            <div className="text-2xl font-bold text-warning">
+                                                                {semEnrollments.filter(e => (e.newStatus || e.result_status) === 'BLOCKED_BY_ABSENCE').length}
+                                                            </div>
+                                                        </div>
+                                                        <div className="p-4 bg-muted rounded-lg">
+                                                            <div className="text-sm text-muted-foreground">قيد الدراسة</div>
+                                                            <div className="text-2xl font-bold">
+                                                                {semEnrollments.filter(e => (e.newStatus || e.result_status) === 'IN_PROGRESS').length}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <DataTable
+                                                        data={semEnrollments}
+                                                        columns={columns}
+                                                        pageSize={100}
+                                                    />
+                                                </TabsContent>
+                                            );
+                                        })}
                                     </Tabs>
+
                                 </>
                             )}
                         </CardContent>

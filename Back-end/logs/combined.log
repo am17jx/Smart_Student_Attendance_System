@@ -2953,3 +2953,1148 @@
 {"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-15 22:13:55"}
 {"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-15 22:13:55","type":"string"}
 {"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-15 22:13:55"}
+{"level":"debug","message":"Checking environment variables...","timestamp":"2026-02-22 09:27:35"}
+{"level":"debug","message":"PORT from env: 4000","timestamp":"2026-02-22 09:27:35"}
+{"level":"debug","message":"DATABASE_URL is defined: true","timestamp":"2026-02-22 09:27:35"}
+{"level":"info","message":"Server running on port 4000","timestamp":"2026-02-22 09:27:35"}
+{"level":"info","message":"Environment: development","timestamp":"2026-02-22 09:27:35"}
+{"level":"info","message":"Cleanup jobs started","timestamp":"2026-02-22 09:27:35"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-22 09:27:46"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-22 09:27:48"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 09:27:48","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 09:27:48"}
+{"level":"http","message":"GET /api/v1/teachers/my-students","timestamp":"2026-02-22 09:28:32"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 09:28:32","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 09:28:33"}
+{"level":"info","message":"👥 [getMyStudents] Fetching students for teacher:","timestamp":"2026-02-22 09:28:33"}
+{"level":"http","message":"GET /api/v1/sessions/my-sessions?page=1&limit=10&search=","timestamp":"2026-02-22 09:28:33"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 09:28:33","type":"string"}
+{"level":"info","message":"📚 [getMyStudents] Teacher has","timestamp":"2026-02-22 09:28:34"}
+{"level":"info","message":"🔍 [getMyStudents] Unique dept/stage combinations:","timestamp":"2026-02-22 09:28:34"}
+{"level":"info","message":"🔍 [getMyStudents] OR conditions:","timestamp":"2026-02-22 09:28:34"}
+{"level":"info","message":"✅ [getMyStudents] Found","timestamp":"2026-02-22 09:28:34"}
+{"level":"info","message":"Sample student:","timestamp":"2026-02-22 09:28:34"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 09:28:34"}
+{"level":"http","message":"GET /api/v1/attendance/teacher-stats","timestamp":"2026-02-22 09:28:37"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 09:28:37","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 09:28:37"}
+{"level":"http","message":"GET /api/v1/attendance/teacher-stats","timestamp":"2026-02-22 09:29:48"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 09:29:48","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 09:29:48"}
+{"level":"http","message":"GET /api/v1/sessions/my-sessions?page=1&limit=10&search=","timestamp":"2026-02-22 09:29:51"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 09:29:51","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 09:29:51"}
+{"level":"http","message":"GET /api/v1/teachers/my-students","timestamp":"2026-02-22 09:29:52"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 09:29:52","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 09:29:52"}
+{"level":"info","message":"👥 [getMyStudents] Fetching students for teacher:","timestamp":"2026-02-22 09:29:52"}
+{"level":"info","message":"📚 [getMyStudents] Teacher has","timestamp":"2026-02-22 09:29:52"}
+{"level":"info","message":"🔍 [getMyStudents] Unique dept/stage combinations:","timestamp":"2026-02-22 09:29:52"}
+{"level":"info","message":"🔍 [getMyStudents] OR conditions:","timestamp":"2026-02-22 09:29:52"}
+{"level":"http","message":"GET /api/v1/materials/my-materials","timestamp":"2026-02-22 09:29:53"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 09:29:53","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 09:29:53"}
+{"level":"info","message":" [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-22 09:29:53"}
+{"level":"info","message":"✅ [getMyStudents] Found","timestamp":"2026-02-22 09:29:53"}
+{"level":"info","message":"Sample student:","timestamp":"2026-02-22 09:29:53"}
+{"level":"info","message":" [getTeacherMaterials] Found","timestamp":"2026-02-22 09:29:53"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-22 09:29:54"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 09:29:54","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 09:29:54"}
+{"level":"http","message":"GET /api/v1/sessions/my-sessions?page=1&limit=10&search=","timestamp":"2026-02-22 09:29:56"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 09:29:56","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 09:29:57"}
+{"level":"http","message":"GET /api/v1/teachers/my-students","timestamp":"2026-02-22 09:29:57"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 09:29:57","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 09:29:57"}
+{"level":"info","message":"👥 [getMyStudents] Fetching students for teacher:","timestamp":"2026-02-22 09:29:57"}
+{"level":"http","message":"GET /api/v1/materials/my-materials","timestamp":"2026-02-22 09:29:58"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 09:29:58","type":"string"}
+{"level":"info","message":"📚 [getMyStudents] Teacher has","timestamp":"2026-02-22 09:29:58"}
+{"level":"info","message":"🔍 [getMyStudents] Unique dept/stage combinations:","timestamp":"2026-02-22 09:29:58"}
+{"level":"info","message":"🔍 [getMyStudents] OR conditions:","timestamp":"2026-02-22 09:29:58"}
+{"level":"info","message":"✅ [getMyStudents] Found","timestamp":"2026-02-22 09:29:59"}
+{"level":"info","message":"Sample student:","timestamp":"2026-02-22 09:29:59"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 09:29:59"}
+{"level":"info","message":" [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-22 09:29:59"}
+{"level":"info","message":" [getTeacherMaterials] Found","timestamp":"2026-02-22 09:30:00"}
+{"level":"http","message":"GET /api/v1/teachers/my-students","timestamp":"2026-02-22 09:30:00"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 09:30:00","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 09:30:00"}
+{"level":"info","message":"👥 [getMyStudents] Fetching students for teacher:","timestamp":"2026-02-22 09:30:00"}
+{"level":"http","message":"GET /api/v1/sessions/my-sessions?page=1&limit=10&search=","timestamp":"2026-02-22 09:30:00"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 09:30:00","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 09:30:01"}
+{"level":"info","message":"📚 [getMyStudents] Teacher has","timestamp":"2026-02-22 09:30:01"}
+{"level":"info","message":"🔍 [getMyStudents] Unique dept/stage combinations:","timestamp":"2026-02-22 09:30:01"}
+{"level":"info","message":"🔍 [getMyStudents] OR conditions:","timestamp":"2026-02-22 09:30:01"}
+{"level":"http","message":"GET /api/v1/attendance/teacher-stats","timestamp":"2026-02-22 09:30:01"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 09:30:01","type":"string"}
+{"level":"info","message":"✅ [getMyStudents] Found","timestamp":"2026-02-22 09:30:01"}
+{"level":"info","message":"Sample student:","timestamp":"2026-02-22 09:30:01"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 09:30:01"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-22 09:30:02"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 09:30:02","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 09:30:02"}
+{"level":"http","message":"GET /api/v1/sessions/my-sessions?page=1&limit=10&search=","timestamp":"2026-02-22 09:30:03"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 09:30:03","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 09:30:03"}
+{"level":"http","message":"GET /api/v1/teachers/my-students","timestamp":"2026-02-22 09:30:04"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 09:30:04","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 09:30:05"}
+{"level":"info","message":"👥 [getMyStudents] Fetching students for teacher:","timestamp":"2026-02-22 09:30:05"}
+{"level":"info","message":"📚 [getMyStudents] Teacher has","timestamp":"2026-02-22 09:30:06"}
+{"level":"info","message":"🔍 [getMyStudents] Unique dept/stage combinations:","timestamp":"2026-02-22 09:30:06"}
+{"level":"info","message":"🔍 [getMyStudents] OR conditions:","timestamp":"2026-02-22 09:30:06"}
+{"level":"info","message":"✅ [getMyStudents] Found","timestamp":"2026-02-22 09:30:06"}
+{"level":"info","message":"Sample student:","timestamp":"2026-02-22 09:30:06"}
+{"level":"http","message":"GET /api/v1/teachers/my-students","timestamp":"2026-02-22 10:05:45"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 10:05:45","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 10:05:48"}
+{"level":"info","message":"👥 [getMyStudents] Fetching students for teacher:","timestamp":"2026-02-22 10:05:48"}
+{"level":"http","message":"GET /api/v1/teachers/my-students","timestamp":"2026-02-22 10:05:48"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 10:05:48","type":"string"}
+{"level":"info","message":"📚 [getMyStudents] Teacher has","timestamp":"2026-02-22 10:05:49"}
+{"level":"info","message":"🔍 [getMyStudents] Unique dept/stage combinations:","timestamp":"2026-02-22 10:05:49"}
+{"level":"info","message":"🔍 [getMyStudents] OR conditions:","timestamp":"2026-02-22 10:05:49"}
+{"level":"http","message":"POST /api/v1/auth/logout","timestamp":"2026-02-22 10:05:49"}
+{"level":"info","message":"✅ [getMyStudents] Found","timestamp":"2026-02-22 10:05:49"}
+{"level":"info","message":"Sample student:","timestamp":"2026-02-22 10:05:49"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 10:05:50"}
+{"level":"info","message":"👥 [getMyStudents] Fetching students for teacher:","timestamp":"2026-02-22 10:05:50"}
+{"level":"info","message":"📚 [getMyStudents] Teacher has","timestamp":"2026-02-22 10:05:51"}
+{"level":"info","message":"🔍 [getMyStudents] Unique dept/stage combinations:","timestamp":"2026-02-22 10:05:51"}
+{"level":"info","message":"🔍 [getMyStudents] OR conditions:","timestamp":"2026-02-22 10:05:51"}
+{"level":"info","message":"✅ [getMyStudents] Found","timestamp":"2026-02-22 10:05:51"}
+{"level":"info","message":"Sample student:","timestamp":"2026-02-22 10:05:51"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-22 10:06:02"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-22 10:06:03"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 10:06:03","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 10:06:03"}
+{"level":"http","message":"GET /api/v1/materials/my-materials","timestamp":"2026-02-22 10:06:28"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 10:06:28","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 10:06:28"}
+{"level":"info","message":" [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-22 10:06:28"}
+{"level":"info","message":" [getTeacherMaterials] Found","timestamp":"2026-02-22 10:06:29"}
+{"level":"http","message":"GET /api/v1/teachers/my-students","timestamp":"2026-02-22 10:06:35"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 10:06:35","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 10:06:35"}
+{"level":"info","message":"👥 [getMyStudents] Fetching students for teacher:","timestamp":"2026-02-22 10:06:35"}
+{"level":"info","message":"📚 [getMyStudents] Teacher has","timestamp":"2026-02-22 10:06:36"}
+{"level":"info","message":"🔍 [getMyStudents] Unique dept/stage combinations:","timestamp":"2026-02-22 10:06:36"}
+{"level":"info","message":"🔍 [getMyStudents] OR conditions:","timestamp":"2026-02-22 10:06:36"}
+{"level":"info","message":"✅ [getMyStudents] Found","timestamp":"2026-02-22 10:06:36"}
+{"level":"info","message":"Sample student:","timestamp":"2026-02-22 10:06:36"}
+{"level":"http","message":"GET /api/v1/sessions/my-sessions?page=1&limit=10&search=","timestamp":"2026-02-22 10:06:46"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 10:06:46","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 10:06:46"}
+{"level":"http","message":"GET /api/v1/sessions/231","timestamp":"2026-02-22 10:06:52"}
+{"level":"http","message":"GET /api/v1/attendance/session/231","timestamp":"2026-02-22 10:06:52"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 10:06:52","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 10:06:52"}
+{"level":"info","message":"🔍 Getting attendance for session:","timestamp":"2026-02-22 10:06:52"}
+{"level":"info","message":"📊 Found","timestamp":"2026-02-22 10:06:54"}
+{"level":"info","message":"✅ Sending serialized records:","timestamp":"2026-02-22 10:06:54"}
+{"level":"http","message":"GET /api/v1/attendance/session/231","timestamp":"2026-02-22 10:06:59"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 10:06:59","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 10:06:59"}
+{"level":"info","message":"🔍 Getting attendance for session:","timestamp":"2026-02-22 10:06:59"}
+{"level":"info","message":"📊 Found","timestamp":"2026-02-22 10:07:00"}
+{"level":"info","message":"✅ Sending serialized records:","timestamp":"2026-02-22 10:07:00"}
+{"level":"http","message":"GET /api/v1/attendance/session/231","timestamp":"2026-02-22 10:07:05"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 10:07:05","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 10:07:06"}
+{"level":"info","message":"🔍 Getting attendance for session:","timestamp":"2026-02-22 10:07:06"}
+{"level":"info","message":"📊 Found","timestamp":"2026-02-22 10:07:07"}
+{"level":"info","message":"✅ Sending serialized records:","timestamp":"2026-02-22 10:07:07"}
+{"level":"http","message":"GET /api/v1/attendance/session/231","timestamp":"2026-02-22 10:07:12"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 10:07:12","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 10:07:12"}
+{"level":"info","message":"🔍 Getting attendance for session:","timestamp":"2026-02-22 10:07:12"}
+{"level":"info","message":"📊 Found","timestamp":"2026-02-22 10:07:14"}
+{"level":"info","message":"✅ Sending serialized records:","timestamp":"2026-02-22 10:07:14"}
+{"level":"http","message":"GET /api/v1/sessions/231","timestamp":"2026-02-22 10:07:34"}
+{"level":"http","message":"GET /api/v1/attendance/session/231","timestamp":"2026-02-22 10:07:34"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 10:07:34","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 10:07:34"}
+{"level":"info","message":"🔍 Getting attendance for session:","timestamp":"2026-02-22 10:07:34"}
+{"level":"info","message":"📊 Found","timestamp":"2026-02-22 10:07:36"}
+{"level":"info","message":"✅ Sending serialized records:","timestamp":"2026-02-22 10:07:36"}
+{"level":"http","message":"GET /api/v1/attendance/teacher-stats","timestamp":"2026-02-22 10:07:36"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 10:07:36","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 10:07:36"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-22 10:07:53"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 10:07:53","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 10:07:54"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-22 10:08:31"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 10:08:31","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 10:08:32"}
+{"level":"http","message":"POST /api/v1/auth/logout","timestamp":"2026-02-22 10:08:32"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-22 10:09:21"}
+{"level":"info","message":"Email sent to khalid.fawzy.e445e8@gmail.com","timestamp":"2026-02-22 10:09:25"}
+{"level":"info","message":"✅ Login notification sent to khalid.fawzy.e445e8@gmail.com","timestamp":"2026-02-22 10:09:25"}
+{"level":"http","message":"GET /api/v1/dashboard/student","timestamp":"2026-02-22 10:09:25"}
+{"level":"info","message":"🔍 [getStudentDashboard] Fetching dashboard for student:","studentId":"240","timestamp":"2026-02-22 10:09:26"}
+{"attendedCount":0,"level":"info","message":"✅ [getStudentDashboard] Dashboard data prepared:","percentage":"0","status":"danger","studentId":"240","timestamp":"2026-02-22 10:09:27","totalSessions":0}
+{"level":"http","message":"GET /api/v1/dashboard/student","timestamp":"2026-02-22 10:10:13"}
+{"level":"info","message":"🔍 [getStudentDashboard] Fetching dashboard for student:","studentId":"240","timestamp":"2026-02-22 10:10:14"}
+{"attendedCount":0,"level":"info","message":"✅ [getStudentDashboard] Dashboard data prepared:","percentage":"0","status":"danger","studentId":"240","timestamp":"2026-02-22 10:10:14","totalSessions":0}
+{"level":"http","message":"GET /api/v1/attendance/my-attendance","timestamp":"2026-02-22 10:10:43"}
+{"level":"http","message":"GET /api/v1/attendance/my-attendance","timestamp":"2026-02-22 10:10:52"}
+{"level":"http","message":"GET /api/v1/attendance/my-attendance","timestamp":"2026-02-22 10:11:49"}
+{"level":"http","message":"POST /api/v1/auth/logout","timestamp":"2026-02-22 10:11:51"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-22 10:12:21"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-22 10:12:55"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-22 10:13:48"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-22 10:14:19"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-22 10:14:34"}
+{"level":"http","message":"GET /api/v1/dashboard/admin","timestamp":"2026-02-22 10:14:34"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-22 10:14:34"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-22 10:14:34"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-22 10:14:34"}
+{"department_id":"NULL (Dean)","id":"264","level":"info","message":"🔍 [getAdminDashboard] Admin:","timestamp":"2026-02-22 10:14:34"}
+{"level":"http","message":"GET /api/v1/students?page=1&limit=10&search=","timestamp":"2026-02-22 10:14:37"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-22 10:14:37"}
+{"level":"http","message":"GET /api/v1/departments","timestamp":"2026-02-22 10:14:37"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-22 10:14:37"}
+{"level":"http","message":"GET /api/v1/stages","timestamp":"2026-02-22 10:14:37"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-22 10:14:37"}
+{"departments":4,"level":"info","materials":149,"message":"✅ [getAdminDashboard] Stats:","students":81,"teachers":5,"timestamp":"2026-02-22 10:14:38"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-22 10:14:38"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-22 10:14:38"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-22 10:14:38"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-22 10:14:38"}
+{"adminDeptId":"NULL/undefined","adminId":"264","level":"info","limit":10,"message":"🔍 [getAllStudents] Received request with params:","page":1,"search":"","skip":0,"timestamp":"2026-02-22 10:14:38"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-22 10:14:38"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-22 10:14:38"}
+{"level":"info","message":"🔍 [getAllStudents] Query where clause:","timestamp":"2026-02-22 10:14:38"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-22 10:14:38"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-22 10:14:38"}
+{"level":"info","message":"✅ [getAllStudents] Found 81 total students, returning 10 students","timestamp":"2026-02-22 10:14:39"}
+{"dept_id":"729","id":"237","level":"info","message":"📝 [getAllStudents] First student:","name":"Salma Ali","stage_id":"820","timestamp":"2026-02-22 10:14:39"}
+{"level":"info","message":"📤 [getAllStudents] Sending response with 10 students","timestamp":"2026-02-22 10:14:39"}
+{"level":"http","message":"PUT /api/v1/students/240/reset-fingerprint","timestamp":"2026-02-22 10:15:06"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-22 10:15:06"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-22 10:15:07"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-22 10:15:07"}
+{"level":"info","message":"[ADMIN] Fingerprint reset for student: 240","timestamp":"2026-02-22 10:15:07"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-22 10:15:08"}
+{"level":"info","message":"Email sent to khalid.fawzy.e445e8@gmail.com","timestamp":"2026-02-22 10:15:12"}
+{"level":"info","message":"✅ Login notification sent to khalid.fawzy.e445e8@gmail.com","timestamp":"2026-02-22 10:15:12"}
+{"level":"http","message":"GET /api/v1/dashboard/student","timestamp":"2026-02-22 10:15:12"}
+{"level":"info","message":"🔍 [getStudentDashboard] Fetching dashboard for student:","studentId":"240","timestamp":"2026-02-22 10:15:13"}
+{"attendedCount":0,"level":"info","message":"✅ [getStudentDashboard] Dashboard data prepared:","percentage":"0","status":"danger","studentId":"240","timestamp":"2026-02-22 10:15:14","totalSessions":0}
+{"level":"http","message":"POST /api/v1/auth/logout","timestamp":"2026-02-22 10:15:34"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-22 10:15:39"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-22 10:15:50"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-22 10:15:56"}
+{"level":"debug","message":"Checking environment variables...","timestamp":"2026-02-22 10:16:30"}
+{"level":"debug","message":"PORT from env: 4000","timestamp":"2026-02-22 10:16:30"}
+{"level":"debug","message":"DATABASE_URL is defined: true","timestamp":"2026-02-22 10:16:30"}
+{"level":"info","message":"Server running on port 4000","timestamp":"2026-02-22 10:16:30"}
+{"level":"info","message":"Environment: development","timestamp":"2026-02-22 10:16:30"}
+{"level":"info","message":"Cleanup jobs started","timestamp":"2026-02-22 10:16:30"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-22 10:16:33"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-22 10:16:35"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 10:16:35","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 10:16:35"}
+{"level":"http","message":"GET /api/v1/sessions/my-sessions?page=1&limit=10&search=","timestamp":"2026-02-22 10:16:37"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 10:16:37","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 10:16:38"}
+{"level":"http","message":"GET /api/v1/dashboard/student","timestamp":"2026-02-22 10:16:42"}
+{"level":"info","message":"🔍 [getStudentDashboard] Fetching dashboard for student:","studentId":"240","timestamp":"2026-02-22 10:16:43"}
+{"attendedCount":0,"level":"info","message":"✅ [getStudentDashboard] Dashboard data prepared:","percentage":"0","status":"danger","studentId":"240","timestamp":"2026-02-22 10:16:44","totalSessions":0}
+{"level":"http","message":"GET /api/v1/teachers/my-students","timestamp":"2026-02-22 10:16:49"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 10:16:49","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 10:16:50"}
+{"level":"info","message":"👥 [getMyStudents] Fetching students for teacher:","timestamp":"2026-02-22 10:16:50"}
+{"level":"info","message":"📚 [getMyStudents] Teacher has","timestamp":"2026-02-22 10:16:52"}
+{"level":"info","message":"🔍 [getMyStudents] Unique dept/stage combinations:","timestamp":"2026-02-22 10:16:52"}
+{"level":"info","message":"🔍 [getMyStudents] OR conditions:","timestamp":"2026-02-22 10:16:52"}
+{"level":"info","message":"✅ [getMyStudents] Found","timestamp":"2026-02-22 10:16:52"}
+{"level":"info","message":"Sample student:","timestamp":"2026-02-22 10:16:52"}
+{"level":"http","message":"GET /api/v1/materials/my-materials","timestamp":"2026-02-22 10:16:52"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 10:16:52","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 10:16:53"}
+{"level":"info","message":" [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-22 10:16:53"}
+{"level":"info","message":" [getTeacherMaterials] Found","timestamp":"2026-02-22 10:16:53"}
+{"level":"http","message":"GET /api/v1/sessions/my-sessions?page=1&limit=10&search=","timestamp":"2026-02-22 10:17:00"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 10:17:00","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 10:17:00"}
+{"level":"http","message":"POST /api/v1/auth/logout","timestamp":"2026-02-22 10:17:02"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-22 10:17:37"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-22 10:17:38"}
+{"id":"109","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 10:17:38","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 10:17:38"}
+{"level":"http","message":"GET /api/v1/teachers/my-students","timestamp":"2026-02-22 10:17:41"}
+{"id":"109","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 10:17:41","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 10:17:42"}
+{"level":"info","message":"👥 [getMyStudents] Fetching students for teacher:","timestamp":"2026-02-22 10:17:42"}
+{"level":"info","message":"📚 [getMyStudents] Teacher has","timestamp":"2026-02-22 10:17:42"}
+{"level":"http","message":"GET /api/v1/materials/my-materials","timestamp":"2026-02-22 10:17:43"}
+{"id":"109","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 10:17:43","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 10:17:43"}
+{"level":"info","message":" [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-22 10:17:43"}
+{"level":"info","message":" [getTeacherMaterials] Found","timestamp":"2026-02-22 10:17:44"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-22 10:17:45"}
+{"id":"109","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 10:17:45","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 10:17:45"}
+{"level":"http","message":"GET /api/v1/attendance/teacher-stats","timestamp":"2026-02-22 10:17:48"}
+{"id":"109","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 10:17:48","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 10:17:48"}
+{"level":"http","message":"GET /api/v1/sessions/my-sessions?page=1&limit=10&search=","timestamp":"2026-02-22 10:17:50"}
+{"id":"109","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 10:17:50","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 10:17:50"}
+{"level":"http","message":"GET /api/v1/sessions?page=1&limit=10&search=","timestamp":"2026-02-22 10:17:54"}
+{"level":"http","message":"GET /api/v1/materials/my-materials","timestamp":"2026-02-22 10:17:54"}
+{"id":"109","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 10:17:54","type":"string"}
+{"level":"http","message":"GET /api/v1/geofences","timestamp":"2026-02-22 10:17:54"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 10:17:54"}
+{"level":"info","message":" [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-22 10:17:54"}
+{"level":"info","message":" [getTeacherMaterials] Found","timestamp":"2026-02-22 10:17:54"}
+{"level":"http","message":"GET /api/v1/sessions/my-sessions?page=1&limit=10&search=","timestamp":"2026-02-22 10:18:03"}
+{"id":"109","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 10:18:03","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 10:18:03"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-22 10:18:15"}
+{"id":"109","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 10:18:15","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 10:18:15"}
+{"level":"http","message":"GET /api/v1/dashboard/student","timestamp":"2026-02-22 10:18:19"}
+{"level":"info","message":"🔍 [getStudentDashboard] Fetching dashboard for student:","studentId":"240","timestamp":"2026-02-22 10:18:20"}
+{"attendedCount":0,"level":"info","message":"✅ [getStudentDashboard] Dashboard data prepared:","percentage":"0","status":"danger","studentId":"240","timestamp":"2026-02-22 10:18:21","totalSessions":0}
+{"level":"http","message":"GET /api/v1/materials/my-materials","timestamp":"2026-02-22 10:18:46"}
+{"id":"109","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 10:18:46","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 10:18:46"}
+{"level":"info","message":" [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-22 10:18:46"}
+{"level":"info","message":" [getTeacherMaterials] Found","timestamp":"2026-02-22 10:18:47"}
+{"level":"http","message":"GET /api/v1/sessions/my-sessions?page=1&limit=10&search=","timestamp":"2026-02-22 10:19:09"}
+{"id":"109","level":"debug","message":"Looking for teacher","timestamp":"2026-02-22 10:19:09","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-22 10:19:10"}
+{"level":"http","message":"POST /api/v1/auth/logout","timestamp":"2026-02-22 10:19:20"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-22 10:19:32"}
+{"level":"http","message":"GET /api/v1/dashboard/admin","timestamp":"2026-02-22 10:19:32"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-22 10:19:32"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-22 10:19:32"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-22 10:19:32"}
+{"department_id":"NULL (Dean)","id":"264","level":"info","message":"🔍 [getAdminDashboard] Admin:","timestamp":"2026-02-22 10:19:32"}
+{"departments":4,"level":"info","materials":149,"message":"✅ [getAdminDashboard] Stats:","students":81,"teachers":5,"timestamp":"2026-02-22 10:19:36"}
+{"level":"http","message":"GET /api/v1/geofences","timestamp":"2026-02-22 10:19:46"}
+{"level":"http","message":"GET /api/v1/teachers","timestamp":"2026-02-22 10:20:01"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-22 10:20:01"}
+{"level":"http","message":"GET /api/v1/departments","timestamp":"2026-02-22 10:20:01"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-22 10:20:01"}
+{"level":"http","message":"GET /api/v1/materials","timestamp":"2026-02-22 10:20:01"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-22 10:20:01"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-22 10:20:02"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-22 10:20:02"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-22 10:20:02"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-22 10:20:02"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-22 10:20:02"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-22 10:20:02"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-22 10:20:02"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-22 10:20:02"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-22 10:20:02"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-22 10:20:02"}
+{"level":"http","message":"GET /api/v1/departments","timestamp":"2026-02-22 10:20:10"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-22 10:20:10"}
+{"level":"http","message":"GET /api/v1/students?page=1&limit=10&search=","timestamp":"2026-02-22 10:20:10"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-22 10:20:10"}
+{"level":"http","message":"GET /api/v1/stages","timestamp":"2026-02-22 10:20:10"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-22 10:20:10"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-22 10:20:10"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-22 10:20:10"}
+{"adminDeptId":"NULL/undefined","adminId":"264","level":"info","limit":10,"message":"🔍 [getAllStudents] Received request with params:","page":1,"search":"","skip":0,"timestamp":"2026-02-22 10:20:10"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-22 10:20:10"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-22 10:20:10"}
+{"level":"info","message":"🔍 [getAllStudents] Query where clause:","timestamp":"2026-02-22 10:20:10"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-22 10:20:10"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-22 10:20:10"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-22 10:20:10"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-22 10:20:10"}
+{"level":"info","message":"✅ [getAllStudents] Found 81 total students, returning 10 students","timestamp":"2026-02-22 10:20:11"}
+{"dept_id":"729","id":"237","level":"info","message":"📝 [getAllStudents] First student:","name":"Salma Ali","stage_id":"820","timestamp":"2026-02-22 10:20:11"}
+{"level":"info","message":"📤 [getAllStudents] Sending response with 10 students","timestamp":"2026-02-22 10:20:11"}
+{"level":"http","message":"GET /api/v1/students?page=2&limit=10&search=","timestamp":"2026-02-22 10:20:14"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-22 10:20:14"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-22 10:20:14"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-22 10:20:14"}
+{"adminDeptId":"NULL/undefined","adminId":"264","level":"info","limit":10,"message":"🔍 [getAllStudents] Received request with params:","page":2,"search":"","skip":10,"timestamp":"2026-02-22 10:20:14"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-22 10:20:14"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-22 10:20:14"}
+{"level":"info","message":"🔍 [getAllStudents] Query where clause:","timestamp":"2026-02-22 10:20:14"}
+{"level":"info","message":"✅ [getAllStudents] Found 81 total students, returning 10 students","timestamp":"2026-02-22 10:20:15"}
+{"dept_id":"729","id":"247","level":"info","message":"📝 [getAllStudents] First student:","name":"Fatima Mohamed","stage_id":"821","timestamp":"2026-02-22 10:20:15"}
+{"level":"info","message":"📤 [getAllStudents] Sending response with 10 students","timestamp":"2026-02-22 10:20:15"}
+{"level":"http","message":"GET /api/v1/students?page=3&limit=10&search=","timestamp":"2026-02-22 10:20:16"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-22 10:20:16"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-22 10:20:16"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-22 10:20:16"}
+{"adminDeptId":"NULL/undefined","adminId":"264","level":"info","limit":10,"message":"🔍 [getAllStudents] Received request with params:","page":3,"search":"","skip":20,"timestamp":"2026-02-22 10:20:16"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-22 10:20:16"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-22 10:20:16"}
+{"level":"info","message":"🔍 [getAllStudents] Query where clause:","timestamp":"2026-02-22 10:20:16"}
+{"level":"info","message":"✅ [getAllStudents] Found 81 total students, returning 10 students","timestamp":"2026-02-22 10:20:17"}
+{"dept_id":"730","id":"257","level":"info","message":"📝 [getAllStudents] First student:","name":"Dina Nabil","stage_id":"819","timestamp":"2026-02-22 10:20:17"}
+{"level":"info","message":"📤 [getAllStudents] Sending response with 10 students","timestamp":"2026-02-22 10:20:17"}
+{"level":"http","message":"GET /api/v1/materials","timestamp":"2026-02-22 10:20:20"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-22 10:20:20"}
+{"level":"http","message":"GET /api/v1/students?page=1&limit=100&search=","timestamp":"2026-02-22 10:20:20"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-22 10:20:20"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-22 10:20:21"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-22 10:20:21"}
+{"adminDeptId":"NULL/undefined","adminId":"264","level":"info","limit":100,"message":"🔍 [getAllStudents] Received request with params:","page":1,"search":"","skip":0,"timestamp":"2026-02-22 10:20:21"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-22 10:20:21"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-22 10:20:21"}
+{"level":"info","message":"🔍 [getAllStudents] Query where clause:","timestamp":"2026-02-22 10:20:21"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-22 10:20:21"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-22 10:20:21"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-22 10:20:21"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-22 10:20:21"}
+{"level":"info","message":"✅ [getAllStudents] Found 81 total students, returning 81 students","timestamp":"2026-02-22 10:20:22"}
+{"dept_id":"729","id":"237","level":"info","message":"📝 [getAllStudents] First student:","name":"Salma Ali","stage_id":"820","timestamp":"2026-02-22 10:20:22"}
+{"level":"info","message":"📤 [getAllStudents] Sending response with 81 students","timestamp":"2026-02-22 10:20:22"}
+{"level":"http","message":"GET /api/v1/enrollment/student/237","timestamp":"2026-02-22 10:20:57"}
+{"level":"http","message":"GET /api/v1/promotion/eligible?academic_year=2024-2025","timestamp":"2026-02-22 10:21:50"}
+{"level":"http","message":"GET /api/v1/departments","timestamp":"2026-02-22 10:22:11"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-22 10:22:11"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-22 10:22:13"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-22 10:22:13"}
+{"level":"http","message":"GET /api/v1/departments","timestamp":"2026-02-22 10:22:13"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-22 10:22:13"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-22 10:22:13"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-22 10:22:13"}
+{"level":"http","message":"GET /api/v1/promotion/config/729","timestamp":"2026-02-22 10:22:15"}
+{"level":"http","message":"GET /api/v1/departments","timestamp":"2026-02-22 10:22:33"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-22 10:22:33"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-22 10:22:33"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-22 10:22:33"}
+{"level":"http","message":"GET /api/v1/materials","timestamp":"2026-02-22 10:22:34"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-22 10:22:34"}
+{"level":"http","message":"GET /api/v1/departments","timestamp":"2026-02-22 10:22:34"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-22 10:22:34"}
+{"level":"http","message":"GET /api/v1/stages","timestamp":"2026-02-22 10:22:34"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-22 10:22:34"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-22 10:22:34"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-22 10:22:34"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-22 10:22:34"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-22 10:22:34"}
+{"level":"http","message":"GET /api/v1/students?page=1&limit=10&search=","timestamp":"2026-02-22 10:22:34"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-22 10:22:34"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-22 10:22:35"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-22 10:22:35"}
+{"adminDeptId":"NULL/undefined","adminId":"264","level":"info","limit":10,"message":"🔍 [getAllStudents] Received request with params:","page":1,"search":"","skip":0,"timestamp":"2026-02-22 10:22:35"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-22 10:22:35"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-22 10:22:35"}
+{"level":"info","message":"🔍 [getAllStudents] Query where clause:","timestamp":"2026-02-22 10:22:35"}
+{"level":"http","message":"GET /api/v1/teachers","timestamp":"2026-02-22 10:22:35"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-22 10:22:35"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-22 10:22:35"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-22 10:22:35"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-22 10:22:35"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-22 10:22:35"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-22 10:22:35"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-22 10:22:35"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-22 10:22:35"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-22 10:22:35"}
+{"level":"info","message":"✅ [getAllStudents] Found 81 total students, returning 10 students","timestamp":"2026-02-22 10:22:36"}
+{"dept_id":"729","id":"237","level":"info","message":"📝 [getAllStudents] First student:","name":"Salma Ali","stage_id":"820","timestamp":"2026-02-22 10:22:36"}
+{"level":"info","message":"📤 [getAllStudents] Sending response with 10 students","timestamp":"2026-02-22 10:22:36"}
+{"level":"http","message":"GET /api/v1/dashboard/admin","timestamp":"2026-02-22 10:22:36"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-22 10:22:36"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-22 10:22:36"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-22 10:22:36"}
+{"department_id":"NULL (Dean)","id":"264","level":"info","message":"🔍 [getAdminDashboard] Admin:","timestamp":"2026-02-22 10:22:36"}
+{"departments":4,"level":"info","materials":149,"message":"✅ [getAdminDashboard] Stats:","students":81,"teachers":5,"timestamp":"2026-02-22 10:22:39"}
+{"level":"http","message":"POST /api/v1/auth/logout","timestamp":"2026-02-22 10:26:22"}
+{"level":"http","message":"POST /api/v1/auth/forgot-password","timestamp":"2026-02-22 10:26:30"}
+{"level":"http","message":"POST /api/v1/auth/forgot-password","timestamp":"2026-02-22 10:26:38"}
+{"level":"info","message":"Email sent to khalid.fawzy.e445e8@gmail.com","timestamp":"2026-02-22 10:26:41"}
+{"level":"info","message":"✅ Password reset email sent to khalid.fawzy.e445e8@gmail.com (student)","timestamp":"2026-02-22 10:26:41"}
+{"level":"http","message":"GET /api/v1/dashboard/student","timestamp":"2026-02-22 10:26:44"}
+{"level":"info","message":"🔍 [getStudentDashboard] Fetching dashboard for student:","studentId":"240","timestamp":"2026-02-22 10:26:45"}
+{"attendedCount":0,"level":"info","message":"✅ [getStudentDashboard] Dashboard data prepared:","percentage":"0","status":"danger","studentId":"240","timestamp":"2026-02-22 10:26:46","totalSessions":0}
+{"level":"info","message":"Cleanup job: Deleted 0 expired/used QR tokens","timestamp":"2026-02-22 13:00:01"}
+{"level":"debug","message":"Checking environment variables...","timestamp":"2026-02-24 00:35:49"}
+{"level":"debug","message":"PORT from env: 4000","timestamp":"2026-02-24 00:35:49"}
+{"level":"debug","message":"DATABASE_URL is defined: true","timestamp":"2026-02-24 00:35:49"}
+{"level":"info","message":"Server running on port 4000","timestamp":"2026-02-24 00:35:49"}
+{"level":"info","message":"Environment: development","timestamp":"2026-02-24 00:35:49"}
+{"level":"info","message":"Cleanup jobs started","timestamp":"2026-02-24 00:35:49"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-24 00:37:56"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-24 00:38:00"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 00:38:00","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 00:38:00"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-24 00:39:10"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 00:39:10","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 00:39:10"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-24 00:39:20"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 00:39:20","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 00:39:20"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-24 00:42:08"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 00:42:08","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 00:42:08"}
+{"level":"http","message":"POST /api/v1/auth/logout","timestamp":"2026-02-24 00:42:10"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-24 00:42:11"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-24 00:42:11"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 00:42:11","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 00:42:11"}
+{"level":"http","message":"POST /api/v1/auth/logout","timestamp":"2026-02-24 00:42:12"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-24 00:42:13"}
+{"level":"http","message":"POST /api/v1/auth/logout","timestamp":"2026-02-24 00:42:15"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-24 00:42:19"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-24 00:42:29"}
+{"level":"http","message":"GET /api/v1/dashboard/admin","timestamp":"2026-02-24 00:42:29"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-24 00:42:29"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-24 00:42:29"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-24 00:42:29"}
+{"department_id":"NULL (Dean)","id":"264","level":"info","message":"🔍 [getAdminDashboard] Admin:","timestamp":"2026-02-24 00:42:29"}
+{"departments":4,"level":"info","materials":149,"message":"✅ [getAdminDashboard] Stats:","students":81,"teachers":5,"timestamp":"2026-02-24 00:42:31"}
+{"level":"http","message":"POST /api/v1/auth/logout","timestamp":"2026-02-24 00:42:31"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-24 00:42:32"}
+{"level":"debug","message":"Checking environment variables...","timestamp":"2026-02-24 00:50:23"}
+{"level":"debug","message":"PORT from env: 4000","timestamp":"2026-02-24 00:50:23"}
+{"level":"debug","message":"DATABASE_URL is defined: true","timestamp":"2026-02-24 00:50:23"}
+{"level":"info","message":"Server running on port 4000","timestamp":"2026-02-24 00:50:23"}
+{"level":"info","message":"Environment: development","timestamp":"2026-02-24 00:50:23"}
+{"level":"info","message":"Cleanup jobs started","timestamp":"2026-02-24 00:50:23"}
+{"level":"debug","message":"Checking environment variables...","timestamp":"2026-02-24 00:50:58"}
+{"level":"debug","message":"PORT from env: 4000","timestamp":"2026-02-24 00:50:58"}
+{"level":"debug","message":"DATABASE_URL is defined: true","timestamp":"2026-02-24 00:50:58"}
+{"level":"info","message":"Server running on port 4000","timestamp":"2026-02-24 00:50:58"}
+{"level":"info","message":"Environment: development","timestamp":"2026-02-24 00:50:58"}
+{"level":"info","message":"Cleanup jobs started","timestamp":"2026-02-24 00:50:58"}
+{"level":"debug","message":"Checking environment variables...","timestamp":"2026-02-24 00:51:29"}
+{"level":"debug","message":"PORT from env: 4000","timestamp":"2026-02-24 00:51:29"}
+{"level":"debug","message":"DATABASE_URL is defined: true","timestamp":"2026-02-24 00:51:29"}
+{"level":"info","message":"Server running on port 4000","timestamp":"2026-02-24 00:51:29"}
+{"level":"info","message":"Environment: development","timestamp":"2026-02-24 00:51:29"}
+{"level":"info","message":"Cleanup jobs started","timestamp":"2026-02-24 00:51:29"}
+{"level":"debug","message":"Checking environment variables...","timestamp":"2026-02-24 00:51:58"}
+{"level":"debug","message":"PORT from env: 4000","timestamp":"2026-02-24 00:51:58"}
+{"level":"debug","message":"DATABASE_URL is defined: true","timestamp":"2026-02-24 00:51:58"}
+{"level":"info","message":"Server running on port 4000","timestamp":"2026-02-24 00:51:58"}
+{"level":"info","message":"Environment: development","timestamp":"2026-02-24 00:51:58"}
+{"level":"info","message":"Cleanup jobs started","timestamp":"2026-02-24 00:51:58"}
+{"level":"debug","message":"Checking environment variables...","timestamp":"2026-02-24 00:52:58"}
+{"level":"debug","message":"PORT from env: 4000","timestamp":"2026-02-24 00:52:58"}
+{"level":"debug","message":"DATABASE_URL is defined: true","timestamp":"2026-02-24 00:52:58"}
+{"level":"info","message":"Server running on port 4000","timestamp":"2026-02-24 00:52:58"}
+{"level":"info","message":"Environment: development","timestamp":"2026-02-24 00:52:58"}
+{"level":"info","message":"Cleanup jobs started","timestamp":"2026-02-24 00:52:58"}
+{"level":"info","message":"Cleanup job: Deleted 0 expired/used QR tokens","timestamp":"2026-02-24 01:00:01"}
+{"level":"debug","message":"Checking environment variables...","timestamp":"2026-02-24 01:13:15"}
+{"level":"debug","message":"PORT from env: 4000","timestamp":"2026-02-24 01:13:15"}
+{"level":"debug","message":"DATABASE_URL is defined: true","timestamp":"2026-02-24 01:13:15"}
+{"level":"info","message":"Server running on port 4000","timestamp":"2026-02-24 01:13:15"}
+{"level":"info","message":"Environment: development","timestamp":"2026-02-24 01:13:15"}
+{"level":"info","message":"Cleanup jobs started","timestamp":"2026-02-24 01:13:15"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-24 01:13:19"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-24 01:13:25"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-24 01:13:25"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:13:25","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:13:26"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-24 01:13:27"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:13:27","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:13:27"}
+{"level":"debug","message":"Checking environment variables...","timestamp":"2026-02-24 01:14:13"}
+{"level":"debug","message":"PORT from env: 4000","timestamp":"2026-02-24 01:14:13"}
+{"level":"debug","message":"DATABASE_URL is defined: true","timestamp":"2026-02-24 01:14:13"}
+{"level":"info","message":"Server running on port 4000","timestamp":"2026-02-24 01:14:13"}
+{"level":"info","message":"Environment: development","timestamp":"2026-02-24 01:14:13"}
+{"level":"info","message":"Cleanup jobs started","timestamp":"2026-02-24 01:14:13"}
+{"level":"warn","message":"⚠️ Redis unavailable:  — running without cache","timestamp":"2026-02-24 01:14:13"}
+{"level":"warn","message":"⚠️ Redis: giving up connecting after 3 attempts. Caching disabled.","timestamp":"2026-02-24 01:14:14"}
+{"level":"debug","message":"Checking environment variables...","timestamp":"2026-02-24 01:14:38"}
+{"level":"debug","message":"PORT from env: 4000","timestamp":"2026-02-24 01:14:38"}
+{"level":"debug","message":"DATABASE_URL is defined: true","timestamp":"2026-02-24 01:14:38"}
+{"level":"info","message":"Server running on port 4000","timestamp":"2026-02-24 01:14:38"}
+{"level":"info","message":"Environment: development","timestamp":"2026-02-24 01:14:38"}
+{"level":"info","message":"Cleanup jobs started","timestamp":"2026-02-24 01:14:38"}
+{"level":"warn","message":"⚠️ Redis unavailable:  — running without cache","timestamp":"2026-02-24 01:14:39"}
+{"level":"warn","message":"⚠️ Redis: giving up connecting after 3 attempts. Caching disabled.","timestamp":"2026-02-24 01:14:40"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-24 01:14:47"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:14:47","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:14:48"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"dashboard:teacher:120\", fetching from DB","timestamp":"2026-02-24 01:14:48"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-24 01:14:51"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:14:51","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:14:51"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"dashboard:teacher:120\", fetching from DB","timestamp":"2026-02-24 01:14:51"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-24 01:14:52"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:14:52","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:14:52"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"dashboard:teacher:120\", fetching from DB","timestamp":"2026-02-24 01:14:52"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-24 01:14:52"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:14:52","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:14:52"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"dashboard:teacher:120\", fetching from DB","timestamp":"2026-02-24 01:14:52"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-24 01:14:53"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:14:53","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:14:53"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"dashboard:teacher:120\", fetching from DB","timestamp":"2026-02-24 01:14:53"}
+{"level":"http","message":"GET /api/v1/materials/my-materials","timestamp":"2026-02-24 01:14:55"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:14:55","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:14:55"}
+{"level":"info","message":" [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-24 01:14:55"}
+{"level":"info","message":" [getTeacherMaterials] Found","timestamp":"2026-02-24 01:14:55"}
+{"level":"http","message":"GET /api/v1/teachers/my-students","timestamp":"2026-02-24 01:14:56"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:14:56","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:14:56"}
+{"level":"info","message":"👥 [getMyStudents] Fetching students for teacher:","timestamp":"2026-02-24 01:14:56"}
+{"level":"info","message":"📚 [getMyStudents] Teacher has","timestamp":"2026-02-24 01:14:57"}
+{"level":"info","message":"🔍 [getMyStudents] Unique dept/stage combinations:","timestamp":"2026-02-24 01:14:57"}
+{"level":"info","message":"🔍 [getMyStudents] OR conditions:","timestamp":"2026-02-24 01:14:57"}
+{"level":"info","message":"✅ [getMyStudents] Found","timestamp":"2026-02-24 01:14:57"}
+{"level":"info","message":"Sample student:","timestamp":"2026-02-24 01:14:57"}
+{"level":"http","message":"GET /api/v1/sessions/my-sessions?page=1&limit=10&search=","timestamp":"2026-02-24 01:14:58"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:14:58","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:14:58"}
+{"level":"http","message":"GET /api/v1/attendance/teacher-stats","timestamp":"2026-02-24 01:15:00"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:15:00","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:15:00"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-24 01:15:03"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:15:03","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:15:03"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"dashboard:teacher:120\", fetching from DB","timestamp":"2026-02-24 01:15:03"}
+{"level":"http","message":"GET /api/v1/materials/my-materials","timestamp":"2026-02-24 01:15:04"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:15:04","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:15:04"}
+{"level":"info","message":" [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-24 01:15:04"}
+{"level":"info","message":" [getTeacherMaterials] Found","timestamp":"2026-02-24 01:15:04"}
+{"level":"http","message":"GET /api/v1/teachers/my-students","timestamp":"2026-02-24 01:15:04"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:15:04","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:15:05"}
+{"level":"info","message":"👥 [getMyStudents] Fetching students for teacher:","timestamp":"2026-02-24 01:15:05"}
+{"level":"info","message":"📚 [getMyStudents] Teacher has","timestamp":"2026-02-24 01:15:05"}
+{"level":"info","message":"🔍 [getMyStudents] Unique dept/stage combinations:","timestamp":"2026-02-24 01:15:05"}
+{"level":"info","message":"🔍 [getMyStudents] OR conditions:","timestamp":"2026-02-24 01:15:05"}
+{"level":"http","message":"GET /api/v1/sessions/my-sessions?page=1&limit=10&search=","timestamp":"2026-02-24 01:15:05"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:15:05","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:15:05"}
+{"level":"info","message":"✅ [getMyStudents] Found","timestamp":"2026-02-24 01:15:05"}
+{"level":"info","message":"Sample student:","timestamp":"2026-02-24 01:15:05"}
+{"level":"http","message":"GET /api/v1/attendance/teacher-stats","timestamp":"2026-02-24 01:15:06"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:15:06","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:15:06"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-24 01:15:08"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:15:08","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:15:08"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"dashboard:teacher:120\", fetching from DB","timestamp":"2026-02-24 01:15:08"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-24 01:15:14"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:15:14","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:15:14"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"dashboard:teacher:120\", fetching from DB","timestamp":"2026-02-24 01:15:14"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-24 01:15:16"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:15:16","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:15:16"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"dashboard:teacher:120\", fetching from DB","timestamp":"2026-02-24 01:15:16"}
+{"level":"debug","message":"Checking environment variables...","timestamp":"2026-02-24 01:16:51"}
+{"level":"debug","message":"PORT from env: 4000","timestamp":"2026-02-24 01:16:51"}
+{"level":"debug","message":"DATABASE_URL is defined: true","timestamp":"2026-02-24 01:16:51"}
+{"level":"info","message":"Server running on port 4000","timestamp":"2026-02-24 01:16:51"}
+{"level":"info","message":"Environment: development","timestamp":"2026-02-24 01:16:51"}
+{"level":"info","message":"Cleanup jobs started","timestamp":"2026-02-24 01:16:51"}
+{"level":"warn","message":"⚠️ Redis unavailable:  — running without cache","timestamp":"2026-02-24 01:16:51"}
+{"level":"http","message":"POST /api/v1/auth/logout","timestamp":"2026-02-24 01:17:53"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-24 01:17:53"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-24 01:17:55"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:17:55","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:17:55"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"dashboard:teacher:120\", fetching from DB","timestamp":"2026-02-24 01:17:55"}
+{"level":"http","message":"GET /api/v1/materials/my-materials","timestamp":"2026-02-24 01:18:01"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:18:01","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:18:01"}
+{"level":"info","message":" [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-24 01:18:01"}
+{"level":"info","message":" [getTeacherMaterials] Found","timestamp":"2026-02-24 01:18:02"}
+{"level":"http","message":"POST /api/v1/auth/logout","timestamp":"2026-02-24 01:18:05"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-24 01:18:06"}
+{"level":"http","message":"POST /api/v1/auth/logout","timestamp":"2026-02-24 01:18:09"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-24 01:18:22"}
+{"level":"http","message":"GET /api/v1/dashboard/admin","timestamp":"2026-02-24 01:18:23"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-24 01:18:23"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-24 01:18:23"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-24 01:18:23"}
+{"department_id":"NULL (Dean)","id":"264","level":"info","message":"🔍 [getAdminDashboard] Admin:","timestamp":"2026-02-24 01:18:23"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"dashboard:admin:264:dept:all\", fetching from DB","timestamp":"2026-02-24 01:18:23"}
+{"departments":4,"level":"info","materials":149,"message":"✅ [getAdminDashboard] Stats fetched from DB:","students":81,"teachers":5,"timestamp":"2026-02-24 01:18:25"}
+{"level":"http","message":"POST /api/v1/auth/logout","timestamp":"2026-02-24 01:18:31"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-24 01:18:32"}
+{"level":"http","message":"POST /api/v1/auth/logout","timestamp":"2026-02-24 01:18:35"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-24 01:18:36"}
+{"level":"http","message":"GET /api/v1/materials/my-materials","timestamp":"2026-02-24 01:18:39"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:18:39","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:18:40"}
+{"level":"info","message":" [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-24 01:18:40"}
+{"level":"info","message":" [getTeacherMaterials] Found","timestamp":"2026-02-24 01:18:40"}
+{"level":"http","message":"GET /api/v1/sessions/my-sessions?page=1&limit=10&search=","timestamp":"2026-02-24 01:18:40"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:18:40","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:18:40"}
+{"level":"http","message":"GET /api/v1/attendance/teacher-stats","timestamp":"2026-02-24 01:18:43"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:18:43","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:18:43"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-24 01:18:45"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:18:45","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:18:45"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"dashboard:teacher:120\", fetching from DB","timestamp":"2026-02-24 01:18:45"}
+{"level":"http","message":"GET /api/v1/teachers/my-students","timestamp":"2026-02-24 01:18:46"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:18:46","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:18:47"}
+{"level":"info","message":"👥 [getMyStudents] Fetching students for teacher:","timestamp":"2026-02-24 01:18:47"}
+{"level":"info","message":"📚 [getMyStudents] Teacher has","timestamp":"2026-02-24 01:18:47"}
+{"level":"info","message":"🔍 [getMyStudents] Unique dept/stage combinations:","timestamp":"2026-02-24 01:18:47"}
+{"level":"info","message":"🔍 [getMyStudents] OR conditions:","timestamp":"2026-02-24 01:18:47"}
+{"level":"info","message":"✅ [getMyStudents] Found","timestamp":"2026-02-24 01:18:48"}
+{"level":"info","message":"Sample student:","timestamp":"2026-02-24 01:18:48"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-24 01:20:08"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-24 01:20:08"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:20:08","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:20:08"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"dashboard:teacher:120\", fetching from DB","timestamp":"2026-02-24 01:20:08"}
+{"level":"http","message":"GET /api/v1/teachers/my-students","timestamp":"2026-02-24 01:20:15"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:20:15","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:20:15"}
+{"level":"info","message":"👥 [getMyStudents] Fetching students for teacher:","timestamp":"2026-02-24 01:20:15"}
+{"level":"info","message":"📚 [getMyStudents] Teacher has","timestamp":"2026-02-24 01:20:16"}
+{"level":"info","message":"🔍 [getMyStudents] Unique dept/stage combinations:","timestamp":"2026-02-24 01:20:16"}
+{"level":"info","message":"🔍 [getMyStudents] OR conditions:","timestamp":"2026-02-24 01:20:16"}
+{"level":"info","message":"✅ [getMyStudents] Found","timestamp":"2026-02-24 01:20:16"}
+{"level":"info","message":"Sample student:","timestamp":"2026-02-24 01:20:16"}
+{"level":"http","message":"GET /api/v1/materials/my-materials","timestamp":"2026-02-24 01:20:17"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:20:17","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:20:17"}
+{"level":"info","message":" [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-24 01:20:17"}
+{"level":"info","message":" [getTeacherMaterials] Found","timestamp":"2026-02-24 01:20:17"}
+{"level":"http","message":"GET /api/v1/attendance/teacher-stats","timestamp":"2026-02-24 01:20:19"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:20:19","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:20:19"}
+{"level":"http","message":"GET /api/v1/teachers/my-students","timestamp":"2026-02-24 01:20:25"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:20:25","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:20:25"}
+{"level":"info","message":"👥 [getMyStudents] Fetching students for teacher:","timestamp":"2026-02-24 01:20:25"}
+{"level":"info","message":"📚 [getMyStudents] Teacher has","timestamp":"2026-02-24 01:20:25"}
+{"level":"info","message":"🔍 [getMyStudents] Unique dept/stage combinations:","timestamp":"2026-02-24 01:20:25"}
+{"level":"info","message":"🔍 [getMyStudents] OR conditions:","timestamp":"2026-02-24 01:20:25"}
+{"level":"info","message":"✅ [getMyStudents] Found","timestamp":"2026-02-24 01:20:25"}
+{"level":"info","message":"Sample student:","timestamp":"2026-02-24 01:20:25"}
+{"level":"http","message":"GET /api/v1/teachers/my-students","timestamp":"2026-02-24 01:23:27"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:23:27","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:23:27"}
+{"level":"info","message":"👥 [getMyStudents] Fetching students for teacher:","timestamp":"2026-02-24 01:23:27"}
+{"level":"info","message":"📚 [getMyStudents] Teacher has","timestamp":"2026-02-24 01:23:28"}
+{"level":"info","message":"🔍 [getMyStudents] Unique dept/stage combinations:","timestamp":"2026-02-24 01:23:28"}
+{"level":"info","message":"🔍 [getMyStudents] OR conditions:","timestamp":"2026-02-24 01:23:28"}
+{"level":"info","message":"✅ [getMyStudents] Found","timestamp":"2026-02-24 01:23:28"}
+{"level":"info","message":"Sample student:","timestamp":"2026-02-24 01:23:28"}
+{"level":"debug","message":"Checking environment variables...","timestamp":"2026-02-24 01:24:54"}
+{"level":"debug","message":"PORT from env: 4000","timestamp":"2026-02-24 01:24:54"}
+{"level":"debug","message":"DATABASE_URL is defined: true","timestamp":"2026-02-24 01:24:54"}
+{"level":"info","message":"Server running on port 4000","timestamp":"2026-02-24 01:24:54"}
+{"level":"info","message":"Environment: development","timestamp":"2026-02-24 01:24:54"}
+{"level":"info","message":"Cleanup jobs started","timestamp":"2026-02-24 01:24:54"}
+{"level":"warn","message":"⚠️ Redis unavailable:  — running without cache","timestamp":"2026-02-24 01:24:54"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-24 01:26:32"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:26:32","type":"string"}
+{"level":"http","message":"GET /api/v1/sessions/my-sessions?page=1&limit=10&search=","timestamp":"2026-02-24 01:26:32"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:26:32","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:26:33"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:26:33"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"dashboard:teacher:120\", fetching from DB","timestamp":"2026-02-24 01:26:33"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-24 01:26:46"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-24 01:26:46"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:26:46","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:26:47"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"dashboard:teacher:120\", fetching from DB","timestamp":"2026-02-24 01:26:47"}
+{"level":"http","message":"GET /api/v1/materials/my-materials","timestamp":"2026-02-24 01:26:50"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:26:50","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:26:50"}
+{"level":"info","message":" [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-24 01:26:50"}
+{"level":"info","message":" [getTeacherMaterials] Found","timestamp":"2026-02-24 01:26:51"}
+{"level":"http","message":"GET /api/v1/teachers/my-students","timestamp":"2026-02-24 01:26:52"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:26:52","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:26:52"}
+{"level":"info","message":"👥 [getMyStudents] Fetching students for teacher:","timestamp":"2026-02-24 01:26:52"}
+{"level":"info","message":"📚 [getMyStudents] Teacher has","timestamp":"2026-02-24 01:26:53"}
+{"level":"info","message":"🔍 [getMyStudents] Unique dept/stage combinations:","timestamp":"2026-02-24 01:26:53"}
+{"level":"info","message":"🔍 [getMyStudents] OR conditions:","timestamp":"2026-02-24 01:26:53"}
+{"level":"info","message":"✅ [getMyStudents] Found","timestamp":"2026-02-24 01:26:53"}
+{"level":"info","message":"Sample student:","timestamp":"2026-02-24 01:26:53"}
+{"level":"http","message":"GET /api/v1/sessions/my-sessions?page=1&limit=10&search=","timestamp":"2026-02-24 01:26:55"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:26:55","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:26:55"}
+{"level":"http","message":"POST /api/v1/auth/logout","timestamp":"2026-02-24 01:28:13"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-24 01:28:14"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-24 01:28:15"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:28:15","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:28:15"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"dashboard:teacher:120\", fetching from DB","timestamp":"2026-02-24 01:28:15"}
+{"level":"http","message":"GET /api/v1/teachers/my-students","timestamp":"2026-02-24 01:28:16"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:28:16","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:28:17"}
+{"level":"info","message":"👥 [getMyStudents] Fetching students for teacher:","timestamp":"2026-02-24 01:28:17"}
+{"level":"info","message":"📚 [getMyStudents] Teacher has","timestamp":"2026-02-24 01:28:17"}
+{"level":"info","message":"🔍 [getMyStudents] Unique dept/stage combinations:","timestamp":"2026-02-24 01:28:17"}
+{"level":"info","message":"🔍 [getMyStudents] OR conditions:","timestamp":"2026-02-24 01:28:17"}
+{"level":"info","message":"✅ [getMyStudents] Found","timestamp":"2026-02-24 01:28:17"}
+{"level":"info","message":"Sample student:","timestamp":"2026-02-24 01:28:17"}
+{"level":"http","message":"GET /api/v1/sessions/my-sessions?page=1&limit=10&search=","timestamp":"2026-02-24 01:28:17"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:28:17","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:28:17"}
+{"level":"http","message":"GET /api/v1/attendance/teacher-stats","timestamp":"2026-02-24 01:28:18"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:28:18","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:28:18"}
+{"level":"http","message":"POST /api/v1/auth/logout","timestamp":"2026-02-24 01:28:23"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-24 01:28:35"}
+{"level":"http","message":"GET /api/v1/dashboard/admin","timestamp":"2026-02-24 01:28:36"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-24 01:28:36"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-24 01:28:36"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-24 01:28:36"}
+{"department_id":"NULL (Dean)","id":"264","level":"info","message":"🔍 [getAdminDashboard] Admin:","timestamp":"2026-02-24 01:28:36"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"dashboard:admin:264:dept:all\", fetching from DB","timestamp":"2026-02-24 01:28:36"}
+{"departments":4,"level":"info","materials":149,"message":"✅ [getAdminDashboard] Stats fetched from DB:","students":81,"teachers":5,"timestamp":"2026-02-24 01:28:38"}
+{"level":"http","message":"GET /api/v1/teachers","timestamp":"2026-02-24 01:28:40"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-24 01:28:40"}
+{"level":"http","message":"GET /api/v1/departments","timestamp":"2026-02-24 01:28:40"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-24 01:28:40"}
+{"level":"http","message":"GET /api/v1/materials","timestamp":"2026-02-24 01:28:40"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-24 01:28:40"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-24 01:28:40"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-24 01:28:40"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-24 01:28:40"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-24 01:28:40"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-24 01:28:41"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-24 01:28:41"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-24 01:28:41"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-24 01:28:41"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-24 01:28:41"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-24 01:28:41"}
+{"level":"http","message":"GET /api/v1/students?page=1&limit=10&search=","timestamp":"2026-02-24 01:28:42"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-24 01:28:42"}
+{"level":"http","message":"GET /api/v1/stages","timestamp":"2026-02-24 01:28:42"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-24 01:28:42"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-24 01:28:42"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-24 01:28:42"}
+{"adminDeptId":"NULL/undefined","adminId":"264","level":"info","limit":10,"message":"🔍 [getAllStudents] Received request with params:","page":1,"search":"","skip":0,"timestamp":"2026-02-24 01:28:42"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"students:p1:l10:s:dall:stall:admin264\", fetching from DB","timestamp":"2026-02-24 01:28:42"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-24 01:28:42"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-24 01:28:42"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-24 01:28:42"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-24 01:28:42"}
+{"level":"info","message":"✅ [getAllStudents] Found 81 total students, returning 10 from DB","timestamp":"2026-02-24 01:28:42"}
+{"level":"info","message":"📤 [getAllStudents] Sending response","timestamp":"2026-02-24 01:28:42"}
+{"level":"http","message":"GET /api/v1/materials","timestamp":"2026-02-24 01:28:45"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-24 01:28:45"}
+{"level":"http","message":"GET /api/v1/geofences","timestamp":"2026-02-24 01:28:45"}
+{"level":"http","message":"GET /api/v1/sessions?page=1&limit=10&search=","timestamp":"2026-02-24 01:28:45"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-24 01:28:45"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-24 01:28:45"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-24 01:28:45"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-24 01:28:45"}
+{"level":"debug","message":"Checking environment variables...","timestamp":"2026-02-24 01:44:01"}
+{"level":"debug","message":"PORT from env: 4000","timestamp":"2026-02-24 01:44:01"}
+{"level":"debug","message":"DATABASE_URL is defined: true","timestamp":"2026-02-24 01:44:01"}
+{"level":"info","message":"Server running on port 4000","timestamp":"2026-02-24 01:44:01"}
+{"level":"info","message":"Environment: development","timestamp":"2026-02-24 01:44:01"}
+{"level":"info","message":"Cleanup jobs started","timestamp":"2026-02-24 01:44:01"}
+{"level":"warn","message":"⚠️ Redis unavailable:  — running without cache","timestamp":"2026-02-24 01:44:01"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-24 01:44:01"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-24 01:44:01"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:44:01","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:44:01"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"dashboard:teacher:120\", fetching from DB","timestamp":"2026-02-24 01:44:01"}
+{"level":"http","message":"POST /api/v1/auth/logout","timestamp":"2026-02-24 01:44:05"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-24 01:44:06"}
+{"level":"http","message":"GET /api/v1/materials/my-materials","timestamp":"2026-02-24 01:44:07"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:44:07","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:44:07"}
+{"level":"info","message":" [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-24 01:44:07"}
+{"level":"info","message":" [getTeacherMaterials] Found","timestamp":"2026-02-24 01:44:07"}
+{"level":"http","message":"GET /api/v1/teachers/my-students","timestamp":"2026-02-24 01:44:09"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:44:09","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:44:09"}
+{"level":"info","message":"👥 [getMyStudents] Fetching students for teacher:","timestamp":"2026-02-24 01:44:09"}
+{"level":"info","message":"📚 [getMyStudents] Teacher has","timestamp":"2026-02-24 01:44:09"}
+{"level":"info","message":"🔍 [getMyStudents] Unique dept/stage combinations:","timestamp":"2026-02-24 01:44:09"}
+{"level":"info","message":"🔍 [getMyStudents] OR conditions:","timestamp":"2026-02-24 01:44:09"}
+{"level":"info","message":"✅ [getMyStudents] Found","timestamp":"2026-02-24 01:44:10"}
+{"level":"info","message":"Sample student:","timestamp":"2026-02-24 01:44:10"}
+{"level":"http","message":"GET /api/v1/attendance/teacher-stats","timestamp":"2026-02-24 01:44:10"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:44:10","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:44:10"}
+{"level":"http","message":"GET /api/v1/sessions/my-sessions?page=1&limit=10&search=","timestamp":"2026-02-24 01:44:12"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:44:12","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:44:12"}
+{"level":"http","message":"POST /api/v1/auth/logout","timestamp":"2026-02-24 01:44:13"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-24 01:44:22"}
+{"level":"http","message":"GET /api/v1/dashboard/admin","timestamp":"2026-02-24 01:44:22"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-24 01:44:22"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-24 01:44:22"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-24 01:44:22"}
+{"department_id":"NULL (Dean)","id":"264","level":"info","message":"🔍 [getAdminDashboard] Admin:","timestamp":"2026-02-24 01:44:22"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"dashboard:admin:264:dept:all\", fetching from DB","timestamp":"2026-02-24 01:44:22"}
+{"departments":5,"level":"info","materials":149,"message":"✅ [getAdminDashboard] Stats fetched from DB:","students":81,"teachers":5,"timestamp":"2026-02-24 01:44:22"}
+{"level":"http","message":"GET /api/v1/materials","timestamp":"2026-02-24 01:44:26"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-24 01:44:26"}
+{"level":"http","message":"GET /api/v1/departments","timestamp":"2026-02-24 01:44:26"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-24 01:44:26"}
+{"level":"http","message":"GET /api/v1/stages","timestamp":"2026-02-24 01:44:26"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-24 01:44:26"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-24 01:44:26"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-24 01:44:26"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-24 01:44:26"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-24 01:44:26"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-24 01:44:26"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-24 01:44:26"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-24 01:44:26"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-24 01:44:26"}
+{"level":"http","message":"GET /api/v1/students?page=1&limit=10&search=","timestamp":"2026-02-24 01:44:26"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-24 01:44:26"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-24 01:44:26"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-24 01:44:26"}
+{"adminDeptId":"NULL/undefined","adminId":"264","level":"info","limit":10,"message":"🔍 [getAllStudents] Received request with params:","page":1,"search":"","skip":0,"timestamp":"2026-02-24 01:44:26"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"students:p1:l10:s:dall:stall:admin264\", fetching from DB","timestamp":"2026-02-24 01:44:26"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-24 01:44:26"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-24 01:44:26"}
+{"level":"info","message":"✅ [getAllStudents] Found 81 total students, returning 10 from DB","timestamp":"2026-02-24 01:44:26"}
+{"level":"info","message":"📤 [getAllStudents] Sending response","timestamp":"2026-02-24 01:44:26"}
+{"level":"http","message":"GET /api/v1/geofences","timestamp":"2026-02-24 01:44:27"}
+{"level":"http","message":"GET /api/v1/teachers/my-students","timestamp":"2026-02-24 01:45:12"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-24 01:45:17"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-24 01:45:17"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:45:17","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:45:17"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"dashboard:teacher:120\", fetching from DB","timestamp":"2026-02-24 01:45:17"}
+{"level":"http","message":"GET /api/v1/teachers/my-students","timestamp":"2026-02-24 01:45:18"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:45:18","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:45:18"}
+{"level":"info","message":"👥 [getMyStudents] Fetching students for teacher:","timestamp":"2026-02-24 01:45:18"}
+{"level":"info","message":"📚 [getMyStudents] Teacher has","timestamp":"2026-02-24 01:45:18"}
+{"level":"info","message":"🔍 [getMyStudents] Unique dept/stage combinations:","timestamp":"2026-02-24 01:45:18"}
+{"level":"info","message":"🔍 [getMyStudents] OR conditions:","timestamp":"2026-02-24 01:45:18"}
+{"level":"info","message":"✅ [getMyStudents] Found","timestamp":"2026-02-24 01:45:18"}
+{"level":"info","message":"Sample student:","timestamp":"2026-02-24 01:45:18"}
+{"level":"http","message":"GET /api/v1/sessions/my-sessions?page=1&limit=10&search=","timestamp":"2026-02-24 01:45:19"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:45:19","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:45:19"}
+{"level":"http","message":"GET /api/v1/attendance/teacher-stats","timestamp":"2026-02-24 01:45:21"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:45:21","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:45:21"}
+{"level":"http","message":"GET /api/v1/materials/my-materials","timestamp":"2026-02-24 01:45:25"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:45:25","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:45:25"}
+{"level":"info","message":" [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-24 01:45:25"}
+{"level":"info","message":" [getTeacherMaterials] Found","timestamp":"2026-02-24 01:45:25"}
+{"level":"http","message":"POST /api/v1/auth/logout","timestamp":"2026-02-24 01:45:35"}
+{"level":"http","message":"GET /api/v1/materials","timestamp":"2026-02-24 01:45:41"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-24 01:45:41"}
+{"level":"http","message":"GET /api/v1/students?page=1&limit=100&search=","timestamp":"2026-02-24 01:45:41"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-24 01:45:41"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-24 01:45:41"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-24 01:45:41"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-24 01:45:41"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-24 01:45:41"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-24 01:45:41"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-24 01:45:41"}
+{"adminDeptId":"NULL/undefined","adminId":"264","level":"info","limit":100,"message":"🔍 [getAllStudents] Received request with params:","page":1,"search":"","skip":0,"timestamp":"2026-02-24 01:45:41"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"students:p1:l100:s:dall:stall:admin264\", fetching from DB","timestamp":"2026-02-24 01:45:41"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-24 01:45:41"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-24 01:45:41"}
+{"level":"info","message":"✅ [getAllStudents] Found 81 total students, returning 81 from DB","timestamp":"2026-02-24 01:45:41"}
+{"level":"info","message":"📤 [getAllStudents] Sending response","timestamp":"2026-02-24 01:45:41"}
+{"level":"http","message":"GET /api/v1/enrollment/student/238","timestamp":"2026-02-24 01:45:45"}
+{"level":"http","message":"GET /api/v1/students?page=1&limit=100&search=","timestamp":"2026-02-24 01:47:57"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-24 01:47:57"}
+{"level":"http","message":"GET /api/v1/materials","timestamp":"2026-02-24 01:47:57"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-24 01:47:57"}
+{"level":"http","message":"GET /api/v1/enrollment/student/238","timestamp":"2026-02-24 01:47:57"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-24 01:47:57"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-24 01:47:57"}
+{"adminDeptId":"NULL/undefined","adminId":"264","level":"info","limit":100,"message":"🔍 [getAllStudents] Received request with params:","page":1,"search":"","skip":0,"timestamp":"2026-02-24 01:47:57"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"students:p1:l100:s:dall:stall:admin264\", fetching from DB","timestamp":"2026-02-24 01:47:57"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-24 01:47:57"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-24 01:47:57"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-24 01:47:57"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-24 01:47:57"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-24 01:47:57"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-24 01:47:57"}
+{"level":"info","message":"✅ [getAllStudents] Found 81 total students, returning 81 from DB","timestamp":"2026-02-24 01:47:57"}
+{"level":"info","message":"📤 [getAllStudents] Sending response","timestamp":"2026-02-24 01:47:57"}
+{"level":"http","message":"GET /api/v1/students?page=1&limit=100&search=","timestamp":"2026-02-24 01:48:09"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-24 01:48:09"}
+{"level":"http","message":"GET /api/v1/materials","timestamp":"2026-02-24 01:48:09"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-24 01:48:09"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-24 01:48:09"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-24 01:48:09"}
+{"adminDeptId":"NULL/undefined","adminId":"264","level":"info","limit":100,"message":"🔍 [getAllStudents] Received request with params:","page":1,"search":"","skip":0,"timestamp":"2026-02-24 01:48:09"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"students:p1:l100:s:dall:stall:admin264\", fetching from DB","timestamp":"2026-02-24 01:48:09"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-24 01:48:09"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-24 01:48:09"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-24 01:48:09"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-24 01:48:09"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-24 01:48:09"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-24 01:48:09"}
+{"level":"info","message":"✅ [getAllStudents] Found 81 total students, returning 81 from DB","timestamp":"2026-02-24 01:48:09"}
+{"level":"info","message":"📤 [getAllStudents] Sending response","timestamp":"2026-02-24 01:48:09"}
+{"level":"http","message":"GET /api/v1/enrollment/student/237","timestamp":"2026-02-24 01:48:10"}
+{"level":"http","message":"GET /api/v1/enrollment/student/243","timestamp":"2026-02-24 01:48:26"}
+{"level":"http","message":"GET /api/v1/enrollment/student/238","timestamp":"2026-02-24 01:48:28"}
+{"level":"debug","message":"Checking environment variables...","timestamp":"2026-02-24 01:48:58"}
+{"level":"debug","message":"PORT from env: 4000","timestamp":"2026-02-24 01:48:58"}
+{"level":"debug","message":"DATABASE_URL is defined: true","timestamp":"2026-02-24 01:48:58"}
+{"level":"info","message":"Server running on port 4000","timestamp":"2026-02-24 01:48:58"}
+{"level":"info","message":"Environment: development","timestamp":"2026-02-24 01:48:58"}
+{"level":"info","message":"Cleanup jobs started","timestamp":"2026-02-24 01:48:58"}
+{"level":"warn","message":"⚠️ Redis unavailable:  — running without cache","timestamp":"2026-02-24 01:48:58"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-24 01:49:03"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-24 01:49:03"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 01:49:03","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 01:49:03"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"dashboard:teacher:120\", fetching from DB","timestamp":"2026-02-24 01:49:03"}
+{"level":"http","message":"POST /api/v1/auth/logout","timestamp":"2026-02-24 01:49:06"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-24 01:49:18"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-24 01:49:25"}
+{"level":"http","message":"GET /api/v1/dashboard/admin","timestamp":"2026-02-24 01:49:26"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-24 01:49:26"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-24 01:49:26"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-24 01:49:26"}
+{"department_id":"NULL (Dean)","id":"264","level":"info","message":"🔍 [getAdminDashboard] Admin:","timestamp":"2026-02-24 01:49:26"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"dashboard:admin:264:dept:all\", fetching from DB","timestamp":"2026-02-24 01:49:26"}
+{"departments":5,"level":"info","materials":149,"message":"✅ [getAdminDashboard] Stats fetched from DB:","students":81,"teachers":5,"timestamp":"2026-02-24 01:49:26"}
+{"level":"http","message":"GET /api/v1/students?page=1&limit=100&search=","timestamp":"2026-02-24 01:49:28"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-24 01:49:28"}
+{"level":"http","message":"GET /api/v1/materials","timestamp":"2026-02-24 01:49:28"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-24 01:49:28"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-24 01:49:28"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-24 01:49:28"}
+{"adminDeptId":"NULL/undefined","adminId":"264","level":"info","limit":100,"message":"🔍 [getAllStudents] Received request with params:","page":1,"search":"","skip":0,"timestamp":"2026-02-24 01:49:28"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"students:p1:l100:s:dall:stall:admin264\", fetching from DB","timestamp":"2026-02-24 01:49:28"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-24 01:49:28"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-24 01:49:28"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-24 01:49:28"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-24 01:49:28"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-24 01:49:28"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-24 01:49:28"}
+{"level":"info","message":"✅ [getAllStudents] Found 81 total students, returning 81 from DB","timestamp":"2026-02-24 01:49:28"}
+{"level":"info","message":"📤 [getAllStudents] Sending response","timestamp":"2026-02-24 01:49:28"}
+{"level":"http","message":"GET /api/v1/enrollment/student/239","timestamp":"2026-02-24 01:49:30"}
+{"level":"http","message":"GET /api/v1/enrollment/student/237","timestamp":"2026-02-24 01:49:32"}
+{"level":"http","message":"GET /api/v1/students?page=1&limit=100&search=","timestamp":"2026-02-24 01:51:02"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-24 01:51:02"}
+{"level":"http","message":"GET /api/v1/materials","timestamp":"2026-02-24 01:51:02"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-24 01:51:02"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-24 01:51:02"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-24 01:51:02"}
+{"adminDeptId":"NULL/undefined","adminId":"264","level":"info","limit":100,"message":"🔍 [getAllStudents] Received request with params:","page":1,"search":"","skip":0,"timestamp":"2026-02-24 01:51:02"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"students:p1:l100:s:dall:stall:admin264\", fetching from DB","timestamp":"2026-02-24 01:51:02"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-24 01:51:02"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-24 01:51:02"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-24 01:51:02"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-24 01:51:02"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-24 01:51:02"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-24 01:51:02"}
+{"level":"info","message":"✅ [getAllStudents] Found 81 total students, returning 81 from DB","timestamp":"2026-02-24 01:51:02"}
+{"level":"info","message":"📤 [getAllStudents] Sending response","timestamp":"2026-02-24 01:51:02"}
+{"level":"http","message":"GET /api/v1/enrollment/student/237","timestamp":"2026-02-24 01:51:35"}
+{"level":"http","message":"GET /api/v1/enrollment/student/238","timestamp":"2026-02-24 01:52:02"}
+{"level":"http","message":"GET /api/v1/students?page=1&limit=100&search=","timestamp":"2026-02-24 01:53:51"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-24 01:53:51"}
+{"level":"http","message":"GET /api/v1/materials","timestamp":"2026-02-24 01:53:51"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-24 01:53:51"}
+{"level":"http","message":"GET /api/v1/enrollment/student/238","timestamp":"2026-02-24 01:53:51"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-24 01:53:51"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-24 01:53:51"}
+{"adminDeptId":"NULL/undefined","adminId":"264","level":"info","limit":100,"message":"🔍 [getAllStudents] Received request with params:","page":1,"search":"","skip":0,"timestamp":"2026-02-24 01:53:51"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"students:p1:l100:s:dall:stall:admin264\", fetching from DB","timestamp":"2026-02-24 01:53:51"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-24 01:53:51"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-24 01:53:51"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-24 01:53:51"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-24 01:53:51"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-24 01:53:51"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-24 01:53:51"}
+{"level":"info","message":"✅ [getAllStudents] Found 81 total students, returning 81 from DB","timestamp":"2026-02-24 01:53:51"}
+{"level":"info","message":"📤 [getAllStudents] Sending response","timestamp":"2026-02-24 01:53:51"}
+{"level":"debug","message":"Checking environment variables...","timestamp":"2026-02-24 01:54:56"}
+{"level":"debug","message":"PORT from env: 4000","timestamp":"2026-02-24 01:54:56"}
+{"level":"debug","message":"DATABASE_URL is defined: true","timestamp":"2026-02-24 01:54:56"}
+{"level":"info","message":"Server running on port 4000","timestamp":"2026-02-24 01:54:56"}
+{"level":"info","message":"Environment: development","timestamp":"2026-02-24 01:54:56"}
+{"level":"info","message":"Cleanup jobs started","timestamp":"2026-02-24 01:54:56"}
+{"level":"warn","message":"⚠️ Redis unavailable:  — running without cache","timestamp":"2026-02-24 01:54:56"}
+{"level":"http","message":"GET /api/v1/students?page=1&limit=100&search=","timestamp":"2026-02-24 01:56:21"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-24 01:56:21"}
+{"level":"http","message":"GET /api/v1/materials","timestamp":"2026-02-24 01:56:21"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-24 01:56:21"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-24 01:56:21"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-24 01:56:21"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-24 01:56:21"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-24 01:56:21"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-24 01:56:21"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-24 01:56:21"}
+{"adminDeptId":"NULL/undefined","adminId":"264","level":"info","limit":100,"message":"🔍 [getAllStudents] Received request with params:","page":1,"search":"","skip":0,"timestamp":"2026-02-24 01:56:21"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"students:p1:l100:s:dall:stall:admin264\", fetching from DB","timestamp":"2026-02-24 01:56:21"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-24 01:56:21"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-24 01:56:21"}
+{"level":"info","message":"✅ [getAllStudents] Found 81 total students, returning 81 from DB","timestamp":"2026-02-24 01:56:21"}
+{"level":"info","message":"📤 [getAllStudents] Sending response","timestamp":"2026-02-24 01:56:21"}
+{"level":"http","message":"GET /api/v1/enrollment/student/237?academic_year=2024-2025","timestamp":"2026-02-24 01:56:29"}
+{"level":"http","message":"GET /api/v1/enrollment/student/238?academic_year=2024-2025","timestamp":"2026-02-24 01:56:35"}
+{"level":"http","message":"GET /api/v1/enrollment/student/239?academic_year=2024-2025","timestamp":"2026-02-24 01:56:56"}
+{"level":"http","message":"GET /api/v1/students?page=1&limit=100&search=","timestamp":"2026-02-24 01:57:33"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-24 01:57:33"}
+{"level":"http","message":"GET /api/v1/materials","timestamp":"2026-02-24 01:57:33"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-24 01:57:33"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-24 01:57:33"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-24 01:57:33"}
+{"adminDeptId":"NULL/undefined","adminId":"264","level":"info","limit":100,"message":"🔍 [getAllStudents] Received request with params:","page":1,"search":"","skip":0,"timestamp":"2026-02-24 01:57:33"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"students:p1:l100:s:dall:stall:admin264\", fetching from DB","timestamp":"2026-02-24 01:57:33"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-24 01:57:33"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-24 01:57:33"}
+{"level":"http","message":"GET /api/v1/enrollment/student/239?academic_year=2024-2025","timestamp":"2026-02-24 01:57:33"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-24 01:57:33"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-24 01:57:33"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-24 01:57:33"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-24 01:57:33"}
+{"level":"info","message":"✅ [getAllStudents] Found 81 total students, returning 81 from DB","timestamp":"2026-02-24 01:57:33"}
+{"level":"info","message":"📤 [getAllStudents] Sending response","timestamp":"2026-02-24 01:57:33"}
+{"level":"http","message":"GET /api/v1/promotion/eligible?academic_year=2024-2025","timestamp":"2026-02-24 01:57:56"}
+{"level":"http","message":"GET /api/v1/departments","timestamp":"2026-02-24 01:58:01"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-24 01:58:01"}
+{"level":"http","message":"GET /api/v1/teachers","timestamp":"2026-02-24 01:58:01"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-24 01:58:01"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-24 01:58:01"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-24 01:58:01"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-24 01:58:01"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-24 01:58:01"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-24 01:58:01"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-24 01:58:01"}
+{"level":"http","message":"GET /api/v1/stages","timestamp":"2026-02-24 01:58:02"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-24 01:58:02"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-24 01:58:02"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-24 01:58:02"}
+{"level":"http","message":"GET /api/v1/dashboard/admin","timestamp":"2026-02-24 01:58:03"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-24 01:58:03"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-24 01:58:03"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-24 01:58:03"}
+{"department_id":"NULL (Dean)","id":"264","level":"info","message":"🔍 [getAdminDashboard] Admin:","timestamp":"2026-02-24 01:58:03"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"dashboard:admin:264:dept:all\", fetching from DB","timestamp":"2026-02-24 01:58:03"}
+{"departments":5,"level":"info","materials":149,"message":"✅ [getAdminDashboard] Stats fetched from DB:","students":81,"teachers":5,"timestamp":"2026-02-24 01:58:03"}
+{"level":"http","message":"GET /api/v1/students?page=1&limit=10&search=","timestamp":"2026-02-24 01:58:04"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-24 01:58:04"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-24 01:58:04"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-24 01:58:04"}
+{"adminDeptId":"NULL/undefined","adminId":"264","level":"info","limit":10,"message":"🔍 [getAllStudents] Received request with params:","page":1,"search":"","skip":0,"timestamp":"2026-02-24 01:58:04"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"students:p1:l10:s:dall:stall:admin264\", fetching from DB","timestamp":"2026-02-24 01:58:04"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-24 01:58:04"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-24 01:58:04"}
+{"level":"info","message":"✅ [getAllStudents] Found 81 total students, returning 10 from DB","timestamp":"2026-02-24 01:58:04"}
+{"level":"info","message":"📤 [getAllStudents] Sending response","timestamp":"2026-02-24 01:58:04"}
+{"level":"http","message":"GET /api/v1/materials","timestamp":"2026-02-24 01:58:05"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-02-24 01:58:05"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-02-24 01:58:05"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-02-24 01:58:05"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-02-24 01:58:05"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-02-24 01:58:05"}
+{"level":"http","message":"POST /api/v1/auth/logout","timestamp":"2026-02-24 01:58:07"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-24 10:29:03"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-24 10:29:04"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 10:29:04","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 10:29:04"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"dashboard:teacher:120\", fetching from DB","timestamp":"2026-02-24 10:29:04"}

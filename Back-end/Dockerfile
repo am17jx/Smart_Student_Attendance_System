@@ -1,5 +1,5 @@
 # Backend Dockerfile
-FROM node:20-alpine AS builder
+FROM node:20-slim AS builder
 
 WORKDIR /app
 
@@ -15,13 +15,13 @@ COPY . .
 # Generate Prisma Client
 # Generate Prisma Client
 # We need a dummy DATABASE_URL because prisma.config.ts requires it, even for generation
-RUN DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummy" npx prisma generate
+RUN DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummy" ./node_modules/.bin/prisma generate
 
 # Build TypeScript
-RUN npx tsc
+RUN ./node_modules/.bin/tsc
 
 # Production stage
-FROM node:20-alpine
+FROM node:20-slim
 
 WORKDIR /app
 
@@ -29,6 +29,7 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/prisma.config.ts ./prisma.config.ts
 
 # Expose port
 EXPOSE 4000
