@@ -10,6 +10,9 @@ services:
       - "4000:4000"
     env_file:
       - ./Back-end/.env
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
     restart: always
 
   frontend:

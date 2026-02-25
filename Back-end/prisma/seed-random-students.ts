@@ -29,7 +29,6 @@ function generateRandomGmail(name: string) {
     return `${sanitized}.${randomSuffix}@gmail.com`;
 }
 
-// Generate a random student ID (e.g., STU2024[Random 4 digits])
 function generateStudentId() {
     const randomNum = Math.floor(1000 + Math.random() * 9000); // 1000 - 9999
     return `STU${new Date().getFullYear()}${randomNum}${crypto.randomBytes(2).toString('hex')}`;

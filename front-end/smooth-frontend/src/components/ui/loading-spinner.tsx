@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 
+// ─── Small inline spinner (used across many pages) ───────────────────────────
 interface LoadingSpinnerProps {
   className?: string;
   size?: "sm" | "md" | "lg";
@@ -23,13 +24,22 @@ export function LoadingSpinner({ className, size = "md" }: LoadingSpinnerProps) 
   );
 }
 
+// ─── Full-page loader (Suspense fallback) — minimal & fast ───────────────────
 export function PageLoader() {
   return (
-    <div className="flex min-h-screen items-center justify-center">
-      <div className="text-center">
-        <LoadingSpinner size="lg" className="mx-auto mb-4" />
-        <p className="text-muted-foreground">جاري التحميل...</p>
-      </div>
+    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-4 bg-background">
+      <div className="h-10 w-10 animate-spin rounded-full border-4 border-muted border-t-primary" />
+      <p className="text-sm text-muted-foreground">جاري التحميل...</p>
     </div>
   );
 }
+
+// ─── Section-level loader ─────────────────────────────────────────────────────
+export function SectionLoader() {
+  return (
+    <div className="flex min-h-[300px] items-center justify-center">
+      <div className="h-8 w-8 animate-spin rounded-full border-4 border-muted border-t-primary" />
+    </div>
+  );
+}
+
