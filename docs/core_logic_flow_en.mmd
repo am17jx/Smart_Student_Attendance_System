@@ -1,0 +1,26 @@
+flowchart TD
+    classDef start fill:#e3f2fd,stroke:#1565c0,stroke-width:2px,color:#000,font-weight:bold;
+    classDef process fill:#fff3e0,stroke:#ef6c00,stroke-width:2px,color:#000;
+    classDef decision fill:#fce4ec,stroke:#c2185b,stroke-width:2px,color:#000,font-weight:bold;
+    classDef success fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px,color:#000,font-weight:bold;
+    classDef error fill:#ffebee,stroke:#b71c1c,stroke-width:2px,color:#000,font-weight:bold;
+
+    Start(["1. Student Scans QR Code"]):::start --> ApiCall(["2. API Request (markAttendance)"]):::process
+
+    ApiCall --> CheckQR{"3. Decrypt & Verify<br>Time Signature"}:::decision
+    CheckQR -- "Expired / Invalid" --> Reject1["❌ Reject: Invalid QR Code"]:::error
+    CheckQR -- "Valid" --> CalcGeo
+
+    CalcGeo{"4. Haversine Distance<br> (Student ↔ Hall Center)"}:::decision
+    CalcGeo -- "Out of Range" --> Reject2["❌ Reject: Not in Location"]:::error
+    CalcGeo -- "In Range" --> CheckFP
+
+    CheckFP{"5. Hardware Fingerprint<br>Matching"}:::decision
+    CheckFP -- "Unknown / Duplicate" --> Reject3["❌ Reject: Suspicious Device"]:::error
+    CheckFP -- "Matched" --> CheckDup
+
+    CheckDup{"6. Database Concurrency<br>(Idempotency Check)"}:::decision
+    CheckDup -- "Already Registered" --> Reject4["❌ Reject: Duplicate Request"]:::error
+    CheckDup -- "First Record" --> Success
+
+    Success(["✅ Success: Attendance Logged"]):::success

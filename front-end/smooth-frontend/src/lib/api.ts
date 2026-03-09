@@ -460,10 +460,15 @@ export const attendanceApi = {
 
   getByStudent: (studentId: string) =>
     apiRequest<{ records: AttendanceRecord[] }>(`/attendance/student/${studentId}`),
-  update: (id: string, data: { marked_by: string }) =>
+  update: (id: string, data: { marked_by: string, status?: string }) =>
     apiRequest<{ record: AttendanceRecord }>(`/attendance/${id}`, {
       method: 'PUT',
       body: JSON.stringify(data),
+    }),
+  manualAttend: (otp: string, latitude: number, longitude: number) =>
+    apiRequest<{ materialName?: string }>('/attendance/manual', {
+      method: 'POST',
+      body: JSON.stringify({ otp, latitude, longitude }),
     }),
 };
 
@@ -478,6 +483,8 @@ export const qrApi = {
       method: 'POST',
       body: JSON.stringify({ token, id, latitude, longitude }),
     }),
+  getOtp: (sessionId: string) =>
+    apiRequest<{ otp: string }>(`/qrcodes/otp/${sessionId}`),
 };
 
 // Departments API
@@ -718,4 +725,22 @@ export const enrollmentApi = {
 
   delete: (id: string) =>
     apiRequest(`/enrollment/${id}`, { method: 'DELETE' }),
+};
+
+// Leaves (Student Excuse/Leave) API — Admin only
+export const leavesApi = {
+  grantLeave: (data: { studentId: string; sessionId: string; leaveType: 'HEALTH' | 'OFFICIAL'; reason?: string }) =>
+    apiRequest<{ record: any }>('/attendance/leave', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
+
+  getLeaves: () =>
+    apiRequest<{ records: any[] }>('/attendance/leaves'),
+
+  getStudentLeaves: (studentId: string) =>
+    apiRequest<{ records: any[] }>(`/attendance/leaves/${studentId}`),
+
+  revokeLeave: (recordId: string) =>
+    apiRequest('/attendance/leave/' + recordId, { method: 'DELETE' }),
 };

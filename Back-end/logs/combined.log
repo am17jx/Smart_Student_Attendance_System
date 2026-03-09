@@ -4098,3 +4098,236 @@
 {"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-24 10:29:04","type":"string"}
 {"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-24 10:29:04"}
 {"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"dashboard:teacher:120\", fetching from DB","timestamp":"2026-02-24 10:29:04"}
+{"level":"debug","message":"Checking environment variables...","timestamp":"2026-02-25 06:19:50"}
+{"level":"debug","message":"PORT from env: 4000","timestamp":"2026-02-25 06:19:50"}
+{"level":"debug","message":"DATABASE_URL is defined: true","timestamp":"2026-02-25 06:19:50"}
+{"level":"info","message":"Server running on port 4000","timestamp":"2026-02-25 06:19:50"}
+{"level":"info","message":"Environment: development","timestamp":"2026-02-25 06:19:50"}
+{"level":"info","message":"Cleanup jobs started","timestamp":"2026-02-25 06:19:50"}
+{"level":"warn","message":"⚠️ Redis unavailable:  — running without cache","timestamp":"2026-02-25 06:19:50"}
+{"level":"debug","message":"Checking environment variables...","timestamp":"2026-02-25 06:21:29"}
+{"level":"debug","message":"PORT from env: 4000","timestamp":"2026-02-25 06:21:29"}
+{"level":"debug","message":"DATABASE_URL is defined: true","timestamp":"2026-02-25 06:21:29"}
+{"level":"info","message":"Server running on port 4000","timestamp":"2026-02-25 06:21:29"}
+{"level":"info","message":"Environment: development","timestamp":"2026-02-25 06:21:29"}
+{"level":"info","message":"Cleanup jobs started","timestamp":"2026-02-25 06:21:29"}
+{"level":"warn","message":"⚠️ Redis unavailable:  — running without cache","timestamp":"2026-02-25 06:21:29"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-25 06:22:11"}
+{"level":"debug","message":"Checking environment variables...","timestamp":"2026-02-25 06:40:02"}
+{"level":"debug","message":"PORT from env: 4000","timestamp":"2026-02-25 06:40:02"}
+{"level":"debug","message":"DATABASE_URL is defined: true","timestamp":"2026-02-25 06:40:02"}
+{"level":"info","message":"Server running on port 4000","timestamp":"2026-02-25 06:40:02"}
+{"level":"info","message":"Environment: development","timestamp":"2026-02-25 06:40:02"}
+{"level":"info","message":"Cleanup jobs started","timestamp":"2026-02-25 06:40:02"}
+{"level":"warn","message":"⚠️ Redis unavailable:  — running without cache","timestamp":"2026-02-25 06:40:02"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-25 06:40:03"}
+{"level":"debug","message":"Checking environment variables...","timestamp":"2026-02-25 06:41:17"}
+{"level":"debug","message":"PORT from env: 4000","timestamp":"2026-02-25 06:41:17"}
+{"level":"debug","message":"DATABASE_URL is defined: true","timestamp":"2026-02-25 06:41:17"}
+{"level":"info","message":"Server running on port 4000","timestamp":"2026-02-25 06:41:17"}
+{"level":"info","message":"Environment: development","timestamp":"2026-02-25 06:41:17"}
+{"level":"info","message":"Cleanup jobs started","timestamp":"2026-02-25 06:41:17"}
+{"level":"warn","message":"⚠️ Redis unavailable:  — running without cache","timestamp":"2026-02-25 06:41:17"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-02-25 06:41:25"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-02-25 06:41:26"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-25 06:41:26","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-25 06:41:26"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"dashboard:teacher:120\", fetching from DB","timestamp":"2026-02-25 06:41:26"}
+{"level":"http","message":"GET /api/v1/teachers/my-students","timestamp":"2026-02-25 06:41:29"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-25 06:41:29","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-25 06:41:29"}
+{"level":"info","message":"👥 [getMyStudents] Fetching students for teacher:","timestamp":"2026-02-25 06:41:29"}
+{"level":"info","message":"📚 [getMyStudents] Teacher has","timestamp":"2026-02-25 06:41:29"}
+{"level":"info","message":"🔍 [getMyStudents] Unique dept/stage combinations:","timestamp":"2026-02-25 06:41:29"}
+{"level":"info","message":"🔍 [getMyStudents] OR conditions:","timestamp":"2026-02-25 06:41:29"}
+{"level":"info","message":"✅ [getMyStudents] Found","timestamp":"2026-02-25 06:41:29"}
+{"level":"info","message":"Sample student:","timestamp":"2026-02-25 06:41:29"}
+{"level":"http","message":"GET /api/v1/attendance/teacher-stats","timestamp":"2026-02-25 06:41:30"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-25 06:41:30","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-25 06:41:30"}
+{"level":"http","message":"GET /api/v1/sessions/my-sessions?page=1&limit=10&search=","timestamp":"2026-02-25 06:41:32"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-25 06:41:32","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-25 06:41:32"}
+{"level":"http","message":"GET /api/v1/materials/my-materials","timestamp":"2026-02-25 06:41:34"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-02-25 06:41:34","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-02-25 06:41:34"}
+{"level":"info","message":" [getTeacherMaterials] Fetching materials for teacher:","timestamp":"2026-02-25 06:41:34"}
+{"level":"info","message":" [getTeacherMaterials] Found","timestamp":"2026-02-25 06:41:34"}
+{"level":"info","message":"Cleanup job: Deleted 0 expired/used QR tokens","timestamp":"2026-02-25 07:00:00"}
+{"level":"info","message":"Cleanup job: Deleted 0 expired/used QR tokens","timestamp":"2026-02-25 09:00:00"}
+{"level":"debug","message":"Checking environment variables...","timestamp":"2026-03-04 01:54:56"}
+{"level":"debug","message":"PORT from env: 4000","timestamp":"2026-03-04 01:54:56"}
+{"level":"debug","message":"DATABASE_URL is defined: true","timestamp":"2026-03-04 01:54:56"}
+{"level":"info","message":"Server running on port 4000","timestamp":"2026-03-04 01:54:56"}
+{"level":"info","message":"Environment: development","timestamp":"2026-03-04 01:54:56"}
+{"level":"info","message":"Cleanup jobs started","timestamp":"2026-03-04 01:54:56"}
+{"level":"warn","message":"⚠️ Redis unavailable:  — running without cache","timestamp":"2026-03-04 01:54:56"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-03-04 01:57:39"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-03-04 01:57:40"}
+{"id":"120","level":"debug","message":"Looking for teacher","timestamp":"2026-03-04 01:57:40","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-03-04 01:57:40"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"dashboard:teacher:120\", fetching from DB","timestamp":"2026-03-04 01:57:40"}
+{"level":"http","message":"POST /api/v1/auth/logout","timestamp":"2026-03-04 01:57:43"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-03-04 01:57:56"}
+{"level":"http","message":"POST /api/v1/auth/logout","timestamp":"2026-03-04 01:57:59"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-03-04 01:58:25"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-03-04 01:58:31"}
+{"level":"http","message":"POST /api/v1/auth/logout","timestamp":"2026-03-04 01:58:34"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-03-04 01:58:46"}
+{"level":"info","message":"Cleanup job: Deleted 0 expired/used QR tokens","timestamp":"2026-03-04 02:00:00"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-03-04 02:04:47"}
+{"level":"http","message":"GET /api/v1/dashboard/admin","timestamp":"2026-03-04 02:04:47"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-03-04 02:04:47"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-03-04 02:04:47"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-03-04 02:04:47"}
+{"department_id":"NULL (Dean)","id":"264","level":"info","message":"🔍 [getAdminDashboard] Admin:","timestamp":"2026-03-04 02:04:47"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"dashboard:admin:264:dept:all\", fetching from DB","timestamp":"2026-03-04 02:04:47"}
+{"departments":5,"level":"info","materials":149,"message":"✅ [getAdminDashboard] Stats fetched from DB:","students":81,"teachers":5,"timestamp":"2026-03-04 02:04:47"}
+{"level":"http","message":"GET /api/v1/students?page=1&limit=10&search=","timestamp":"2026-03-04 02:04:53"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-03-04 02:04:53"}
+{"level":"http","message":"GET /api/v1/departments","timestamp":"2026-03-04 02:04:53"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-03-04 02:04:53"}
+{"level":"http","message":"GET /api/v1/stages","timestamp":"2026-03-04 02:04:53"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-03-04 02:04:53"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-03-04 02:04:53"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-03-04 02:04:53"}
+{"adminDeptId":"NULL/undefined","adminId":"264","level":"info","limit":10,"message":"🔍 [getAllStudents] Received request with params:","page":1,"search":"","skip":0,"timestamp":"2026-03-04 02:04:53"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"students:p1:l10:s:dall:stall:admin264\", fetching from DB","timestamp":"2026-03-04 02:04:53"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-03-04 02:04:53"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-03-04 02:04:53"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-03-04 02:04:53"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-03-04 02:04:53"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-03-04 02:04:53"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-03-04 02:04:53"}
+{"level":"info","message":"✅ [getAllStudents] Found 81 total students, returning 10 from DB","timestamp":"2026-03-04 02:04:53"}
+{"level":"info","message":"📤 [getAllStudents] Sending response","timestamp":"2026-03-04 02:04:53"}
+{"level":"http","message":"GET /api/v1/materials","timestamp":"2026-03-04 02:04:57"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-03-04 02:04:57"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-03-04 02:04:57"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-03-04 02:04:57"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-03-04 02:04:57"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-03-04 02:04:57"}
+{"level":"http","message":"GET /api/v1/teachers","timestamp":"2026-03-04 02:05:06"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-03-04 02:05:06"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-03-04 02:05:06"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-03-04 02:05:06"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-03-04 02:05:06"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-03-04 02:05:06"}
+{"level":"http","message":"GET /api/v1/departments","timestamp":"2026-03-04 02:05:24"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-03-04 02:05:24"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-03-04 02:05:24"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-03-04 02:05:24"}
+{"level":"http","message":"GET /api/v1/stages","timestamp":"2026-03-04 02:05:26"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-03-04 02:05:26"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-03-04 02:05:26"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-03-04 02:05:26"}
+{"level":"http","message":"GET /api/v1/sessions?page=1&limit=10&search=","timestamp":"2026-03-04 02:05:27"}
+{"level":"http","message":"GET /api/v1/materials","timestamp":"2026-03-04 02:05:27"}
+{"email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-03-04 02:05:27"}
+{"level":"http","message":"GET /api/v1/geofences","timestamp":"2026-03-04 02:05:27"}
+{"department_id":"NULL/undefined","email":"dean@university.edu","id":"264","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-03-04 02:05:27"}
+{"department_id":"NULL/undefined","id":"264","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-03-04 02:05:27"}
+{"admin_id":"264","level":"debug","message":"getDepartmentFilter","timestamp":"2026-03-04 02:05:27"}
+{"level":"debug","message":"Dean detected (department_id=NULL/undefined), no filter applied","timestamp":"2026-03-04 02:05:27"}
+{"level":"http","message":"POST /api/v1/auth/logout","timestamp":"2026-03-04 02:05:37"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-03-04 02:05:41"}
+{"level":"http","message":"GET /api/v1/dashboard/teacher","timestamp":"2026-03-04 02:05:41"}
+{"id":"109","level":"debug","message":"Looking for teacher","timestamp":"2026-03-04 02:05:41","type":"string"}
+{"level":"debug","message":"Teacher found: YES","timestamp":"2026-03-04 02:05:41"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"dashboard:teacher:109\", fetching from DB","timestamp":"2026-03-04 02:05:41"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-03-04 02:36:16"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-03-04 02:36:24"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-03-04 02:36:32"}
+{"level":"info","message":"Email sent to khalid.fawzy.e445e8@gmail.com","timestamp":"2026-03-04 02:36:35"}
+{"level":"info","message":"✅ Login notification sent to khalid.fawzy.e445e8@gmail.com","timestamp":"2026-03-04 02:36:35"}
+{"level":"http","message":"GET /api/v1/dashboard/student","timestamp":"2026-03-04 02:36:35"}
+{"level":"info","message":"🔍 [getStudentDashboard] Fetching dashboard for student:","studentId":"240","timestamp":"2026-03-04 02:36:35"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"dashboard:student:240\", fetching from DB","timestamp":"2026-03-04 02:36:35"}
+{"attendedCount":0,"level":"info","message":"✅ [getStudentDashboard] Dashboard data prepared:","percentage":"0","status":"danger","studentId":"240","timestamp":"2026-03-04 02:36:35","totalSessions":0}
+{"level":"http","message":"POST /api/v1/auth/logout","timestamp":"2026-03-04 02:36:43"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-03-04 02:39:10"}
+{"level":"http","message":"GET /api/v1/dashboard/admin","timestamp":"2026-03-04 02:39:10"}
+{"email":"head.729@university.edu","id":"265","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-03-04 02:39:10"}
+{"department_id":"729","email":"head.729@university.edu","id":"265","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-03-04 02:39:10"}
+{"department_id":"729","id":"265","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-03-04 02:39:10"}
+{"department_id":"729","id":"265","level":"info","message":"🔍 [getAdminDashboard] Admin:","timestamp":"2026-03-04 02:39:10"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"dashboard:admin:265:dept:729\", fetching from DB","timestamp":"2026-03-04 02:39:10"}
+{"departments":1,"level":"info","materials":42,"message":"✅ [getAdminDashboard] Stats fetched from DB:","students":20,"teachers":1,"timestamp":"2026-03-04 02:39:10"}
+{"level":"http","message":"GET /api/v1/attendance/leaves","timestamp":"2026-03-04 02:39:16"}
+{"email":"head.729@university.edu","id":"265","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-03-04 02:39:17"}
+{"level":"http","message":"GET /api/v1/sessions?page=1&limit=200&search=","timestamp":"2026-03-04 02:39:17"}
+{"level":"http","message":"GET /api/v1/students?page=1&limit=200&search=","timestamp":"2026-03-04 02:39:17"}
+{"email":"head.729@university.edu","id":"265","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-03-04 02:39:17"}
+{"department_id":"729","email":"head.729@university.edu","id":"265","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-03-04 02:39:17"}
+{"department_id":"729","id":"265","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-03-04 02:39:17"}
+{"department_id":"729","email":"head.729@university.edu","id":"265","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-03-04 02:39:17"}
+{"department_id":"729","id":"265","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-03-04 02:39:17"}
+{"adminDeptId":"729","adminId":"265","level":"info","limit":200,"message":"🔍 [getAllStudents] Received request with params:","page":1,"search":"","skip":0,"timestamp":"2026-03-04 02:39:17"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"students:p1:l200:s:dall:stall:admin265\", fetching from DB","timestamp":"2026-03-04 02:39:17"}
+{"admin_id":"265","department_id":"729","level":"debug","message":"getDepartmentFilter","timestamp":"2026-03-04 02:39:17"}
+{"department_id":"729","level":"debug","message":"Department Head detected, filtering by department","timestamp":"2026-03-04 02:39:17"}
+{"department_id":"729","level":"info","message":"🔒 [getAllStudents] Applied department filter:","timestamp":"2026-03-04 02:39:17"}
+{"level":"info","message":"✅ [getAllStudents] Found 20 total students, returning 20 from DB","timestamp":"2026-03-04 02:39:17"}
+{"level":"info","message":"📤 [getAllStudents] Sending response","timestamp":"2026-03-04 02:39:17"}
+{"level":"http","message":"POST /api/v1/attendance/leave","timestamp":"2026-03-04 02:39:45"}
+{"email":"head.729@university.edu","id":"265","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-03-04 02:39:45"}
+{"department_id":"729","email":"head.729@university.edu","id":"265","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-03-04 02:39:45"}
+{"department_id":"729","id":"265","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-03-04 02:39:45"}
+{"level":"info","message":"✅ [grantStudentLeave] Granted OFFICIAL leave to Amr Samir","timestamp":"2026-03-04 02:39:46"}
+{"level":"http","message":"GET /api/v1/attendance/leaves","timestamp":"2026-03-04 02:39:46"}
+{"email":"head.729@university.edu","id":"265","level":"debug","message":"[authMiddleware] Decoded JWT","timestamp":"2026-03-04 02:39:46"}
+{"department_id":"729","email":"head.729@university.edu","id":"265","level":"debug","message":"[authMiddleware] Fetched admin from DB","timestamp":"2026-03-04 02:39:46"}
+{"department_id":"729","id":"265","level":"debug","message":"[authMiddleware] Set req.user","timestamp":"2026-03-04 02:39:46"}
+{"level":"debug","message":"Checking environment variables...","timestamp":"2026-03-08 21:05:52"}
+{"level":"debug","message":"PORT from env: 4000","timestamp":"2026-03-08 21:05:52"}
+{"level":"debug","message":"DATABASE_URL is defined: true","timestamp":"2026-03-08 21:05:52"}
+{"level":"info","message":"Server running on port 4000","timestamp":"2026-03-08 21:05:52"}
+{"level":"info","message":"Environment: development","timestamp":"2026-03-08 21:05:52"}
+{"level":"info","message":"Cleanup jobs started","timestamp":"2026-03-08 21:05:52"}
+{"level":"warn","message":"⚠️ Redis unavailable:  — running without cache","timestamp":"2026-03-08 21:05:52"}
+{"level":"http","message":"POST /api/v1/auth/login","timestamp":"2026-03-08 21:05:57"}
+{"level":"info","message":"Email sent to khalid.fawzy.e445e8@gmail.com","timestamp":"2026-03-08 21:06:00"}
+{"level":"info","message":"✅ Login notification sent to khalid.fawzy.e445e8@gmail.com","timestamp":"2026-03-08 21:06:00"}
+{"level":"http","message":"GET /api/v1/dashboard/student","timestamp":"2026-03-08 21:06:00"}
+{"level":"info","message":"🔍 [getStudentDashboard] Fetching dashboard for student:","studentId":"240","timestamp":"2026-03-08 21:06:00"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"dashboard:student:240\", fetching from DB","timestamp":"2026-03-08 21:06:00"}
+{"attendedCount":0,"level":"info","message":"✅ [getStudentDashboard] Dashboard data prepared:","percentage":"0","status":"danger","studentId":"240","timestamp":"2026-03-08 21:06:00","totalSessions":0}
+{"level":"debug","message":"Checking environment variables...","timestamp":"2026-03-08 21:07:26"}
+{"level":"debug","message":"PORT from env: 4000","timestamp":"2026-03-08 21:07:26"}
+{"level":"debug","message":"DATABASE_URL is defined: true","timestamp":"2026-03-08 21:07:26"}
+{"level":"info","message":"Server running on port 4000","timestamp":"2026-03-08 21:07:26"}
+{"level":"info","message":"Environment: development","timestamp":"2026-03-08 21:07:26"}
+{"level":"info","message":"Cleanup jobs started","timestamp":"2026-03-08 21:07:26"}
+{"level":"warn","message":"⚠️ Redis unavailable:  — running without cache","timestamp":"2026-03-08 21:07:26"}
+{"level":"http","message":"GET /api/v1/dashboard/student","timestamp":"2026-03-08 21:07:47"}
+{"level":"info","message":"🔍 [getStudentDashboard] Fetching dashboard for student:","studentId":"240","timestamp":"2026-03-08 21:07:47"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"dashboard:student:240\", fetching from DB","timestamp":"2026-03-08 21:07:47"}
+{"attendedCount":0,"level":"info","message":"✅ [getStudentDashboard] Dashboard data prepared:","percentage":"0","status":"excellent","studentId":"240","timestamp":"2026-03-08 21:07:47","totalSessions":0}
+{"level":"http","message":"GET /api/v1/dashboard/student","timestamp":"2026-03-08 21:09:07"}
+{"level":"info","message":"🔍 [getStudentDashboard] Fetching dashboard for student:","studentId":"240","timestamp":"2026-03-08 21:09:07"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"dashboard:student:240\", fetching from DB","timestamp":"2026-03-08 21:09:07"}
+{"attendedCount":0,"level":"info","message":"✅ [getStudentDashboard] Dashboard data prepared:","percentage":"0","status":"excellent","studentId":"240","timestamp":"2026-03-08 21:09:07","totalSessions":0}
+{"level":"http","message":"GET /api/v1/attendance/my-attendance","timestamp":"2026-03-08 21:09:09"}
+{"level":"debug","message":"Checking environment variables...","timestamp":"2026-03-08 21:53:05"}
+{"level":"debug","message":"PORT from env: 4000","timestamp":"2026-03-08 21:53:05"}
+{"level":"debug","message":"DATABASE_URL is defined: true","timestamp":"2026-03-08 21:53:05"}
+{"level":"info","message":"Server running on port 4000","timestamp":"2026-03-08 21:53:05"}
+{"level":"info","message":"Environment: development","timestamp":"2026-03-08 21:53:05"}
+{"level":"info","message":"Cleanup jobs started","timestamp":"2026-03-08 21:53:05"}
+{"level":"warn","message":"⚠️ Redis unavailable:  — running without cache","timestamp":"2026-03-08 21:53:05"}
+{"level":"http","message":"GET /api/v1/dashboard/student","timestamp":"2026-03-08 21:53:06"}
+{"level":"info","message":"🔍 [getStudentDashboard] Fetching dashboard for student:","studentId":"240","timestamp":"2026-03-08 21:53:06"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"dashboard:student:240\", fetching from DB","timestamp":"2026-03-08 21:53:06"}
+{"attendedCount":0,"level":"info","message":"✅ [getStudentDashboard] Dashboard data prepared:","percentage":"0","status":"excellent","studentId":"240","timestamp":"2026-03-08 21:53:06","totalSessions":0}
+{"level":"http","message":"GET /api/v1/attendance/my-attendance","timestamp":"2026-03-08 21:53:13"}
+{"level":"http","message":"GET /api/v1/dashboard/student","timestamp":"2026-03-08 21:55:39"}
+{"level":"info","message":"🔍 [getStudentDashboard] Fetching dashboard for student:","studentId":"240","timestamp":"2026-03-08 21:55:39"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"dashboard:student:240\", fetching from DB","timestamp":"2026-03-08 21:55:39"}
+{"attendedCount":0,"level":"info","message":"✅ [getStudentDashboard] Dashboard data prepared:","percentage":"0","status":"excellent","studentId":"240","timestamp":"2026-03-08 21:55:39","totalSessions":0}
+{"level":"http","message":"GET /api/v1/dashboard/student","timestamp":"2026-03-08 21:57:00"}
+{"level":"info","message":"🔍 [getStudentDashboard] Fetching dashboard for student:","studentId":"240","timestamp":"2026-03-08 21:57:00"}
+{"level":"debug","message":"⚠️ [Cache SKIP] Redis unavailable for key=\"dashboard:student:240\", fetching from DB","timestamp":"2026-03-08 21:57:00"}
+{"attendedCount":0,"level":"info","message":"✅ [getStudentDashboard] Dashboard data prepared:","percentage":"0","status":"excellent","studentId":"240","timestamp":"2026-03-08 21:57:00","totalSessions":0}
+{"level":"http","message":"GET /api/v1/attendance/my-attendance","timestamp":"2026-03-08 21:57:01"}
+{"level":"info","message":"Cleanup job: Deleted 0 expired/used QR tokens","timestamp":"2026-03-08 22:00:00"}
+{"level":"info","message":"Cleanup job: Deleted 0 expired/used QR tokens","timestamp":"2026-03-08 23:00:00"}

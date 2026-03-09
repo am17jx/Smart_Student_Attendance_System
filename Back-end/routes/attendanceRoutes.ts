@@ -1,8 +1,21 @@
 import express from "express";
 import { validateRequest } from "../middleware/validateRequest";
-import { teacherAuthMiddleware, studentAuthMiddleware } from "../middleware/authMiddleware";
+import { teacherAuthMiddleware, studentAuthMiddleware, adminAuthMiddleware } from "../middleware/authMiddleware";
 import { apiLimiter } from "../middleware/rateLimitMiddleware";
-import { getSessionAttendance, getStudentAttendance, getMyAttendance, getMyAttendanceStats, getTeacherAttendanceStats, updateAttendance, generateAttendanceReport, getSessionAttendanceReport } from "../controllers/AttendanceController";
+import {
+    getSessionAttendance,
+    getStudentAttendance,
+    getMyAttendance,
+    getMyAttendanceStats,
+    getTeacherAttendanceStats,
+    updateAttendance,
+    generateAttendanceReport,
+    getSessionAttendanceReport,
+    grantStudentLeave,
+    getStudentLeaves,
+    revokeStudentLeave,
+    manualAttend
+} from "../controllers/AttendanceController";
 
 
 // NOTE: Students mark attendance via QR code scanning
@@ -31,7 +44,26 @@ router.get("/student/:studentId", apiLimiter, teacherAuthMiddleware, getStudentA
 // GET /attendance/report/:sessionId - Generate attendance report (Teacher)
 router.get("/report/:sessionId", apiLimiter, teacherAuthMiddleware, generateAttendanceReport);
 
-// PUT /attendance/:id - Update attendance record (Teacher)
+// PUT /attendance/:id - Update attendance record (Teacher/Admin)
 router.put("/:id", apiLimiter, teacherAuthMiddleware, validateRequest, updateAttendance);
+
+// POST /attendance/manual - Manual Attendance (OTP)
+router.post("/manual", apiLimiter, studentAuthMiddleware, validateRequest, manualAttend);
+
+// ============================================
+// مسارات نظام الإجازات — Admin Only
+// ============================================
+
+// POST /attendance/leave - منح إجازة لطالب
+router.post("/leave", apiLimiter, adminAuthMiddleware, grantStudentLeave);
+
+// GET /attendance/leaves - جلب جميع الإجازات
+router.get("/leaves", apiLimiter, adminAuthMiddleware, getStudentLeaves);
+
+// GET /attendance/leaves/:studentId - جلب إجازات طالب محدد
+router.get("/leaves/:studentId", apiLimiter, adminAuthMiddleware, getStudentLeaves);
+
+// DELETE /attendance/leave/:recordId - إلغاء إجازة
+router.delete("/leave/:recordId", apiLimiter, adminAuthMiddleware, revokeStudentLeave);
 
 export default router;

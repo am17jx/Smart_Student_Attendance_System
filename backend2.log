@@ -1,0 +1,19 @@
+﻿ΓÅ│ Running Prisma migrations...
+Prisma schema loaded from prisma/schema.prisma
+Datasource "db": PostgreSQL database "attendance_system", schema "public" at "db:5432"
+
+13 migrations found in prisma/migrations
+
+
+No pending migrations to apply.
+Γ£à Migrations done. Starting server...
+[dotenv@17.2.3] injecting env (0) from .env -- tip: ≡ƒöÉ encrypt with Dotenvx: https://dotenvx.com
+[dotenv@17.2.3] injecting env (0) from .env -- tip: ≡ƒöÉ encrypt with Dotenvx: https://dotenvx.com
+[dotenv@17.2.3] injecting env (0) from .env -- tip: ≡ƒöä add secrets lifecycle management: https://dotenvx.com/ops
+2026-03-09 04:03:31 [[34mdebug[39m]: [34mChecking environment variables...[39m
+2026-03-09 04:03:31 [[34mdebug[39m]: [34mPORT from env: 4000[39m
+2026-03-09 04:03:31 [[34mdebug[39m]: [34mDATABASE_URL is defined: true[39m
+2026-03-09 04:03:31 [[32minfo[39m]: [32mServer running on port 4000[39m
+2026-03-09 04:03:31 [[32minfo[39m]: [32mEnvironment: development[39m
+2026-03-09 04:03:31 [[32minfo[39m]: [32mCleanup jobs started[39m
+2026-03-09 04:03:31 [[33mwarn[39m]: [33mΓÜá∩╕Å Redis unavailable: connect ECONNREFUSED 127.0.0.1:6379 ΓÇö running without cache[39m

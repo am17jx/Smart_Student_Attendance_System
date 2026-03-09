@@ -102,9 +102,12 @@ export const generateSimpleAttendanceReport = catchAsync(
 <head>
     <meta charset="UTF-8">
     <title>تقرير الحضور</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; padding: 40px; }
+        body { font-family: 'Cairo', sans-serif; padding: 40px; }
         .header { text-align: center; margin-bottom: 30px; border-bottom: 3px solid #333; padding-bottom: 20px; }
         .header h1 { font-size: 28px; color: #333; }
         .info { margin-bottom: 30px; line-height: 1.8; }
@@ -176,6 +179,7 @@ export const generateSimpleAttendanceReport = catchAsync(
         // 6. Generate PDF
         const browser = await puppeteer.launch({
             headless: true,
+            executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
             args: ['--no-sandbox', '--disable-setuid-sandbox']
         });
 

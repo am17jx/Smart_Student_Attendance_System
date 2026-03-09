@@ -38,7 +38,7 @@ const StudentEnrollments = lazy(() => import("./pages/StudentEnrollments"));
 const MyStudents = lazy(() => import("./pages/MyStudents"));
 const SessionAttendance = lazy(() => import("./pages/SessionAttendance"));
 const FailedAttempts = lazy(() => import("./pages/FailedAttempts"));
-
+const StudentLeaves = lazy(() => import("./pages/StudentLeaves"));
 
 
 const queryClient = new QueryClient({
@@ -96,6 +96,7 @@ const App = () => (
               <Route path="/promotion-config" element={<ProtectedRoute allowedRoles={['admin']}><PromotionConfig /></ProtectedRoute>} />
               <Route path="/enrollments" element={<ProtectedRoute allowedRoles={['admin']}><StudentEnrollments /></ProtectedRoute>} />
               <Route path="/failed-attempts" element={<ProtectedRoute allowedRoles={['admin']}><FailedAttempts /></ProtectedRoute>} />
+              <Route path="/student-leaves" element={<ProtectedRoute allowedRoles={['admin']}><StudentLeaves /></ProtectedRoute>} />
 
               {/* Teacher Routes */}
               <Route path="/dashboard/teacher" element={<ProtectedRoute allowedRoles={['teacher']}><Dashboard /></ProtectedRoute>} />

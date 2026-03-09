@@ -1,0 +1,95 @@
+graph TD
+    %% Global Settings
+    classDef main fill:#f9f,stroke:#333,stroke-width:2px;
+    classDef mw fill:#ff9,stroke:#333,stroke-width:2px;
+    classDef ctrl fill:#bbf,stroke:#333,stroke-width:2px;
+    classDef db fill:#bfb,stroke:#333,stroke-width:2px;
+    classDef sec fill:#fbf,stroke:#f33,stroke-width:2px,stroke-dasharray: 5 5;
+
+    %% Entry Point
+    Client((Client Request))
+    App[("Express App\n(app.ts)")]:::main
+
+    Client -->|"HTTPS + JWT"| App
+
+    %% Middleware Layer
+    subgraph GlobalSecurity [Global Security & Middleware]
+        SecHead(Helmet / Security Headers):::mw
+        Cors(CORS):::mw
+        ReqID(Request ID Logger):::mw
+    end
+
+    App --> SecHead
+    SecHead --> Cors
+    Cors --> ReqID
+
+    %% Routing Layer
+    ReqID --> Router
+    subgraph APIRoutes [API Routes - Endpoints]
+        AuthR(/api/v1/auth)
+        AttnR(/api/v1/attendance)
+        QrcodeR(/api/v1/qrcodes)
+        UsersR(/api/v1/users/...)
+    end
+    
+    Router --> AuthR
+    Router --> AttnR
+    Router --> QrcodeR
+    Router --> UsersR
+
+    %% Security Middleware
+    subgraph SecurityValidation [Validation & Authorization]
+        RateL{{"Rate Limit Middleware\n(Auth, Attendance, QR)"}}:::sec
+        JWTMid{{"JWT Verification\nMiddleware"}}:::sec
+        RBAC{{"Role-Based Access\nControl (RBAC)"}}:::sec
+    end
+
+    AuthR --> RateL
+    AttnR --> RateL
+    QrcodeR --> RateL
+    
+    RateL --> JWTMid
+    JWTMid --> RBAC
+
+    %% Core Services / Engines
+    subgraph CoreEngines [Core Validation Engines]
+        AttnEngine(["Attendance Validation Engine"]):::sec
+        GeoEngine(["Geo-Fencing Validation Service"]):::sec
+        FingerEngine(["Fingerprint Verification Service"]):::sec
+    end
+
+    %% Controllers Layer
+    subgraph Controllers
+        AuthC[AuthController]:::ctrl
+        AttnC[AttendanceController]:::ctrl
+        QRC[QrcodeController]:::ctrl
+        GeoC[GeofenceController]:::ctrl
+        UsersC[Student/Teacher/Admin\nControllers]:::ctrl
+    end
+
+    RBAC --> AuthC
+    RBAC --> AttnC
+    RBAC --> QRC
+    RBAC --> GeoC
+    RBAC --> UsersC
+
+    AttnC --> AttnEngine
+    AttnEngine --> GeoEngine
+    AttnEngine --> FingerEngine
+
+    %% ORM & DB
+    Prisma[("Prisma ORM Client")]:::db
+    Postgres[(PostgreSQL Database)]:::db
+
+    AuthC & AttnC & QRC & GeoC & UsersC --> Prisma
+    Prisma <--> Postgres
+
+    %% Background / Async Services
+    Redis[("Redis Cache /\nTemporary Session Store")]:::db
+    Mailer("Email Service (Nodemailer)")
+    PDFGen("PDF Report Generator (Puppeteer)")
+
+    AuthC -.-> Mailer
+    AttnC -.-> Redis
+    AttnC -.-> PDFGen
+    QRC -.-> Redis

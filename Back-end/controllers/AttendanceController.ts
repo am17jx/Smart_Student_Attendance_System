@@ -4,6 +4,26 @@ import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/AppError";
 import puppeteer from "puppeteer";
 import logger from "../utils/logger";
+import { verifyTOTP } from "../utils/otp";
+
+// Helper: Calculate distance in meters using Haversine formula
+function getDistanceFromLatLonInMeters(lat1: number, lon1: number, lat2: number, lon2: number) {
+    var R = 6371; // Radius of the earth in km
+    var dLat = deg2rad(lat2 - lat1);
+    var dLon = deg2rad(lon2 - lon1);
+    var a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat1)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2)
+        ;
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c; // Distance in km
+    return d * 1000; // Distance in meters
+}
+
+function deg2rad(deg: number) {
+    return deg * (Math.PI / 180)
+}
 
 // Helper function to serialize BigInt values to strings for JSON
 const serializeBigInt = (obj: any): any => {
@@ -11,6 +31,133 @@ const serializeBigInt = (obj: any): any => {
         typeof value === 'bigint' ? value.toString() : value
     ));
 };
+
+export const manualAttend = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const { otp, latitude, longitude } = req.body;
+    const studentId = req.student?.id;
+    const ip = req.ip || req.socket.remoteAddress;
+    const userAgent = req.headers['user-agent'];
+
+    if (!studentId) {
+        throw new AppError("Student not authenticated", 401);
+    }
+
+    if (!otp || !latitude || !longitude) {
+        throw new AppError("OTP and Location (GPS) are required", 400);
+    }
+
+    const student = await prisma.student.findUnique({
+        where: { id: studentId }
+    });
+
+    if (!student || !student.department_id || !student.stage_id) {
+        throw new AppError("بيانات الطالب غير مكتملة. يرجى التواصل مع الإدارة.", 400);
+    }
+
+    // Find active sessions for this student's department and stage
+    const activeSessions = await prisma.session.findMany({
+        where: {
+            is_active: true,
+            material: {
+                department_id: student.department_id,
+                stage_id: student.stage_id
+            }
+        },
+        include: {
+            material: true,
+            geofence: true
+        }
+    });
+
+    if (activeSessions.length === 0) {
+        throw new AppError("لا توجد جلسات مفتوحة حالياً لمرحلتك وقسمك", 404);
+    }
+
+    // Try to find a session where this OTP is valid
+    let matchedSession = null;
+    for (const session of activeSessions) {
+        if (verifyTOTP(otp, session.qr_secret, 30, 1)) {
+            matchedSession = session;
+            break;
+        }
+    }
+
+    if (!matchedSession) {
+        // Log failed attempt for the first active session as a fallback representation
+        await prisma.failedAttempt.create({
+            data: {
+                student_id: studentId,
+                session_id: activeSessions[0].id,
+                error_type: "INVALID_OTP",
+                error_message: "Invalid or expired OTP provided",
+                ip_address: typeof ip === 'string' ? ip : undefined,
+                device_info: userAgent
+            }
+        });
+        throw new AppError("الرمز غير صحيح أو منتهي الصلاحية", 400);
+    }
+
+    // Geofence Validation
+    if (matchedSession.geofence) {
+        const distance = getDistanceFromLatLonInMeters(
+            parseFloat(latitude),
+            parseFloat(longitude),
+            matchedSession.geofence.latitude,
+            matchedSession.geofence.longitude
+        );
+
+        if (distance > matchedSession.geofence.radius_meters) {
+            await prisma.failedAttempt.create({
+                data: {
+                    student_id: studentId,
+                    session_id: matchedSession.id,
+                    error_type: "GEOFENCE_ERROR",
+                    error_message: `Distance: ${Math.round(distance)}m, Allowed: ${matchedSession.geofence.radius_meters}m`,
+                    ip_address: typeof ip === 'string' ? ip : undefined,
+                    device_info: userAgent
+                }
+            });
+            throw new AppError(`أنت خارج نطاق القاعة (${Math.round(distance)}م). الحد الأقصى: ${matchedSession.geofence.radius_meters}م`, 403);
+        }
+    }
+
+    // Check if already attended
+    const existingRecord = await prisma.attendanceRecord.findUnique({
+        where: {
+            student_id_session_id: {
+                student_id: studentId,
+                session_id: matchedSession.id
+            }
+        }
+    });
+
+    if (existingRecord) {
+        throw new AppError("لقد قمت بتسجيل الحضور مسبقاً في هذه الجلسة", 400);
+    }
+
+    // Mark attendance
+    await prisma.attendanceRecord.create({
+        data: {
+            student_id: studentId,
+            session_id: matchedSession.id,
+            token_hash: "OTP_MANUAL",
+            latitude: parseFloat(latitude),
+            longitude: parseFloat(longitude),
+            marked_by: "otp_manual"
+        },
+    });
+
+    logger.info(`✅ OTP Attendance recorded: Student ${studentId} in Session ${matchedSession.id}`);
+
+    res.status(200).json({
+        status: "success",
+        message: "Attendance recorded successfully",
+        data: {
+            materialName: matchedSession.material?.name
+        }
+    });
+});
+
 
 /**
   GET /attendance/session/:sessionId
@@ -578,7 +725,7 @@ export const updateAttendance = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
 
         const { id } = req.params;
-        const { marked_by } = req.body;
+        const { marked_by, status } = req.body;
 
         // Check if attendance record exists first
         const existing = await prisma.attendanceRecord.findUnique({
@@ -589,14 +736,24 @@ export const updateAttendance = catchAsync(
             return next(new AppError('Attendance record not found', 404));
         }
 
+        const updateData: any = {};
+        if (marked_by !== undefined) updateData.marked_by = marked_by;
+        if (status !== undefined) {
+            const validStatuses = ['PRESENT', 'ABSENT', 'LATE', 'EXCUSED'];
+            if (!validStatuses.includes(status)) {
+                return next(new AppError('حالة الحضور غير صالحة', 400));
+            }
+            updateData.status = status;
+        }
+
         const record = await prisma.attendanceRecord.update({
             where: { id: BigInt(id as string) },
-            data: { marked_by },
+            data: updateData,
         });
 
         res.status(200).json({
             status: "success",
-            data: { record },
+            data: { record: serializeBigInt(record) },
         });
     }
 );
@@ -744,9 +901,12 @@ export const generateAttendanceReportOLD = catchAsync(
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Attendance Report</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 40px; background: white; }
+        body { font-family: 'Cairo', sans-serif; padding: 40px; background: white; }
         .header { text-align: center; margin-bottom: 30px; border-bottom: 3px solid #333; padding-bottom: 20px; }
         .header h1 { font-size: 28px; color: #333; margin-bottom: 10px; }
         .info { margin-bottom: 30px; line-height: 1.8; }
@@ -824,12 +984,13 @@ export const generateAttendanceReportOLD = catchAsync(
             logger.info('🚀 [generateAttendanceReport] Launching Puppeteer...');
             const browser = await puppeteer.launch({
                 headless: true,
+                executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
                 args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
             });
 
             const page = await browser.newPage();
             logger.info('📄 [generateAttendanceReport] Setting content...');
-            await page.setContent(html, { waitUntil: 'domcontentloaded' });
+            await page.setContent(html, { waitUntil: 'networkidle0' });
 
             logger.info('🖨️ [generateAttendanceReport] Generating PDF buffer...');
             const pdfBuffer = await page.pdf({
@@ -1036,3 +1197,128 @@ export const getSessionAttendanceReport = catchAsync(
 );
 
 
+
+/**
+ * POST /attendance/leave
+ * منح إجازة لطالب (صحية أو رسمية) — Admin only
+ */
+export const grantStudentLeave = catchAsync(
+    async (req: Request, res: Response, next: NextFunction) => {
+        const { studentId, sessionId, leaveType, reason } = req.body;
+
+        if (!studentId || !sessionId || !leaveType) {
+            return next(new AppError('يجب تقديم معرف الطالب والجلسة ونوع الإجازة', 400));
+        }
+
+        const validLeaveTypes = ['HEALTH', 'OFFICIAL'];
+        if (!validLeaveTypes.includes(leaveType)) {
+            return next(new AppError('نوع الإجازة غير صالح. يجب أن يكون HEALTH أو OFFICIAL', 400));
+        }
+
+        const student = await prisma.student.findUnique({ where: { id: BigInt(studentId) } });
+        if (!student) return next(new AppError('الطالب غير موجود', 404));
+
+        const session = await prisma.session.findUnique({ where: { id: BigInt(sessionId) } });
+        if (!session) return next(new AppError('الجلسة غير موجودة', 404));
+
+        const markedBy = `admin_leave_${leaveType.toLowerCase()}${reason ? ':' + reason : ''}`;
+
+        const record = await prisma.attendanceRecord.upsert({
+            where: {
+                student_id_session_id: {
+                    student_id: BigInt(studentId),
+                    session_id: BigInt(sessionId)
+                }
+            },
+            update: { status: 'EXCUSED', marked_by: markedBy },
+            create: {
+                student_id: BigInt(studentId),
+                session_id: BigInt(sessionId),
+                status: 'EXCUSED',
+                marked_by: markedBy
+            },
+            include: {
+                student: { select: { id: true, name: true, student_id: true, email: true } },
+                session: { include: { material: { select: { id: true, name: true } } } }
+            }
+        });
+
+        logger.info(`✅ [grantStudentLeave] Granted ${leaveType} leave to ${student.name}`);
+
+        res.status(201).json({
+            status: 'success',
+            message: `تم منح الإجازة ${leaveType === 'HEALTH' ? 'الصحية' : 'الرسمية'} بنجاح`,
+            data: { record: serializeBigInt(record) }
+        });
+    }
+);
+
+/**
+ * GET /attendance/leaves
+ * GET /attendance/leaves/:studentId
+ * جلب قائمة الإجازات — Admin only
+ */
+export const getStudentLeaves = catchAsync(
+    async (req: Request, res: Response, next: NextFunction) => {
+        const { studentId } = req.params;
+
+        const whereClause: any = { status: 'EXCUSED' };
+        if (studentId) whereClause.student_id = BigInt(studentId as string);
+
+        const records = await prisma.attendanceRecord.findMany({
+            where: whereClause,
+            include: {
+                student: {
+                    select: { id: true, name: true, student_id: true, email: true, department: true, stage: true }
+                },
+                session: {
+                    include: {
+                        material: { select: { id: true, name: true } },
+                        teacher: { select: { id: true, name: true } }
+                    }
+                }
+            },
+            orderBy: { marked_at: 'desc' }
+        });
+
+        const enrichedRecords = records.map(r => {
+            const mb = r.marked_by || '';
+            let leaveType = 'UNKNOWN';
+            let reason = '';
+            if (mb.startsWith('admin_leave_health')) {
+                leaveType = 'HEALTH';
+                reason = mb.includes(':') ? mb.split(':').slice(1).join(':') : '';
+            } else if (mb.startsWith('admin_leave_official')) {
+                leaveType = 'OFFICIAL';
+                reason = mb.includes(':') ? mb.split(':').slice(1).join(':') : '';
+            }
+            return { ...r, leaveType, reason: reason.trim() };
+        });
+
+        res.status(200).json({
+            status: 'success',
+            results: enrichedRecords.length,
+            data: { records: serializeBigInt(enrichedRecords) }
+        });
+    }
+);
+
+/**
+ * DELETE /attendance/leave/:recordId
+ * إلغاء إجازة — Admin only
+ */
+export const revokeStudentLeave = catchAsync(
+    async (req: Request, res: Response, next: NextFunction) => {
+        const { recordId } = req.params;
+
+        const existing = await prisma.attendanceRecord.findUnique({ where: { id: BigInt(recordId as string) } });
+        if (!existing) return next(new AppError('سجل الإجازة غير موجود', 404));
+        if (existing.status !== 'EXCUSED') return next(new AppError('هذا السجل ليس إجازة ممنوحة', 400));
+
+        await prisma.attendanceRecord.delete({ where: { id: BigInt(recordId as string) } });
+
+        logger.info(`🗑️ [revokeStudentLeave] Revoked leave record ${recordId}`);
+
+        res.status(200).json({ status: 'success', message: 'تم إلغاء الإجازة بنجاح' });
+    }
+);

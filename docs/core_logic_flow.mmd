@@ -1,0 +1,26 @@
+flowchart TD
+    classDef start fill:#e3f2fd,stroke:#1565c0,stroke-width:2px,color:#000,font-weight:bold;
+    classDef process fill:#fff3e0,stroke:#ef6c00,stroke-width:2px,color:#000;
+    classDef decision fill:#fce4ec,stroke:#c2185b,stroke-width:2px,color:#000,font-weight:bold;
+    classDef success fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px,color:#000,font-weight:bold;
+    classDef error fill:#ffebee,stroke:#b71c1c,stroke-width:2px,color:#000,font-weight:bold;
+
+    Start(["1. الطالب يمسح الرمز (QR Scan)"]):::start --> ApiCall(["2. طلب API (markAttendance)"]):::process
+
+    ApiCall --> CheckQR{"3. تحقق من وقت وتشفير الرمز <br>(Time & Signature)"}:::decision
+    CheckQR -- "منتهي / مزيف" --> Reject1["❌ رفض: رمز غير صالح"]:::error
+    CheckQR -- "صالح" --> CalcGeo
+
+    CalcGeo{"4. حساب مسافة هافرساين<br> (طالب ↔ مركز القاعة)"}:::decision
+    CalcGeo -- "خارج النطاق" --> Reject2["❌ رفض: خارج الموقع"]:::error
+    CalcGeo -- "داخل النطاق" --> CheckFP
+
+    CheckFP{"5. مطابقة بصمة الجهاز<br>(Device Fingerprint)"}:::decision
+    CheckFP -- "اختلاف جذري" --> Reject3["❌ رفض: جهاز مجهول أو مكرر"]:::error
+    CheckFP -- "مطابق" --> CheckDup
+
+    CheckDup{"6. منع التكرار بقاعدة البيانات<br>(Idempotency Check)"}:::decision
+    CheckDup -- "مسجل مسبقاً" --> Reject4["❌ رفض: حضور مكرر"]:::error
+    CheckDup -- "غير مسجل" --> Success
+
+    Success(["✅ نجاح: تسجيل الحضور"]):::success

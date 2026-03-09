@@ -1,0 +1,130 @@
+﻿{
+    "routers":  {
+                    "api@internal":  {
+                                         "entryPoints":  [
+                                                             "traefik"
+                                                         ],
+                                         "service":  "api@internal",
+                                         "rule":  "PathPrefix(`/api`)",
+                                         "priority":  9223372036854775806,
+                                         "status":  "enabled",
+                                         "using":  [
+                                                       "traefik"
+                                                   ]
+                                     },
+                    "backend@docker":  {
+                                           "entryPoints":  [
+                                                               "web"
+                                                           ],
+                                           "service":  "backend",
+                                           "rule":  "PathPrefix(`/api`)",
+                                           "status":  "enabled",
+                                           "using":  [
+                                                         "web"
+                                                     ]
+                                       },
+                    "dashboard@internal":  {
+                                               "entryPoints":  [
+                                                                   "traefik"
+                                                               ],
+                                               "middlewares":  [
+                                                                   "dashboard_redirect@internal",
+                                                                   "dashboard_stripprefix@internal"
+                                                               ],
+                                               "service":  "dashboard@internal",
+                                               "rule":  "PathPrefix(`/`)",
+                                               "priority":  9223372036854775805,
+                                               "status":  "enabled",
+                                               "using":  [
+                                                             "traefik"
+                                                         ]
+                                           },
+                    "frontend@docker":  {
+                                            "entryPoints":  [
+                                                                "web"
+                                                            ],
+                                            "service":  "frontend",
+                                            "rule":  "PathPrefix(`/`)",
+                                            "status":  "enabled",
+                                            "using":  [
+                                                          "web"
+                                                      ]
+                                        }
+                },
+    "middlewares":  {
+                        "dashboard_redirect@internal":  {
+                                                            "redirectRegex":  {
+                                                                                  "regex":  "^(http:\\/\\/(\\[[\\w:.]+\\]|[\\w\\._-]+)(:\\d+)?)\\/$",
+                                                                                  "replacement":  "${1}/dashboard/",
+                                                                                  "permanent":  true
+                                                                              },
+                                                            "status":  "enabled",
+                                                            "usedBy":  [
+                                                                           "dashboard@internal"
+                                                                       ]
+                                                        },
+                        "dashboard_stripprefix@internal":  {
+                                                               "stripPrefix":  {
+                                                                                   "prefixes":  [
+                                                                                                    "/dashboard/",
+                                                                                                    "/dashboard"
+                                                                                                ]
+                                                                               },
+                                                               "status":  "enabled",
+                                                               "usedBy":  [
+                                                                              "dashboard@internal"
+                                                                          ]
+                                                           }
+                    },
+    "services":  {
+                     "api@internal":  {
+                                          "status":  "enabled",
+                                          "usedBy":  [
+                                                         "api@internal"
+                                                     ]
+                                      },
+                     "backend@docker":  {
+                                            "loadBalancer":  {
+                                                                 "servers":  [
+                                                                                 {
+                                                                                     "url":  "http://172.18.0.4:4000"
+                                                                                 }
+                                                                             ],
+                                                                 "passHostHeader":  true
+                                                             },
+                                            "status":  "enabled",
+                                            "usedBy":  [
+                                                           "backend@docker"
+                                                       ],
+                                            "serverStatus":  {
+                                                                 "http://172.18.0.4:4000":  "UP"
+                                                             }
+                                        },
+                     "dashboard@internal":  {
+                                                "status":  "enabled",
+                                                "usedBy":  [
+                                                               "dashboard@internal"
+                                                           ]
+                                            },
+                     "frontend@docker":  {
+                                             "loadBalancer":  {
+                                                                  "servers":  [
+                                                                                  {
+                                                                                      "url":  "http://172.18.0.5:80"
+                                                                                  }
+                                                                              ],
+                                                                  "passHostHeader":  true
+                                                              },
+                                             "status":  "enabled",
+                                             "usedBy":  [
+                                                            "frontend@docker"
+                                                        ],
+                                             "serverStatus":  {
+                                                                  "http://172.18.0.5:80":  "UP"
+                                                              }
+                                         },
+                     "noop@internal":  {
+                                           "status":  "enabled"
+                                       }
+                 }
+}

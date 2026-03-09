@@ -1,0 +1,87 @@
+graph TD
+    %% Global Settings
+    classDef core fill:#f9f,stroke:#333,stroke-width:2px;
+    classDef state fill:#ff9,stroke:#333,stroke-width:2px;
+    classDef router fill:#bbf,stroke:#333,stroke-width:2px;
+    classDef ui fill:#bfb,stroke:#333,stroke-width:2px;
+    classDef page fill:#eee,stroke:#333,stroke-width:1px;
+    classDef sec fill:#fbf,stroke:#f33,stroke-width:2px,stroke-dasharray: 5 5;
+
+    %% Entry
+    Vite[("Vite Build System\n(main.tsx)")]:::core
+    App[("App.tsx\n(Root Component)")]:::core
+    
+    Vite --> App
+
+    %% Providers
+    subgraph StateSecurity [State & Security Contexts]
+        QueryClient("React Query Provider\n(Data Cache & Sync)"):::state
+        AuthProv("AuthProvider & JWT State\n(User Session Context)"):::sec
+        ThemeProv("ThemeProvider"):::state
+    end
+
+    App --> QueryClient
+    App --> AuthProv
+    App --> ThemeProv
+
+    %% Routing
+    subgraph RoutingProtection [Routing & Protection Layer]
+        Router("React Router\n(BrowserRouter)"):::router
+        Protect("ProtectedRoute Wrapper\n(Role-Based Access Control)"):::sec
+    end
+
+    QueryClient --> Router
+    Router --> Protect
+
+    %% Pages by Role
+    subgraph RoleBased [Role-Based Views]
+        direction TB
+        
+        subgraph AdminDashboardGroup [Admin Dashboard]
+            AdminMonitor[Admin Monitoring Dashboard]:::page
+            AdminSetup[System Setup: Materials,\nGeofences, Stages, Departments]:::page
+            AdminPromote[Academic Setup: Enrollments,\nStudent Leaves, Promotion Config]:::page
+        end
+
+        subgraph TeacherDashboardGroup [Teacher Dashboard]
+            TeacherDash[Teacher Dashboard]:::page
+            TeacherSessions[Manage Sessions &\nGenerate Dynamic QR]:::page
+            TeacherReports[Session Attendance Report]:::page
+        end
+
+        subgraph StudentEnvironmentGroup [Student Environment]
+            StudentDash[Student Dashboard]:::page
+            StudentQR["Dynamic QR Verification Page\n(html5-qrcode)"]:::sec
+            LocAuth["Location Permission Handler\n(Geo-fencing Prep)"]:::sec
+            DevVerify["Device Verification Flow\n(Browser Fingerprinting)"]:::sec
+            StudentAttn[Student Attendance History]:::page
+        end
+
+        subgraph PublicSharedGroup [Public / Shared]
+            Login[Secure Login Pages]:::page
+            Settings[Profile / Account Settings]:::page
+        end
+    end
+
+    Protect -.-> AdminMonitor
+    Protect -.-> TeacherDash
+    Protect -.-> StudentDash
+    StudentDash -.-> LocAuth
+    LocAuth -.-> DevVerify
+    DevVerify -.-> StudentQR
+    Router -.-> Login
+
+    %% UI Components
+    subgraph BaseUILayer [Base UI Layer]
+        Shadcn("Shadcn UI Component System\n(Tailwind CSS)"):::ui
+        SharedUI("Shared Layout\n(AppSidebar, Navbar)"):::ui
+    end
+
+    AdminMonitor --> SharedUI
+    TeacherDash --> SharedUI
+    StudentDash --> SharedUI
+    SharedUI --> Shadcn
+
+    %% Backend Connection
+    Backend[("Secure Backend API\n(HTTPS / REST)")]:::core
+    QueryClient <-->|"API Requests + JWT Headers"| Backend
