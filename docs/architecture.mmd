@@ -1,0 +1,50 @@
+graph TD
+    %% User Interfaces
+    Client[("Frontend Application\n(React, Vite, Tailwind)")]
+    Mobile[("Responsive Web Client\n(Mobile Browser)")]
+
+    %% Proxy/Gateway
+    Traefik{"Edge Router / Reverse Proxy\n(Traefik)"}
+    Nginx[("Static File Server\n(Nginx)")]
+
+    %% Backend Services
+    subgraph SecureBackend [Secure Backend Environment]
+        subapi["Backend API\n(Node.js, Express)"]
+        
+        %% Security Core Modules
+        QR(["Dynamic QR Rotation Service"])
+        Geo(["Geo-Fencing Validation"])
+        Fingerprint(["Device Fingerprint Module"])
+        
+        subapi <--> QR
+        subapi <--> Geo
+        subapi <--> Fingerprint
+    end
+
+    %% Databases & Storage
+    DB[("PostgreSQL\n(Prisma ORM)")]
+    Cache[("Redis Cache / Temporary State")]
+
+    %% External Services
+    Mail("Email Service\n(Nodemailer)")
+    PDF[("PDF Generation\n(Puppeteer)")];
+
+    %% Relationships
+    Client <-->|"HTTPS Requests with\nJWT Authentication"| Traefik
+    Mobile <-->|"HTTPS Requests with\nJWT Authentication"| Traefik
+    
+    Traefik <-->|"Routing /"| Nginx
+    Traefik <-->|"Routing /api"| subapi
+
+    
+    subapi <-->|"Queries"| DB
+    subapi <-->|"Session Data & State"| Cache
+    subapi -->|"Send Emails"| Mail
+    subapi -->|"Generate Reports"| PDF
+
+    classDef db fill:#f9f,stroke:#333,stroke-width:2px;
+    classDef srv fill:#bbf,stroke:#333,stroke-width:2px;
+    classDef sec fill:#fbf,stroke:#f33,stroke-width:2px,stroke-dasharray: 5 5;
+    class DB,Cache db;
+    class subapi,Traefik srv;
+    class QR,Geo,Fingerprint sec;

@@ -279,20 +279,30 @@ export const getStudentDashboard = catchAsync(async (req: Request, res: Response
             throw new AppError('Student not found', 404);
         }
 
-        // Get all attendance records with session details
-        const attendanceRecords = await prisma.attendanceRecord.findMany({
-            where: { student_id: studentId },
-            include: {
-                session: {
-                    include: {
-                        material: { select: { id: true, name: true } },
-                        teacher: { select: { name: true } },
-                        geofence: { select: { name: true } }
-                    }
+        // 1. Get ALL sessions the student is supposed to attend
+        const expectedSessions = await prisma.session.findMany({
+            where: {
+                material: {
+                    department_id: student.department_id!,
+                    stage_id: student.stage_id!
                 }
             },
-            orderBy: { marked_at: 'desc' }
+            include: {
+                material: { select: { id: true, name: true } },
+                teacher: { select: { name: true } },
+                geofence: { select: { name: true } }
+            },
+            orderBy: { session_date: 'desc' }
         });
+
+        // 2. Get student's actual attendance records
+        const attendanceRecords = await prisma.attendanceRecord.findMany({
+            where: { student_id: studentId }
+        });
+
+        // Map records for quick lookup
+        const recordMap = new Map();
+        attendanceRecords.forEach((r: any) => recordMap.set(r.session_id.toString(), r));
 
         // Calculate stats by status
         const statusCounts = {
@@ -301,12 +311,6 @@ export const getStudentDashboard = catchAsync(async (req: Request, res: Response
             ABSENT: 0,
             EXCUSED: 0
         };
-
-        attendanceRecords.forEach(record => {
-            if (record.status && statusCounts.hasOwnProperty(record.status)) {
-                statusCounts[record.status as keyof typeof statusCounts]++;
-            }
-        });
 
         // Calculate stats by material
         const materialStatsMap = new Map<string, {
@@ -318,9 +322,10 @@ export const getStudentDashboard = catchAsync(async (req: Request, res: Response
             totalSessions: number;
         }>();
 
-        attendanceRecords.forEach(record => {
-            const materialId = record.session.material.id.toString();
-            const materialName = record.session.material.name;
+        // Process all EXPECTED sessions
+        expectedSessions.forEach(session => {
+            const materialId = session.material.id.toString();
+            const materialName = session.material.name;
 
             if (!materialStatsMap.has(materialId)) {
                 materialStatsMap.set(materialId, {
@@ -336,9 +341,17 @@ export const getStudentDashboard = catchAsync(async (req: Request, res: Response
             const stats = materialStatsMap.get(materialId)!;
             stats.totalSessions++;
 
-            if (record.status === 'PRESENT') stats.attended++;
-            else if (record.status === 'LATE') stats.late++;
-            else if (record.status === 'ABSENT') stats.absent++;
+            // Find record or default to ABSENT
+            const record = recordMap.get(session.id.toString());
+            const status = record?.status || 'ABSENT';
+
+            if (statusCounts.hasOwnProperty(status)) {
+                statusCounts[status as keyof typeof statusCounts]++;
+            }
+
+            if (status === 'PRESENT') stats.attended++;
+            else if (status === 'LATE') stats.late++;
+            else if (status === 'ABSENT') stats.absent++;
         });
 
         // Convert to array and calculate attendance rates
@@ -355,7 +368,7 @@ export const getStudentDashboard = catchAsync(async (req: Request, res: Response
         }));
 
         // Calculate overall stats
-        const totalSessions = attendanceRecords.length;
+        const totalSessions = expectedSessions.length;
         const attendedCount = statusCounts.PRESENT + statusCounts.LATE;
         const percentage = totalSessions > 0
             ? ((attendedCount / totalSessions) * 100).toFixed(2)
@@ -364,20 +377,30 @@ export const getStudentDashboard = catchAsync(async (req: Request, res: Response
         // Determine status based on percentage
         let status: 'excellent' | 'good' | 'warning' | 'danger';
         const percentNum = parseFloat(percentage);
-        if (percentNum >= 90) status = 'excellent';
-        else if (percentNum >= 75) status = 'good';
-        else if (percentNum >= 60) status = 'warning';
-        else status = 'danger';
 
-        // Recent attendance (last 5 records)
-        const recentAttendance = attendanceRecords.slice(0, 5).map(record => ({
-            id: record.id.toString(),
-            materialName: record.session.material.name,
-            teacherName: record.session.teacher.name,
-            status: record.status || 'PRESENT',
-            marked_at: record.marked_at.toISOString(),
-            location: record.session.geofence?.name || 'غير محدد'
-        }));
+        if (totalSessions === 0) {
+            status = 'excellent'; 
+        } else if (percentNum >= 90) {
+            status = 'excellent';
+        } else if (percentNum >= 75) {
+            status = 'good';
+        } else if (percentNum >= 60) {
+            status = 'warning';
+        } else {
+            status = 'danger';
+        }
+
+        const recentAttendance = expectedSessions.slice(0, 5).map(session => {
+            const record = recordMap.get(session.id.toString());
+            return {
+                id: session.id.toString(),
+                materialName: session.material.name,
+                teacherName: session.teacher.name,
+                status: record?.status || 'ABSENT',
+                marked_at: record?.marked_at?.toISOString() || session.session_date.toISOString(),
+                location: session.geofence?.name || 'غير محدد'
+            };
+        });
 
         logger.info('✅ [getStudentDashboard] Dashboard data prepared:', {
             studentId: studentId.toString(),

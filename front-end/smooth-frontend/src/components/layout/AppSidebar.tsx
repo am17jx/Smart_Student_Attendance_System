@@ -12,7 +12,8 @@ import {
   Settings,
   ClipboardCheck,
   ArrowUpCircle,
-  AlertTriangle
+  AlertTriangle,
+  FileCheck
 } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -42,6 +43,7 @@ const adminMenuItems = [
   { title: "المواقع الجغرافية", url: "/geofences", icon: MapPin },
   { title: "المحاولات الفاشلة", url: "/failed-attempts", icon: AlertTriangle },
   { title: "إدارة النتائج", url: "/enrollments", icon: BookOpen },
+  { title: "إجازات الطلاب", url: "/student-leaves", icon: FileCheck },
   { title: "ترحيل الطلاب", url: "/promotion", icon: ArrowUpCircle },
   { title: "إعدادات الترحيل", url: "/promotion-config", icon: Settings },
 ];

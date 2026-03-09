@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { qrApi } from "@/lib/api";
+import { qrApi, attendanceApi } from "@/lib/api";
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -168,37 +168,26 @@ export default function ScanQR() {
     }
 
     try {
-      let data: { token?: string; id?: string };
-      try {
-        data = JSON.parse(manualCode);
-      } catch {
-        // If not JSON, assume it's a test code for simulation or invalid format
-        if (manualCode === "123456") {
-          setScanResult("success");
-          toast({
-            title: "تم تسجيل حضورك بنجاح!",
-            description: "تم التسجيل باستخدام الرمز اليدوي التجريبي.",
-          });
-          setManualCode("");
-          return;
-        }
-        toast({ title: "صيغة الرمز غير صحيحة", description: "يرجى إدخال رمز QR صالح أو بيانات JSON.", variant: "destructive" });
-        setManualCode("");
+      // Validate OTP format (6 digits)
+      if (!/^\d{6}$/.test(manualCode.trim())) {
+        toast({ title: "صيغة الرمز غير صحيحة", description: "يجب أن يتكون الرمز من 6 أرقام.", variant: "destructive" });
         return;
       }
 
-      if (data.token && data.id) {
-        await qrApi.scan(data.token, data.id, coords.latitude, coords.longitude);
-        setScanResult("success");
-        toast({ title: "تم تسجيل الحضور بنجاح" });
-      } else {
-        toast({ title: "صيغة الرمز غير صحيحة", description: "يجب أن يحتوي الرمز على 'token' و 'id'.", variant: "destructive" });
-      }
+      const response = await attendanceApi.manualAttend(manualCode.trim(), coords.latitude, coords.longitude);
+
+      setAttendanceDetails({
+        materialName: response.data?.materialName || 'غير معروف',
+        timestamp: new Date().toISOString()
+      });
+      setScanResult("success");
+      toast({ title: "تم تسجيل الحضور بنجاح" });
+
     } catch (error: any) {
       setScanResult("error");
       toast({
         title: "فشل التسجيل",
-        description: error.response?.data?.message || error.message || "خطأ غير معروف",
+        description: error.response?.data?.message || error.message || "الرمز غير صحيح أو خارج نطاق القاعة",
         variant: "destructive"
       });
     }
@@ -291,9 +280,11 @@ export default function ScanQR() {
             <CardContent className="p-6 text-center">
               <CheckCircle2 className="h-16 w-16 mx-auto text-success mb-4" />
               <h3 className="text-xl font-bold text-success mb-2">تم تسجيل حضورك!</h3>
-              <p className="text-muted-foreground">المادة: البرمجة المتقدمة</p>
+              <p className="text-muted-foreground">المادة: {attendanceDetails?.materialName || "غير معروف"}</p>
               <p className="text-sm text-muted-foreground mt-1">
-                {new Date().toLocaleTimeString('ar-SA')}
+                {attendanceDetails?.timestamp
+                  ? new Date(attendanceDetails.timestamp).toLocaleTimeString('ar-SA')
+                  : new Date().toLocaleTimeString('ar-SA')}
               </p>
               <Button
                 variant="outline"

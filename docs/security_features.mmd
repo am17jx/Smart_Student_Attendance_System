@@ -1,0 +1,22 @@
+graph LR
+    classDef main fill:#2196f3,stroke:#0d47a1,stroke-width:2px,color:#fff,font-weight:bold;
+    classDef sec1 fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px,color:#000;
+    classDef sec2 fill:#fff3e0,stroke:#e65100,stroke-width:2px,color:#000;
+    classDef sec3 fill:#fce4ec,stroke:#c2185b,stroke-width:2px,color:#000;
+
+    Root((الأمان والخصوصية<br>Security & Privacy)):::main
+
+    Root --- A(حماية الهوية والبيانات<br>Identity & Data Protection):::sec1
+    A --- A1[تشفير كلمات المرور<br>Bcrypt Password Hashing]
+    A --- A2[تشفير الجلسات<br>JWT Sessions]
+    A --- A3[حماية الخصوصية<br>Data Minimization]
+
+    Root --- B(آليات مكافحة الغش<br>Anti-Spoofing Engine):::sec2
+    B --- B1[التحقق الجغرافي<br>Haversine Geo-Fencing]
+    B --- B2[البصمة الرقمية<br>Browser Fingerprinting]
+    B --- B3[الرمز المتغير الموقوت<br>Time-Based Dynamic QR]
+
+    Root --- C(أمان البنية التحتية<br>Infrastructure Security):::sec3
+    C --- C1[البوابة العكسية<br>Traefik Edge Proxy]
+    C --- C2[تقييد محاولات الاتصال<br>Rate Limiting]
+    C --- C3[التحكم بالصلاحيات<br>RBAC Authorization]

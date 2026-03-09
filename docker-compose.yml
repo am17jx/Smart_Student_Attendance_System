@@ -1,27 +1,70 @@
 version: '3.8'
 
 services:
+  traefik:
+    image: traefik:v2.11
+    container_name: traefik_router
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80" # HTTP ingress
+      - "8080:8080" # Traefik Dashboard (development only)
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    restart: always
+
   backend:
     build:
       context: ./Back-end
       dockerfile: Dockerfile
     container_name: attendance-backend
-    ports:
-      - "4000:4000"
+    expose:
+      - "4000"
     env_file:
       - ./Back-end/.env
     dns:
       - 8.8.8.8
       - 8.8.4.4
     restart: always
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      - db
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.backend.rule=PathPrefix(`/api`)"
+      - "traefik.http.services.backend.loadbalancer.server.port=4000"
 
   frontend:
     build:
       context: ./front-end/smooth-frontend
       dockerfile: Dockerfile
     container_name: attendance-frontend
-    ports:
-      - "80:80"
+    expose:
+      - "80"
     depends_on:
       - backend
     restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.frontend.rule=PathPrefix(`/`)"
+      - "traefik.http.services.frontend.loadbalancer.server.port=80"
+
+  db:
+    image: postgres:15-alpine
+    container_name: attendance-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ameer
+      POSTGRES_DB: attendance_system
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  pgdata:

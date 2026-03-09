@@ -1,0 +1,39 @@
+graph TD
+    classDef user fill:#e1f5fe,stroke:#03a9f4,stroke-width:2px,color:#000;
+    classDef edge fill:#fff3e0,stroke:#ff9800,stroke-width:2px,color:#000;
+    classDef backend fill:#e8f5e9,stroke:#4caf50,stroke-width:2px,color:#000;
+    classDef security fill:#ffebee,stroke:#f44336,stroke-width:2px,color:#000;
+    classDef db fill:#f3e5f5,stroke:#9c27b0,stroke-width:2px,color:#000;
+
+    Client["📱 Client Device<br/>(Browser/Mobile)"]:::user
+
+    subgraph Edge Layer
+        Traefik["🛡️ Traefik Reverse Proxy<br/>(Rate Limiting & HTTPS)"]:::edge
+    end
+
+    subgraph Security & Validation Engine
+        Auth["🔑 Authentication<br/>(JWT & Bcrypt Hashing)"]:::security
+        FP["💻 Device Fingerprinting<br/>(Identity Verification)"]:::security
+        TOTP["⏳ Dynamic QR Validation<br/>(Time-Based Expiry)"]:::security
+        Geo["📍 Geo-Fencing<br/>(Haversine Distance Check)"]:::security
+    end
+
+    subgraph Backend Services
+        API["⚙️ Node.js + Express API<br/>(RBAC Authorization)"]:::backend
+    end
+
+    subgraph Data Layer
+        DB["🗄️ PostgreSQL Database<br/>(Secure Data Storage)"]:::db
+    end
+
+    Client -->|1. HTTPS Request| Traefik
+    Traefik -->|2. Filtered Traffic| API
+    
+    API -->|3. Validate Token| Auth
+    API -->|4. Check Device Hash| FP
+    API -->|5. Verify Location| Geo
+    API -->|6. Verify QR Token| TOTP
+    
+    Auth & FP & Geo & TOTP -->|7. If all Valid| DB
+    DB -->|8. Success| API
+    API -->|9. Encrypted Response| Client

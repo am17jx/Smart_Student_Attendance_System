@@ -530,20 +530,31 @@ function StudentDashboard() {
         />
         <StatCard
           title="نسبة الحضور"
-          value={`${stats.percentage || 0}%`}
+          value={stats.totalSessions === 0 ? '-' : `${stats.percentage}%`}
           icon={TrendingUp}
-          variant={getStatusVariant(stats.status)}
+          variant={stats.totalSessions === 0 ? 'default' : getStatusVariant(stats.status)}
         />
       </div>
 
       {/* Status Message */}
-      <Card className={`shadow-card ${stats.status === 'excellent' ? 'gradient-success text-success-foreground' : stats.status === 'danger' ? 'bg-destructive/10 border-destructive/20' : ''}`}>
-        <CardContent className="p-6 text-center">
-          <StatusIcon className={`h-12 w-12 mx-auto mb-4 ${stats.status === 'excellent' ? 'opacity-90' : statusInfo.color}`} />
-          <h3 className="text-xl font-bold mb-2">{statusInfo.title}</h3>
-          <p className={stats.status === 'excellent' ? 'opacity-90' : 'text-muted-foreground'}>{statusInfo.message}</p>
-        </CardContent>
-      </Card>
+      {/* Status Message */}
+      {stats.totalSessions === 0 ? (
+        <Card className="shadow-card bg-muted/20 border-dashed">
+          <CardContent className="p-6 text-center">
+            <BookOpen className="h-12 w-12 mx-auto mb-4 text-muted-foreground opacity-50" />
+            <h3 className="text-xl font-bold mb-2">تنتظرك بداية موفقة!</h3>
+            <p className="text-muted-foreground">لم تبدأ المحاضرات الخاصة بك بعد، ستظهر إحصائيات الحضور هنا بمجرد التزامك بأول محاضرة.</p>
+          </CardContent>
+        </Card>
+      ) : (
+        <Card className={`shadow-card ${stats.status === 'excellent' ? 'gradient-success text-success-foreground' : stats.status === 'danger' ? 'bg-destructive/10 border-destructive/20' : ''}`}>
+          <CardContent className="p-6 text-center">
+            <StatusIcon className={`h-12 w-12 mx-auto mb-4 ${stats.status === 'excellent' ? 'opacity-90' : statusInfo.color}`} />
+            <h3 className="text-xl font-bold mb-2">{statusInfo.title}</h3>
+            <p className={stats.status === 'excellent' ? 'opacity-90' : 'text-muted-foreground'}>{statusInfo.message}</p>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Attendance by Material */}
       {byMaterial && byMaterial.length > 0 && (

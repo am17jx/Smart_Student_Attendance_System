@@ -5,6 +5,7 @@ import AppError from "../utils/AppError";
 import QRCode from "qrcode";
 import crypto from "crypto";
 import logger from "../utils/logger";
+import { generateTOTP } from "../utils/otp";
 
 // Helper: Constant-time comparison
 function timingSafeEqual(a: string, b: string): boolean {
@@ -318,3 +319,24 @@ export const getSessionQrCodes = catchAsync(async (req: Request, res: Response, 
         data: { qrTokens },
     });
 });
+
+export const getSessionOtp = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const { session_id } = req.params;
+
+    const session = await prisma.session.findUnique({
+        where: { id: BigInt(session_id as string) },
+        select: { is_active: true, qr_secret: true }
+    });
+
+    if (!session?.is_active) {
+        return next(new AppError('Session not found or inactive', 404));
+    }
+
+    const otp = generateTOTP(session.qr_secret, 30);
+
+    res.status(200).json({
+        status: "success",
+        data: { otp },
+    });
+});
+

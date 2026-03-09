@@ -1,0 +1,173 @@
+erDiagram
+    %% Core Entities
+    Department {
+        BigInt id PK
+        String name
+    }
+    
+    Stage {
+        BigInt id PK
+        String name
+        Int level
+    }
+    
+    Material {
+        BigInt id PK
+        String name
+        Semester semester
+        Boolean is_core_subject
+        BigInt department_id FK
+        BigInt stage_id FK
+    }
+
+    %% Users
+    Student {
+        BigInt id PK
+        String student_id
+        String name
+        String email
+        AcademicStatus academic_status
+        BigInt department_id FK
+        BigInt stage_id FK
+    }
+    
+    Teacher {
+        BigInt id PK
+        String name
+        String email
+        BigInt department_id FK
+    }
+    
+    Admin {
+        BigInt id PK
+        String name
+        String email
+        BigInt department_id FK
+    }
+
+    TeacherMaterial {
+        BigInt id PK
+        BigInt teacher_id FK
+        BigInt material_id FK
+    }
+
+    %% Attendance System
+    Geofence {
+        BigInt id PK
+        String name
+        Float latitude
+        Float longitude
+        Int radius_meters
+    }
+    
+    Session {
+        BigInt id PK
+        DateTime session_date
+        String qr_secret
+        Boolean is_active
+        BigInt teacher_id FK
+        BigInt material_id FK
+        BigInt geofence_id FK
+    }
+    
+    QRToken {
+        BigInt id PK
+        String token_hash
+        DateTime generated_at
+        DateTime expires_at
+        BigInt session_id FK
+        BigInt used_by_student_id FK
+    }
+
+    AttendanceRecord {
+        BigInt id PK
+        AttendanceStatus status
+        Float latitude
+        Float longitude
+        String marked_by
+        BigInt session_id FK
+        BigInt student_id FK
+    }
+
+    FailedAttempt {
+        BigInt id PK
+        String error_type
+        String ip_address
+        String fingerprint_hash
+        BigInt session_id FK
+        BigInt student_id FK
+    }
+
+    %% Academic Promotion System
+    Enrollment {
+        BigInt id PK
+        String academic_year
+        SubjectResultStatus result_status
+        Boolean is_carried
+        BigInt student_id FK
+        BigInt material_id FK
+    }
+
+    PromotionRecord {
+        BigInt id PK
+        PromotionDecision decision
+        Int failed_count
+        Int carried_count
+        BigInt student_id FK
+        BigInt stage_from_id FK
+        BigInt stage_to_id FK
+    }
+
+    CarriedSubject {
+        BigInt id PK
+        String academic_year
+        BigInt student_id FK
+        BigInt material_id FK
+    }
+
+    PromotionConfig {
+        BigInt id PK
+        Int max_carry_subjects
+        Int fail_threshold_for_repeat
+        BigInt department_id FK
+    }
+
+    AbsenceWarning {
+        BigInt id PK
+        WarningType warning_type
+        Float absence_percentage
+        BigInt student_id FK
+        BigInt material_id FK
+    }
+
+    %% Relationships
+    Department ||--o{ Student : "has"
+    Department ||--o{ Teacher : "has"
+    Department ||--o{ Material : "has"
+    Department ||--o{ Admin : "has"
+    Department ||--o| PromotionConfig : "has config"
+
+    Stage ||--o{ Student : "enrolls"
+    Stage ||--o{ Material : "contains"
+    Stage ||--o{ PromotionRecord : "from/to stage"
+
+    Material ||--o{ TeacherMaterial : "taught via"
+    Teacher ||--o{ TeacherMaterial : "teaches"
+    Material ||--o{ Session : "has"
+    Material ||--o{ Enrollment : "has"
+    Material ||--o{ CarriedSubject : "has"
+
+    Teacher ||--o{ Session : "creates"
+    Geofence ||--o{ Session : "locates"
+
+    Session ||--o{ QRToken : "generates"
+    Session ||--o{ AttendanceRecord : "records"
+    Session ||--o{ FailedAttempt : "logs"
+
+    Student ||--o{ QRToken : "uses"
+    Student ||--o{ AttendanceRecord : "submits"
+    Student ||--o{ FailedAttempt : "triggers"
+    Student ||--o{ Enrollment : "has"
+    Student ||--o{ PromotionRecord : "receives"
+    Student ||--o{ CarriedSubject : "carries"
+    Student ||--o{ AbsenceWarning : "receives"

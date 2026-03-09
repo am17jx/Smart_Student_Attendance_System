@@ -31,7 +31,9 @@ import {
   Play,
   Square,
   Search,
-  BookOpen
+  BookOpen,
+  Eye,
+  EyeOff
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -86,6 +88,8 @@ export default function Sessions() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [showQR, setShowQR] = useState<string | null>(null);
   const [qrCodeData, setQrCodeData] = useState<string | null>(null);
+  const [otpData, setOtpData] = useState<string | null>(null);
+  const [isOtpVisible, setIsOtpVisible] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -162,6 +166,16 @@ export default function Sessions() {
     }
   });
 
+  const generateOtpMutation = useMutation({
+    mutationFn: (id: string) => qrApi.getOtp(id),
+    onSuccess: (data) => {
+      setOtpData(data.data?.otp || "");
+    },
+    onError: (error: Error) => {
+      console.error("فشل استدعاء الرمز المختصر", error);
+    }
+  });
+
   // Client-side filtering removed as we do it on server now
   const filteredSessions = sessions;
 
@@ -202,6 +216,7 @@ export default function Sessions() {
   const handleShowQr = (id: string) => {
     setShowQR(id);
     generateQrMutation.mutate(id);
+    generateOtpMutation.mutate(id);
   };
 
   // Auto-refresh QR code every 30 seconds when QR dialog is open
@@ -210,6 +225,7 @@ export default function Sessions() {
 
     const interval = setInterval(() => {
       generateQrMutation.mutate(showQR);
+      generateOtpMutation.mutate(showQR);
     }, 30000); // Refresh every 30 seconds
 
     return () => clearInterval(interval); // Cleanup on unmount or when showQR changes
@@ -420,7 +436,7 @@ export default function Sessions() {
         </div>
 
         {/* QR Dialog */}
-        <Dialog open={!!showQR} onOpenChange={() => { setShowQR(null); setQrCodeData(null); }}>
+        <Dialog open={!!showQR} onOpenChange={() => { setShowQR(null); setQrCodeData(null); setOtpData(null); setIsOtpVisible(false); }}>
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
               <DialogTitle>رمز QR للحضور</DialogTitle>
@@ -428,8 +444,8 @@ export default function Sessions() {
                 اعرض هذا الرمز للطلاب لتسجيل حضورهم
               </DialogDescription>
             </DialogHeader>
-            <div className="flex items-center justify-center p-8">
-              <div className="w-64 h-64 bg-muted rounded-lg flex items-center justify-center overflow-hidden">
+            <div className="flex flex-col items-center justify-center p-8">
+              <div className="w-64 h-64 bg-muted rounded-lg flex items-center justify-center overflow-hidden mb-6">
                 {generateQrMutation.isPending ? (
                   <LoadingSpinner />
                 ) : qrCodeData ? (
@@ -438,8 +454,30 @@ export default function Sessions() {
                   <QrCode className="h-32 w-32 text-muted-foreground" />
                 )}
               </div>
+
+              {otpData ? (
+                <div className="text-center mb-6 w-full relative">
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="text-sm text-muted-foreground w-full">أو استخدم رمز الدخول اليدوي</p>
+                  </div>
+                  <div
+                    className="relative group cursor-pointer"
+                    onClick={() => setIsOtpVisible(!isOtpVisible)}
+                    title={isOtpVisible ? "انقر لإخفاء الرمز" : "انقر لإظهار الرمز"}
+                  >
+                    <div className={`text-4xl font-mono tracking-[0.25em] font-bold text-primary bg-primary/10 py-3 px-6 rounded-lg border-2 border-primary/20 transition-all ${!isOtpVisible ? "blur-md select-none" : ""}`}>
+                      {otpData}
+                    </div>
+                    {!isOtpVisible && (
+                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-background/80 shadow-sm rounded-full w-12 h-12 flex items-center justify-center">
+                        <Eye className="w-6 h-6 text-primary" />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ) : generateOtpMutation.isPending && <LoadingSpinner />}
             </div>
-            <div className="flex flex-col items-center gap-2 mt-4">
+            <div className="flex flex-col items-center gap-2 mt-2">
               {(() => {
                 const session = sessions.find(s => s.id === showQR);
                 if (!session) return null;
