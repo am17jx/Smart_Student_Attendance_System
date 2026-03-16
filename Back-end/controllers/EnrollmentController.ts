@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { PrismaClient, SubjectResultStatus } from '@prisma/client';
+import { serializeBigInt } from '../utils/serializeBigInt';
 
 const prisma = new PrismaClient();
 
@@ -39,11 +40,7 @@ export class EnrollmentController {
                 },
             });
 
-            const serialized = JSON.parse(
-                JSON.stringify(enrollment, (key, value) =>
-                    typeof value === 'bigint' ? value.toString() : value
-                )
-            );
+            const serialized = serializeBigInt(enrollment);
 
             res.status(201).json({
                 success: true,
@@ -118,11 +115,7 @@ export class EnrollmentController {
                 },
             });
 
-            const serialized = JSON.parse(
-                JSON.stringify(enrollment, (key, value) =>
-                    typeof value === 'bigint' ? value.toString() : value
-                )
-            );
+            const serialized = serializeBigInt(enrollment);
 
             res.status(200).json({
                 success: true,
@@ -178,11 +171,7 @@ export class EnrollmentController {
                 orderBy: { created_at: 'desc' },
             });
 
-            const serialized = JSON.parse(
-                JSON.stringify(enrollments, (key, value) =>
-                    typeof value === 'bigint' ? value.toString() : value
-                )
-            );
+            const serialized = serializeBigInt(enrollments);
 
             res.status(200).json({
                 success: true,
@@ -223,11 +212,7 @@ export class EnrollmentController {
                     results.push({
                         success: true,
                         id: update.id,
-                        enrollment: JSON.parse(
-                            JSON.stringify(enrollment, (key, value) =>
-                                typeof value === 'bigint' ? value.toString() : value
-                            )
-                        ),
+                        enrollment: serializeBigInt(enrollment),
                     });
                 } catch (error: any) {
                     results.push({
@@ -286,11 +271,7 @@ export class EnrollmentController {
                     results.push({
                         success: true,
                         material_id,
-                        enrollment: JSON.parse(
-                            JSON.stringify(enrollment, (key, value) =>
-                                typeof value === 'bigint' ? value.toString() : value
-                            )
-                        ),
+                        enrollment: serializeBigInt(enrollment),
                     });
                 } catch (error: any) {
                     results.push({

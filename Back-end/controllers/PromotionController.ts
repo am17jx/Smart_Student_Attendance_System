@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { PromotionService } from '../services/PromotionService';
+import { serializeBigInt } from '../utils/serializeBigInt';
 
 export class PromotionController {
     /**
@@ -23,12 +24,7 @@ export class PromotionController {
                 academic_year as string
             );
 
-            // تحويل BigInt إلى String للـ JSON
-            const serializedPreview = JSON.parse(
-                JSON.stringify(preview, (key, value) =>
-                    typeof value === 'bigint' ? value.toString() : value
-                )
-            );
+            const serializedPreview = serializeBigInt(preview);
 
             res.status(200).json({
                 success: true,
@@ -61,11 +57,7 @@ export class PromotionController {
                 academic_year as string
             );
 
-            const serialized = JSON.parse(
-                JSON.stringify(eligible, (key, value) =>
-                    typeof value === 'bigint' ? value.toString() : value
-                )
-            );
+            const serialized = serializeBigInt(eligible);
 
             res.status(200).json({
                 success: true,
@@ -103,11 +95,7 @@ export class PromotionController {
                 processedBy
             );
 
-            const serialized = JSON.parse(
-                JSON.stringify(results, (key, value) =>
-                    typeof value === 'bigint' ? value.toString() : value
-                )
-            );
+            const serialized = serializeBigInt(results);
 
             res.status(200).json({
                 success: true,
@@ -147,11 +135,7 @@ export class PromotionController {
             );
 
             // تحويل BigInt إلى String
-            const serializedResults = JSON.parse(
-                JSON.stringify(results, (key, value) =>
-                    typeof value === 'bigint' ? value.toString() : value
-                )
-            );
+            const serializedResults = serializeBigInt(results);
 
             res.status(200).json({
                 success: true,
@@ -183,11 +167,7 @@ export class PromotionController {
 
             const history = await PromotionService.getStudentPromotionHistory(BigInt(studentId as string));
 
-            const serializedHistory = JSON.parse(
-                JSON.stringify(history, (key, value) =>
-                    typeof value === 'bigint' ? value.toString() : value
-                )
-            );
+            const serializedHistory = serializeBigInt(history);
 
             res.status(200).json({
                 success: true,
@@ -248,11 +228,7 @@ export class PromotionController {
                 configData
             );
 
-            const serializedConfig = JSON.parse(
-                JSON.stringify(config, (key, value) =>
-                    typeof value === 'bigint' ? value.toString() : value
-                )
-            );
+            const serializedConfig = serializeBigInt(config);
 
             res.status(200).json({
                 success: true,

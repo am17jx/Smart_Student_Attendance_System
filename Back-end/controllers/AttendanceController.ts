@@ -5,6 +5,7 @@ import AppError from "../utils/AppError";
 import puppeteer from "puppeteer";
 import logger from "../utils/logger";
 import { verifyTOTP } from "../utils/otp";
+import { serializeBigInt } from "../utils/serializeBigInt";
 
 // Helper: Calculate distance in meters using Haversine formula
 function getDistanceFromLatLonInMeters(lat1: number, lon1: number, lat2: number, lon2: number) {
@@ -24,13 +25,6 @@ function getDistanceFromLatLonInMeters(lat1: number, lon1: number, lat2: number,
 function deg2rad(deg: number) {
     return deg * (Math.PI / 180)
 }
-
-// Helper function to serialize BigInt values to strings for JSON
-const serializeBigInt = (obj: any): any => {
-    return JSON.parse(JSON.stringify(obj, (_, value) =>
-        typeof value === 'bigint' ? value.toString() : value
-    ));
-};
 
 export const manualAttend = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { otp, latitude, longitude } = req.body;
