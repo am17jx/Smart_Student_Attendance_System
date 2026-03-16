@@ -3,40 +3,47 @@ import { prisma } from "../prisma/client";
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/AppError";
 
+/**
+ * Validates geofence coordinate fields and returns an AppError if invalid,
+ * or null if all values are acceptable.
+ */
+function validateGeofenceCoordinates(
+    name: string,
+    latitude: number,
+    longitude: number,
+    radius_meters: number
+): AppError | null {
+    if (!name || name.trim() === '') {
+        return new AppError('Geofence name is required', 400);
+    }
+    if (latitude === undefined || latitude === null) {
+        return new AppError('Latitude is required', 400);
+    }
+    if (longitude === undefined || longitude === null) {
+        return new AppError('Longitude is required', 400);
+    }
+    if (radius_meters === undefined || radius_meters === null) {
+        return new AppError('Radius is required', 400);
+    }
+    if (latitude < -90 || latitude > 90) {
+        return new AppError('Latitude must be between -90 and 90', 400);
+    }
+    if (longitude < -180 || longitude > 180) {
+        return new AppError('Longitude must be between -180 and 180', 400);
+    }
+    if (typeof radius_meters !== 'number' || radius_meters <= 0) {
+        return new AppError('Radius must be a positive number', 400);
+    }
+    return null;
+}
+
 export const createGeofence = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { name, latitude, longitude, radius_meters } = req.body;
 
-    // Validation
-    if (!name || name.trim() === '') {
-        return next(new AppError('Geofence name is required', 400));
+    const validationError = validateGeofenceCoordinates(name, latitude, longitude, radius_meters);
+    if (validationError) {
+        return next(validationError);
     }
-
-    if (latitude === undefined || latitude === null) {
-        return next(new AppError('Latitude is required', 400));
-    }
-
-    if (longitude === undefined || longitude === null) {
-        return next(new AppError('Longitude is required', 400));
-    }
-
-    if (radius_meters === undefined || radius_meters === null) {
-        return next(new AppError('Radius is required', 400));
-    }
-
-    // Validate coordinate ranges
-    if (latitude < -90 || latitude > 90) {
-        return next(new AppError('Latitude must be between -90 and 90', 400));
-    }
-
-    if (longitude < -180 || longitude > 180) {
-        return next(new AppError('Longitude must be between -180 and 180', 400));
-    }
-
-    // Validate radius
-    if (typeof radius_meters !== 'number' || radius_meters <= 0) {
-        return next(new AppError('Radius must be a positive number', 400));
-    }
-
     // Check for duplicate name
     const existing = await prisma.geofence.findFirst({
         where: { name: name.trim() }
@@ -100,34 +107,9 @@ export const updateGeofence = catchAsync(async (req: Request, res: Response, nex
     }
 
     // Validation
-    if (!name || name.trim() === '') {
-        return next(new AppError('Geofence name is required', 400));
-    }
-
-    if (latitude === undefined || latitude === null) {
-        return next(new AppError('Latitude is required', 400));
-    }
-
-    if (longitude === undefined || longitude === null) {
-        return next(new AppError('Longitude is required', 400));
-    }
-
-    if (radius_meters === undefined || radius_meters === null) {
-        return next(new AppError('Radius is required', 400));
-    }
-
-    // Validate coordinate ranges
-    if (latitude < -90 || latitude > 90) {
-        return next(new AppError('Latitude must be between -90 and 90', 400));
-    }
-
-    if (longitude < -180 || longitude > 180) {
-        return next(new AppError('Longitude must be between -180 and 180', 400));
-    }
-
-    // Validate radius
-    if (typeof radius_meters !== 'number' || radius_meters <= 0) {
-        return next(new AppError('Radius must be a positive number', 400));
+    const validationError = validateGeofenceCoordinates(name, latitude, longitude, radius_meters);
+    if (validationError) {
+        return next(validationError);
     }
 
     const geofence = await prisma.geofence.update({
