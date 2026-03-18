@@ -1,4 +1,5 @@
 const { PrismaClient } = require('@prisma/client');
+const bcrypt = require('bcryptjs');
 const prisma = new PrismaClient();
 
 async function main() {
@@ -101,7 +102,7 @@ async function main() {
                 name: data.name,
                 student_id: data.student_id,
                 email: data.email,
-                password: '$2a$10$abcdefghijklmnopqrstuv',
+                password: await bcrypt.hash('Test@1234', 10),
                 department_id: department.id,
                 stage_id: stage3.id,
                 academic_status: 'REGULAR',

@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
+import crypto from 'crypto';
 import logger from '../utils/logger';
 
 const prisma = new PrismaClient();
@@ -171,7 +172,7 @@ async function main() {
     const session = await prisma.session.create({
         data: {
             session_date: new Date(),
-            qr_secret: 'sample-secret-key',
+            qr_secret: crypto.randomBytes(32).toString('hex'),
             is_active: true,
             expires_at: new Date(Date.now() + 2 * 60 * 60 * 1000), // 2 hours from now
             teacher_id: teacher1.id,

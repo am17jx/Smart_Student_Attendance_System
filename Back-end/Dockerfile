@@ -45,6 +45,12 @@ COPY --from=builder /app/prisma.config.ts ./prisma.config.ts
 COPY entrypoint.sh ./entrypoint.sh
 RUN chmod +x ./entrypoint.sh
 
+# Create non-root user and own /app
+RUN addgroup --system appgroup && adduser --system --ingroup appgroup appuser \
+    && chown -R appuser:appgroup /app
+
+USER appuser
+
 # Expose port
 EXPOSE 4000
 

@@ -24,6 +24,9 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 # Copy build artifacts
 COPY --from=builder /app/dist /usr/share/nginx/html
 
+# Nginx official alpine image already includes an 'nginx' user — switch to it
+USER nginx
+
 # Expose port 80
 EXPOSE 80
 
