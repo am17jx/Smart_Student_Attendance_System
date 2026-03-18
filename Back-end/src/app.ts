@@ -1,5 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
+import * as Sentry from '@sentry/node';
 import helmet from 'helmet';
 import compression from 'compression';
 import AppError from '../utils/AppError';
@@ -99,6 +100,9 @@ app.get('/', (req: Request, res: Response) => {
 app.use((req: Request, res: Response, next: NextFunction) => {
     next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
+
+// Configure Sentry express error handler
+Sentry.setupExpressErrorHandler(app);
 
 // Global Error Handler
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {

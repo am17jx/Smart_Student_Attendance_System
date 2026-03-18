@@ -1,3 +1,4 @@
+import './instrument';
 import dotenv from 'dotenv';
 import app from './app';
 import { startCleanupJobs } from '../utils/cleanupJobs';
