@@ -8,6 +8,27 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 
 import { lazy, Suspense } from "react";
 import { PageLoader } from "@/components/ui/loading-spinner";
+import * as Sentry from "@sentry/react";
+
+// Add this button component to your app to test Sentry's error tracking
+function ErrorButton() {
+  return (
+    <button
+      onClick={() => {
+        // Send a log before throwing the error
+        Sentry.logger.info('User triggered test error', {
+          action: 'test_error_button_click',
+        });
+        // Send a test metric before throwing the error
+        Sentry.metrics.count('test_counter', 1);
+        throw new Error('This is your first error!');
+      }}
+      style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: 9999, padding: '10px', background: 'red', color: 'white', borderRadius: '5px' }}
+    >
+      Break the world
+    </button>
+  );
+}
 
 // Lazy-load every page — each loads only when first visited (code splitting)
 const Login = lazy(() => import("./pages/Login"));
@@ -66,6 +87,7 @@ const App = () => (
       <AuthProvider>
         <Toaster />
         <Sonner />
+        <ErrorButton />
         <BrowserRouter>
           <Suspense fallback={<PageLoader />}>
             <Routes>

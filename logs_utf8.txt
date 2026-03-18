@@ -1,0 +1,267 @@
+﻿attendance-backend  | ΓÅ│ Running Prisma migrations...
+attendance-backend  | Loaded Prisma config from prisma.config.ts.
+attendance-backend  | 
+attendance-backend  | Prisma config detected, skipping environment variable loading.
+attendance-backend  | Prisma schema loaded from prisma/schema.prisma
+attendance-backend  | Datasource "db": PostgreSQL database "attendance_system", schema "public" at "db:5432"
+attendance-backend  | 
+attendance-backend  | Error: P1000: Authentication failed against database server, the provided database credentials for `postgres` are not valid.
+attendance-backend  | 
+attendance-backend  | Please make sure to provide valid database credentials for the database server at the configured address.
+attendance-backend  | ΓÅ│ Running Prisma migrations...
+attendance-backend  | Loaded Prisma config from prisma.config.ts.
+attendance-backend  | 
+attendance-backend  | Prisma config detected, skipping environment variable loading.
+attendance-backend  | Prisma schema loaded from prisma/schema.prisma
+attendance-backend  | Datasource "db": PostgreSQL database "attendance_system", schema "public" at "db:5432"
+attendance-backend  | 
+attendance-backend  | Error: P1000: Authentication failed against database server, the provided database credentials for `postgres` are not valid.
+attendance-backend  | 
+attendance-backend  | Please make sure to provide valid database credentials for the database server at the configured address.
+attendance-backend  | ΓÅ│ Running Prisma migrations...
+attendance-backend  | Loaded Prisma config from prisma.config.ts.
+attendance-backend  | 
+attendance-backend  | Prisma config detected, skipping environment variable loading.
+attendance-backend  | Prisma schema loaded from prisma/schema.prisma
+attendance-backend  | Datasource "db": PostgreSQL database "attendance_system", schema "public" at "db:5432"
+attendance-backend  | 
+attendance-backend  | Error: P1000: Authentication failed against database server, the provided database credentials for `postgres` are not valid.
+attendance-backend  | 
+attendance-backend  | Please make sure to provide valid database credentials for the database server at the configured address.
+attendance-backend  | ΓÅ│ Running Prisma migrations...
+attendance-backend  | Loaded Prisma config from prisma.config.ts.
+attendance-backend  | 
+attendance-backend  | Prisma config detected, skipping environment variable loading.
+attendance-backend  | Prisma schema loaded from prisma/schema.prisma
+attendance-backend  | Datasource "db": PostgreSQL database "attendance_system", schema "public" at "db:5432"
+attendance-backend  | 
+attendance-backend  | Error: P1000: Authentication failed against database server, the provided database credentials for `postgres` are not valid.
+attendance-backend  | 
+attendance-backend  | Please make sure to provide valid database credentials for the database server at the configured address.
+attendance-backend  | ΓÅ│ Running Prisma migrations...
+attendance-backend  | Loaded Prisma config from prisma.config.ts.
+attendance-backend  | 
+attendance-backend  | Prisma config detected, skipping environment variable loading.
+attendance-backend  | Prisma schema loaded from prisma/schema.prisma
+attendance-backend  | Datasource "db": PostgreSQL database "attendance_system", schema "public" at "db:5432"
+attendance-backend  | 
+attendance-backend  | Error: P1000: Authentication failed against database server, the provided database credentials for `postgres` are not valid.
+attendance-backend  | 
+attendance-backend  | Please make sure to provide valid database credentials for the database server at the configured address.
+attendance-backend  | ΓÅ│ Running Prisma migrations...
+attendance-backend  | Loaded Prisma config from prisma.config.ts.
+attendance-backend  | 
+attendance-backend  | Prisma config detected, skipping environment variable loading.
+attendance-backend  | Prisma schema loaded from prisma/schema.prisma
+attendance-backend  | Datasource "db": PostgreSQL database "attendance_system", schema "public" at "db:5432"
+attendance-backend  | 
+attendance-backend  | Error: P1000: Authentication failed against database server, the provided database credentials for `postgres` are not valid.
+attendance-backend  | 
+attendance-backend  | Please make sure to provide valid database credentials for the database server at the configured address.
+attendance-backend  | ΓÅ│ Running Prisma migrations...
+attendance-backend  | Loaded Prisma config from prisma.config.ts.
+attendance-backend  | 
+attendance-backend  | Prisma config detected, skipping environment variable loading.
+attendance-backend  | Prisma schema loaded from prisma/schema.prisma
+attendance-backend  | Datasource "db": PostgreSQL database "attendance_system", schema "public" at "db:5432"
+attendance-backend  | 
+attendance-backend  | Error: P1000: Authentication failed against database server, the provided database credentials for `postgres` are not valid.
+attendance-backend  | 
+attendance-backend  | Please make sure to provide valid database credentials for the database server at the configured address.
+attendance-backend  | ΓÅ│ Running Prisma migrations...
+attendance-backend  | Loaded Prisma config from prisma.config.ts.
+attendance-backend  | 
+attendance-backend  | Prisma config detected, skipping environment variable loading.
+attendance-backend  | Prisma schema loaded from prisma/schema.prisma
+attendance-backend  | Datasource "db": PostgreSQL database "attendance_system", schema "public" at "db:5432"
+attendance-backend  | 
+attendance-backend  | Error: P1000: Authentication failed against database server, the provided database credentials for `postgres` are not valid.
+attendance-backend  | 
+attendance-backend  | Please make sure to provide valid database credentials for the database server at the configured address.
+attendance-backend  | ΓÅ│ Running Prisma migrations...
+attendance-backend  | Loaded Prisma config from prisma.config.ts.
+attendance-backend  | 
+attendance-backend  | Prisma config detected, skipping environment variable loading.
+attendance-backend  | Prisma schema loaded from prisma/schema.prisma
+attendance-backend  | Datasource "db": PostgreSQL database "attendance_system", schema "public" at "db:5432"
+attendance-backend  | 
+attendance-backend  | Error: P1000: Authentication failed against database server, the provided database credentials for `postgres` are not valid.
+attendance-backend  | 
+attendance-backend  | Please make sure to provide valid database credentials for the database server at the configured address.
+attendance-backend  | ΓÅ│ Running Prisma migrations...
+attendance-backend  | Loaded Prisma config from prisma.config.ts.
+attendance-backend  | 
+attendance-backend  | Prisma config detected, skipping environment variable loading.
+attendance-backend  | Prisma schema loaded from prisma/schema.prisma
+attendance-backend  | Datasource "db": PostgreSQL database "attendance_system", schema "public" at "db:5432"
+attendance-backend  | 
+attendance-backend  | Error: P1000: Authentication failed against database server, the provided database credentials for `postgres` are not valid.
+attendance-backend  | 
+attendance-backend  | Please make sure to provide valid database credentials for the database server at the configured address.
+attendance-db       | 
+attendance-db       | PostgreSQL Database directory appears to contain a database; Skipping initialization
+attendance-db       | 
+attendance-db       | 2026-03-10 23:00:26.642 UTC [1] LOG:  starting PostgreSQL 15.17 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+attendance-db       | 2026-03-10 23:00:26.643 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+attendance-db       | 2026-03-10 23:00:26.643 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+attendance-db       | 2026-03-10 23:00:26.645 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+attendance-db       | 2026-03-10 23:00:26.650 UTC [29] LOG:  database system was shut down at 2026-03-10 22:59:46 UTC
+attendance-db       | 2026-03-10 23:00:26.656 UTC [1] LOG:  database system is ready to accept connections
+attendance-db       | 2026-03-10 23:05:41.912 UTC [27] LOG:  checkpoint starting: time
+attendance-db       | 2026-03-10 23:05:43.940 UTC [27] LOG:  checkpoint complete: wrote 23 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=2.009 s, sync=0.014 s, total=2.029 s; sync files=21, longest=0.003 s, average=0.001 s; distance=54 kB, estimate=54 kB
+attendance-db       | 2026-03-10 23:10:58.687 UTC [27] LOG:  checkpoint starting: time
+attendance-db       | 2026-03-10 23:11:02.216 UTC [27] LOG:  checkpoint complete: wrote 36 buffers (0.2%); 0 WAL file(s) added, 0 removed, 0 recycled; write=3.512 s, sync=0.008 s, total=3.529 s; sync files=35, longest=0.002 s, average=0.001 s; distance=53 kB, estimate=54 kB
+attendance-db       | 2026-03-11 11:01:13.240 UTC [27] LOG:  checkpoint starting: time
+attendance-db       | 2026-03-11 11:01:13.407 UTC [27] LOG:  checkpoint complete: wrote 2 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.123 s, sync=0.006 s, total=0.168 s; sync files=2, longest=0.005 s, average=0.003 s; distance=4 kB, estimate=49 kB
+attendance-db       | 
+attendance-db       | PostgreSQL Database directory appears to contain a database; Skipping initialization
+attendance-db       | 
+attendance-db       | 2026-03-18 11:03:06.874 UTC [1] LOG:  starting PostgreSQL 15.17 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+attendance-db       | 2026-03-18 11:03:06.874 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+attendance-db       | 2026-03-18 11:03:06.874 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+attendance-db       | 2026-03-18 11:03:06.884 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+attendance-db       | 2026-03-18 11:03:06.899 UTC [29] LOG:  database system was interrupted; last known up at 2026-03-11 11:01:13 UTC
+attendance-db       | 2026-03-18 11:03:11.425 UTC [29] LOG:  database system was not properly shut down; automatic recovery in progress
+attendance-db       | 2026-03-18 11:03:11.432 UTC [29] LOG:  redo starts at 0/1B95D78
+attendance-db       | 2026-03-18 11:03:11.432 UTC [29] LOG:  invalid record length at 0/1B95E60: wanted 24, got 0
+attendance-db       | 2026-03-18 11:03:11.432 UTC [29] LOG:  redo done at 0/1B95E28 system usage: CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+attendance-db       | 2026-03-18 11:03:11.456 UTC [27] LOG:  checkpoint starting: end-of-recovery immediate wait
+attendance-db       | 2026-03-18 11:03:11.504 UTC [27] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.017 s, sync=0.003 s, total=0.053 s; sync files=2, longest=0.002 s, average=0.002 s; distance=0 kB, estimate=0 kB
+attendance-db       | 2026-03-18 11:03:11.519 UTC [1] LOG:  database system is ready to accept connections
+attendance-db       | 2026-03-18 11:03:18.564 UTC [35] FATAL:  password authentication failed for user "postgres"
+attendance-db       | 2026-03-18 11:03:18.564 UTC [35] DETAIL:  Connection matched pg_hba.conf line 100: "host all all all scram-sha-256"
+attendance-db       | 2026-03-18 11:03:20.116 UTC [36] FATAL:  password authentication failed for user "postgres"
+traefik_router      | time="2026-03-10T23:00:26Z" level=info msg="Configuration loaded from flags."
+attendance-db       | 2026-03-18 11:03:20.116 UTC [36] DETAIL:  Connection matched pg_hba.conf line 100: "host all all all scram-sha-256"
+traefik_router      | time="2026-03-12T03:14:09Z" level=error msg="Provider connection error unexpected EOF, retrying in 496.744639ms" providerName=docker
+attendance-db       | 2026-03-18 11:03:21.793 UTC [37] FATAL:  password authentication failed for user "postgres"
+attendance-db       | 2026-03-18 11:03:21.793 UTC [37] DETAIL:  Connection matched pg_hba.conf line 100: "host all all all scram-sha-256"
+attendance-db       | 2026-03-18 11:03:23.461 UTC [38] FATAL:  password authentication failed for user "postgres"
+attendance-db       | 2026-03-18 11:03:23.461 UTC [38] DETAIL:  Connection matched pg_hba.conf line 100: "host all all all scram-sha-256"
+attendance-db       | 2026-03-18 11:03:25.393 UTC [39] FATAL:  password authentication failed for user "postgres"
+attendance-db       | 2026-03-18 11:03:25.393 UTC [39] DETAIL:  Connection matched pg_hba.conf line 100: "host all all all scram-sha-256"
+attendance-db       | 2026-03-18 11:03:28.154 UTC [40] FATAL:  password authentication failed for user "postgres"
+attendance-db       | 2026-03-18 11:03:28.154 UTC [40] DETAIL:  Connection matched pg_hba.conf line 100: "host all all all scram-sha-256"
+attendance-db       | 2026-03-18 11:03:32.499 UTC [41] FATAL:  password authentication failed for user "postgres"
+attendance-db       | 2026-03-18 11:03:32.499 UTC [41] DETAIL:  Connection matched pg_hba.conf line 100: "host all all all scram-sha-256"
+attendance-db       | 2026-03-18 11:03:40.127 UTC [42] FATAL:  password authentication failed for user "postgres"
+attendance-db       | 2026-03-18 11:03:40.127 UTC [42] DETAIL:  Connection matched pg_hba.conf line 100: "host all all all scram-sha-256"
+attendance-db       | 2026-03-18 11:03:54.819 UTC [43] FATAL:  password authentication failed for user "postgres"
+attendance-db       | 2026-03-18 11:03:54.819 UTC [43] DETAIL:  Connection matched pg_hba.conf line 100: "host all all all scram-sha-256"
+attendance-db       | 2026-03-18 11:04:21.848 UTC [45] FATAL:  password authentication failed for user "postgres"
+attendance-db       | 2026-03-18 11:04:21.848 UTC [45] DETAIL:  Connection matched pg_hba.conf line 100: "host all all all scram-sha-256"
+attendance-db       | 2026-03-18 11:04:40.640 UTC [1] LOG:  received fast shutdown request
+attendance-db       | 2026-03-18 11:04:40.643 UTC [1] LOG:  aborting any active transactions
+traefik_router      | time="2026-03-18T11:03:09Z" level=info msg="Configuration loaded from flags."
+traefik_router      | time="2026-03-18T11:03:20Z" level=error msg="service \"backend\" error: unable to find the IP address for the container \"/attendance-backend\": the server is ignored" providerName=docker container=backend-system-attendnce-e643a2030aae23cbb27a0f3a909f97cd59d8d81747e32a773cd1986b7ab5d033
+traefik_router      | time="2026-03-18T11:03:22Z" level=error msg="service \"backend\" error: unable to find the IP address for the container \"/attendance-backend\": the server is ignored" container=backend-system-attendnce-e643a2030aae23cbb27a0f3a909f97cd59d8d81747e32a773cd1986b7ab5d033 providerName=docker
+traefik_router      | time="2026-03-18T11:03:23Z" level=error msg="service \"backend\" error: unable to find the IP address for the container \"/attendance-backend\": the server is ignored" providerName=docker container=backend-system-attendnce-e643a2030aae23cbb27a0f3a909f97cd59d8d81747e32a773cd1986b7ab5d033
+traefik_router      | time="2026-03-18T11:03:25Z" level=error msg="service \"backend\" error: unable to find the IP address for the container \"/attendance-backend\": the server is ignored" providerName=docker container=backend-system-attendnce-e643a2030aae23cbb27a0f3a909f97cd59d8d81747e32a773cd1986b7ab5d033
+traefik_router      | time="2026-03-18T11:03:28Z" level=error msg="service \"backend\" error: unable to find the IP address for the container \"/attendance-backend\": the server is ignored" providerName=docker container=backend-system-attendnce-e643a2030aae23cbb27a0f3a909f97cd59d8d81747e32a773cd1986b7ab5d033
+traefik_router      | time="2026-03-18T11:03:32Z" level=error msg="service \"backend\" error: unable to find the IP address for the container \"/attendance-backend\": the server is ignored" providerName=docker container=backend-system-attendnce-e643a2030aae23cbb27a0f3a909f97cd59d8d81747e32a773cd1986b7ab5d033
+traefik_router      | time="2026-03-18T11:03:40Z" level=error msg="service \"backend\" error: unable to find the IP address for the container \"/attendance-backend\": the server is ignored" container=backend-system-attendnce-e643a2030aae23cbb27a0f3a909f97cd59d8d81747e32a773cd1986b7ab5d033 providerName=docker
+traefik_router      | time="2026-03-18T11:03:55Z" level=error msg="service \"backend\" error: unable to find the IP address for the container \"/attendance-backend\": the server is ignored" providerName=docker container=backend-system-attendnce-e643a2030aae23cbb27a0f3a909f97cd59d8d81747e32a773cd1986b7ab5d033
+traefik_router      | time="2026-03-18T11:04:22Z" level=error msg="service \"backend\" error: unable to find the IP address for the container \"/attendance-backend\": the server is ignored" providerName=docker container=backend-system-attendnce-e643a2030aae23cbb27a0f3a909f97cd59d8d81747e32a773cd1986b7ab5d033
+traefik_router      | time="2026-03-18T11:04:40Z" level=error msg="accept tcp [::]:80: use of closed network connection" entryPointName=web
+traefik_router      | time="2026-03-18T11:04:40Z" level=error msg="accept tcp [::]:8080: use of closed network connection" entryPointName=traefik
+traefik_router      | time="2026-03-18T11:04:40Z" level=error msg="close tcp [::]:8080: use of closed network connection" entryPointName=traefik
+traefik_router      | time="2026-03-18T11:04:40Z" level=error msg="close tcp [::]:80: use of closed network connection" entryPointName=web
+traefik_router      | time="2026-03-18T11:15:43Z" level=info msg="Configuration loaded from flags."
+traefik_router      | time="2026-03-18T11:15:51Z" level=error msg="service \"backend\" error: unable to find the IP address for the container \"/attendance-backend\": the server is ignored" providerName=docker container=backend-system-attendnce-d3ba9dcccb6ecb4b51dda4e9bca5e7cc16c9198b699d1521fab3f4f6c2a91ad7
+traefik_router      | time="2026-03-18T11:15:56Z" level=error msg="service \"backend\" error: unable to find the IP address for the container \"/attendance-backend\": the server is ignored" providerName=docker container=backend-system-attendnce-d3ba9dcccb6ecb4b51dda4e9bca5e7cc16c9198b699d1521fab3f4f6c2a91ad7
+attendance-db       | 2026-03-18 11:04:40.646 UTC [1] LOG:  background worker "logical replication launcher" (PID 32) exited with exit code 1
+attendance-db       | 2026-03-18 11:04:40.646 UTC [27] LOG:  shutting down
+attendance-db       | 2026-03-18 11:04:40.648 UTC [27] LOG:  checkpoint starting: shutdown immediate
+traefik_router      | time="2026-03-18T11:16:00Z" level=error msg="service \"backend\" error: unable to find the IP address for the container \"/attendance-backend\": the server is ignored" providerName=docker container=backend-system-attendnce-d3ba9dcccb6ecb4b51dda4e9bca5e7cc16c9198b699d1521fab3f4f6c2a91ad7
+traefik_router      | time="2026-03-18T11:16:03Z" level=error msg="service \"backend\" error: unable to find the IP address for the container \"/attendance-backend\": the server is ignored" providerName=docker container=backend-system-attendnce-d3ba9dcccb6ecb4b51dda4e9bca5e7cc16c9198b699d1521fab3f4f6c2a91ad7
+traefik_router      | time="2026-03-18T11:16:08Z" level=error msg="service \"backend\" error: unable to find the IP address for the container \"/attendance-backend\": the server is ignored" providerName=docker container=backend-system-attendnce-d3ba9dcccb6ecb4b51dda4e9bca5e7cc16c9198b699d1521fab3f4f6c2a91ad7
+traefik_router      | time="2026-03-18T11:16:16Z" level=error msg="service \"backend\" error: unable to find the IP address for the container \"/attendance-backend\": the server is ignored" providerName=docker container=backend-system-attendnce-d3ba9dcccb6ecb4b51dda4e9bca5e7cc16c9198b699d1521fab3f4f6c2a91ad7
+traefik_router      | time="2026-03-18T11:16:33Z" level=error msg="service \"backend\" error: unable to find the IP address for the container \"/attendance-backend\": the server is ignored" providerName=docker container=backend-system-attendnce-d3ba9dcccb6ecb4b51dda4e9bca5e7cc16c9198b699d1521fab3f4f6c2a91ad7
+traefik_router      | time="2026-03-18T11:17:03Z" level=error msg="service \"backend\" error: unable to find the IP address for the container \"/attendance-backend\": the server is ignored" container=backend-system-attendnce-d3ba9dcccb6ecb4b51dda4e9bca5e7cc16c9198b699d1521fab3f4f6c2a91ad7 providerName=docker
+traefik_router      | time="2026-03-18T11:17:58Z" level=error msg="service \"backend\" error: unable to find the IP address for the container \"/attendance-backend\": the server is ignored" providerName=docker container=backend-system-attendnce-d3ba9dcccb6ecb4b51dda4e9bca5e7cc16c9198b699d1521fab3f4f6c2a91ad7
+traefik_router      | time="2026-03-18T11:19:04Z" level=error msg="service \"backend\" error: unable to find the IP address for the container \"/attendance-backend\": the server is ignored" container=backend-system-attendnce-d3ba9dcccb6ecb4b51dda4e9bca5e7cc16c9198b699d1521fab3f4f6c2a91ad7 providerName=docker
+traefik_router      | time="2026-03-18T11:20:11Z" level=error msg="service \"backend\" error: unable to find the IP address for the container \"/attendance-backend\": the server is ignored" providerName=docker container=backend-system-attendnce-d3ba9dcccb6ecb4b51dda4e9bca5e7cc16c9198b699d1521fab3f4f6c2a91ad7
+attendance-db       | 2026-03-18 11:04:40.654 UTC [27] LOG:  checkpoint complete: wrote 0 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.009 s; sync files=0, longest=0.000 s, average=0.000 s; distance=0 kB, estimate=0 kB
+attendance-db       | 2026-03-18 11:04:40.658 UTC [1] LOG:  database system is shut down
+attendance-db       | 
+attendance-db       | PostgreSQL Database directory appears to contain a database; Skipping initialization
+attendance-db       | 
+attendance-db       | 2026-03-18 11:15:43.348 UTC [1] LOG:  starting PostgreSQL 15.17 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+attendance-db       | 2026-03-18 11:15:43.349 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+attendance-db       | 2026-03-18 11:15:43.349 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+attendance-db       | 2026-03-18 11:15:43.354 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+attendance-db       | 2026-03-18 11:15:43.369 UTC [29] LOG:  database system was shut down at 2026-03-18 11:04:40 UTC
+attendance-db       | 2026-03-18 11:15:43.380 UTC [1] LOG:  database system is ready to accept connections
+attendance-db       | 2026-03-18 11:15:45.522 UTC [33] FATAL:  password authentication failed for user "postgres"
+attendance-db       | 2026-03-18 11:15:45.522 UTC [33] DETAIL:  Connection matched pg_hba.conf line 100: "host all all all scram-sha-256"
+attendance-db       | 2026-03-18 11:15:48.200 UTC [34] FATAL:  password authentication failed for user "postgres"
+attendance-db       | 2026-03-18 11:15:48.200 UTC [34] DETAIL:  Connection matched pg_hba.conf line 100: "host all all all scram-sha-256"
+attendance-db       | 2026-03-18 11:15:50.718 UTC [35] FATAL:  password authentication failed for user "postgres"
+attendance-db       | 2026-03-18 11:15:50.718 UTC [35] DETAIL:  Connection matched pg_hba.conf line 100: "host all all all scram-sha-256"
+attendance-db       | 2026-03-18 11:15:56.474 UTC [36] FATAL:  password authentication failed for user "postgres"
+attendance-db       | 2026-03-18 11:15:56.474 UTC [36] DETAIL:  Connection matched pg_hba.conf line 100: "host all all all scram-sha-256"
+attendance-db       | 2026-03-18 11:16:00.255 UTC [37] FATAL:  password authentication failed for user "postgres"
+attendance-db       | 2026-03-18 11:16:00.255 UTC [37] DETAIL:  Connection matched pg_hba.conf line 100: "host all all all scram-sha-256"
+attendance-db       | 2026-03-18 11:16:03.474 UTC [38] FATAL:  password authentication failed for user "postgres"
+attendance-db       | 2026-03-18 11:16:03.474 UTC [38] DETAIL:  Connection matched pg_hba.conf line 100: "host all all all scram-sha-256"
+attendance-db       | 2026-03-18 11:16:08.223 UTC [39] FATAL:  password authentication failed for user "postgres"
+attendance-db       | 2026-03-18 11:16:08.223 UTC [39] DETAIL:  Connection matched pg_hba.conf line 100: "host all all all scram-sha-256"
+attendance-db       | 2026-03-18 11:16:16.289 UTC [40] FATAL:  password authentication failed for user "postgres"
+attendance-db       | 2026-03-18 11:16:16.289 UTC [40] DETAIL:  Connection matched pg_hba.conf line 100: "host all all all scram-sha-256"
+attendance-db       | 2026-03-18 11:16:33.072 UTC [41] FATAL:  password authentication failed for user "postgres"
+attendance-db       | 2026-03-18 11:16:33.072 UTC [41] DETAIL:  Connection matched pg_hba.conf line 100: "host all all all scram-sha-256"
+attendance-db       | 2026-03-18 11:17:02.906 UTC [43] FATAL:  password authentication failed for user "postgres"
+attendance-db       | 2026-03-18 11:17:02.906 UTC [43] DETAIL:  Connection matched pg_hba.conf line 100: "host all all all scram-sha-256"
+attendance-db       | 2026-03-18 11:17:57.944 UTC [45] FATAL:  password authentication failed for user "postgres"
+attendance-db       | 2026-03-18 11:17:57.944 UTC [45] DETAIL:  Connection matched pg_hba.conf line 100: "host all all all scram-sha-256"
+attendance-db       | 2026-03-18 11:19:04.323 UTC [47] FATAL:  password authentication failed for user "postgres"
+attendance-db       | 2026-03-18 11:19:04.323 UTC [47] DETAIL:  Connection matched pg_hba.conf line 100: "host all all all scram-sha-256"
+attendance-db       | 2026-03-18 11:20:10.774 UTC [49] FATAL:  password authentication failed for user "postgres"
+attendance-db       | 2026-03-18 11:20:10.774 UTC [49] DETAIL:  Connection matched pg_hba.conf line 100: "host all all all scram-sha-256"
+attendance-frontend  | /docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
+attendance-frontend  | /docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
+attendance-frontend  | /docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
+attendance-frontend  | 10-listen-on-ipv6-by-default.sh: info: Getting the checksum of /etc/nginx/conf.d/default.conf
+attendance-frontend  | 10-listen-on-ipv6-by-default.sh: info: /etc/nginx/conf.d/default.conf differs from the packaged version
+attendance-frontend  | /docker-entrypoint.sh: Sourcing /docker-entrypoint.d/15-local-resolvers.envsh
+attendance-frontend  | /docker-entrypoint.sh: Launching /docker-entrypoint.d/20-envsubst-on-templates.sh
+attendance-frontend  | /docker-entrypoint.sh: Launching /docker-entrypoint.d/30-tune-worker-processes.sh
+attendance-frontend  | /docker-entrypoint.sh: Configuration complete; ready for start up
+attendance-frontend  | 2026/03/18 11:15:43 [notice] 1#1: using the "epoll" event method
+attendance-frontend  | 2026/03/18 11:15:43 [notice] 1#1: nginx/1.29.6
+attendance-frontend  | 2026/03/18 11:15:43 [notice] 1#1: built by gcc 15.2.0 (Alpine 15.2.0) 
+attendance-frontend  | 2026/03/18 11:15:43 [notice] 1#1: OS: Linux 6.6.87.2-microsoft-standard-WSL2
+attendance-frontend  | 2026/03/18 11:15:43 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+attendance-frontend  | 2026/03/18 11:15:43 [notice] 1#1: start worker processes
+attendance-frontend  | 2026/03/18 11:15:43 [notice] 1#1: start worker process 29
+attendance-frontend  | 2026/03/18 11:15:43 [notice] 1#1: start worker process 30
+attendance-frontend  | 2026/03/18 11:15:43 [notice] 1#1: start worker process 31
+attendance-frontend  | 2026/03/18 11:15:43 [notice] 1#1: start worker process 32
+attendance-frontend  | 2026/03/18 11:15:43 [notice] 1#1: start worker process 33
+attendance-frontend  | 2026/03/18 11:15:43 [notice] 1#1: start worker process 34
+attendance-frontend  | 2026/03/18 11:15:43 [notice] 1#1: start worker process 35
+attendance-frontend  | 2026/03/18 11:15:43 [notice] 1#1: start worker process 36
+attendance-frontend  | 2026/03/18 11:15:43 [notice] 1#1: start worker process 37
+attendance-frontend  | 2026/03/18 11:15:43 [notice] 1#1: start worker process 38
+attendance-frontend  | 2026/03/18 11:15:43 [notice] 1#1: start worker process 39
+attendance-frontend  | 2026/03/18 11:15:43 [notice] 1#1: start worker process 40
+attendance-frontend  | 2026/03/18 11:15:43 [notice] 1#1: start worker process 41
+attendance-frontend  | 2026/03/18 11:15:43 [notice] 1#1: start worker process 42
+attendance-frontend  | 2026/03/18 11:15:43 [notice] 1#1: start worker process 43
+attendance-frontend  | 2026/03/18 11:15:43 [notice] 1#1: start worker process 44
+attendance-frontend  | 172.18.0.2 - - [18/Mar/2026:11:15:46 +0000] "GET /login HTTP/1.1" 200 1212 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0" "172.18.0.1"
+attendance-frontend  | 172.18.0.2 - - [18/Mar/2026:11:15:46 +0000] "GET /assets/index-CcD90FYc.css HTTP/1.1" 200 85132 "http://localhost/login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0" "172.18.0.1"
+attendance-frontend  | 172.18.0.2 - - [18/Mar/2026:11:15:46 +0000] "GET /assets/index-4JCvd7hC.js HTTP/1.1" 200 602165 "http://localhost/login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0" "172.18.0.1"
+attendance-frontend  | 172.18.0.2 - - [18/Mar/2026:11:15:46 +0000] "GET /assets/Login-DCZeSnN1.js HTTP/1.1" 200 3945 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0" "172.18.0.1"
+attendance-frontend  | 172.18.0.2 - - [18/Mar/2026:11:15:46 +0000] "GET /assets/button-D8h1Z-0y.js HTTP/1.1" 200 1225 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0" "172.18.0.1"
+attendance-frontend  | 172.18.0.2 - - [18/Mar/2026:11:15:46 +0000] "GET /assets/input-CZE6bvmg.js HTTP/1.1" 200 580 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0" "172.18.0.1"
+attendance-frontend  | 172.18.0.2 - - [18/Mar/2026:11:15:46 +0000] "GET /assets/label-DGDF1j1U.js HTTP/1.1" 200 553 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0" "172.18.0.1"
+attendance-frontend  | 172.18.0.2 - - [18/Mar/2026:11:15:46 +0000] "GET /assets/circle-alert-XwRkhz7i.js HTTP/1.1" 200 413 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0" "172.18.0.1"
+attendance-frontend  | 172.18.0.2 - - [18/Mar/2026:11:15:46 +0000] "GET /assets/mail-G782Dzf7.js HTTP/1.1" 200 379 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0" "172.18.0.1"
+attendance-frontend  | 172.18.0.2 - - [18/Mar/2026:11:15:46 +0000] "GET /assets/card-C1ShvPT7.js HTTP/1.1" 200 989 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0" "172.18.0.1"
+attendance-frontend  | 172.18.0.2 - - [18/Mar/2026:11:15:46 +0000] "GET /assets/lock-B334Pg-X.js HTTP/1.1" 200 370 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0" "172.18.0.1"
+attendance-frontend  | 172.18.0.2 - - [18/Mar/2026:11:15:46 +0000] "GET /assets/alert-BvonoUa9.js HTTP/1.1" 200 912 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0" "172.18.0.1"
+attendance-frontend  | 172.18.0.2 - - [18/Mar/2026:11:15:46 +0000] "GET /assets/eye-off-Bn4u25ii.js HTTP/1.1" 200 593 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0" "172.18.0.1"
+attendance-frontend  | 172.18.0.2 - - [18/Mar/2026:11:15:46 +0000] "GET /assets/eye-Ca7JlTkK.js HTTP/1.1" 200 425 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0" "172.18.0.1"
+attendance-frontend  | 172.18.0.2 - - [18/Mar/2026:11:16:01 +0000] "POST /api/v1/auth/login HTTP/1.1" 405 559 "http://localhost/login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0" "172.18.0.1"
+attendance-frontend  | 172.18.0.2 - - [18/Mar/2026:11:16:02 +0000] "POST /api/v1/auth/login HTTP/1.1" 405 559 "http://localhost/login" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0" "172.18.0.1"

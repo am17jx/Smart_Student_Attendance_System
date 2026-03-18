@@ -1,0 +1,15 @@
+﻿attendance-backend  | 
+attendance-backend  | Prisma config detected, skipping environment variable loading.
+attendance-backend  | Prisma schema loaded from prisma/schema.prisma
+attendance-backend  | Datasource "db": PostgreSQL database "attendance_system", schema "public" at "db:5432"
+attendance-backend  | 
+attendance-backend  | 13 migrations found in prisma/migrations
+attendance-backend  | 
+attendance-backend  | 
+attendance-backend  | No pending migrations to apply.
+attendance-backend  | npm notice
+attendance-backend  | npm notice New major version of npm available! 10.8.2 -> 11.11.1
+attendance-backend  | npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.11.1
+attendance-backend  | npm notice To update run: npm install -g npm@11.11.1
+attendance-backend  | npm notice
+attendance-backend  | Γ£à Migrations done. Starting server...
