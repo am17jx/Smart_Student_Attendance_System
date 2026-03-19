@@ -1,4 +1,5 @@
 const { PrismaClient } = require('@prisma/client');
+const bcrypt = require('bcryptjs');
 const prisma = new PrismaClient();
 
 async function seed() {
@@ -33,7 +34,7 @@ async function seed() {
                     name: s.name,
                     student_id: s.id,
                     email: s.email,
-                    password: '$2a$10$dummy',
+                    password: await bcrypt.hash('dummy123', 10),
                     department_id: dept.id,
                     stage_id: stage3.id,
                     academic_year: year,
