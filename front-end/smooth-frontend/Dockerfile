@@ -8,27 +8,18 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 
-# Copy source and build
 COPY . .
 RUN npm run build
 
-# Stage 2: Serve with Nginx
 FROM nginx:alpine
 
-# Remove default nginx config
 RUN rm /etc/nginx/conf.d/default.conf
-
-# Copy custom nginx config
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Copy build artifacts
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Nginx official alpine image already includes an 'nginx' user — switch to it
 USER nginx
 
-# Expose port 80
 EXPOSE 80
 
-# Start Nginx
 CMD ["nginx", "-g", "daemon off;"]
