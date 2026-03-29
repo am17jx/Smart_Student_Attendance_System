@@ -26,6 +26,8 @@ services:
     build:
       context: ./front-end/smooth-frontend
       dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=${SERVICE_URL_BACKEND}/api/v1
     container_name: attendance-frontend
     expose:
       - "80"
