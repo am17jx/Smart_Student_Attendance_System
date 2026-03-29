@@ -1,5 +1,4 @@
-# Frontend Dockerfile
-# Stage 1: Build React App
+# Stage 1: Build React/Vite App
 FROM node:20-alpine AS builder
 
 WORKDIR /app
@@ -8,18 +7,26 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 
+# Copy source code
 COPY . .
+
+# Build production files
 RUN npm run build
 
-FROM nginx:alpine
 
-RUN rm /etc/nginx/conf.d/default.conf
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Stage 2: Serve static files (NO NGINX)
+FROM node:20-alpine
 
-COPY --from=builder /app/dist /usr/share/nginx/html
+WORKDIR /app
 
-USER nginx
+# Install simple static server
+RUN npm install -g serve
 
-EXPOSE 80
+# Copy build output
+COPY --from=builder /app/dist ./dist
 
-CMD ["nginx", "-g", "daemon off;"]
+# Expose port
+EXPOSE 3000
+
+# Run frontend
+CMD ["serve", "-s", "dist", "-l", "3000"]
