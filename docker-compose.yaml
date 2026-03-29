@@ -16,6 +16,7 @@ services:
       - "host.docker.internal:host-gateway"
     depends_on:
       - db
+      - redis
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.backend.rule=PathPrefix(`/api`)"
@@ -47,6 +48,13 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    restart: always
+
+  redis:
+    image: redis:7-alpine
+    container_name: attendance-redis
+    ports:
+      - "6379:6379"
     restart: always
 
 volumes:
