@@ -29,4 +29,4 @@ COPY --from=builder /app/dist ./dist
 EXPOSE 80
 
 # Run frontend
-CMD ["serve", "-s", "dist", "-l", "3000"]
+CMD ["serve", "-s", "dist", "-l", "80"]
