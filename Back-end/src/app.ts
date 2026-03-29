@@ -28,6 +28,7 @@ import enrollmentRoutes from '../routes/enrollmentRoutes';
 };
 
 const app = express();
+app.set('trust proxy', 1); // Enable trusting the reverse proxy (Traefik/Coolify) for rate limiting and IP detection
 
 
 
