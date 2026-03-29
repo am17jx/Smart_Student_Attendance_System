@@ -1,19 +1,4 @@
 services:
-  traefik:
-    image: traefik:v2.11
-    container_name: traefik_router
-    command:
-      - "--api.insecure=true"
-      - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.web.address=:80"
-    ports:
-      - "80:80" # HTTP ingress
-      - "8080:8080" # Traefik Dashboard (development only)
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    restart: always
-
   backend:
     build:
       context: ./Back-end
