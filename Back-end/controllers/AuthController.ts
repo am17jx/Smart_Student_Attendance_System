@@ -481,20 +481,16 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
 
         const token = signToken({ id: student.id.toString(), email: student.email, role: "student" });
 
-        // Send login notification email
-        try {
-            const ipAddress = req.ip || req.socket.remoteAddress;
-            await emailService.sendLoginNotification(
-                student.email,
-                student.name,
-                new Date(),
-                ipAddress
-            );
-            logger.info(`✅ Login notification sent to ${student.email}`);
-        } catch (error) {
-            logger.error('Failed to send login notification', { error, email: student.email });
-            // Don't fail login if email fails
-        }
+        // Send login notification email asynchronously (fire and forget)
+        const ipAddress = req.ip || req.socket.remoteAddress;
+        emailService.sendLoginNotification(
+            student.email,
+            student.name,
+            new Date(),
+            ipAddress
+        )
+        .then(() => logger.info(`✅ Login notification sent to ${student.email}`))
+        .catch((error) => logger.error('Failed to send login notification', { error, email: student.email }));
 
         return res.status(200).json({
             status: "success",
