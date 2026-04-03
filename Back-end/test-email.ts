@@ -14,11 +14,11 @@ async function testEmail() {
     console.log('Attempting to send email...');
     try {
         await emailService.sendEmail({
-            to: process.env.EMAIL_FROM as string, // Send to self
+            to: process.env.EMAIL_FROM as string,
             subject: 'Test Email from Student Attendance System ' + new Date().toISOString(),
             html: '<h1>It Works!</h1><p>Expected email sending functionality is operational.</p>'
         });
-        console.log('✅✅✅ EMAIL SENT SUCCESSFULLY ✅✅✅');
+        console.log(' EMAIL SENT SUCCESSFULLY ');
     } catch (error: any) {
         console.error('❌❌❌ EMAIL FAILED ❌❌❌');
         console.error('Error Code:', error.code);
