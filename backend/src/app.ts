@@ -27,10 +27,22 @@ import enrollmentRoutes from '../routes/enrollmentRoutes';
     return this.toString();
 };
 
+import rateLimit from 'express-rate-limit';
+
 const app = express();
 app.set('trust proxy', 1); // Enable trusting the reverse proxy (Traefik/Coolify) for rate limiting and IP detection
 
+// Global Rate Limiter
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
+    standardHeaders: 'draft-7', // set `RateLimit` and `RateLimit-Policy` headers
+    legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
+    message: 'Too many requests from this IP, please try again after 15 minutes',
+});
 
+// Apply the rate limiting middleware to all requests.
+app.use('/api', limiter);
 
 app.use((req, res, next) => {
     logger.http(`${req.method} ${req.url}`);

@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -c \"import docx; print\\('python-docx available'\\)\")",
+      "Bash(npm list:*)",
+      "Bash(pip install:*)",
+      "Read(//c/Users/Lenovo/Desktop/**)",
+      "Bash(npm install:*)",
+      "Bash(node generate_chapter4_v2.mjs)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\Lenovo\\Desktop"
+    ]
+  }
+}
