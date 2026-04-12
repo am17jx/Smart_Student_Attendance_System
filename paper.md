@@ -117,7 +117,7 @@ This work demonstrates that combining cryptographic token rotation, geolocation 
 
 ---
 
-## References
+## References 
 
 [1] RFC 2104: HMAC Specification  
 [2] NIST SP 800-63: Digital Identity Guidelines  
