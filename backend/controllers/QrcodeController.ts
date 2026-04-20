@@ -302,6 +302,9 @@ export const scanQrAndAttend = catchAsync(async (req: Request, res: Response, ne
     res.status(200).json({
         status: "success",
         message: "Attendance recorded successfully",
+        data: {
+            materialName: material.name
+        }
     });
 });
 
