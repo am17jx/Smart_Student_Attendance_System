@@ -3,6 +3,9 @@ import { prisma } from '../prisma/client';
 import catchAsync from '../utils/catchAsync';
 import AppError from '../utils/AppError';
 import puppeteer from 'puppeteer';
+import os from 'os';
+import path from 'path';
+import fs from 'fs';
 
 export const generateSimpleAttendanceReport = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
@@ -146,8 +149,10 @@ export const generateSimpleAttendanceReport = catchAsync(
 </html>
         `;
 
+        const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'puppeteer-'));
         const browser = await puppeteer.launch({
             headless: true,
+            userDataDir: tmpDir,
             args: [
                 '--no-sandbox',
                 '--disable-setuid-sandbox',
@@ -155,7 +160,7 @@ export const generateSimpleAttendanceReport = catchAsync(
                 '--disable-gpu',
                 '--disable-extensions',
                 '--no-first-run',
-                '--disable-crashpad'
+                '--disable-crash-reporter'
             ]
         });
 
@@ -169,6 +174,7 @@ export const generateSimpleAttendanceReport = catchAsync(
         });
 
         await browser.close();
+        fs.rmSync(tmpDir, { recursive: true, force: true });
 
         res.setHeader('Content-Type', 'application/pdf');
         res.setHeader('Content-Disposition', `attachment; filename="attendance-report-${sessionId}.pdf"`);
