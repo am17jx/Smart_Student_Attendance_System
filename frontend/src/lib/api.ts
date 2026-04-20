@@ -479,7 +479,7 @@ export const qrApi = {
       method: "POST"
     }),
   scan: (token: string, id: string, latitude: number, longitude: number) =>
-    apiRequest<{ message: string }>('/qrcodes/validate', {
+    apiRequest<{ message: string; materialName?: string }>('/qrcodes/validate', {
       method: 'POST',
       body: JSON.stringify({ token, id, latitude, longitude }),
     }),
