@@ -147,8 +147,13 @@ export const generateSimpleAttendanceReport = catchAsync(
         `;
 
         const browser = await puppeteer.launch({
-            headless: true,
+            headless: 'shell' as any,
             executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
+            env: {
+                ...process.env,
+                DISABLE_CRASHPAD: '1',
+                CHROME_DISABLE_CRASHPAD: '1'
+            },
             args: [
                 '--no-sandbox', 
                 '--disable-setuid-sandbox', 
@@ -158,6 +163,7 @@ export const generateSimpleAttendanceReport = catchAsync(
                 '--no-zygote',
                 '--single-process',
                 '--disable-crash-reporter',
+                '--crash-dumps-dir=/tmp',
                 '--disable-extensions',
                 '--disable-background-networking',
                 '--no-first-run'
