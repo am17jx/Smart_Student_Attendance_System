@@ -986,11 +986,17 @@ export const generateAttendanceReportOLD = catchAsync(
                 headless: true,
                 executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
                 args: [
-                    '--no-sandbox', 
-                    '--disable-setuid-sandbox', 
+                    '--no-sandbox',
+                    '--disable-setuid-sandbox',
                     '--disable-dev-shm-usage',
                     '--disable-gpu',
-                    '--disable-software-rasterizer'
+                    '--disable-software-rasterizer',
+                    '--no-zygote',
+                    '--single-process',
+                    '--disable-crash-reporter',
+                    '--disable-extensions',
+                    '--disable-background-networking',
+                    '--no-first-run',
                 ]
             });
 
