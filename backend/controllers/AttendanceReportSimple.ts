@@ -100,17 +100,17 @@ export const generateSimpleAttendanceReport = catchAsync(
     </div>
     
     <div class="info">
-        <div class="info-row"><span class="info-label">المادة:</span><span>\${session.material.name}</span></div>
-        <div class="info-row"><span class="info-label">القسم:</span><span>\${session.material.department.name}</span></div>
-        <div class="info-row"><span class="info-label">المرحلة:</span><span>\${session.material.stage.name}</span></div>
-        <div class="info-row"><span class="info-label">الأستاذ:</span><span>\${session.teacher.name}</span></div>
-        <div class="info-row"><span class="info-label">التاريخ:</span><span>\${session.session_date.toLocaleDateString('ar-IQ')}</span></div>
+        <div class="info-row"><span class="info-label">المادة:</span><span>${session.material.name}</span></div>
+        <div class="info-row"><span class="info-label">القسم:</span><span>${session.material.department.name}</span></div>
+        <div class="info-row"><span class="info-label">المرحلة:</span><span>${session.material.stage.name}</span></div>
+        <div class="info-row"><span class="info-label">الأستاذ:</span><span>${session.teacher.name}</span></div>
+        <div class="info-row"><span class="info-label">التاريخ:</span><span>${session.session_date.toLocaleDateString('ar-IQ')}</span></div>
     </div>
     
     <div class="stats">
-        <div class="stat-box stat-present"><strong>الحضور:</strong> \${presentCount}</div>
-        <div class="stat-box stat-absent"><strong>الغياب:</strong> \${absentCount}</div>
-        <div class="stat-box stat-total"><strong>العدد الكلي:</strong> \${presentCount + absentCount}</div>
+        <div class="stat-box stat-present"><strong>الحضور:</strong> ${presentCount}</div>
+        <div class="stat-box stat-absent"><strong>الغياب:</strong> ${absentCount}</div>
+        <div class="stat-box stat-total"><strong>العدد الكلي:</strong> ${presentCount + absentCount}</div>
     </div>
 
     <table>
@@ -125,26 +125,26 @@ export const generateSimpleAttendanceReport = catchAsync(
             </tr>
         </thead>
         <tbody>
-            \${studentList.map((s: any) => \`
+            ${studentList.map((s: any) => `
                 <tr>
-                    <td>\${s.index}</td>
-                    <td>\${s.student_id}</td>
-                    <td>\${s.name}</td>
-                    <td>\${s.department}</td>
-                    <td class="\${s.statusClass}">\${s.status}</td>
-                    <td>\${s.time}</td>
+                    <td>${s.index}</td>
+                    <td>${s.student_id}</td>
+                    <td>${s.name}</td>
+                    <td>${s.department}</td>
+                    <td class="${s.statusClass}">${s.status}</td>
+                    <td>${s.time}</td>
                 </tr>
-            \`).join('')}
+            `).join('')}
         </tbody>
     </table>
 
     <div class="footer">
-        <p>تم إنشاء التقرير في: \${new Date().toLocaleString('ar-IQ')}</p>
+        <p>تم إنشاء التقرير في: ${new Date().toLocaleString('ar-IQ')}</p>
         <p>Privacy-Preserving Student Attendance System</p>
     </div>
 </body>
 </html>
-        \`;
+        `;
 
         const browser = await puppeteer.launch({
             headless: true,
@@ -176,7 +176,7 @@ export const generateSimpleAttendanceReport = catchAsync(
         await browser.close();
 
         res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Content-Disposition', \`attachment; filename="attendance-report-\${sessionId}.pdf"\`);
+        res.setHeader('Content-Disposition', `attachment; filename="attendance-report-${sessionId}.pdf"`);
         res.setHeader('Content-Length', pdfBuffer.length.toString());
         res.send(Buffer.from(pdfBuffer));
     }
