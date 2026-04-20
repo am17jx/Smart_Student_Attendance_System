@@ -150,17 +150,22 @@ export const generateSimpleAttendanceReport = catchAsync(
         `;
 
         const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'puppeteer-'));
+        const chromePaths = [
+            'C:/Program Files/Google/Chrome/Application/chrome.exe',
+            'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe',
+        ];
+        const executablePath = chromePaths.find(p => fs.existsSync(p));
+
         const browser = await puppeteer.launch({
             headless: true,
+            executablePath,
             userDataDir: tmpDir,
             args: [
                 '--no-sandbox',
                 '--disable-setuid-sandbox',
                 '--disable-dev-shm-usage',
                 '--disable-gpu',
-                '--disable-extensions',
                 '--no-first-run',
-                '--disable-crash-reporter'
             ]
         });
 
