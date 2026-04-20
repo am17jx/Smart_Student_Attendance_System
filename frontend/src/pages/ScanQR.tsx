@@ -20,6 +20,7 @@ import { QRScanner } from "@/components/QRScanner";
 export default function ScanQR() {
   const [manualCode, setManualCode] = useState("");
   const [scanResult, setScanResult] = useState<"success" | "error" | null>(null);
+  const [scanErrorMsg, setScanErrorMsg] = useState("");
   const [locationStatus, setLocationStatus] = useState<"pending" | "allowed" | "denied">("pending");
   const { toast } = useToast();
   const [showPermissionDialog, setShowPermissionDialog] = useState(false);
@@ -136,9 +137,12 @@ export default function ScanQR() {
       }
     } catch (error: any) {
       setScanResult("error");
+      const errorMsg = error.message || "خطأ غير معروف";
+      // Backend errors usually come here if apiRequest throws
+      setScanErrorMsg(errorMsg);
       toast({
         title: "فشل التسجيل",
-        description: error.response?.data?.message || error.message || "خطأ غير معروف",
+        description: errorMsg,
         variant: "destructive"
       });
     }
@@ -185,9 +189,11 @@ export default function ScanQR() {
 
     } catch (error: any) {
       setScanResult("error");
+      const errorMsg = error.message || "الرمز غير صحيح أو خارج نطاق القاعة";
+      setScanErrorMsg(errorMsg);
       toast({
         title: "فشل التسجيل",
-        description: error.response?.data?.message || error.message || "الرمز غير صحيح أو خارج نطاق القاعة",
+        description: errorMsg,
         variant: "destructive"
       });
     }
@@ -302,7 +308,7 @@ export default function ScanQR() {
             <CardContent className="p-6 text-center">
               <AlertCircle className="h-16 w-16 mx-auto text-destructive mb-4" />
               <h3 className="text-xl font-bold text-destructive mb-2">فشل التسجيل</h3>
-              <p className="text-muted-foreground">الرمز غير صالح أو منتهي الصلاحية</p>
+              <p className="text-muted-foreground">{scanErrorMsg || "الرمز غير صالح أو منتهي الصلاحية"}</p>
               <Button
                 variant="outline"
                 className="mt-4"

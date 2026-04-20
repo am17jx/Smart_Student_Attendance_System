@@ -39,7 +39,7 @@ export const generateQrForSession = catchAsync(async (req: Request, res: Respons
         data: {
             token_hash: tokenHash,
             session_id: BigInt(session_id as string),
-            expires_at: new Date(Date.now() + 90 * 1000), // 90 seconds (30s rotation + 60s buffer for scanning)
+            expires_at: new Date(Date.now() + 180 * 1000), // 180 seconds (30s rotation + 150s buffer for scanning/network)
         },
     });
 
