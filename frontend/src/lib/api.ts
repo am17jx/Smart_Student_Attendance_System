@@ -472,7 +472,7 @@ export const attendanceApi = {
     }),
 };
 
-// QR Code API
+// QR Code API   
 export const qrApi = {
   generate: (sessionId: string) =>
     apiRequest<{ qrCode: string }>(`/qrcodes/generate/${sessionId}`, {
