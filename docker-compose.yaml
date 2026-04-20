@@ -1,13 +1,13 @@
 services:
   backend:
     build:
-      context: ./Back-end
+      context: ./backend
       dockerfile: Dockerfile
     container_name: attendance-backend
     expose:
       - "4000"
     env_file:
-      - ./Back-end/.env
+      - ./backend/.env
     dns:
       - 8.8.8.8
       - 8.8.4.4
@@ -24,7 +24,7 @@ services:
 
   frontend:
     build:
-      context: ./front-end/smooth-frontend
+      context: ./frontend
       dockerfile: Dockerfile
       args:
         - VITE_API_URL=${SERVICE_URL_BACKEND}/api/v1
