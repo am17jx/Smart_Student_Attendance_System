@@ -2,23 +2,43 @@ import { Request, Response, NextFunction } from 'express';
 import { prisma } from '../prisma/client';
 import catchAsync from '../utils/catchAsync';
 import AppError from '../utils/AppError';
-import puppeteer from 'puppeteer';
+import PDFDocument from 'pdfkit';
+import * as fs from 'fs';
 
-/**
- * ✅ SIMPLE SOLUTION: Generate PDF from attendance records only
- * No complex logic - just show who attended
- */
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const reshaper = require('arabic-reshaper') as { reshape: (text: string) => string };
+
+function ar(text: string): string {
+    if (!text) return '';
+    try {
+        const reshaped: string = reshaper.reshape(String(text));
+        return reshaped.split(' ').reverse().join(' ');
+    } catch {
+        return String(text);
+    }
+}
+
+function getArabicFont(): string | null {
+    const candidates = [
+        '/usr/share/fonts/truetype/freefont/FreeSans.ttf',
+        '/usr/share/fonts/truetype/freefont/FreeSerif.ttf',
+        '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',
+        '/usr/share/fonts/TTF/DejaVuSans.ttf',
+    ];
+    for (const p of candidates) {
+        if (fs.existsSync(p)) return p;
+    }
+    return null;
+}
+
 export const generateSimpleAttendanceReport = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
         const { sessionId } = req.params;
 
-        // 1. Get session
         const session = await prisma.session.findUnique({
             where: { id: BigInt(sessionId as string) },
             include: {
-                material: {
-                    include: { department: true, stage: true }
-                },
+                material: { include: { department: true, stage: true } },
                 teacher: true
             }
         });
@@ -27,188 +47,160 @@ export const generateSimpleAttendanceReport = catchAsync(
             return next(new AppError('Session not found', 404));
         }
 
-        // 2. Get students registered in this material (department + stage)
         const allStudents = await prisma.student.findMany({
             where: {
                 department_id: session.material.department_id,
                 stage_id: session.material.stage_id
             },
-            include: {
-                department: true,
-                stage: true
-            },
+            include: { department: true, stage: true },
             orderBy: { name: 'asc' }
         });
 
-        // 3. Get attendance records
         const records = await prisma.attendanceRecord.findMany({
             where: { session_id: BigInt(sessionId as string) },
-            include: {
-                student: {
-                    include: { department: true, stage: true }
-                }
-            },
+            include: { student: { include: { department: true, stage: true } } },
             orderBy: { marked_at: 'asc' }
         });
 
-        // 4. Build student list with correct status
         const studentList: any[] = [];
-
-        // Process students based on attendance records
         allStudents.forEach((student) => {
-            const studentId = student.id.toString();
-            const record = records.find(r => r.student_id.toString() === studentId);
-
-            // ✅ FIXED: Check record.status, not just existence
+            const record = records.find(r => r.student_id.toString() === student.id.toString());
             const isPresent = record && (record.status === 'PRESENT' || record.status === 'LATE');
-
-            if (isPresent) {
-                // PRESENT
-                studentList.push({
-                    index: 0,
-                    student_id: student.student_id || '',
-                    name: student.name,
-                    department: student.department?.name || '',
-                    status: 'حاضر',
-                    statusClass: 'present',
-                    time: record.marked_at.toLocaleTimeString('ar-IQ', { hour: '2-digit', minute: '2-digit' })
-                });
-            } else {
-                // ABSENT
-                studentList.push({
-                    index: 0,
-                    student_id: student.student_id || '',
-                    name: student.name,
-                    department: student.department?.name || '',
-                    status: 'غائب',
-                    statusClass: 'absent',
-                    time: '-'
-                });
-            }
+            studentList.push({
+                index: 0,
+                student_id: student.student_id || '',
+                name: student.name,
+                department: student.department?.name || '',
+                status: isPresent ? 'حاضر' : 'غائب',
+                statusClass: isPresent ? 'present' : 'absent',
+                time: isPresent ? record!.marked_at.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) : '-'
+            });
         });
 
-        // Sort and add index
         studentList.sort((a, b) => a.name.localeCompare(b.name));
         studentList.forEach((s, i) => s.index = i + 1);
 
-        // 5. Stats
-        const presentCount = studentList.filter(s => s.status === 'حاضر').length;
-        const absentCount = studentList.filter(s => s.status === 'غائب').length;
+        const presentCount = studentList.filter(s => s.statusClass === 'present').length;
+        const absentCount = studentList.filter(s => s.statusClass === 'absent').length;
 
-        // 5. Generate HTML
-        const html = `
-<!DOCTYPE html>
-<html dir="rtl" lang="ar">
-<head>
-    <meta charset="UTF-8">
-    <title>تقرير الحضور</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Cairo', sans-serif; padding: 40px; }
-        .header { text-align: center; margin-bottom: 30px; border-bottom: 3px solid #333; padding-bottom: 20px; }
-        .header h1 { font-size: 28px; color: #333; }
-        .info { margin-bottom: 30px; line-height: 1.8; }
-        .info-row { display: flex; margin-bottom: 8px; font-size: 14px; }
-        .info-label { font-weight: bold; width: 150px; color: #555; }
-        .stats { display: flex; gap: 20px; margin-bottom: 20px; }
-        .stat-box { padding: 10px 20px; border-radius: 8px; }
-        .stat-present { background: #d4edda; color: #155724; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 12px; text-align: right; border: 1px solid #ddd; }
-        th { background: #f8f9fa; font-weight: bold; }
-        .present { background: #d4edda; color: #155724; font-weight: bold; }
-        .absent { background: #f8d7da; color: #721c24; font-weight: bold; }
-        .footer { margin-top: 30px; text-align: center; font-size: 12px; color: #888; }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <h1>تقرير الحضور</h1>
-    </div>
-    
-    <div class="info">
-        <div class="info-row"><span class="info-label">المادة:</span><span>${session.material.name}</span></div>
-        <div class="info-row"><span class="info-label">القسم:</span><span>${session.material.department.name}</span></div>
-        <div class="info-row"><span class="info-label">المرحلة:</span><span>${session.material.stage.name}</span></div>
-        <div class="info-row"><span class="info-label">الأستاذ:</span><span>${session.teacher.name}</span></div>
-        <div class="info-row"><span class="info-label">التاريخ:</span><span>${session.session_date.toLocaleDateString('ar-IQ')}</span></div>
-    </div>
-    
-    <div class="stats">
-        <div class="stat-box stat-present"><strong>الحضور:</strong> ${presentCount}</div>
-        <div class="stat-box stat-absent"><strong>الغياب:</strong> ${absentCount}</div>
-        <div class="stat-box" style="background: #e2e3e5;"><strong>العدد الكلي:</strong> ${presentCount + absentCount}</div>
-    </div>
+        const pdfBuffer = await new Promise<Buffer>((resolve, reject) => {
+            const doc = new PDFDocument({ size: 'A4', margin: 40 });
+            const chunks: Buffer[] = [];
+            doc.on('data', (chunk: Buffer) => chunks.push(chunk));
+            doc.on('end', () => resolve(Buffer.concat(chunks)));
+            doc.on('error', reject);
 
-    <table>
-        <thead>
-            <tr>
-                <th>ت</th>
-                <th>الرقم الجامعي</th>
-                <th>الاسم</th>
-                <th>القسم</th>
-                <th>الحالة</th>
-                <th>الوقت</th>
-            </tr>
-        </thead>
-        <tbody>
-            ${studentList.map((s: any) => `
-                <tr>
-                    <td>${s.index}</td>
-                    <td>${s.student_id}</td>
-                    <td>${s.name}</td>
-                    <td>${s.department}</td>
-                    <td class="${s.statusClass}">${s.status}</td>
-                    <td>${s.time}</td>
-                </tr>
-            `).join('')}
-        </tbody>
-    </table>
+            const fontPath = getArabicFont();
+            if (fontPath) doc.font(fontPath);
 
-    <div class="footer">
-        <p>تم إنشاء التقرير في: ${new Date().toLocaleString('ar-IQ')}</p>
-        <p>Privacy-Preserving Student Attendance System</p>
-    </div>
-</body>
-</html>
-        `;
+            const W = doc.page.width;
+            const M = 40;
+            const CW = W - M * 2;
 
-        // 6. Generate PDF
-        const browser = await puppeteer.launch({
-            headless: true,
-            executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
-            args: [
-                '--no-sandbox',
-                '--disable-setuid-sandbox',
-                '--disable-dev-shm-usage',
-                '--disable-gpu',
-                '--disable-software-rasterizer',
-                '--no-zygote',
-                '--single-process',
-                '--disable-crash-reporter',
-                '--disable-extensions',
-                '--disable-background-networking',
-                '--no-first-run',
-            ]
+            // Header
+            doc.fontSize(20).text(ar('تقرير الحضور'), M, 40, { width: CW, align: 'center' });
+            doc.moveDown(0.3);
+            doc.moveTo(M, doc.y).lineTo(W - M, doc.y).lineWidth(2).stroke();
+            doc.moveDown(0.6);
+
+            // Info
+            doc.fontSize(11);
+            const info = [
+                [ar('المادة:'), ar(session.material.name)],
+                [ar('القسم:'), ar(session.material.department.name)],
+                [ar('المرحلة:'), ar(session.material.stage.name)],
+                [ar('الأستاذ:'), ar(session.teacher.name)],
+                [ar('التاريخ:'), session.session_date.toLocaleDateString('en-GB')],
+            ];
+            for (const [label, value] of info) {
+                const y = doc.y;
+                doc.text(String(value), M, y, { width: CW - 120, align: 'left' });
+                doc.text(String(label), W - M - 120, y, { width: 120, align: 'right' });
+                doc.moveDown(0.1);
+            }
+            doc.moveDown(0.5);
+
+            // Stats
+            const statY = doc.y;
+            const statW = CW / 3 - 5;
+            const stats = [
+                { label: ar('الحضور'), value: String(presentCount), color: '#155724', bg: '#d4edda' },
+                { label: ar('الغياب'), value: String(absentCount), color: '#721c24', bg: '#f8d7da' },
+                { label: ar('العدد الكلي'), value: String(presentCount + absentCount), color: '#383d41', bg: '#e2e3e5' },
+            ];
+            stats.forEach((s, i) => {
+                const x = M + i * (statW + 5);
+                doc.rect(x, statY, statW, 30).fill(s.bg);
+                doc.fillColor(s.color).fontSize(10)
+                    .text(`${s.label}: ${s.value}`, x + 4, statY + 9, { width: statW - 8, align: 'center' });
+            });
+            doc.fillColor('#000000');
+            doc.y = statY + 38;
+            doc.moveDown(0.3);
+
+            // Table
+            const colWidths = [30, 90, 130, 65, 45, 50];
+            const headers = [ar('ت'), ar('الرقم الجامعي'), ar('الاسم'), ar('القسم'), ar('الحالة'), ar('الوقت')];
+            const rowH = 22;
+            const startTableY = doc.y;
+
+            doc.rect(M, startTableY, CW, rowH).fill('#f0f0f0');
+            doc.fillColor('#000');
+            let hx = M;
+            for (let i = 0; i < headers.length; i++) {
+                doc.fontSize(9).text(headers[i], hx + 2, startTableY + 6, { width: colWidths[i] - 4, align: 'center' });
+                hx += colWidths[i];
+            }
+            doc.y = startTableY + rowH;
+
+            for (let ri = 0; ri < studentList.length; ri++) {
+                const s = studentList[ri];
+                if (doc.y + rowH > doc.page.height - 60) {
+                    doc.addPage();
+                    doc.y = 40;
+                }
+                const rowY = doc.y;
+                doc.rect(M, rowY, CW, rowH).fill(ri % 2 === 0 ? '#ffffff' : '#f9f9f9');
+
+                const statusBg = s.statusClass === 'present' ? '#d4edda' : '#f8d7da';
+                const statusColor = s.statusClass === 'present' ? '#155724' : '#721c24';
+
+                const cells = [
+                    { text: String(s.index), color: '#000', cellBg: null },
+                    { text: String(s.student_id), color: '#000', cellBg: null },
+                    { text: ar(s.name), color: '#000', cellBg: null },
+                    { text: ar(s.department), color: '#000', cellBg: null },
+                    { text: ar(s.status), color: statusColor, cellBg: statusBg },
+                    { text: s.time, color: '#000', cellBg: null },
+                ];
+
+                let cx = M;
+                for (let ci = 0; ci < cells.length; ci++) {
+                    const cell = cells[ci];
+                    if (cell.cellBg) doc.rect(cx, rowY, colWidths[ci], rowH).fill(cell.cellBg);
+                    doc.fillColor(cell.color).fontSize(8)
+                        .text(cell.text, cx + 2, rowY + 6, { width: colWidths[ci] - 4, align: 'center', lineBreak: false });
+                    cx += colWidths[ci];
+                }
+                doc.rect(M, rowY, CW, rowH).stroke('#dddddd');
+                doc.fillColor('#000');
+                doc.y = rowY + rowH;
+            }
+
+            // Footer
+            doc.moveDown(1);
+            doc.moveTo(M, doc.y).lineTo(W - M, doc.y).lineWidth(1).stroke('#dddddd');
+            doc.moveDown(0.3);
+            doc.fontSize(9).fillColor('#666666')
+                .text(`${ar('تم إنشاء التقرير في:')} ${new Date().toLocaleString('en-GB')}`, M, doc.y, { width: CW, align: 'center' });
+            doc.text('Privacy-Preserving Student Attendance System', M, doc.y + 2, { width: CW, align: 'center' });
+
+            doc.end();
         });
 
-        const page = await browser.newPage();
-        await page.setContent(html, { waitUntil: 'networkidle0' });
-
-        const pdfBuffer = await page.pdf({
-            format: 'A4',
-            printBackground: true,
-            margin: { top: '20px', right: '20px', bottom: '20px', left: '20px' }
-        });
-
-        await browser.close();
-
-        // 7. Send PDF
         res.setHeader('Content-Type', 'application/pdf');
         res.setHeader('Content-Disposition', `attachment; filename="attendance-report-${sessionId}.pdf"`);
-        res.send(Buffer.from(pdfBuffer));
+        res.setHeader('Content-Length', pdfBuffer.length.toString());
+        res.send(pdfBuffer);
     }
 );
