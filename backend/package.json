@@ -70,6 +70,7 @@
     "jsonwebtoken": "^9.0.3",
     "node-cron": "^4.2.1",
     "nodemailer": "^7.0.12",
+    "noto-sans-arabic": "^1.0.2",
     "pdfkit": "^0.17.2",
     "puppeteer": "^24.36.1",
     "qrcode": "^1.5.4",

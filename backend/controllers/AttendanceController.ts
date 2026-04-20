@@ -5,35 +5,17 @@ import AppError from "../utils/AppError";
 import PDFDocument from "pdfkit";
 import logger from "../utils/logger";
 import { verifyTOTP } from "../utils/otp";
-import * as fs from "fs";
 import * as path from "path";
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const reshaper = require("arabic-reshaper") as { reshape: (text: string) => string };
-
-// Reshape Arabic text and reverse word order for RTL display in pdfkit
+// Reverse word order for RTL display; pdfkit/fontkit shapes Arabic letters automatically
 function ar(text: string): string {
     if (!text) return "";
-    try {
-        const reshaped: string = reshaper.reshape(String(text));
-        return reshaped.split(" ").reverse().join(" ");
-    } catch {
-        return String(text);
-    }
+    return String(text).split(" ").reverse().join(" ");
 }
 
-// Find Arabic font path (works in Docker and local environments)
-function getArabicFont(): string | null {
-    const candidates = [
-        "/usr/share/fonts/truetype/freefont/FreeSans.ttf",
-        "/usr/share/fonts/truetype/freefont/FreeSerif.ttf",
-        "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
-        "/usr/share/fonts/TTF/DejaVuSans.ttf",
-    ];
-    for (const p of candidates) {
-        if (fs.existsSync(p)) return p;
-    }
-    return null;
+// Bundled Noto Sans Arabic font - works in both Docker and local environments
+function getArabicFont(): string {
+    return require.resolve("noto-sans-arabic/fonts/Regular.ttf");
 }
 
 // Helper: Calculate distance in meters using Haversine formula
@@ -933,8 +915,7 @@ export const generateAttendanceReportOLD = catchAsync(
                 doc.on('end', () => resolve(Buffer.concat(chunks)));
                 doc.on('error', reject);
 
-                const fontPath = getArabicFont();
-                if (fontPath) doc.font(fontPath);
+                doc.font(getArabicFont());
 
                 const W = doc.page.width;
                 const M = 40;

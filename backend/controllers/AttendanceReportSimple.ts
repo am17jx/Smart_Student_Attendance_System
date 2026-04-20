@@ -3,32 +3,14 @@ import { prisma } from '../prisma/client';
 import catchAsync from '../utils/catchAsync';
 import AppError from '../utils/AppError';
 import PDFDocument from 'pdfkit';
-import * as fs from 'fs';
-
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const reshaper = require('arabic-reshaper') as { reshape: (text: string) => string };
 
 function ar(text: string): string {
     if (!text) return '';
-    try {
-        const reshaped: string = reshaper.reshape(String(text));
-        return reshaped.split(' ').reverse().join(' ');
-    } catch {
-        return String(text);
-    }
+    return String(text).split(' ').reverse().join(' ');
 }
 
-function getArabicFont(): string | null {
-    const candidates = [
-        '/usr/share/fonts/truetype/freefont/FreeSans.ttf',
-        '/usr/share/fonts/truetype/freefont/FreeSerif.ttf',
-        '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',
-        '/usr/share/fonts/TTF/DejaVuSans.ttf',
-    ];
-    for (const p of candidates) {
-        if (fs.existsSync(p)) return p;
-    }
-    return null;
+function getArabicFont(): string {
+    return require.resolve('noto-sans-arabic/fonts/Regular.ttf');
 }
 
 export const generateSimpleAttendanceReport = catchAsync(
@@ -90,8 +72,7 @@ export const generateSimpleAttendanceReport = catchAsync(
             doc.on('end', () => resolve(Buffer.concat(chunks)));
             doc.on('error', reject);
 
-            const fontPath = getArabicFont();
-            if (fontPath) doc.font(fontPath);
+            doc.font(getArabicFont());
 
             const W = doc.page.width;
             const M = 40;
