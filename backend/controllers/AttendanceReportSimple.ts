@@ -242,15 +242,11 @@ export const generateSimpleAttendanceReport = catchAsync(
 </body>
 </html>`;
 
-        // ─── Puppeteer ─────────────────────────────────────────────────────
         const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'puppeteer-'));
 
-        // دعم Windows و Linux في نفس الوقت
         const chromePaths = [
-            // Windows
             'C:/Program Files/Google/Chrome/Application/chrome.exe',
             'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe',
-            // Linux (Ubuntu / Debian)
             '/usr/bin/google-chrome',
             '/usr/bin/chromium-browser',
             '/usr/bin/chromium',
@@ -268,12 +264,13 @@ export const generateSimpleAttendanceReport = catchAsync(
                 '--disable-gpu',
                 '--no-first-run',
                 '--disable-extensions',
+                '--disable-crash-reporter',
+                '--no-zygote',
             ]
         });
 
         const page = await browser.newPage();
 
-        // domcontentloaded — لا ننتظر أي طلبات شبكة
         await page.setContent(html, { waitUntil: 'domcontentloaded' });
 
         const pdfBuffer = await page.pdf({
