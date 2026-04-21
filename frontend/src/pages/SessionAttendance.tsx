@@ -11,6 +11,7 @@ import { ArrowRight, Users, UserCheck, UserX, Percent, Search, FileDown } from "
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { ar } from "date-fns/locale";
+import { ReportLoadingOverlay } from "@/components/ReportLoadingOverlay";
 // @ts-ignore
 import html2pdf from 'html2pdf.js';
 
@@ -125,6 +126,7 @@ export default function SessionAttendance() {
 
     return (
         <DashboardLayout>
+            <ReportLoadingOverlay isVisible={isDownloading} />
             <div className="space-y-6">
                 {/* Header */}
                 <div className="flex flex-col gap-2">

@@ -12,6 +12,7 @@ import { sessionsApi, attendanceApi, AttendanceRecord } from "@/lib/api";
 import { format } from "date-fns";
 import { ar } from "date-fns/locale";
 import { useAuth } from "@/contexts/AuthContext";
+import { ReportLoadingOverlay } from "@/components/ReportLoadingOverlay";
 // @ts-ignore
 import html2pdf from 'html2pdf.js';
 
@@ -149,6 +150,7 @@ export default function SessionDetails() {
 
     return (
         <DashboardLayout>
+            <ReportLoadingOverlay isVisible={isDownloadingReport} />
             <div className="space-y-6">
                 {/* Header */}
                 <div className="flex items-center justify-between">
