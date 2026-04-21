@@ -3,9 +3,6 @@ import { prisma } from '../prisma/client';
 import catchAsync from '../utils/catchAsync';
 import AppError from '../utils/AppError';
 import puppeteer from 'puppeteer';
-import os from 'os';
-import path from 'path';
-import fs from 'fs';
 
 export const generateSimpleAttendanceReport = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
@@ -242,21 +239,8 @@ export const generateSimpleAttendanceReport = catchAsync(
 </body>
 </html>`;
 
-        const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'puppeteer-'));
-
-        const chromePaths = [
-            'C:/Program Files/Google/Chrome/Application/chrome.exe',
-            'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe',
-            '/usr/bin/google-chrome',
-            '/usr/bin/chromium-browser',
-            '/usr/bin/chromium',
-        ];
-        const executablePath = chromePaths.find(p => fs.existsSync(p));
-
         const browser = await puppeteer.launch({
             headless: true,
-            executablePath,
-            userDataDir: tmpDir,
             args: [
                 '--no-sandbox',
                 '--disable-setuid-sandbox',
@@ -265,7 +249,6 @@ export const generateSimpleAttendanceReport = catchAsync(
                 '--no-first-run',
                 '--disable-extensions',
                 '--disable-crash-reporter',
-                '--no-zygote',
             ]
         });
 
@@ -280,7 +263,6 @@ export const generateSimpleAttendanceReport = catchAsync(
         });
 
         await browser.close();
-        fs.rmSync(tmpDir, { recursive: true, force: true });
 
         res.setHeader('Content-Type', 'application/pdf');
         res.setHeader(
