@@ -3,7 +3,6 @@ import { prisma } from '../prisma/client';
 import catchAsync from '../utils/catchAsync';
 import AppError from '../utils/AppError';
 import puppeteer from 'puppeteer';
-import { executablePath } from 'puppeteer';
 
 export const generateSimpleAttendanceReport = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
@@ -242,7 +241,6 @@ export const generateSimpleAttendanceReport = catchAsync(
 
         const browser = await puppeteer.launch({
             headless: true,
-            executablePath: executablePath(),
             args: [
                 '--no-sandbox',
                 '--disable-setuid-sandbox',
@@ -254,24 +252,27 @@ export const generateSimpleAttendanceReport = catchAsync(
             ]
         });
 
-        const page = await browser.newPage();
+        let pdfBuffer;
+        try {
+            const page = await browser.newPage();
+            await page.setContent(html, { waitUntil: 'domcontentloaded' });
 
-        await page.setContent(html, { waitUntil: 'domcontentloaded' });
-
-        const pdfBuffer = await page.pdf({
-            format: 'A4',
-            printBackground: true,
-            margin: { top: '15mm', right: '15mm', bottom: '15mm', left: '15mm' }
-        });
-
-        await browser.close();
+            pdfBuffer = await page.pdf({
+                format: 'A4',
+                printBackground: true,
+                margin: { top: '15mm', right: '15mm', bottom: '15mm', left: '15mm' }
+            });
+        } finally {
+            if (browser) {
+                await browser.close();
+            }
+        }
 
         res.setHeader('Content-Type', 'application/pdf');
         res.setHeader(
             'Content-Disposition',
             `attachment; filename="attendance-report-${sessionId}.pdf"`
         );
-        res.setHeader('Content-Length', pdfBuffer.length.toString());
         res.send(Buffer.from(pdfBuffer));
     }
 );
