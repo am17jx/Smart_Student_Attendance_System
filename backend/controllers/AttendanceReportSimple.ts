@@ -199,6 +199,8 @@ export const generateSimpleAttendanceReport = catchAsync(
                 '--no-first-run',
                 '--disable-extensions',
                 '--disable-crash-reporter', // Critical for Docker stability
+                '--no-crashpad',             // Explicitly disable crashpad
+                '--crash-dumps-dir=/tmp'     // Fallback for crashpad database
             ]
         });
 
