@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { prisma } from '../prisma/client';
 import catchAsync from '../utils/catchAsync';
 import AppError from '../utils/AppError';
+import puppeteer from 'puppeteer';
 /**
  * ✅ SIMPLE SOLUTION: Generate PDF from attendance records only
  * No complex logic - just show who attended
@@ -186,8 +187,41 @@ export const generateSimpleAttendanceReport = catchAsync(
 </html>
         `;
 
-        // 6. Send HTML explicitly
-        res.setHeader('Content-Type', 'text/html; charset=utf-8');
-        res.send(html);
+        // 6. Generate PDF via Puppeteer for direct download
+        const browser = await puppeteer.launch({
+            headless: true,
+            executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
+            args: [
+                '--no-sandbox', 
+                '--disable-setuid-sandbox',
+                '--disable-dev-shm-usage',
+                '--disable-gpu',
+                '--no-first-run',
+                '--disable-extensions',
+                '--disable-crash-reporter', // Critical for Docker stability
+            ]
+        });
+
+        let pdfBuffer;
+        try {
+            const page = await browser.newPage();
+            // Important for loading custom fonts and rendering properly
+            await page.setContent(html, { waitUntil: 'networkidle0' });
+
+            pdfBuffer = await page.pdf({
+                format: 'A4',
+                printBackground: true,
+                margin: { top: '20px', right: '20px', bottom: '20px', left: '20px' }
+            });
+        } finally {
+            if (browser) {
+                await browser.close();
+            }
+        }
+
+        // 7. Send PDF as attachment for direct download
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', `attachment; filename="attendance-report-${sessionId}.pdf"`);
+        res.send(Buffer.from(pdfBuffer));
     }
 );

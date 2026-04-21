@@ -262,22 +262,20 @@ export default function SessionDetails() {
                                         onClick={async () => {
                                             setIsDownloadingReport(true);
                                             try {
-                                                const html = await attendanceApi.getReportHtml(id!);
-                                                const printWindow = window.open('', '_blank');
-                                                if (!printWindow) {
-                                                    alert('يرجى السماح بالنوافذ المنبثقة (Pop-ups) لطباعة التقرير');
-                                                    return;
+                                                const blob = await attendanceApi.getReport(id!);
+                                                
+                                                if (!blob || blob.size === 0) {
+                                                    throw new Error('الملف المُحمل فارغ');
                                                 }
 
-                                                printWindow.document.write(html);
-                                                printWindow.document.close();
-
-                                                printWindow.onload = () => {
-                                                    setTimeout(() => {
-                                                        printWindow.focus();
-                                                        printWindow.print();
-                                                    }, 500);
-                                                };
+                                                const url = window.URL.createObjectURL(blob);
+                                                const link = document.createElement('a');
+                                                link.href = url;
+                                                link.setAttribute('download', `attendance-report-${id}.pdf`);
+                                                document.body.appendChild(link);
+                                                link.click();
+                                                link.remove();
+                                                window.URL.revokeObjectURL(url);
                                             } catch (error) {
                                                 console.error('❌ [UI] Failed to download report:', error);
                                                 alert(`فشل تحميل التقرير: ${error instanceof Error ? error.message : 'خطأ غير معروف'}`);
