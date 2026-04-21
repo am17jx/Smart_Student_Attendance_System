@@ -27,34 +27,25 @@ export default function SessionAttendance() {
     const downloadPdf = async () => {
         try {
             setIsDownloading(true);
-            const blob = await attendanceApi.getReport(id!);
-
-
-
-            // Check file signature (Magic Bytes)
-            const arrayBuffer = await blob.arrayBuffer();
-            const firstBytes = new Uint8Array(arrayBuffer.slice(0, 5));
-            const headerString = new TextDecoder().decode(firstBytes);
-
-
-            if (headerString !== '%PDF-') {
-                console.error("❌ Invalid PDF Header:", headerString);
-                const text = await blob.text();
-                console.error("❌ Full Blob Content:", text.slice(0, 500)); // Log first 500 chars
-                alert(`الملف المحمل ليس PDF صالحاً! (Header: ${headerString})`);
+            const html = await attendanceApi.getReportHtml(id!);
+            const printWindow = window.open('', '_blank');
+            if (!printWindow) {
+                alert('يرجى السماح بالنوافذ المنبثقة (Pop-ups) لطباعة التقرير');
                 return;
             }
 
-            const url = window.URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', `attendance-report-${id}.pdf`);
-            document.body.appendChild(link);
-            link.click();
-            link.remove();
+            printWindow.document.write(html);
+            printWindow.document.close();
+
+            printWindow.onload = () => {
+                setTimeout(() => {
+                    printWindow.focus();
+                    printWindow.print();
+                }, 500);
+            };
         } catch (error) {
             console.error("Failed to download report", error);
-            alert("فشل تحميل التقرير. الرجاء المحاولة مرة أخرى.");
+            alert(`فشل تحميل التقرير: ${error instanceof Error ? error.message : 'خطأ غير معروف'}`);
         } finally {
             setIsDownloading(false);
         }

@@ -2,8 +2,6 @@ import { Request, Response, NextFunction } from 'express';
 import { prisma } from '../prisma/client';
 import catchAsync from '../utils/catchAsync';
 import AppError from '../utils/AppError';
-import puppeteer from 'puppeteer';
-
 /**
  * ✅ SIMPLE SOLUTION: Generate PDF from attendance records only
  * No complex logic - just show who attended
@@ -122,6 +120,18 @@ export const generateSimpleAttendanceReport = catchAsync(
         .present { background: #d4edda; color: #155724; font-weight: bold; }
         .absent { background: #f8d7da; color: #721c24; font-weight: bold; }
         .footer { margin-top: 30px; text-align: center; font-size: 12px; color: #888; }
+        
+        @media print {
+            body { padding: 20px; }
+            .header { margin-bottom: 20px; border-bottom: 2px solid #000; }
+            .footer { position: fixed; bottom: 0; width: 100%; text-align: center; font-size: 10px; border-top: none; padding-top: 10px; }
+            table { page-break-inside: auto; margin-bottom: 40px; border: 1px solid #000; }
+            tr { page-break-inside: avoid; page-break-after: auto; }
+            th, td { border: 1px solid #000; padding: 8px; color: #000 !important; }
+            .present { color: #000 !important; background: transparent !important; }
+            .absent { color: #000 !important; background: transparent !important; }
+            .no-print { display: none !important; }
+        }
     </style>
 </head>
 <body>
@@ -176,27 +186,8 @@ export const generateSimpleAttendanceReport = catchAsync(
 </html>
         `;
 
-        // 6. Generate PDF
-        const browser = await puppeteer.launch({
-            headless: true,
-            executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
-            args: ['--no-sandbox', '--disable-setuid-sandbox']
-        });
-
-        const page = await browser.newPage();
-        await page.setContent(html, { waitUntil: 'networkidle0' });
-
-        const pdfBuffer = await page.pdf({
-            format: 'A4',
-            printBackground: true,
-            margin: { top: '20px', right: '20px', bottom: '20px', left: '20px' }
-        });
-
-        await browser.close();
-
-        // 7. Send PDF
-        res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Content-Disposition', `attachment; filename="attendance-report-${sessionId}.pdf"`);
-        res.send(Buffer.from(pdfBuffer));
+        // 6. Send HTML explicitly
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        res.send(html);
     }
 );
