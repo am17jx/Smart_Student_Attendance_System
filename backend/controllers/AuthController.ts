@@ -73,6 +73,11 @@ export const createAdmin = catchAsync(async (req: Request, res: Response, next: 
 
     logger.info(`[ADMIN] New admin created: ${email}, ID: ${newAdmin.id}`);
 
+    // ✅ Send temporary password in background
+    emailService.sendTempPasswordEmail(email, name, tempPassword, true)
+        .then(() => logger.info(`✅ Welcome email sent to admin: ${email}`))
+        .catch(err => logger.error(`❌ Failed to send welcome email to admin ${email}`, err));
+
     res.status(201).json({
         status: "success",
         message: "Admin created successfully. Password sent via secure channel.",
@@ -123,6 +128,11 @@ export const Teacher_sign = catchAsync(async (req: Request, res: Response, next:
     });
 
     logger.info(`[ADMIN] Teacher created: ${email}, ID: ${newUser.id}`);
+
+    // ✅ Send temporary password in background
+    emailService.sendTempPasswordEmail(email, name, tempPassword, true)
+        .then(() => logger.info(`✅ Welcome email sent to teacher: ${email}`))
+        .catch(err => logger.error(`❌ Failed to send welcome email to teacher ${email}`, err));
 
     res.status(201).json({
         status: "success",
@@ -188,24 +198,20 @@ export const sign_student = catchAsync(async (req: Request, res: Response, next:
 
         logger.info(`[ADMIN] Student created: ${email}, ID: ${newUser.id}`);
 
-        // Try to send emails immediately after creation
-        try {
-            await emailService.sendWelcomeEmail(email, name, tempPassword);
-            await emailService.sendVerificationEmail(email, name, verificationToken);
-            emailSent = true;
-            logger.info(`✅ Welcome and verification emails sent to ${email}`);
-        } catch (emailError) {
-            logger.error('Failed to send emails', { error: emailError, email });
-            // Email failed but user is created - this is acceptable
-            // User can request resend verification email later
-        }
+        logger.info(`[ADMIN] Student created: ${email}, ID: ${newUser.id}`);
+
+        // ✅ Background the email sending to avoid blocking the response
+        emailService.sendWelcomeEmail(email, name, tempPassword)
+            .then(() => logger.info(`✅ Welcome email sent to ${email}`))
+            .catch(err => logger.error(`❌ Failed to send welcome email to ${email}`, err));
+
+        emailService.sendVerificationEmail(email, name, verificationToken)
+            .then(() => logger.info(`✅ Verification email sent to ${email}`))
+            .catch(err => logger.error(`❌ Failed to send verification email to ${email}`, err));
 
         res.status(201).json({
             status: "success",
-            message: emailSent
-                ? "Student created successfully. Welcome email sent."
-                : "Student created successfully. Email sending failed - please use 'Resend Verification' option.",
-            emailSent, // ✅ Frontend knows if email was sent
+            message: "Student created successfully. Emails are being sent in the background.",
             user: {
                 id: newUser.id.toString(),
                 name: newUser.name,
@@ -326,6 +332,11 @@ export const reset_student_password = catchAsync(async (req: Request, res: Respo
     });
 
     logger.info(`[ADMIN] Password reset for student: ${user.email}`);
+
+    // ✅ Send new temporary password in background
+    emailService.sendTempPasswordEmail(user.email, user.name, tempPassword, false)
+        .then(() => logger.info(`✅ Reset password email sent to student: ${user.email}`))
+        .catch(err => logger.error(`❌ Failed to send reset password email to student ${user.email}`, err));
 
     res.status(200).json({
         status: "success",

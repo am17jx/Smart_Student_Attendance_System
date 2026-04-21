@@ -147,6 +147,57 @@ class EmailService {
   }
 
   /**
+   * Send temporary password notification
+   */
+  async sendTempPasswordEmail(email: string, name: string, temporaryPassword: string, isNewAccount: boolean = false): Promise<void> {
+    const html = `
+      <!DOCTYPE html>
+      <html dir="rtl" lang="ar">
+      <head>
+        <meta charset="UTF-8">
+        <style>
+          body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f4f4; padding: 20px; }
+          .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+          .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 10px 10px 0 0; text-align: center; }
+          .content { padding: 20px; line-height: 1.8; }
+          .password-box { background: #f8f9fa; border-right: 4px solid #667eea; padding: 15px; margin: 20px 0; font-family: monospace; font-size: 18px; text-align: center; }
+          .button { display: inline-block; background: #667eea; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; margin: 20px 0; }
+          .footer { text-align: center; color: #666; font-size: 12px; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <h1>${isNewAccount ? '🎉 مرحباً بك في نظامنا' : '🔐 تحديث كلمة المرور'}</h1>
+          </div>
+          <div class="content">
+            <h2>مرحباً ${name}،</h2>
+            <p>${isNewAccount ? 'تم إنشاء حسابك بنجاح. يمكنك الآن تسجيل الدخول باستخدام البيانات التالية:' : 'تم تعيين كلمة مرور مؤقتة جديدة لحسابك بناءً على طلب المسؤول:'}</p>
+            
+            <div class="password-box">
+              <strong>كلمة المرور:</strong> ${temporaryPassword}
+            </div>
+            
+            <p style="color: #d9534f; font-weight: bold;">⚠️ يرجى تغيير كلمة المرور فور تسجيل الدخول للحفاظ على أمان حسابك.</p>
+            
+            <a href="${process.env.FRONTEND_URL || 'http://localhost:3001'}/login" class="button">تسجيل الدخول</a>
+          </div>
+          <div class="footer">
+            <p>نظام الحضور والغياب الذكي</p>
+          </div>
+        </div>
+      </body>
+      </html>
+    `;
+
+    await this.sendEmail({
+      to: email,
+      subject: isNewAccount ? '🎉 بيانات حسابك الجديد' : '🔐 إشعار تعيين كلمة مرور جديدة',
+      html,
+    });
+  }
+
+  /**
    * Send password reset email
    */
   async sendPasswordResetEmail(studentEmail: string, studentName: string, resetToken: string): Promise<void> {
