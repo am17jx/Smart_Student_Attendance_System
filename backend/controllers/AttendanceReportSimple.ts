@@ -103,316 +103,213 @@ export const generateSimpleAttendanceReport = catchAsync(
 
         body {
             font-family: 'Cairo', sans-serif;
-            background: #f0f2f5;
-            padding: 30px;
-            color: #1a1a2e;
-        }
-
-        .page-wrapper {
-            max-width: 900px;
-            margin: 0 auto;
             background: #fff;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+            padding: 50px 60px;
+            color: #222;
+            direction: rtl;
         }
 
         /* ===== HEADER ===== */
         .header {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
-            color: #fff;
-            padding: 36px 40px 28px;
             text-align: center;
+            margin-bottom: 30px;
         }
-
-        .header-logo {
-            font-size: 13px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: #a0c4ff;
-            margin-bottom: 8px;
-        }
-
         .header h1 {
-            font-size: 32px;
+            font-size: 30px;
             font-weight: 800;
-            margin-bottom: 4px;
+            color: #111;
+            margin-bottom: 14px;
         }
-
-        .header-sub {
-            font-size: 13px;
-            color: #c9d6df;
+        .header-line {
+            border: none;
+            border-top: 2px solid #222;
+            margin: 0;
         }
 
         /* ===== INFO SECTION ===== */
         .info-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0;
-            border-bottom: 1px solid #e8eaf0;
+            margin: 28px 0;
         }
-
-        .info-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 14px 24px;
-            border-bottom: 1px solid #f0f2f5;
-            border-left: 1px solid #f0f2f5;
+        .info-row {
+            margin-bottom: 10px;
+            font-size: 15px;
         }
-
-        .info-item:nth-child(odd) { border-left: none; }
-
-        .info-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            background: #eef2ff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            flex-shrink: 0;
-        }
-
         .info-label {
-            font-size: 11px;
-            color: #888;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .info-value {
-            font-size: 14px;
             font-weight: 700;
-            color: #1a1a2e;
+            color: #333;
+            margin-left: 8px;
+        }
+        .info-value {
+            color: #444;
         }
 
         /* ===== STATS ===== */
-        .stats-section {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0;
-            background: #f8f9ff;
-            border-bottom: 2px solid #e8eaf0;
+        .stats-wrapper {
+            margin: 24px 0;
         }
-
-        .stat-card {
-            text-align: center;
-            padding: 20px;
-            border-left: 1px solid #e8eaf0;
+        .stats-table {
+            width: auto;
+            border-collapse: separate;
+            border-spacing: 10px 0;
+            margin: 0 auto;
         }
-
-        .stat-card:last-child { border-left: none; }
-
-        .stat-number {
-            font-size: 40px;
-            font-weight: 800;
-            line-height: 1;
-        }
-
-        .stat-label {
-            font-size: 13px;
-            font-weight: 600;
-            margin-top: 4px;
-        }
-
-        .stat-present .stat-number { color: #16a34a; }
-        .stat-present .stat-label  { color: #15803d; }
-
-        .stat-absent  .stat-number { color: #dc2626; }
-        .stat-absent  .stat-label  { color: #b91c1c; }
-
-        .stat-total   .stat-number { color: #2563eb; }
-        .stat-total   .stat-label  { color: #1d4ed8; }
-
-        /* ===== TABLE ===== */
-        .table-wrapper { padding: 24px 28px; }
-
-        .table-title {
+        .stats-table td {
+            padding: 8px 28px;
+            border-radius: 8px;
             font-size: 15px;
             font-weight: 700;
-            color: #1a1a2e;
-            margin-bottom: 14px;
-            padding-right: 10px;
-            border-right: 4px solid #0f3460;
+            text-align: center;
+            white-space: nowrap;
         }
+        .stat-present { background: #d4edda; color: #1a7a3a; }
+        .stat-absent  { background: #f8d7da; color: #a01c2a; }
+        .stat-total   { background: #e2e3e5; color: #333; }
 
-        table {
+        /* ===== MAIN TABLE ===== */
+        .main-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 13.5px;
+            font-size: 14px;
+            margin-top: 24px;
         }
-
-        thead tr {
-            background: #1a1a2e;
-            color: #fff;
+        .main-table thead tr {
+            border-top: 2px solid #bbb;
+            border-bottom: 2px solid #bbb;
         }
-
-        thead th {
+        .main-table thead th {
             padding: 12px 14px;
             text-align: right;
-            font-weight: 600;
-            font-size: 13px;
+            font-weight: 700;
+            font-size: 14px;
+            color: #111;
+            background: #fff;
         }
-
-        tbody tr {
-            border-bottom: 1px solid #f0f2f5;
-            transition: background 0.15s;
+        .main-table tbody tr {
+            border-bottom: 1px solid #e5e5e5;
         }
-
-        tbody tr:hover { background: #f8f9ff; }
-        tbody tr:last-child { border-bottom: none; }
-
-        tbody td {
-            padding: 11px 14px;
+        .main-table tbody td {
+            padding: 12px 14px;
             color: #333;
+            font-size: 14px;
+            vertical-align: middle;
         }
 
-        .td-index { color: #888; font-size: 12px; text-align: center; width: 40px; }
-        .td-id    { font-family: monospace; font-size: 12.5px; color: #555; }
+        .td-index { text-align: center; color: #555; }
+        .td-id { font-size: 13px; color: #444; }
+        .td-time { text-align: center; color: #555; font-size: 13px; }
+        .td-status { text-align: center; }
 
         .badge {
             display: inline-block;
-            padding: 3px 12px;
-            border-radius: 20px;
-            font-size: 12px;
+            padding: 3px 16px;
+            border-radius: 6px;
+            font-size: 13px;
             font-weight: 700;
         }
-
-        .badge-present { background: #dcfce7; color: #15803d; }
-        .badge-absent  { background: #fee2e2; color: #b91c1c; }
-
-        .time-cell { font-size: 12px; color: #666; direction: ltr; text-align: center; }
+        .badge-present { background: #d4edda; color: #1a7a3a; }
+        .badge-absent  { background: #f8d7da; color: #a01c2a; }
 
         /* ===== FOOTER ===== */
         .footer {
-            background: #f8f9ff;
-            border-top: 1px solid #e8eaf0;
-            padding: 14px 28px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 11.5px;
+            margin-top: 30px;
+            text-align: center;
+            font-size: 12px;
             color: #888;
+            line-height: 1.8;
         }
-
-        .footer strong { color: #555; }
     </style>
 </head>
 <body>
-<div class="page-wrapper">
 
     <!-- HEADER -->
     <div class="header">
-        <div class="header-logo">Privacy-Preserving Student Attendance System</div>
-        <h1>📋 تقرير الحضور</h1>
-        <div class="header-sub">Attendance Report — Generated automatically</div>
+        <h1>تقرير الحضور</h1>
+        <hr class="header-line">
     </div>
 
-    <!-- INFO GRID -->
+    <!-- INFO -->
     <div class="info-section">
-        <div class="info-item">
-            <div class="info-icon">📚</div>
-            <div>
-                <div class="info-label">المادة</div>
-                <div class="info-value">${session.material.name}</div>
-            </div>
-        </div>
-        <div class="info-item">
-            <div class="info-icon">🏛️</div>
-            <div>
-                <div class="info-label">القسم</div>
-                <div class="info-value">${session.material.department.name}</div>
-            </div>
-        </div>
-        <div class="info-item">
-            <div class="info-icon">🎓</div>
-            <div>
-                <div class="info-label">المرحلة</div>
-                <div class="info-value">${session.material.stage.name}</div>
-            </div>
-        </div>
-        <div class="info-item">
-            <div class="info-icon">👨‍🏫</div>
-            <div>
-                <div class="info-label">الأستاذ</div>
-                <div class="info-value">${session.teacher.name}</div>
-            </div>
-        </div>
-        <div class="info-item">
-            <div class="info-icon">📅</div>
-            <div>
-                <div class="info-label">التاريخ</div>
-                <div class="info-value">${session.session_date.toLocaleDateString('ar-IQ')}</div>
-            </div>
-        </div>
-        <div class="info-item">
-            <div class="info-icon">🕐</div>
-            <div>
-                <div class="info-label">وقت الإنشاء</div>
-                <div class="info-value">${new Date().toLocaleTimeString('ar-IQ', { hour: '2-digit', minute: '2-digit' })}</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- STATS -->
-    <div class="stats-section">
-        <div class="stat-card stat-present">
-            <div class="stat-number">${presentCount}</div>
-            <div class="stat-label">✅ الحضور</div>
-        </div>
-        <div class="stat-card stat-absent">
-            <div class="stat-number">${absentCount}</div>
-            <div class="stat-label">❌ الغياب</div>
-        </div>
-        <div class="stat-card stat-total">
-            <div class="stat-number">${presentCount + absentCount}</div>
-            <div class="stat-label">👥 المجموع الكلي</div>
-        </div>
-    </div>
-
-    <!-- TABLE -->
-    <div class="table-wrapper">
-        <div class="table-title">كشف الحضور والغياب</div>
-        <table>
-            <thead>
-                <tr>
-                    <th style="width:44px; text-align:center;">ت</th>
-                    <th>الرقم الجامعي</th>
-                    <th>اسم الطالب</th>
-                    <th>القسم</th>
-                    <th style="text-align:center;">الحالة</th>
-                    <th style="text-align:center;">وقت التسجيل</th>
-                </tr>
-            </thead>
-            <tbody>
-                ${studentList.map((s: any) => `
-                <tr>
-                    <td class="td-index">${s.index}</td>
-                    <td class="td-id">${s.student_id}</td>
-                    <td style="font-weight:600;">${s.name}</td>
-                    <td>${s.department}</td>
-                    <td style="text-align:center;">
-                        <span class="badge ${s.statusClass === 'present' ? 'badge-present' : 'badge-absent'}">
-                            ${s.statusClass === 'present' ? '✓' : '✗'} ${s.status}
-                        </span>
-                    </td>
-                    <td class="time-cell">${s.time}</td>
-                </tr>
-                `).join('')}
-            </tbody>
+        <table style="width:100%; border-collapse:collapse;">
+            <tr>
+                <td style="width:50%; padding:5px 0; font-size:15px;">
+                    <span class="info-label">المادة:</span>
+                    <span class="info-value">${session.material.name}</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:5px 0; font-size:15px;">
+                    <span class="info-label">القسم:</span>
+                    <span class="info-value">${session.material.department.name}</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:5px 0; font-size:15px;">
+                    <span class="info-label">المرحلة:</span>
+                    <span class="info-value">${session.material.stage.name}</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:5px 0; font-size:15px;">
+                    <span class="info-label">الأستاذ:</span>
+                    <span class="info-value">${session.teacher.name}</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:5px 0; font-size:15px;">
+                    <span class="info-label">التاريخ:</span>
+                    <span class="info-value">${session.session_date.toLocaleDateString('ar-IQ')}</span>
+                </td>
+            </tr>
         </table>
     </div>
 
-    <!-- FOOTER -->
-    <div class="footer">
-        <span>تم الإنشاء: <strong>${new Date().toLocaleString('ar-IQ')}</strong></span>
-        <span>نسبة الحضور: <strong>${presentCount + absentCount > 0 ? Math.round((presentCount / (presentCount + absentCount)) * 100) : 0}%</strong></span>
+    <!-- STATS -->
+    <div class="stats-wrapper">
+        <table class="stats-table">
+            <tr>
+                <td class="stat-present">الحضور: ${presentCount}</td>
+                <td class="stat-absent">الغياب: ${absentCount}</td>
+                <td class="stat-total">العدد الكلي: ${presentCount + absentCount}</td>
+            </tr>
+        </table>
     </div>
 
-</div>
+    <!-- MAIN TABLE -->
+    <table class="main-table">
+        <thead>
+            <tr>
+                <th style="width:40px;">ت</th>
+                <th>الرقم الجامعي</th>
+                <th>الاسم</th>
+                <th>القسم</th>
+                <th style="width:90px; text-align:center;">الحالة</th>
+                <th style="width:100px; text-align:center;">الوقت</th>
+            </tr>
+        </thead>
+        <tbody>
+            ${studentList.map((s: any) => `
+            <tr>
+                <td class="td-index">${s.index}</td>
+                <td class="td-id">${s.student_id}</td>
+                <td style="font-weight:600;">${s.name}</td>
+                <td>${s.department}</td>
+                <td class="td-status">
+                    <span class="badge ${s.statusClass === 'present' ? 'badge-present' : 'badge-absent'}">
+                        ${s.status}
+                    </span>
+                </td>
+                <td class="td-time">${s.time}</td>
+            </tr>
+            `).join('')}
+        </tbody>
+    </table>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <p>تم إنشاء التقرير في: ${new Date().toLocaleString('ar-IQ')}</p>
+        <p>Privacy-Preserving Student Attendance System</p>
+    </div>
+
 </body>
 </html>
 `;
