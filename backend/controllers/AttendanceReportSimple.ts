@@ -3,6 +3,7 @@ import { prisma } from '../prisma/client';
 import catchAsync from '../utils/catchAsync';
 import AppError from '../utils/AppError';
 import puppeteer from 'puppeteer';
+import { executablePath } from 'puppeteer';
 
 export const generateSimpleAttendanceReport = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
@@ -241,6 +242,7 @@ export const generateSimpleAttendanceReport = catchAsync(
 
         const browser = await puppeteer.launch({
             headless: true,
+            executablePath: executablePath(),
             args: [
                 '--no-sandbox',
                 '--disable-setuid-sandbox',
