@@ -31,24 +31,15 @@ export default function SessionAttendance() {
             setIsDownloading(true);
             const html = await attendanceApi.getReportHtml(id!);
 
-            const container = document.createElement('div');
-            container.innerHTML = html;
-            container.style.position = 'absolute';
-            container.style.left = '-9999px';
-            container.style.top = '0';
-            document.body.appendChild(container);
-
             const opt = {
-                margin: 15,
+                margin: 10,
                 filename: `attendance-report-${id}.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true },
+                html2canvas: { scale: 2, useCORS: true, letterRendering: true },
                 jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
-            await html2pdf().set(opt).from(container).save();
-            
-            document.body.removeChild(container);
+            await html2pdf().set(opt).from(html).save();
         } catch (error) {
             console.error("Failed to download report", error);
             alert(`فشل تحميل التقرير: ${error instanceof Error ? error.message : 'خطأ غير معروف'}`);
