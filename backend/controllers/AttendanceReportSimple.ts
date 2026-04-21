@@ -96,243 +96,154 @@ export const generateSimpleAttendanceReport = catchAsync(
 <html dir="rtl" lang="ar">
 <head>
     <meta charset="UTF-8">
-    <title>تقرير حضور الطلاب</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #2563eb;
-            --success: #16a34a;
-            --danger: #dc2626;
-            --slate-50: #f8fafc;
-            --slate-100: #f1f5f9;
-            --slate-200: #e2e8f0;
-            --slate-700: #334155;
-            --slate-800: #1e293b;
-            --slate-900: #0f172a;
-        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Cairo', sans-serif; 
-            background: #f1f5f9; 
-            padding: 0; 
-            display: flex; 
-            justify-content: center;
-        }
-        .paper {
-            width: 800px;
+        body { background: white; width: 800px; margin: 0; }
+        #report-container {
+            padding: 40px;
+            font-family: 'Cairo', sans-serif;
+            color: #1e293b;
             background: white;
-            min-height: 1120px;
-            padding: 50px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.05);
-            margin: 20px 0;
-            position: relative;
+            width: 800px;
+            direction: rtl;
         }
-        
-        /* Watermark style decoration */
-        .paper::before {
-            content: "";
-            position: absolute;
-            top: 0; right: 0;
-            width: 300px; height: 300px;
-            background: radial-gradient(circle at top right, rgba(37, 99, 235, 0.03), transparent);
-            pointer-events: none;
-        }
-
         .header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            border-bottom: 2px solid var(--slate-200);
-            padding-bottom: 30px;
-            margin-bottom: 40px;
+            align-items: center;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
         }
-        .header-title h1 {
-            font-size: 32px;
-            font-weight: 800;
-            color: var(--slate-900);
-            letter-spacing: -0.5px;
-        }
-        .header-title p {
-            color: var(--slate-700);
-            font-size: 16px;
-            margin-top: 4px;
-        }
-        .system-badge {
-            background: var(--slate-900);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 14px;
-        }
-
+        .header h1 { font-size: 26px; font-weight: 800; color: #0f172a; }
+        
         .info-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-        .info-item {
-            background: var(--slate-50);
-            padding: 16px;
-            border-radius: 12px;
-            border: 1px solid var(--slate-100);
-        }
-        .info-label {
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--slate-700);
-            text-transform: uppercase;
-            margin-bottom: 4px;
-            display: block;
-        }
-        .info-value {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--slate-900);
-        }
-
-        .stats-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
             gap: 15px;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .info-item { font-size: 14px; }
+        .info-label { font-weight: 700; color: #64748b; margin-left: 5px; }
+        .info-value { font-weight: 600; color: #0f172a; }
+
+        .stats {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
         }
         .stat-card {
-            padding: 20px;
-            border-radius: 16px;
+            flex: 1;
+            padding: 15px;
+            border-radius: 10px;
             text-align: center;
-            border: 1px solid transparent;
+            border: 1px solid #e2e8f0;
         }
-        .stat-present { background: #f0fdf4; border-color: #bbf7d0; color: #166534; }
-        .stat-absent { background: #fef2f2; border-color: #fecaca; color: #991b1b; }
-        .stat-total { background: #f8fafc; border-color: #e2e8f0; color: #334155; }
-        .stat-num { font-size: 32px; font-weight: 800; display: block; }
-        .stat-text { font-size: 14px; font-weight: 700; }
+        .stat-present { background: #f0fdf4; color: #166534; }
+        .stat-absent { background: #fef2f2; color: #991b1b; }
+        .stat-num { display: block; font-size: 24px; font-weight: 800; }
+        .stat-label { font-size: 12px; font-weight: 700; }
 
-        .m-table {
+        table {
             width: 100%;
             border-collapse: collapse;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 0 0 1px var(--slate-200);
+            margin-bottom: 30px;
         }
-        .m-table th {
-            background: var(--slate-900);
-            color: white;
-            padding: 14px 16px;
+        th, td {
+            padding: 12px;
             text-align: right;
-            font-weight: 700;
+            border-bottom: 1px solid #e2e8f0;
             font-size: 13px;
         }
-        .m-table td {
-            padding: 14px 16px;
-            border-bottom: 1px solid var(--slate-100);
-            font-size: 14px;
-            color: var(--slate-800);
-            font-weight: 600;
-        }
-        .m-table tr:nth-child(even) { background: var(--slate-50); }
-        .m-table tr:last-child td { border-bottom: none; }
-
+        th { background: #f8fafc; color: #64748b; font-weight: 700; }
+        td { font-weight: 600; }
+        
         .badge {
-            padding: 4px 12px;
-            border-radius: 50px;
-            font-size: 12px;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 11px;
             font-weight: 700;
-            display: inline-block;
         }
         .badge-present { background: #dcfce7; color: #166534; }
         .badge-absent { background: #fee2e2; color: #991b1b; }
 
         .footer {
-            margin-top: auto;
-            padding-top: 40px;
             text-align: center;
-            border-top: 2px solid var(--slate-100);
-        }
-        .footer p {
+            font-size: 11px;
             color: #94a3b8;
-            font-size: 13px;
-            font-weight: 600;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
         }
     </style>
 </head>
 <body>
-    <div class="paper">
-        <header class="header">
-            <div class="header-title">
-                <h1>تقرير الحضور</h1>
-                <p>سجل الحضور الرسمي للجلسة التعليمية</p>
+    <div id="report-container">
+        <div class="header">
+            <div>
+                <h1>تقرير حضور الطلاب</h1>
+                <p style="color: #64748b; font-size: 13px;">${session.material.name} - ${session.session_date.toLocaleDateString('ar-IQ')}</p>
             </div>
-            <div class="system-badge">Smart Attendance</div>
-        </header>
+            <div style="background: #0f172a; color: white; padding: 5px 12px; border-radius: 5px; font-size: 12px; font-weight: 700;">
+                Smart Attendance
+            </div>
+        </div>
 
-        <section class="info-grid">
-            <div class="info-item">
-                <span class="info-label">المـادة الدراسية</span>
-                <span class="info-value">${session.material.name}</span>
-            </div>
-            <div class="info-item">
-                <span class="info-label">المرحلة و القسم</span>
-                <span class="info-value">${session.material.stage.name} - ${session.material.department.name}</span>
-            </div>
-            <div class="info-item">
-                <span class="info-label">الأستاذ المحاضر</span>
-                <span class="info-value">${session.teacher.name}</span>
-            </div>
-            <div class="info-item">
-                <span class="info-label">تاريخ الجلسة</span>
-                <span class="info-value">${session.session_date.toLocaleDateString('ar-IQ')}</span>
-            </div>
-        </section>
+        <div class="info-grid">
+            <div class="info-item"><span class="info-label">القسم:</span><span class="info-value">${session.material.department.name}</span></div>
+            <div class="info-item"><span class="info-label">المرحلة:</span><span class="info-value">${session.material.stage.name}</span></div>
+            <div class="info-item"><span class="info-label">المحاضر:</span><span class="info-value">${session.teacher.name}</span></div>
+            <div class="info-item"><span class="info-label">التاريخ:</span><span class="info-value">${session.session_date.toLocaleDateString('ar-IQ')}</span></div>
+        </div>
 
-        <section class="stats-container">
+        <div class="stats">
             <div class="stat-card stat-present">
                 <span class="stat-num">${presentCount}</span>
-                <span class="stat-text">إجمالي الحضور</span>
+                <span class="stat-label">الحضور</span>
             </div>
             <div class="stat-card stat-absent">
                 <span class="stat-num">${absentCount}</span>
-                <span class="stat-text">إجمالي الغياب</span>
+                <span class="stat-label">الغياب</span>
             </div>
-            <div class="stat-card stat-total">
+            <div class="stat-card">
                 <span class="stat-num">${presentCount + absentCount}</span>
-                <span class="stat-text">العدد الكلي</span>
+                <span class="stat-label">الكلي</span>
             </div>
-        </section>
+        </div>
 
-        <table class="m-table">
+        <table>
             <thead>
                 <tr>
-                    <th style="width: 50px; text-align: center;">#</th>
+                    <th style="width: 40px;">#</th>
                     <th>الاسم الكامل</th>
                     <th>الرقم الجامعي</th>
                     <th style="text-align: center;">الحالة</th>
-                    <th style="text-align: center;">وقت التسجيل</th>
+                    <th style="text-align: center;">الوقت</th>
                 </tr>
             </thead>
             <tbody>
                 ${studentList.map((s: any) => `
                     <tr>
-                        <td style="text-align: center; color: #64748b;">${s.index}</td>
-                        <td style="font-weight: 700;">${s.name}</td>
-                        <td style="font-family: monospace; color: #475569;">${s.student_id}</td>
+                        <td style="color: #94a3b8;">${s.index}</td>
+                        <td>${s.name}</td>
+                        <td style="font-family: monospace; color: #64748b;">${s.student_id}</td>
                         <td style="text-align: center;">
                             <span class="badge badge-${s.statusClass}">
                                 ${s.status}
                             </span>
                         </td>
-                        <td style="text-align: center; color: #64748b;">${s.time}</td>
+                        <td style="text-align: center; color: #94a3b8;">${s.time}</td>
                     </tr>
                 `).join('')}
             </tbody>
         </table>
 
-        <footer class="footer">
+        <div class="footer">
             <p>صدر هذا التقرير تلقائياً بتاريخ: ${new Date().toLocaleString('ar-IQ')}</p>
-            <p style="margin-top: 5px;">نظام إدارة حضور الطلاب الذكي © 2024</p>
-        </footer>
+        </div>
     </div>
 </body>
 </html>

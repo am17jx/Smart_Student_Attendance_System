@@ -31,20 +31,53 @@ export default function SessionAttendance() {
             setIsDownloading(true);
             const html = await attendanceApi.getReportHtml(id!);
 
+            // 1. Create a container that is HIDDEN but exists in DOM to compute layout
+            const container = document.createElement('div');
+            container.id = 'temp-report-container';
+            container.innerHTML = html;
+            
+            // Style to isolate and hide it from the user
+            Object.assign(container.style, {
+                position: 'fixed',
+                top: '0',
+                left: '-9999px',
+                width: '800px',
+                backgroundColor: 'white',
+                zIndex: '-1',
+                direction: 'rtl'
+            });
+            
+            document.body.appendChild(container);
+
+            // 2. Wait for fonts and layout to settle
+            await new Promise(resolve => setTimeout(resolve, 800));
+
             const opt = {
-                margin: 10,
+                margin: 0,
                 filename: `attendance-report-${id}.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { 
                     scale: 2, 
                     useCORS: true, 
                     letterRendering: true,
+                    width: 800,
+                    scrollX: 0,
+                    scrollY: 0,
                     windowWidth: 800
                 },
                 jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
-            await html2pdf().set(opt).from(html).save();
+            // 3. Generate from the specific DOM element
+            const element = document.getElementById('report-container');
+            if (element) {
+                await html2pdf().set(opt).from(element).save();
+            } else {
+                await html2pdf().set(opt).from(container).save();
+            }
+            
+            // 4. Cleanup
+            document.body.removeChild(container);
         } catch (error) {
             console.error("Failed to download report", error);
             alert(`فشل تحميل التقرير: ${error instanceof Error ? error.message : 'خطأ غير معروف'}`);
