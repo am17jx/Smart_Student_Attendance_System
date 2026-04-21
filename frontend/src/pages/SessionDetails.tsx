@@ -12,6 +12,8 @@ import { sessionsApi, attendanceApi, AttendanceRecord } from "@/lib/api";
 import { format } from "date-fns";
 import { ar } from "date-fns/locale";
 import { useAuth } from "@/contexts/AuthContext";
+// @ts-ignore
+import html2pdf from 'html2pdf.js';
 
 export default function SessionDetails() {
     const { id } = useParams<{ id: string }>();
@@ -262,20 +264,27 @@ export default function SessionDetails() {
                                         onClick={async () => {
                                             setIsDownloadingReport(true);
                                             try {
-                                                const blob = await attendanceApi.getReport(id!);
+                                                const html = await attendanceApi.getReportHtml(id!);
                                                 
-                                                if (!blob || blob.size === 0) {
-                                                    throw new Error('الملف المُحمل فارغ');
-                                                }
+                                                // Create a hidden container for the HTML
+                                                const container = document.createElement('div');
+                                                container.innerHTML = html;
+                                                container.style.position = 'absolute';
+                                                container.style.left = '-9999px';
+                                                container.style.top = '0';
+                                                document.body.appendChild(container);
 
-                                                const url = window.URL.createObjectURL(blob);
-                                                const link = document.createElement('a');
-                                                link.href = url;
-                                                link.setAttribute('download', `attendance-report-${id}.pdf`);
-                                                document.body.appendChild(link);
-                                                link.click();
-                                                link.remove();
-                                                window.URL.revokeObjectURL(url);
+                                                const opt = {
+                                                    margin: 15,
+                                                    filename: `attendance-report-${id}.pdf`,
+                                                    image: { type: 'jpeg', quality: 0.98 },
+                                                    html2canvas: { scale: 2, useCORS: true },
+                                                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                                                };
+
+                                                await html2pdf().set(opt).from(container).save();
+                                                
+                                                document.body.removeChild(container);
                                             } catch (error) {
                                                 console.error('❌ [UI] Failed to download report:', error);
                                                 alert(`فشل تحميل التقرير: ${error instanceof Error ? error.message : 'خطأ غير معروف'}`);

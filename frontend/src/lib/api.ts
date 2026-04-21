@@ -424,6 +424,13 @@ export const attendanceApi = {
   getReport: (sessionId: string) =>
     apiBlobRequest(`/attendance/report/${sessionId}`),
 
+  getReportHtml: async (sessionId: string) => {
+    const headers = { Authorization: `Bearer ${getAuthToken()}` };
+    const response = await fetch(`${API_BASE_URL}/attendance/report/${sessionId}`, { headers });
+    if (!response.ok) throw new Error('فشل تحميل التقرير');
+    return response.text();
+  },
+
   // For teachers - get attendance statistics
   getTeacherStats: () => apiRequest<{
     totalSessions: number;
