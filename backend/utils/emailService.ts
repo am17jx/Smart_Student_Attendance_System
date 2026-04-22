@@ -56,8 +56,8 @@ class EmailService {
       // Gmail with App Password (Simple but less secure)
       return nodemailer.createTransport({
         host: 'smtp.gmail.com',
-        port: 465,
-        secure: true,
+        port: 587, // Switching to 587 since 465 is blocked
+        secure: false, // true for 465, false for other ports (uses STARTTLS)
         auth: {
           user: process.env.EMAIL_FROM,
           pass: process.env.EMAIL_PASSWORD,
