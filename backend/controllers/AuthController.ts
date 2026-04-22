@@ -345,16 +345,15 @@ export const changeMyPassword = catchAsync(async (req: Request, res: Response, n
         const user = await prisma.teacher.findUnique({ where: { id: userId } });
         if (!user) throw new AppError("User not found", 404);
 
-        if (!user.must_change_password) {
-            if (!oldPassword) throw new AppError("Current password is required", 400);
-            const valid = await bcrypt.compare(oldPassword, user.password);
-            if (!valid) throw new AppError("Current password is incorrect", 401);
-        }
+        // Teachers always need to provide old password
+        if (!oldPassword) throw new AppError("Current password is required", 400);
+        const valid = await bcrypt.compare(oldPassword, user.password);
+        if (!valid) throw new AppError("Current password is incorrect", 401);
 
         const hashed = await bcrypt.hash(newPassword, 10);
         await prisma.teacher.update({
             where: { id: userId },
-            data: { password: hashed, must_change_password: false },
+            data: { password: hashed },
         });
     } else {
         throw new AppError("Not allowed for this role", 403);
