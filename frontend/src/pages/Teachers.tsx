@@ -298,7 +298,12 @@ export default function Teachers() {
                   {!editingTeacher && (
                     <div className="space-y-2">
                       <Label>كلمة المرور</Label>
-                      <Input name="password" type="password" required dir="ltr" />
+                      <Input 
+                        name="password" 
+                        type="password" 
+                        placeholder="اتركه فارغاً للتوليد التلقائي" 
+                        dir="ltr" 
+                      />
                     </div>
                   )}
 

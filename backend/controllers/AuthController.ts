@@ -169,14 +169,14 @@ export const updateAdmin = catchAsync(async (req: Request, res: Response, next: 
 
 //teacher signed by admin
 export const Teacher_sign = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const { name, email, departmentId } = req.body;
+    const { name, email, departmentId, password } = req.body;
 
     if (!name) {
         throw new AppError("Name is required", 400);
     }
 
-    // ✅ توليد password موقت
-    const tempPassword = generateTempPassword();
+    // ✅ Generate or use provided password
+    const finalPassword = password || generateTempPassword();
 
     const checkemail = await prisma.teacher.findUnique({ where: { email } });
     if (checkemail) {
@@ -193,7 +193,7 @@ export const Teacher_sign = catchAsync(async (req: Request, res: Response, next:
         }
     }
 
-    const hashedPassword = await bcrypt.hash(tempPassword, 10);
+    const hashedPassword = await bcrypt.hash(finalPassword, 10);
 
     const newUser = await prisma.teacher.create({
         data: {
@@ -206,8 +206,8 @@ export const Teacher_sign = catchAsync(async (req: Request, res: Response, next:
 
     logger.info(`[ADMIN] Teacher created: ${email}, ID: ${newUser.id}`);
 
-    // ✅ Send temporary password in background
-    emailService.sendTempPasswordEmail(email, name, tempPassword, true)
+    // ✅ Send temporary/initial password in background
+    emailService.sendTempPasswordEmail(email, name, finalPassword, true)
         .then(() => logger.info(`✅ Welcome email sent to teacher: ${email}`))
         .catch(err => logger.error(`❌ Failed to send welcome email to teacher ${email}`, err));
 
