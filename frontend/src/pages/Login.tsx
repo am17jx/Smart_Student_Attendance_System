@@ -36,7 +36,7 @@ export default function Login() {
           variant: "default",
           duration: 6000,
         });
-        navigate("/change-password");
+        navigate("/change-password", { state: { forced: true } });
         return;
       }
 
