@@ -34,7 +34,5 @@ const ProtectedRoute = ({ children, allowedRoles, deanOnly }: ProtectedRouteProp
     return <>{children}</>;
 };
 
-    return <>{children}</>;
-};
 
 export default ProtectedRoute;
