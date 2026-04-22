@@ -114,6 +114,33 @@ export const getAllAdmins = catchAsync(async (req: Request, res: Response, next:
     });
 });
 
+// Delete an admin
+export const deleteAdmin = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+
+    const admin = await prisma.admin.findUnique({
+        where: { id: BigInt(id as string) }
+    });
+
+    if (!admin) {
+        throw new AppError("Admin not found", 404);
+    }
+
+    // Optional: Prevent deleting self
+    if (req.user && req.user.id === admin.id) {
+        throw new AppError("You cannot delete your own account", 400);
+    }
+
+    await prisma.admin.delete({
+        where: { id: BigInt(id as string) }
+    });
+
+    res.status(200).json({
+        status: "success",
+        message: "Admin deleted successfully"
+    });
+});
+
 
 // Update an existing admin
 export const updateAdmin = catchAsync(async (req: Request, res: Response, next: NextFunction) => {

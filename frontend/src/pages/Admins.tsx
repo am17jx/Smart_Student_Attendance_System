@@ -26,7 +26,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ShieldCheck, Plus, UserPlus, MoreHorizontal, Pencil } from "lucide-react";
+import { ShieldCheck, Plus, UserPlus, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { adminApi, departmentsApi, Admin } from "@/lib/api";
@@ -77,6 +77,17 @@ export default function Admins() {
     },
     onError: (error: Error) => {
       toast({ title: "فشل تحديث الحساب", description: error.message, variant: "destructive" });
+    }
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: (id: string) => adminApi.deleteAdmin(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admins'] });
+      toast({ title: "تم حذف الحساب بنجاح" });
+    },
+    onError: (error: Error) => {
+      toast({ title: "فشل حذف الحساب", description: error.message, variant: "destructive" });
     }
   });
 
@@ -135,6 +146,17 @@ export default function Admins() {
             <DropdownMenuItem onClick={() => handleEdit(admin)}>
               <Pencil className="h-4 w-4 ms-2" />
               تعديل البيانات
+            </DropdownMenuItem>
+            <DropdownMenuItem 
+              className="text-destructive" 
+              onClick={() => {
+                if (confirm("هل أنت متأكد من حذف هذا الحساب؟ لا يمكن التراجع عن هذا الإجراء.")) {
+                  deleteMutation.mutate(admin.id);
+                }
+              }}
+            >
+              <Trash2 className="h-4 w-4 ms-2" />
+              حذف
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

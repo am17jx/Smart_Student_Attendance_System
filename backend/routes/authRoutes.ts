@@ -10,6 +10,7 @@ import {
     changeMyPassword,
     getAllAdmins,
     updateAdmin,
+    deleteAdmin,
     forgotPassword,
     resetPassword,
     verifyEmail,
@@ -18,7 +19,7 @@ import {
     getProfile
 } from "../controllers/AuthController";
 import { validateRequest } from "../middleware/validateRequest";
-import { adminAuthMiddleware, authMiddleware } from "../middleware/authMiddleware";
+import { adminAuthMiddleware, authMiddleware, deanAuthMiddleware } from "../middleware/authMiddleware";
 import { authLimiter } from "../middleware/rateLimiter";
 
 const router = express.Router();
@@ -37,6 +38,7 @@ router.get("/profile", authMiddleware, getProfile);
 // Manage Admins (Dean-only)
 router.get("/admins", adminAuthMiddleware, deanAuthMiddleware, getAllAdmins);
 router.put("/admins/:id", adminAuthMiddleware, deanAuthMiddleware, updateAdmin);
+router.delete("/admins/:id", adminAuthMiddleware, deanAuthMiddleware, deleteAdmin);
 router.post("/admin/create",
     adminAuthMiddleware,
     deanAuthMiddleware,

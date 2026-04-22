@@ -19,13 +19,10 @@ const ProtectedRoute = ({ children, allowedRoles, deanOnly }: ProtectedRouteProp
         return <Navigate to="/login" state={{ from: location }} replace />;
     }
 
-    // Check Roles
     if (allowedRoles && !allowedRoles.includes(user.role)) {
         return <Navigate to={`/dashboard/${user.role}`} replace />;
     }
 
-    // Check Dean Only status
-    // In our system, a Dean is an Admin with department_id set to null/undefined
     if (deanOnly && user.role === 'admin' && (user as any).department_id) {
         console.warn('[ProtectedRoute] Access denied: Dean only route');
         return <Navigate to="/dashboard/admin" replace />;

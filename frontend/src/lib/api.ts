@@ -389,6 +389,9 @@ export const adminApi = {
       method: 'PUT',
       body: JSON.stringify(data),
     }),
+
+  deleteAdmin: (id: string) =>
+    apiRequest(`/auth/admins/${id}`, { method: 'DELETE' }),
 };
 
 // Dashboard API
