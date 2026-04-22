@@ -39,7 +39,7 @@ const adminMenuItems = [
   { title: "المعلمين", url: "/teachers", icon: Users },
   { title: "الطلاب", url: "/students", icon: GraduationCap },
   { title: "المواد", url: "/materials", icon: BookOpen },
-  { title: "الأقسام", url: "/departments", icon: Building2 },
+  { title: "الأقسام", url: "/departments", icon: Building2, deanOnly: true },
   { title: "المراحل", url: "/stages", icon: Layers },
   { title: "الجلسات", url: "/sessions", icon: Calendar },
   { title: "المواقع الجغرافية", url: "/geofences", icon: MapPin },

@@ -117,11 +117,13 @@ function AdminDashboard() {
           icon={Users}
           trend={2}
         />
-        <StatCard
-          title="الأقسام"
-          value={stats?.departments || 0}
-          icon={Building2}
-        />
+        {!user?.department_id && (
+          <StatCard
+            title="الأقسام"
+            value={stats?.departments || 0}
+            icon={Building2}
+          />
+        )}
         <StatCard
           title="المواد الدراسية"
           value={stats?.materials || 0}

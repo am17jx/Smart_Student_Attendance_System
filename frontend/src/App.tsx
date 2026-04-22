@@ -99,7 +99,7 @@ const App = () => (
               <Route path="/teachers" element={<ProtectedRoute allowedRoles={['admin']}><Teachers /></ProtectedRoute>} />
               <Route path="/students" element={<ProtectedRoute allowedRoles={['admin']}><Students /></ProtectedRoute>} />
               <Route path="/materials" element={<ProtectedRoute allowedRoles={['admin']}><Materials /></ProtectedRoute>} />
-              <Route path="/departments" element={<ProtectedRoute allowedRoles={['admin']}><Departments /></ProtectedRoute>} />
+              <Route path="/departments" element={<ProtectedRoute allowedRoles={['admin']} deanOnly><Departments /></ProtectedRoute>} />
               <Route path="/stages" element={<ProtectedRoute allowedRoles={['admin']}><Stages /></ProtectedRoute>} />
               <Route path="/sessions" element={<ProtectedRoute allowedRoles={['admin']}><Sessions /></ProtectedRoute>} />
               <Route path="/sessions/:id" element={<ProtectedRoute allowedRoles={['admin']}><SessionDetails /></ProtectedRoute>} />
