@@ -1,5 +1,3 @@
-import nodemailer from 'nodemailer';
-import { google } from 'googleapis';
 import logger from './logger';
 
 interface EmailOptions {
@@ -10,88 +8,45 @@ interface EmailOptions {
 }
 
 class EmailService {
-  private transporter: nodemailer.Transporter | null = null;
 
   /**
-   * Initialize email transporter based on environment
-   */
-  private async createTransporter() {
-    if (process.env.EMAIL_SERVICE === 'gmail-oauth') {
-      // Gmail with OAuth2 (More Secure)
-      const OAuth2 = google.auth.OAuth2;
-      const oauth2Client = new OAuth2(
-        process.env.GMAIL_CLIENT_ID,
-        process.env.GMAIL_CLIENT_SECRET,
-        'https://developers.google.com/oauthplayground'
-      );
-
-      oauth2Client.setCredentials({
-        refresh_token: process.env.GMAIL_REFRESH_TOKEN,
-      });
-
-      const accessToken = await oauth2Client.getAccessToken();
-
-      return nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          type: 'OAuth2',
-          user: process.env.EMAIL_FROM,
-          clientId: process.env.GMAIL_CLIENT_ID,
-          clientSecret: process.env.GMAIL_CLIENT_SECRET,
-          refreshToken: process.env.GMAIL_REFRESH_TOKEN,
-          accessToken: accessToken.token || '',
-        },
-      });
-    } else if (process.env.EMAIL_SERVICE === 'sendgrid') {
-      // SendGrid
-      return nodemailer.createTransport({
-        host: 'smtp.sendgrid.net',
-        port: 587,
-        auth: {
-          user: 'apikey',
-          pass: process.env.SENDGRID_API_KEY,
-        },
-      });
-    } else {
-      // Gmail with App Password (Simple but less secure)
-      return nodemailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: 587, // Switching to 587 since 465 is blocked
-        secure: false, // true for 465, false for other ports (uses STARTTLS)
-        auth: {
-          user: process.env.EMAIL_FROM,
-          pass: process.env.EMAIL_PASSWORD,
-        },
-        connectionTimeout: 10000, // 10 seconds timeout
-        greetingTimeout: 10000,
-        socketTimeout: 10000,
-      });
-    }
-  }
-
-  /**
-   * Send email
+   * Send email via Brevo REST API (port 443 - never blocked by cloud providers)
    */
   async sendEmail(options: EmailOptions): Promise<void> {
-    try {
-      if (!this.transporter) {
-        this.transporter = await this.createTransporter();
-      }
+    const apiKey = process.env.BREVO_API_KEY;
 
-      const mailOptions = {
-        from: `"${process.env.EMAIL_FROM_NAME || 'نظام الحضور'}" <${process.env.EMAIL_FROM}>`,
-        to: options.to,
-        subject: options.subject,
-        html: options.html,
-        text: options.text || options.html.replace(/<[^>]*>/g, ''),
-      };
+    if (!apiKey) {
+      logger.error('BREVO_API_KEY is not set in environment variables');
+      throw new Error('Email service not configured');
+    }
 
-      await this.transporter.sendMail(mailOptions);
-      logger.info(`Email sent to ${options.to}`);
-    } catch (error) {
-      logger.error('Email sending failed', { error, to: options.to });
+    const payload = {
+      sender: {
+        name: process.env.EMAIL_FROM_NAME || 'نظام الحضور الإلكتروني',
+        email: process.env.EMAIL_FROM || 'ameerahmed0780@gmail.com',
+      },
+      to: [{ email: options.to }],
+      subject: options.subject,
+      htmlContent: options.html,
+    };
+
+    const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: {
+        'accept': 'application/json',
+        'api-key': apiKey,
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      const errorBody = await response.text();
+      logger.error(`Brevo API error: ${response.status} - ${errorBody}`);
       throw new Error('Failed to send email');
     }
+
+    logger.info(`✅ Email sent to ${options.to} via Brevo API`);
   }
 
   /**
