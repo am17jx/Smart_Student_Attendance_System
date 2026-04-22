@@ -365,8 +365,8 @@ export const changeMyPassword = catchAsync(async (req: Request, res: Response, n
         status: "success",
         message: "Password changed successfully",
     });
-})
 });
+
 
 export const reset_student_password = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { studentId } = req.params;
@@ -556,8 +556,8 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
             new Date(),
             ipAddress
         )
-        .then(() => logger.info(`✅ Login notification sent to ${student.email}`))
-        .catch((error) => logger.error('Failed to send login notification', { error, email: student.email }));
+            .then(() => logger.info(`✅ Login notification sent to ${student.email}`))
+            .catch((error) => logger.error('Failed to send login notification', { error, email: student.email }));
 
         return res.status(200).json({
             status: "success",
