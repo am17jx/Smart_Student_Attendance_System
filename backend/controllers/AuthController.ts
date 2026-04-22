@@ -127,7 +127,7 @@ export const deleteAdmin = catchAsync(async (req: Request, res: Response, next: 
     }
 
     // Optional: Prevent deleting self
-    if (req.user && req.user.id === admin.id) {
+    if (req.user && req.user.id === admin.id.toString()) {
         throw new AppError("You cannot delete your own account", 400);
     }
 
