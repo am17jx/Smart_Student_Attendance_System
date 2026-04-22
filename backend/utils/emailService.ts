@@ -55,11 +55,16 @@ class EmailService {
     } else {
       // Gmail with App Password (Simple but less secure)
       return nodemailer.createTransport({
-        service: 'gmail',
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true,
         auth: {
           user: process.env.EMAIL_FROM,
           pass: process.env.EMAIL_PASSWORD,
         },
+        connectionTimeout: 10000, // 10 seconds timeout
+        greetingTimeout: 10000,
+        socketTimeout: 10000,
       });
     }
   }
