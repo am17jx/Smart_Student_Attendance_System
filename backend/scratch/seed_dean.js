@@ -1,8 +1,10 @@
 const { PrismaClient } = require('@prisma/client');
 const bcrypt = require('bcryptjs');
 
-// Override database URL for local execution
-process.env.DATABASE_URL = "postgresql://postgres:ameer@localhost:5432/attendance_system";
+// Use the environment variable if available (for Coolify/Docker), otherwise fallback to local
+if (!process.env.DATABASE_URL) {
+  process.env.DATABASE_URL = "postgresql://postgres:ameer@localhost:5432/attendance_system";
+}
 
 const prisma = new PrismaClient();
 

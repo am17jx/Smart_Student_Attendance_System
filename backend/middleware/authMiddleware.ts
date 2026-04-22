@@ -119,6 +119,21 @@ export const adminAuthMiddleware = catchAsync(async (req: Request, res: Response
     }
 });
 
+export const deanAuthMiddleware = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    // Check if the admin is a Dean (department_id is null)
+    // We expect adminAuthMiddleware to have run already, or we can just check req.user if it's there
+    if (!req.user || req.user.role !== 'admin') {
+        throw new AppError("Access denied: Admin role required", 403);
+    }
+
+    // In our system, a Dean is an Admin with department_id set to null
+    if ((req.user as any).department_id !== null) {
+        throw new AppError("Access denied: Dean privileges required", 403);
+    }
+
+    next();
+});
+
 
 export const teacherAuthMiddleware = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers.authorization?.split(" ")[1];

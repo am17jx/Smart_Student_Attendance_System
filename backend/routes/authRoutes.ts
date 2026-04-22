@@ -34,11 +34,12 @@ router.post("/logout", logout);
 router.get("/profile", authMiddleware, getProfile);
 
 
-// Create Admin (Admin-only) - No rate limiting
-router.get("/admins", adminAuthMiddleware, getAllAdmins);
-router.put("/admins/:id", adminAuthMiddleware, updateAdmin);
+// Manage Admins (Dean-only)
+router.get("/admins", adminAuthMiddleware, deanAuthMiddleware, getAllAdmins);
+router.put("/admins/:id", adminAuthMiddleware, deanAuthMiddleware, updateAdmin);
 router.post("/admin/create",
-    adminAuthMiddleware,  // Only admins can create other admins
+    adminAuthMiddleware,
+    deanAuthMiddleware,
     validateRequest,
     createAdmin
 );

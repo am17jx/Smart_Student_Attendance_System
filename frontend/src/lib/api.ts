@@ -348,27 +348,17 @@ export const authApi = {
     }),
 
   changePassword: (studentId: string, oldPassword: string, newPassword: string) =>
-    apiRequest(`/auth/student/change-password/${studentId}`, { // Adjusted path based on typical REST patterns or backend request
-      method: 'POST', // Backend often uses POST or PUT. Detailed controller showed `change_student_password` with params.
-      // Controller: router.post('/student/change-password/:studentId', ...) 
-      // I need to verify the route path from the user's provided backend snippet or assume standard.
-      // The user snippet showed `change_student_password` but didn't explicitly show the router path.
-      // However, usually it's /auth/change-password or similar.
-      // Let's assume a path based on function name or context.
-      // User snippet: `export const change_student_password = ...`
-      // I will assume the route is `/auth/student/change-password/:studentId` for now.
+    apiRequest(`/auth/student/change-password/${studentId}`, {
+      method: 'POST',
       body: JSON.stringify({ oldPassword, newPassword }),
     }),
 
-  // Admin/Teacher change password might be different, but for now implementing what was asked for student flow mainly.
-  // Adding generic or student specific.
   changeStudentPassword: (studentId: string, oldPassword: string, newPassword: string) =>
     apiRequest(`/auth/student/change-password/${studentId}`, {
       method: 'POST',
       body: JSON.stringify({ oldPassword, newPassword }),
     }),
 
-  // ✅ New: Change own password using JWT identity (no ID in URL)
   changeMyPassword: (newPassword: string, oldPassword?: string) =>
     apiRequest('/auth/change-my-password', {
       method: 'POST',
