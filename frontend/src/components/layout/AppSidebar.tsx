@@ -93,7 +93,7 @@ export function AppSidebar() {
   const getRoleLabel = () => {
     switch (user?.role) {
       case 'admin':
-        return 'مدير النظام';
+        return user.department_id ? 'رئيس قسم' : 'عميد الكلية';
       case 'teacher':
         return 'معلم';
       case 'student':
