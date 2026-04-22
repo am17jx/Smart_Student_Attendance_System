@@ -31,7 +31,8 @@ export default function PromotionConfig() {
         queryFn: async () => {
             if (!departmentId) return null;
             const response = await promotionApi.getConfig(departmentId);
-            return response.data;
+            // Extract the actual data object if it's nested under 'data'
+            return response.data?.data || response.data;
         },
         enabled: !!departmentId,
     });
@@ -102,7 +103,8 @@ export default function PromotionConfig() {
 
     if (isLoading) return <LoadingSpinner />;
 
-    const currentConfig = config || {
+    // Handle both potential structures (nested in .data or flat)
+    const currentConfig = ((config as any)?.data || config) || {
         maxCarrySubjects: 2,
         failThresholdForRepeat: 3,
         disableCarryForFinalYear: false,

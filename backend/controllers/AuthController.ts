@@ -6,7 +6,7 @@ import bcrypt from "bcryptjs";
 import dotenv from "dotenv";
 import { prisma } from "../prisma/client";
 import { validationResult } from "express-validator";
-import crypto from "crypto";
+import crypto from "node:crypto";
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/AppError";
 import { logFailedAttemptUtil } from "../utils/FailedAttemptUtill";
@@ -217,8 +217,6 @@ export const sign_student = catchAsync(async (req: Request, res: Response, next:
             },
         });
     } catch (error) {
-        // If any error occurs during user creation, the whole operation fails
-        // Prisma will automatically rollback
         throw error;
     }
 });

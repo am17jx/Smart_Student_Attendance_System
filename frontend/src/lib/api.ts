@@ -442,6 +442,8 @@ export const attendanceApi = {
   getTeacherStats: () => apiRequest<{
     totalSessions: number;
     totalAttendees: number;
+    totalAbsent: number;
+    totalExpected: number;
     avgAttendancePerSession: number;
     uniqueStudents: number;
     byMaterial: {
@@ -449,12 +451,16 @@ export const attendanceApi = {
       materialName: string;
       totalSessions: number;
       totalAttendees: number;
+      totalAbsent: number;
+      totalExpected: number;
+      attendanceRate: number;
       avgPerSession: number;
     }[];
     monthlyStats: {
       month: string;
       sessions: number;
       attendees: number;
+      absent: number;
       avgPerSession: number;
     }[];
     recentSessions: {
@@ -469,6 +475,7 @@ export const attendanceApi = {
       week: string;
       sessions: number;
       attendees: number;
+      absent: number;
     }[];
   }>('/attendance/teacher-stats'),
 
