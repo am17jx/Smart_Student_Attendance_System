@@ -388,9 +388,15 @@ export const adminApi = {
   getAllAdmins: () =>
     apiRequest<{ admins: Admin[] }>('/auth/admins'),
 
-  createAdmin: (data: { name: string; email: string; departmentId?: string }) =>
+  createAdmin: (data: { name: string; email: string; departmentId?: string; password?: string }) =>
     apiRequest<{ user: Admin; message: string }>('/auth/admin/create', {
       method: 'POST',
+      body: JSON.stringify(data),
+    }),
+
+  updateAdmin: (id: string, data: { name?: string; email?: string; departmentId?: string; password?: string }) =>
+    apiRequest<{ admin: Admin }>('/auth/admins/' + id, {
+      method: 'PUT',
       body: JSON.stringify(data),
     }),
 };

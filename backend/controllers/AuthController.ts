@@ -45,7 +45,7 @@ function handleValidationErrors(req: Request, res: Response): void {
 export const createAdmin = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     handleValidationErrors(req, res);
 
-    const { name, email, departmentId } = req.body;
+    const { name, email, departmentId, password } = req.body;
 
 
     if (!name) {
@@ -58,9 +58,9 @@ export const createAdmin = catchAsync(async (req: Request, res: Response, next: 
         throw new AppError("Email already exists", 400);
     }
 
-    // Generate temporary password
-    const tempPassword = generateTempPassword();
-    const hashedPassword = await bcrypt.hash(tempPassword, 10);
+    // Generate or use provided password
+    const finalPassword = password || generateTempPassword();
+    const hashedPassword = await bcrypt.hash(finalPassword, 10);
 
     // Create new admin
     const newAdmin = await prisma.admin.create({
@@ -74,8 +74,8 @@ export const createAdmin = catchAsync(async (req: Request, res: Response, next: 
 
     logger.info(`[ADMIN] New admin created: ${email}, ID: ${newAdmin.id}`);
 
-    // ✅ Send temporary password in background
-    emailService.sendTempPasswordEmail(email, name, tempPassword, true)
+    // ✅ Send temporary/initial password in background
+    emailService.sendTempPasswordEmail(email, name, finalPassword, true)
         .then(() => logger.info(`✅ Welcome email sent to admin: ${email}`))
         .catch(err => logger.error(`❌ Failed to send welcome email to admin ${email}`, err));
 
@@ -109,6 +109,59 @@ export const getAllAdmins = catchAsync(async (req: Request, res: Response, next:
                 id: admin.id.toString(),
                 department_id: admin.department_id?.toString(),
             }))
+        }
+    });
+});
+
+
+// Update an existing admin
+export const updateAdmin = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    const { name, email, departmentId, password } = req.body;
+
+    const existingAdmin = await prisma.admin.findUnique({
+        where: { id: BigInt(id as string) }
+    });
+
+    if (!existingAdmin) {
+        throw new AppError("Admin not found", 404);
+    }
+
+    const updateData: any = {};
+    if (name) updateData.name = name;
+    if (email) {
+        const emailExists = await prisma.admin.findFirst({
+            where: {
+                email,
+                id: { not: BigInt(id as string) }
+            }
+        });
+        if (emailExists) throw new AppError("Email already in use", 400);
+        updateData.email = email;
+    }
+
+    if (departmentId !== undefined) {
+        updateData.department_id = departmentId ? BigInt(departmentId as string) : null;
+    }
+
+    if (password) {
+        updateData.password = await bcrypt.hash(password, 10);
+    }
+
+    const updatedAdmin = await prisma.admin.update({
+        where: { id: BigInt(id as string) },
+        data: updateData,
+        include: { department: true }
+    });
+
+    res.status(200).json({
+        status: "success",
+        data: {
+            admin: {
+                ...updatedAdmin,
+                id: updatedAdmin.id.toString(),
+                department_id: updatedAdmin.department_id?.toString()
+            }
         }
     });
 });
