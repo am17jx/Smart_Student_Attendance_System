@@ -35,19 +35,18 @@ RUN apt-get update -y && apt-get install -y openssl \
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/prisma ./prisma
-COPY --from=builder /app/prisma.config.ts ./prisma.config.ts
+# Create non-root user
+RUN addgroup --system appgroup && adduser --system --ingroup appgroup appuser
+
+COPY --chown=appuser:appgroup --from=builder /app/node_modules ./node_modules
+COPY --chown=appuser:appgroup --from=builder /app/dist ./dist
+COPY --chown=appuser:appgroup --from=builder /app/package*.json ./
+COPY --chown=appuser:appgroup --from=builder /app/prisma ./prisma
+COPY --chown=appuser:appgroup --from=builder /app/prisma.config.ts ./prisma.config.ts
 
 # Copy entrypoint script
-COPY entrypoint.sh ./entrypoint.sh
+COPY --chown=appuser:appgroup entrypoint.sh ./entrypoint.sh
 RUN chmod +x ./entrypoint.sh
-
-# Create non-root user and own /app
-RUN addgroup --system appgroup && adduser --system --ingroup appgroup appuser \
-    && chown -R appuser:appgroup /app
 
 USER appuser
 
