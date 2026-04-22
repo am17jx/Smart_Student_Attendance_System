@@ -291,14 +291,24 @@ export const getTeacherSessions = catchAsync(async (req: Request, res: Response,
     });
 });
 
+import { getDepartmentFilter } from "../utils/accessControl";
+
 export const getAllSessions = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    // ... existing code ...
+    const admin = (req as any).user;
+    const deptFilter = getDepartmentFilter(admin);
+
     const page = parseInt(req.query.page as string) || 1;
     const limit = parseInt(req.query.limit as string) || 10;
     const search = req.query.search as string || "";
     const skip = (page - 1) * limit;
 
     const where: any = {};
+    
+    if (deptFilter) {
+        where.material = {
+            department_id: deptFilter.department_id
+        };
+    }
     if (search) {
         where.OR = [
             { material: { name: { contains: search } } }, // Removed mode: 'insensitive' as detailed in previous issues often causing db specific errors if not configured, keeping simple for now or assuming default collation

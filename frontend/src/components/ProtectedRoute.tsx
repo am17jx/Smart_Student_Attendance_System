@@ -35,4 +35,5 @@ const ProtectedRoute = ({ children, allowedRoles, deanOnly }: ProtectedRouteProp
 };
 
 
+
 export default ProtectedRoute;

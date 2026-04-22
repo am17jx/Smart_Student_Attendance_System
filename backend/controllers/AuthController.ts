@@ -69,6 +69,7 @@ export const createAdmin = catchAsync(async (req: Request, res: Response, next: 
             email,
             password: hashedPassword,
             department_id: departmentId ? BigInt(departmentId) : null,
+            role: departmentId ? 'DEPARTMENT_HEAD' : 'DEAN'
         },
     });
 

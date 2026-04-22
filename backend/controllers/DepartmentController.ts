@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { prisma } from "../prisma/client";
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/AppError";
+import { getDepartmentFilter } from "../utils/accessControl";
 
 export const createDepartment = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { name } = req.body;
@@ -38,7 +39,13 @@ export const createDepartment = catchAsync(async (req: Request, res: Response, n
 });
 
 export const getAllDepartments = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const departments = await prisma.department.findMany();
+    const admin = (req as any).user;
+    const deptFilter = getDepartmentFilter(admin);
+    
+    // For Dept Heads, we filter the departments list to only include THEIR department
+    const where = deptFilter ? { id: deptFilter.department_id } : {};
+
+    const departments = await prisma.department.findMany({ where });
     // Helper to serialize BigInt
     const safeDepartments = departments.map(d => ({
         ...d,
