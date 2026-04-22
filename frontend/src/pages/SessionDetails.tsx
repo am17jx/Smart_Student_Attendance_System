@@ -292,7 +292,7 @@ export default function SessionDetails() {
                                                 const opt = {
                                                     margin: 0, // Margin is handled inside the CSS
                                                     filename: `attendance-report-${id}.pdf`,
-                                                    image: { type: 'jpeg', quality: 0.98 },
+                                                    image: { type: 'jpeg' as const, quality: 0.98 },
                                                     html2canvas: { 
                                                         scale: 2, 
                                                         useCORS: true, 
@@ -302,7 +302,7 @@ export default function SessionDetails() {
                                                         scrollY: 0,
                                                         windowWidth: 800
                                                     },
-                                                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                                                    jsPDF: { unit: 'mm' as const, format: 'a4' as const, orientation: 'portrait' as const }
                                                 };
 
                                                 // 3. Generate from the specific DOM element
