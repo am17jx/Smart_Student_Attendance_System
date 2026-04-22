@@ -86,13 +86,12 @@ export default function Admins() {
 
     const name = formData.get("name") as string;
     const email = formData.get("email") as string;
-    const departmentId = formData.get("departmentId") as string;
     const password = formData.get("password") as string;
 
     const baseData = {
       name,
       email,
-      departmentId: departmentId === "all" ? undefined : departmentId,
+      departmentId: selectedDepartmentId === "all" ? undefined : selectedDepartmentId,
       password: password || undefined
     };
 

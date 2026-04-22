@@ -143,6 +143,7 @@ export const updateAdmin = catchAsync(async (req: Request, res: Response, next: 
 
     if (departmentId !== undefined) {
         updateData.department_id = departmentId ? BigInt(departmentId as string) : null;
+        updateData.role = departmentId ? 'DEPARTMENT_HEAD' : 'DEAN';
     }
 
     if (password) {
