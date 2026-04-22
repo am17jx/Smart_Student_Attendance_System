@@ -39,12 +39,12 @@ export default function ChangePassword() {
         setIsLoading(true);
 
         try {
-            if (!user?.id) throw new Error("المستخدم غير معرف");
+            // Use the new /change-my-password endpoint (JWT-based, no ID needed)
+            const body: Record<string, string> = { newPassword };
+            // Only send oldPassword if not forced (not a temp password flow)
+            if (!isForced && oldPassword) body.oldPassword = oldPassword;
 
-            // Assuming student flow as requested, but could be generic if ID maps correctly
-            await authApi.changeStudentPassword(user.id, oldPassword, newPassword);
-
-            // If forced, navigate to dashboard, else maybe show success toast
+            await authApi.changeMyPassword(body.newPassword, body.oldPassword);
             navigate("/dashboard");
         } catch (err: any) {
             setError(err.message || "فشل تغيير كلمة المرور");
@@ -78,6 +78,8 @@ export default function ChangePassword() {
                             </Alert>
                         )}
 
+                        {/* Only ask for old password if NOT forced (not temp password flow) */}
+                        {!isForced && (
                         <div className="space-y-2">
                             <Label htmlFor="oldPassword">كلمة المرور الحالية</Label>
                             <div className="relative">
@@ -93,6 +95,7 @@ export default function ChangePassword() {
                                 />
                             </div>
                         </div>
+                        )}
 
                         <div className="space-y-2">
                             <Label htmlFor="newPassword">كلمة المرور الجديدة</Label>

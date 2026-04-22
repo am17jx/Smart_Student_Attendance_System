@@ -7,10 +7,10 @@ import {
     change_student_password,
     reset_student_password,
     change_teacher_password,
+    changeMyPassword,
     forgotPassword,
     resetPassword,
     verifyEmail,
-
     resendVerificationEmail,
     logout,
     getProfile
@@ -67,9 +67,16 @@ router.post("/student/reset-password/:studentId",
 
 
 router.post("/teacher/change-password/:teacherId",
-    authMiddleware,       // User must be authenticated
+    authMiddleware,
     validateRequest,
     change_teacher_password
+);
+
+// ✅ Change own password (uses JWT identity - no ID in URL)
+router.post("/change-my-password",
+    authMiddleware,
+    validateRequest,
+    changeMyPassword
 );
 
 

@@ -358,6 +358,13 @@ export const authApi = {
       method: 'POST',
       body: JSON.stringify({ oldPassword, newPassword }),
     }),
+
+  // ✅ New: Change own password using JWT identity (no ID in URL)
+  changeMyPassword: (newPassword: string, oldPassword?: string) =>
+    apiRequest('/auth/change-my-password', {
+      method: 'POST',
+      body: JSON.stringify({ newPassword, ...(oldPassword ? { oldPassword } : {}) }),
+    }),
 };
 
 // Admin API

@@ -53,55 +53,48 @@ class EmailService {
    * Send welcome email to new student
    */
   async sendWelcomeEmail(studentEmail: string, studentName: string, temporaryPassword: string): Promise<void> {
+    const loginUrl = `${process.env.FRONTEND_URL || 'http://localhost:3001'}/login`;
     const html = `
       <!DOCTYPE html>
       <html dir="rtl" lang="ar">
       <head>
         <meta charset="UTF-8">
         <style>
-          body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f4f4; padding: 20px; }
-          .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-          .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 10px 10px 0 0; text-align: center; }
-          .content { padding: 20px; line-height: 1.8; }
-          .password-box { background: #f8f9fa; border-right: 4px solid #667eea; padding: 15px; margin: 20px 0; font-family: monospace; font-size: 18px; }
-          .button { display: inline-block; background: #667eea; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; margin: 20px 0; }
-          .footer { text-align: center; color: #666; font-size: 12px; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; }
+          body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; padding: 30px; margin: 0; }
+          .container { max-width: 500px; margin: 0 auto; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.10); }
+          .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 32px 24px; text-align: center; color: white; }
+          .header h1 { margin: 0; font-size: 22px; }
+          .header p { margin: 8px 0 0; opacity: 0.85; font-size: 14px; }
+          .body { padding: 32px 24px; text-align: right; }
+          .label { font-size: 13px; color: #888; margin-bottom: 6px; }
+          .password-box { background: #f6f8ff; border: 2px dashed #667eea; border-radius: 10px; padding: 18px 20px; font-family: monospace; font-size: 24px; font-weight: bold; letter-spacing: 4px; text-align: center; color: #333; margin: 12px 0 24px; }
+          .btn { display: block; background: linear-gradient(135deg, #667eea, #764ba2); color: white !important; text-align: center; padding: 14px; border-radius: 10px; text-decoration: none; font-size: 16px; font-weight: bold; margin-top: 8px; }
+          .note { font-size: 12px; color: #d9534f; margin-top: 20px; padding: 10px; background: #fff5f5; border-radius: 8px; }
+          .footer { padding: 16px 24px; text-align: center; font-size: 11px; color: #aaa; border-top: 1px solid #f0f0f0; }
         </style>
       </head>
       <body>
         <div class="container">
           <div class="header">
-            <h1>🎓 مرحباً بك في نظام الحضور الذكي</h1>
+            <h1>🎓 نظام الحضور الذكي</h1>
+            <p>تم إنشاء حسابك بنجاح</p>
           </div>
-          <div class="content">
-            <h2>مرحباً ${studentName}،</h2>
-            <p>تم إنشاء حسابك بنجاح في نظام الحضور الإلكتروني.</p>
-            
-            <p><strong>كلمة المرور المؤقتة:</strong></p>
-            <div class="password-box">
-              ${temporaryPassword}
-            </div>
-            
-            <p style="color: #d9534f; font-weight: bold;">⚠️ يجب عليك تغيير كلمة المرور عند تسجيل الدخول الأول</p>
-            
-            <p><strong>البريد الإلكتروني:</strong> ${studentEmail}</p>
-            
-            <a href="${process.env.FRONTEND_URL || 'http://localhost:3001'}/student/login" class="button">تسجيل الدخول الآن</a>
-            
-            <p>إذا لم تقم بإنشاء هذا الحساب، يرجى تجاهل هذه الرسالة.</p>
+          <div class="body">
+            <p>مرحباً <strong>${studentName}</strong>،</p>
+            <p>فيما يلي الرمز المؤقت لتسجيل الدخول:</p>
+            <div class="label">كلمة المرور المؤقتة</div>
+            <div class="password-box">${temporaryPassword}</div>
+            <a href="${loginUrl}" class="btn">تسجيل الدخول الآن ←</a>
+            <div class="note">⚠️ ستُطلب منك تغيير كلمة المرور فور الدخول.</div>
           </div>
-          <div class="footer">
-            <p>نظام الحضور الإلكتروني - Privacy-Preserving Student Attendance</p>
-            <p>هذا البريد تم إرساله تلقائياً، يرجى عدم الرد عليه</p>
-          </div>
+          <div class="footer">هذا البريد تم إرساله تلقائياً — نظام الحضور الإلكتروني</div>
         </div>
       </body>
       </html>
     `;
-
     await this.sendEmail({
       to: studentEmail,
-      subject: '🎓 مرحباً بك - كلمة المرور المؤقتة',
+      subject: '🎓 بيانات حسابك في نظام الحضور',
       html,
     });
   }

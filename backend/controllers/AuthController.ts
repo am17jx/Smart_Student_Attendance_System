@@ -308,6 +308,65 @@ export const change_student_password = catchAsync(async (req: Request, res: Resp
         status: "success",
         message: "Password changed successfully",
     });
+})
+
+
+// ✅ Change password using JWT identity (no studentId in URL needed)
+export const changeMyPassword = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    if (!req.user) {
+        throw new AppError("Authentication required", 401);
+    }
+
+    const { newPassword, oldPassword } = req.body;
+    const userId = BigInt(req.user.id);
+    const role = req.user.role;
+
+    if (!newPassword || newPassword.length < 8) {
+        throw new AppError("New password must be at least 8 characters", 400);
+    }
+
+    if (role === 'student') {
+        const user = await prisma.student.findUnique({ where: { id: userId } });
+        if (!user) throw new AppError("User not found", 404);
+
+        // If must_change_password, skip old password check (temp password flow)
+        if (!user.must_change_password) {
+            if (!oldPassword) throw new AppError("Current password is required", 400);
+            const valid = await bcrypt.compare(oldPassword, user.password);
+            if (!valid) throw new AppError("Current password is incorrect", 401);
+        }
+
+        const hashed = await bcrypt.hash(newPassword, 10);
+        await prisma.student.update({
+            where: { id: userId },
+            data: { password: hashed, must_change_password: false },
+        });
+    } else if (role === 'teacher') {
+        const user = await prisma.teacher.findUnique({ where: { id: userId } });
+        if (!user) throw new AppError("User not found", 404);
+
+        if (!user.must_change_password) {
+            if (!oldPassword) throw new AppError("Current password is required", 400);
+            const valid = await bcrypt.compare(oldPassword, user.password);
+            if (!valid) throw new AppError("Current password is incorrect", 401);
+        }
+
+        const hashed = await bcrypt.hash(newPassword, 10);
+        await prisma.teacher.update({
+            where: { id: userId },
+            data: { password: hashed, must_change_password: false },
+        });
+    } else {
+        throw new AppError("Not allowed for this role", 403);
+    }
+
+    logger.info(`[AUTH] Password changed via /change-my-password for user: ${req.user.id} (${role})`);
+
+    res.status(200).json({
+        status: "success",
+        message: "Password changed successfully",
+    });
+})
 });
 
 export const reset_student_password = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
