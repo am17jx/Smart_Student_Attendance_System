@@ -13,7 +13,8 @@ import {
   ClipboardCheck,
   ArrowUpCircle,
   AlertTriangle,
-  FileCheck
+  FileCheck,
+  ShieldCheck
 } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -34,6 +35,7 @@ import { cn } from "@/lib/utils";
 
 const adminMenuItems = [
   { title: "لوحة التحكم", url: "/dashboard", icon: LayoutDashboard },
+  { title: "رؤساء الأقسام", url: "/admins", icon: ShieldCheck, deanOnly: true },
   { title: "المعلمين", url: "/teachers", icon: Users },
   { title: "الطلاب", url: "/students", icon: GraduationCap },
   { title: "المواد", url: "/materials", icon: BookOpen },
@@ -72,7 +74,11 @@ export function AppSidebar() {
   const getMenuItems = () => {
     switch (user?.role) {
       case 'admin':
-        return adminMenuItems;
+        // Filter out dean-only items if current admin is a department head
+        return adminMenuItems.filter(item => {
+          if ((item as any).deanOnly && (user as any).department_id) return false;
+          return true;
+        });
       case 'teacher':
         return teacherMenuItems;
       case 'student':

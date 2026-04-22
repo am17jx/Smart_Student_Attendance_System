@@ -45,7 +45,7 @@ function handleValidationErrors(req: Request, res: Response): void {
 export const createAdmin = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     handleValidationErrors(req, res);
 
-    const { name, email } = req.body;
+    const { name, email, departmentId } = req.body;
 
 
     if (!name) {
@@ -68,6 +68,7 @@ export const createAdmin = catchAsync(async (req: Request, res: Response, next: 
             name,
             email,
             password: hashedPassword,
+            department_id: departmentId ? BigInt(departmentId) : null,
         },
     });
 
@@ -86,6 +87,29 @@ export const createAdmin = catchAsync(async (req: Request, res: Response, next: 
             name: newAdmin.name,
             email: newAdmin.email,
         },
+    });
+});
+
+
+// List all admins
+export const getAllAdmins = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const admins = await prisma.admin.findMany({
+        include: {
+            department: true
+        },
+        orderBy: { created_at: 'desc' }
+    });
+
+    res.status(200).json({
+        status: "success",
+        results: admins.length,
+        data: {
+            admins: admins.map(admin => ({
+                ...admin,
+                id: admin.id.toString(),
+                department_id: admin.department_id?.toString(),
+            }))
+        }
     });
 });
 

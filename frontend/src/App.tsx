@@ -51,6 +51,7 @@ const MyStudents = lazyWithReload(() => import("./pages/MyStudents"));
 const SessionAttendance = lazyWithReload(() => import("./pages/SessionAttendance"));
 const FailedAttempts = lazyWithReload(() => import("./pages/FailedAttempts"));
 const StudentLeaves = lazyWithReload(() => import("./pages/StudentLeaves"));
+const Admins = lazyWithReload(() => import("./pages/Admins"));
 
 
 const queryClient = new QueryClient({
@@ -94,6 +95,7 @@ const App = () => (
 
               {/* Admin Routes */}
               <Route path="/dashboard/admin" element={<ProtectedRoute allowedRoles={['admin']}><Dashboard /></ProtectedRoute>} />
+              <Route path="/admins" element={<ProtectedRoute allowedRoles={['admin']}><Admins /></ProtectedRoute>} />
               <Route path="/teachers" element={<ProtectedRoute allowedRoles={['admin']}><Teachers /></ProtectedRoute>} />
               <Route path="/students" element={<ProtectedRoute allowedRoles={['admin']}><Students /></ProtectedRoute>} />
               <Route path="/materials" element={<ProtectedRoute allowedRoles={['admin']}><Materials /></ProtectedRoute>} />

@@ -7,6 +7,15 @@ export interface User {
   name: string;
   email: string;
   role: 'admin' | 'teacher' | 'student';
+  department_id?: string;
+}
+
+export interface Admin {
+  id: string;
+  name: string;
+  email: string;
+  department_id?: string;
+  department?: Department;
 }
 
 export interface Department {
@@ -371,6 +380,16 @@ export const authApi = {
 export const adminApi = {
   registerStudent: (data: { name: string; email: string; studentId: string; stageId: string; departmentId: string }) =>
     apiRequest<{ user: User; tempPassword?: string; message: string }>('/auth/admin/signin/student', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
+
+  // Manage Admins (Heads of Departments)
+  getAllAdmins: () =>
+    apiRequest<{ admins: Admin[] }>('/auth/admins'),
+
+  createAdmin: (data: { name: string; email: string; departmentId?: string }) =>
+    apiRequest<{ user: Admin; message: string }>('/auth/admin/create', {
       method: 'POST',
       body: JSON.stringify(data),
     }),

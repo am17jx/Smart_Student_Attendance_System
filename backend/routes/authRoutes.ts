@@ -8,6 +8,7 @@ import {
     reset_student_password,
     change_teacher_password,
     changeMyPassword,
+    getAllAdmins,
     forgotPassword,
     resetPassword,
     verifyEmail,
@@ -33,6 +34,7 @@ router.get("/profile", authMiddleware, getProfile);
 
 
 // Create Admin (Admin-only) - No rate limiting
+router.get("/admins", adminAuthMiddleware, getAllAdmins);
 router.post("/admin/create",
     adminAuthMiddleware,  // Only admins can create other admins
     validateRequest,
