@@ -12,36 +12,45 @@ import { PageLoader } from "@/components/ui/loading-spinner";
 
 
 
+// Auto-reload on stale chunk errors (e.g. after a new deployment)
+const lazyWithReload = (factory: () => Promise<any>) =>
+  lazy(() =>
+    factory().catch(() => {
+      window.location.reload();
+      return new Promise(() => {}); // prevent React from rendering broken state
+    })
+  );
+
 // Lazy-load every page — each loads only when first visited (code splitting)
-const Login = lazy(() => import("./pages/Login"));
-const Dashboard = lazy(() => import("./pages/Dashboard"));
-const Teachers = lazy(() => import("./pages/Teachers"));
-const Students = lazy(() => import("./pages/Students"));
-const Materials = lazy(() => import("./pages/Materials"));
-const Departments = lazy(() => import("./pages/Departments"));
-const Stages = lazy(() => import("./pages/Stages"));
-const Sessions = lazy(() => import("./pages/Sessions"));
-const SessionDetails = lazy(() => import("./pages/SessionDetails"));
-const MyMaterials = lazy(() => import("./pages/MyMaterials"));
-const MySessions = lazy(() => import("./pages/MySessions"));
-const Geofences = lazy(() => import("./pages/Geofences"));
-const Attendance = lazy(() => import("./pages/Attendance"));
-const ScanQR = lazy(() => import("./pages/ScanQR"));
-const Settings = lazy(() => import("./pages/Settings"));
-const NotFound = lazy(() => import("./pages/NotFound"));
-const ForgotPassword = lazy(() => import("./pages/auth/ForgotPassword"));
-const ResetPassword = lazy(() => import("./pages/auth/ResetPassword"));
-const VerifyEmail = lazy(() => import("./pages/auth/VerifyEmail"));
-const ChangePassword = lazy(() => import("./pages/auth/ChangePassword"));
-const AttendanceStats = lazy(() => import("./pages/AttendanceStats"));
-const TeacherAttendanceStats = lazy(() => import("./pages/TeacherAttendanceStats"));
-const StudentPromotion = lazy(() => import("./pages/StudentPromotion"));
-const PromotionConfig = lazy(() => import("./pages/PromotionConfig"));
-const StudentEnrollments = lazy(() => import("./pages/StudentEnrollments"));
-const MyStudents = lazy(() => import("./pages/MyStudents"));
-const SessionAttendance = lazy(() => import("./pages/SessionAttendance"));
-const FailedAttempts = lazy(() => import("./pages/FailedAttempts"));
-const StudentLeaves = lazy(() => import("./pages/StudentLeaves"));
+const Login = lazyWithReload(() => import("./pages/Login"));
+const Dashboard = lazyWithReload(() => import("./pages/Dashboard"));
+const Teachers = lazyWithReload(() => import("./pages/Teachers"));
+const Students = lazyWithReload(() => import("./pages/Students"));
+const Materials = lazyWithReload(() => import("./pages/Materials"));
+const Departments = lazyWithReload(() => import("./pages/Departments"));
+const Stages = lazyWithReload(() => import("./pages/Stages"));
+const Sessions = lazyWithReload(() => import("./pages/Sessions"));
+const SessionDetails = lazyWithReload(() => import("./pages/SessionDetails"));
+const MyMaterials = lazyWithReload(() => import("./pages/MyMaterials"));
+const MySessions = lazyWithReload(() => import("./pages/MySessions"));
+const Geofences = lazyWithReload(() => import("./pages/Geofences"));
+const Attendance = lazyWithReload(() => import("./pages/Attendance"));
+const ScanQR = lazyWithReload(() => import("./pages/ScanQR"));
+const Settings = lazyWithReload(() => import("./pages/Settings"));
+const NotFound = lazyWithReload(() => import("./pages/NotFound"));
+const ForgotPassword = lazyWithReload(() => import("./pages/auth/ForgotPassword"));
+const ResetPassword = lazyWithReload(() => import("./pages/auth/ResetPassword"));
+const VerifyEmail = lazyWithReload(() => import("./pages/auth/VerifyEmail"));
+const ChangePassword = lazyWithReload(() => import("./pages/auth/ChangePassword"));
+const AttendanceStats = lazyWithReload(() => import("./pages/AttendanceStats"));
+const TeacherAttendanceStats = lazyWithReload(() => import("./pages/TeacherAttendanceStats"));
+const StudentPromotion = lazyWithReload(() => import("./pages/StudentPromotion"));
+const PromotionConfig = lazyWithReload(() => import("./pages/PromotionConfig"));
+const StudentEnrollments = lazyWithReload(() => import("./pages/StudentEnrollments"));
+const MyStudents = lazyWithReload(() => import("./pages/MyStudents"));
+const SessionAttendance = lazyWithReload(() => import("./pages/SessionAttendance"));
+const FailedAttempts = lazyWithReload(() => import("./pages/FailedAttempts"));
+const StudentLeaves = lazyWithReload(() => import("./pages/StudentLeaves"));
 
 
 const queryClient = new QueryClient({
