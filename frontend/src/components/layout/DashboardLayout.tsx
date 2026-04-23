@@ -78,7 +78,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           {/* Footer */}
           <footer className="py-6 px-6 border-t bg-muted/20 text-center">
             <p className="text-xs text-muted-foreground">
-              جميع الحقوق محفوظة © 2024-{new Date().getFullYear()} - Ameer Ahmed. لا يجوز نسخ أو توزيع هذا العمل دون إذن صريح.
+              جميع الحقوق محفوظة © 2025-2026 - Ameer Ahmed. لا يجوز نسخ أو توزيع هذا العمل دون إذن صريح.
             </p>
           </footer>
         </SidebarInset>
