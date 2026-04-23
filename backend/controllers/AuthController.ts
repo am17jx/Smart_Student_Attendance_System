@@ -529,7 +529,8 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
                     id: admin.id.toString(),
                     name: admin.name,
                     email: admin.email,
-                    role: "admin"
+                    role: "admin",
+                    department_id: admin.department_id ? admin.department_id.toString() : undefined
                 }
             }
         });
