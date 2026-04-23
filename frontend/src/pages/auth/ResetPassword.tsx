@@ -8,6 +8,7 @@ import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { Lock, CheckCircle, AlertCircle } from "lucide-react";
 import { authApi } from "@/lib/api";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { PasswordValidator } from "@/components/auth/PasswordValidator";
 
 export default function ResetPassword() {
     const [searchParams] = useSearchParams();
@@ -28,8 +29,16 @@ export default function ResetPassword() {
             return;
         }
 
-        if (newPassword.length < 8) {
-            setError("يجب أن تكون كلمة المرور 8 أحرف على الأقل");
+        const validatePassword = (p: string) => {
+            const hasUpper = /[A-Z]/.test(p);
+            const hasLower = /[a-z]/.test(p);
+            const hasNumber = /[0-9]/.test(p);
+            const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(p);
+            return p.length >= 8 && hasUpper && hasLower && hasNumber && hasSpecial;
+        };
+
+        if (!validatePassword(newPassword)) {
+            setError("كلمة المرور لا تستوفي المعايير الأمنية المطلوبة (8 أحرف، حرف كبير، حرف صغير، رقم، ورمز خاص)");
             return;
         }
 
@@ -103,6 +112,7 @@ export default function ResetPassword() {
                                     dir="ltr"
                                 />
                             </div>
+                            <PasswordValidator password={newPassword} />
                         </div>
 
                         <div className="space-y-2">

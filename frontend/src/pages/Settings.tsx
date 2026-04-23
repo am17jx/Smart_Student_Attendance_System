@@ -9,6 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { useAuth } from "@/contexts/AuthContext";
 import { User, Bell, Palette, Globe } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { PasswordValidator } from "@/components/auth/PasswordValidator";
 
 export default function Settings() {
   const { user } = useAuth();
@@ -28,6 +29,8 @@ export default function Settings() {
       localStorage.setItem('theme', 'light');
     }
   }, [isDarkMode]);
+
+  const [newPassword, setNewPassword] = useState("");
 
   const handleSave = () => {
     toast({
@@ -66,7 +69,13 @@ export default function Settings() {
             </div>
             <div className="space-y-2">
               <Label>كلمة المرور الجديدة</Label>
-              <Input type="password" placeholder="اتركه فارغاً إذا لم ترغب في التغيير" />
+              <Input
+                type="password"
+                placeholder="اتركه فارغاً إذا لم ترغب في التغيير"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+              />
+              {newPassword && <PasswordValidator password={newPassword} />}
             </div>
           </CardContent>
         </Card>

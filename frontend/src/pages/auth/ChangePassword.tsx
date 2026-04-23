@@ -9,6 +9,7 @@ import { Lock, ShieldCheck } from "lucide-react";
 import { authApi } from "@/lib/api";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useAuth } from "@/contexts/AuthContext";
+import { PasswordValidator } from "@/components/auth/PasswordValidator";
 
 export default function ChangePassword() {
     const { user } = useAuth();
@@ -31,8 +32,16 @@ export default function ChangePassword() {
             return;
         }
 
-        if (newPassword.length < 8) {
-            setError("يجب أن تكون كلمة المرور 8 أحرف على الأقل");
+        const validatePassword = (p: string) => {
+            const hasUpper = /[A-Z]/.test(p);
+            const hasLower = /[a-z]/.test(p);
+            const hasNumber = /[0-9]/.test(p);
+            const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(p);
+            return p.length >= 8 && hasUpper && hasLower && hasNumber && hasSpecial;
+        };
+
+        if (!validatePassword(newPassword)) {
+            setError("كلمة المرور لا تستوفي المعايير الأمنية المطلوبة (8 أحرف، حرف كبير، حرف صغير، رقم، ورمز خاص)");
             return;
         }
 
@@ -111,6 +120,7 @@ export default function ChangePassword() {
                                     dir="ltr"
                                 />
                             </div>
+                            <PasswordValidator password={newPassword} />
                         </div>
 
                         <div className="space-y-2">
