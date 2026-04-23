@@ -103,7 +103,8 @@ export const adminAuthMiddleware = catchAsync(async (req: Request, res: Response
         req.user = {
             id: admin.id,
             email: admin.email,
-            department_id: admin.department_id
+            department_id: admin.department_id,
+            role: "admin"
         } as any;
         req.admin = admin as any;
 
