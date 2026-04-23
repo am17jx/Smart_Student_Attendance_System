@@ -60,12 +60,73 @@ export const getAdminDashboard = catchAsync(async (req: Request, res: Response, 
         const tomorrow = new Date(today);
         tomorrow.setDate(tomorrow.getDate() + 1);
 
-        const todayAttendance = await prisma.attendanceRecord.count({
+        const yesterday = new Date(today);
+        yesterday.setDate(yesterday.getDate() - 1);
+
+        const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+
+        // 1. Attendance Rate Today
+        const todaysSessions = await prisma.session.findMany({
             where: {
-                marked_at: { gte: today, lt: tomorrow },
-                ...(admin.department_id ? { student: { department_id: admin.department_id } } : {})
+                session_date: { gte: today, lt: tomorrow },
+                ...(admin.department_id ? { material: { department_id: admin.department_id } } : {})
+            },
+            include: { material: true }
+        });
+
+        let totalExpectedToday = 0;
+        for (const session of todaysSessions) {
+            if (session.material) {
+                totalExpectedToday += await prisma.student.count({ 
+                    where: { stage_id: session.material.stage_id, department_id: session.material.department_id } 
+                });
+            }
+        }
+
+        const todayActual = await prisma.attendanceRecord.count({
+            where: {
+                session_id: { in: todaysSessions.map(s => s.id) },
+                status: { in: ['PRESENT', 'LATE'] }
             }
         });
+
+        const todayAttendanceRate = totalExpectedToday > 0 ? Math.round((todayActual / totalExpectedToday) * 100) : 0;
+
+        // 2. Attendance Rate Yesterday
+        const yesterdaysSessions = await prisma.session.findMany({
+            where: {
+                session_date: { gte: yesterday, lt: today },
+                ...(admin.department_id ? { material: { department_id: admin.department_id } } : {})
+            },
+            include: { material: true }
+        });
+
+        let totalExpectedYesterday = 0;
+        for (const session of yesterdaysSessions) {
+            if (session.material) {
+                totalExpectedYesterday += await prisma.student.count({ 
+                    where: { stage_id: session.material.stage_id, department_id: session.material.department_id } 
+                });
+            }
+        }
+
+        const yesterdayActual = await prisma.attendanceRecord.count({
+            where: {
+                session_id: { in: yesterdaysSessions.map(s => s.id) },
+                status: { in: ['PRESENT', 'LATE'] }
+            }
+        });
+
+        const yesterdayAttendanceRate = totalExpectedYesterday > 0 ? Math.round((yesterdayActual / totalExpectedYesterday) * 100) : 0;
+
+        // 3. Trends (Growth this month)
+        const studentsThisMonth = await prisma.student.count({ where: { ...departmentFilter, created_at: { gte: firstDayOfMonth } } });
+        const teachersThisMonth = await prisma.teacher.count({ where: { ...departmentFilter, created_at: { gte: firstDayOfMonth } } });
+        const materialsThisMonth = await prisma.material.count({ where: { ...departmentFilter, created_at: { gte: firstDayOfMonth } } });
+
+        const studentsTrend = totalStudents > studentsThisMonth ? Math.round((studentsThisMonth / (totalStudents - studentsThisMonth)) * 100) : (totalStudents > 0 ? 100 : 0);
+        const teachersTrend = totalTeachers > teachersThisMonth ? Math.round((teachersThisMonth / (totalTeachers - teachersThisMonth)) * 100) : (totalTeachers > 0 ? 100 : 0);
+        const materialsTrend = totalMaterials > materialsThisMonth ? Math.round((materialsThisMonth / (totalMaterials - materialsThisMonth)) * 100) : (totalMaterials > 0 ? 100 : 0);
 
         const failedAttempts = await prisma.failedAttempt.findMany({
             where: admin.department_id ? {
@@ -97,7 +158,11 @@ export const getAdminDashboard = catchAsync(async (req: Request, res: Response, 
                 departments: totalDepartments,
                 materials: totalMaterials,
                 sessions: activeSessions,
-                attendanceRate: todayAttendance
+                attendanceRate: todayAttendanceRate,
+                yesterdayAttendanceRate: yesterdayAttendanceRate,
+                studentsTrend,
+                teachersTrend,
+                materialsTrend
             },
             recentActivity,
             failedAttempts

@@ -109,14 +109,14 @@ function AdminDashboard() {
           title="إجمالي الطلاب"
           value={stats?.students || 0}
           icon={GraduationCap}
-          trend={5}
+          trend={stats?.studentsTrend}
           variant="primary"
         />
         <StatCard
           title="إجمالي المعلمين"
           value={stats?.teachers || 0}
           icon={Users}
-          trend={2}
+          trend={stats?.teachersTrend}
         />
         {!user?.department_id && (
           <StatCard
@@ -129,7 +129,7 @@ function AdminDashboard() {
           title="المواد الدراسية"
           value={stats?.materials || 0}
           icon={BookOpen}
-          trend={8}
+          trend={stats?.materialsTrend}
         />
       </div>
 
@@ -138,7 +138,7 @@ function AdminDashboard() {
           title="نسبة الحضور اليوم"
           value={`${stats?.attendanceRate || 0}%`}
           icon={TrendingUp}
-          description="مقارنة بـ 85% أمس"
+          description={`مقارنة بـ ${stats?.yesterdayAttendanceRate || 0}% أمس`}
           variant="success"
         />
         <StatCard
