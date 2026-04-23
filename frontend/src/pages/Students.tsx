@@ -38,6 +38,7 @@ import {
   Student as StudentType
 } from "@/lib/api";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { PasswordValidator } from "@/components/auth/PasswordValidator";
 
 export default function Students() {
   const { toast } = useToast();
@@ -49,6 +50,7 @@ export default function Students() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
+  const [password, setPassword] = useState("");
 
 
   const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
@@ -178,12 +180,30 @@ export default function Students() {
         return;
       }
 
+      const validatePassword = (p: string) => {
+        const hasUpper = /[A-Z]/.test(p);
+        const hasLower = /[a-z]/.test(p);
+        const hasNumber = /[0-9]/.test(p);
+        const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(p);
+        return p.length >= 8 && hasUpper && hasLower && hasNumber && hasSpecial;
+      };
+
+      if (password && !validatePassword(password)) {
+        toast({ 
+          title: "كلمة المرور ضعيفة", 
+          description: "يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل، حرف كبير، حرف صغير، رقم، ورمز خاص", 
+          variant: "destructive" 
+        });
+        return;
+      }
+
       createMutation.mutate({
         name,
         email,
         studentId,
         stageId,
-        departmentId
+        departmentId,
+        password: password || undefined
       });
     }
   };
@@ -323,6 +343,19 @@ export default function Students() {
                     <div className="space-y-2">
                       <Label>الرقم الجامعي (Student ID)</Label>
                       <Input name="studentId" required dir="ltr" placeholder="ex: 2023001" />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label>كلمة المرور</Label>
+                      <Input 
+                        name="password" 
+                        type="password" 
+                        placeholder="اتركه فارغاً للتوليد التلقائي" 
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        dir="ltr" 
+                      />
+                      {password && <PasswordValidator password={password} />}
                     </div>
                   )}
 

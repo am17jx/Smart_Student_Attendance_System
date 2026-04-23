@@ -46,6 +46,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { teachersApi, departmentsApi, materialsApi, Teacher as TeacherType, Material } from "@/lib/api";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { cn } from "@/lib/utils";
+import { PasswordValidator } from "@/components/auth/PasswordValidator";
 
 export default function Teachers() {
   const { toast } = useToast();
@@ -59,6 +60,7 @@ export default function Teachers() {
 
   // القسم المختار للأستاذ (لتصفية المواد)
   const [selectedDepartmentId, setSelectedDepartmentId] = useState<string>("");
+  const [password, setPassword] = useState("");
 
 
   const { data: teachersData, isLoading: isLoadingTeachers } = useQuery({
@@ -137,8 +139,24 @@ export default function Teachers() {
 
     const name = formData.get("name") as string;
     const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
     const departmentId = formData.get("departmentId") as string;
+
+    const validatePassword = (p: string) => {
+      const hasUpper = /[A-Z]/.test(p);
+      const hasLower = /[a-z]/.test(p);
+      const hasNumber = /[0-9]/.test(p);
+      const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(p);
+      return p.length >= 8 && hasUpper && hasLower && hasNumber && hasSpecial;
+    };
+
+    if (!editingTeacher && password && !validatePassword(password)) {
+      toast({ 
+        title: "كلمة المرور ضعيفة", 
+        description: "يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل، حرف كبير، حرف صغير، رقم، ورمز خاص", 
+        variant: "destructive" 
+      });
+      return;
+    }
 
     const baseData = {
       name,
@@ -298,14 +316,17 @@ export default function Teachers() {
                   {!editingTeacher && (
                     <div className="space-y-2">
                       <Label>كلمة المرور</Label>
-                      <Input 
-                        name="password" 
-                        type="password" 
-                        placeholder="اتركه فارغاً للتوليد التلقائي" 
-                        dir="ltr" 
-                      />
-                    </div>
-                  )}
+                        <Input 
+                          name="password" 
+                          type="password" 
+                          placeholder="اتركه فارغاً للتوليد التلقائي" 
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          dir="ltr" 
+                        />
+                        {password && <PasswordValidator password={password} />}
+                      </div>
+                    )}
 
                   <div className="space-y-2">
                     <Label>القسم</Label>

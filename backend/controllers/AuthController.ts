@@ -288,7 +288,7 @@ export const Teacher_sign = catchAsync(async (req: Request, res: Response, next:
 export const sign_student = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     handleValidationErrors(req, res);
 
-    const { name, email, stageId, departmentId, studentId } = req.body;
+    const { name, email, stageId, departmentId, studentId, password } = req.body;
 
     if (!name) {
         throw new AppError("Name is required", 400);

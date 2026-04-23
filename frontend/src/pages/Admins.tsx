@@ -31,6 +31,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { adminApi, departmentsApi, Admin } from "@/lib/api";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { PasswordValidator } from "@/components/auth/PasswordValidator";
 
 export default function Admins() {
   const { toast } = useToast();
@@ -38,6 +39,7 @@ export default function Admins() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingAdmin, setEditingAdmin] = useState<Admin | null>(null);
   const [selectedDepartmentId, setSelectedDepartmentId] = useState<string>("all");
+  const [password, setPassword] = useState("");
 
   const { data: adminsData, isLoading: isLoadingAdmins } = useQuery({
     queryKey: ['admins'],
@@ -97,7 +99,23 @@ export default function Admins() {
 
     const name = formData.get("name") as string;
     const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
+
+    const validatePassword = (p: string) => {
+      const hasUpper = /[A-Z]/.test(p);
+      const hasLower = /[a-z]/.test(p);
+      const hasNumber = /[0-9]/.test(p);
+      const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(p);
+      return p.length >= 8 && hasUpper && hasLower && hasNumber && hasSpecial;
+    };
+
+    if (password && !validatePassword(password)) {
+      toast({ 
+        title: "كلمة المرور ضعيفة", 
+        description: "يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل، حرف كبير، حرف صغير، رقم، ورمز خاص", 
+        variant: "destructive" 
+      });
+      return;
+    }
 
     const baseData = {
       name,
@@ -226,8 +244,11 @@ export default function Admins() {
                       name="password" 
                       type="password" 
                       placeholder={editingAdmin ? "اتركه فارغاً للحفاظ على الحالية" : "اتركه فارغاً للتوليد التلقائي"} 
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                       dir="ltr" 
                     />
+                    {password && <PasswordValidator password={password} />}
                   </div>
                   <div className="space-y-2">
                     <Label>القسم المسند</Label>
