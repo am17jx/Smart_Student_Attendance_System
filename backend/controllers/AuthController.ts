@@ -16,7 +16,36 @@ dotenv.config();
 
 
 function generateTempPassword(): string {
-    return Math.random().toString(36).slice(-8);
+    const chars = "abcdefghijklmnopqrstuvwxyz";
+    const upperChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const numChars = "0123456789";
+    const specialChars = "!@#$%^&*()";
+
+    let password = "";
+    password += chars[Math.floor(Math.random() * chars.length)];
+    password += upperChars[Math.floor(Math.random() * upperChars.length)];
+    password += numChars[Math.floor(Math.random() * numChars.length)];
+    password += specialChars[Math.floor(Math.random() * specialChars.length)];
+
+    const allChars = chars + upperChars + numChars + specialChars;
+    for (let i = 0; i < 6; i++) {
+        password += allChars[Math.floor(Math.random() * allChars.length)];
+    }
+
+    return password.split('').sort(() => 0.5 - Math.random()).join('');
+}
+
+export function validateStrongPassword(password: string | undefined): void {
+    if (!password) return; // Skip if no password provided (e.g., auto-generate cases)
+    const minLength = 8;
+    const hasUpper = /[A-Z]/.test(password);
+    const hasLower = /[a-z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+    if (password.length < minLength || !hasUpper || !hasLower || !hasNumber || !hasSpecial) {
+        throw new AppError("كلمة المرور يجب أن لا تقل عن 8 أحرف وأن تحتوي على الأقل على: حرف كبير، حرف صغير، رقم، ورمز خاص.", 400);
+    }
 }
 
 /**
@@ -60,6 +89,7 @@ export const createAdmin = catchAsync(async (req: Request, res: Response, next: 
 
     // Generate or use provided password
     const finalPassword = password || generateTempPassword();
+    if (password) validateStrongPassword(password);
     const hashedPassword = await bcrypt.hash(finalPassword, 10);
 
     // Create new admin
@@ -174,6 +204,7 @@ export const updateAdmin = catchAsync(async (req: Request, res: Response, next: 
     }
 
     if (password) {
+        validateStrongPassword(password);
         updateData.password = await bcrypt.hash(password, 10);
     }
 
@@ -222,6 +253,7 @@ export const Teacher_sign = catchAsync(async (req: Request, res: Response, next:
         }
     }
 
+    if (password) validateStrongPassword(password);
     const hashedPassword = await bcrypt.hash(finalPassword, 10);
 
     const newUser = await prisma.teacher.create({
@@ -274,7 +306,8 @@ export const sign_student = catchAsync(async (req: Request, res: Response, next:
         throw new AppError("Student ID already exists", 400);
     }
 
-    const tempPassword = generateTempPassword();
+    const tempPassword = password || generateTempPassword();
+    if (password) validateStrongPassword(password);
     const hashedPassword = await bcrypt.hash(tempPassword, 10);
 
     // Generate email verification token
@@ -355,6 +388,7 @@ export const change_teacher_password = catchAsync(async (req: Request, res: Resp
         throw new AppError("Old password is incorrect", 401);
     }
 
+    validateStrongPassword(newPassword);
     const hashedNewPassword = await bcrypt.hash(newPassword, 10);
 
     await prisma.teacher.update({
@@ -399,6 +433,7 @@ export const change_student_password = catchAsync(async (req: Request, res: Resp
         throw new AppError("Old password is incorrect", 401);
     }
 
+    validateStrongPassword(newPassword);
     const hashedNewPassword = await bcrypt.hash(newPassword, 10);
 
     await prisma.student.update({
@@ -440,6 +475,7 @@ export const changeMyPassword = catchAsync(async (req: Request, res: Response, n
             if (!valid) throw new AppError("Current password is incorrect", 401);
         }
 
+        validateStrongPassword(newPassword);
         const hashed = await bcrypt.hash(newPassword, 10);
         await prisma.student.update({
             where: { id: userId },
@@ -454,6 +490,7 @@ export const changeMyPassword = catchAsync(async (req: Request, res: Response, n
         const valid = await bcrypt.compare(oldPassword, user.password);
         if (!valid) throw new AppError("Current password is incorrect", 401);
 
+        validateStrongPassword(newPassword);
         const hashed = await bcrypt.hash(newPassword, 10);
         await prisma.teacher.update({
             where: { id: userId },
@@ -484,6 +521,7 @@ export const reset_student_password = catchAsync(async (req: Request, res: Respo
     }
 
     const tempPassword = generateTempPassword();
+    validateStrongPassword(tempPassword);
     const hashedPassword = await bcrypt.hash(tempPassword, 10);
 
     await prisma.student.update({
@@ -839,6 +877,7 @@ export const resetPassword = catchAsync(async (req: Request, res: Response) => {
     }
 
     // 3) Update password and clear token
+    validateStrongPassword(newPassword);
     const hashedPassword = await bcrypt.hash(newPassword, 12);
 
     const updateData: any = {
