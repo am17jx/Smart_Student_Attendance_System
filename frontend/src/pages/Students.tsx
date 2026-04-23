@@ -340,23 +340,25 @@ export default function Students() {
                   </div>
 
                   {!editingStudent && (
-                    <div className="space-y-2">
-                      <Label>الرقم الجامعي (Student ID)</Label>
-                      <Input name="studentId" required dir="ltr" placeholder="ex: 2023001" />
-                    </div>
+                    <>
+                      <div className="space-y-2">
+                        <Label>الرقم الجامعي (Student ID)</Label>
+                        <Input name="studentId" required dir="ltr" placeholder="ex: 2023001" />
+                      </div>
 
-                    <div className="space-y-2">
-                      <Label>كلمة المرور</Label>
-                      <Input 
-                        name="password" 
-                        type="password" 
-                        placeholder="اتركه فارغاً للتوليد التلقائي" 
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        dir="ltr" 
-                      />
-                      {password && <PasswordValidator password={password} />}
-                    </div>
+                      <div className="space-y-2">
+                        <Label>كلمة المرور</Label>
+                        <Input 
+                          name="password" 
+                          type="password" 
+                          placeholder="اتركه فارغاً للتوليد التلقائي" 
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          dir="ltr" 
+                        />
+                        {password && <PasswordValidator password={password} />}
+                      </div>
+                    </>
                   )}
 
                   <div className="grid grid-cols-2 gap-4">
