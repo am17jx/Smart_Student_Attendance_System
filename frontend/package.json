@@ -1,6 +1,7 @@
 {
   "name": "vite_react_shadcn_ts",
   "private": true,
+  "author": "Ameer Ahmed <ameerahmed0780@gmail.com>",
   "version": "0.0.0",
   "license": "UNLICENSED",
   "type": "module",
