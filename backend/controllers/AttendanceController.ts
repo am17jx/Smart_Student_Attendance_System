@@ -7,20 +7,17 @@ import logger from "../utils/logger";
 import { verifyTOTP } from "../utils/otp";
 import * as path from "path";
 
-// Reverse word order for RTL display; pdfkit/fontkit shapes Arabic letters automatically
 function ar(text: string): string {
     if (!text) return "";
     return String(text).split(" ").reverse().join(" ");
 }
 
-// Bundled Noto Sans Arabic font - works in both Docker and local environments
 function getArabicFont(): string {
     return require.resolve("noto-sans-arabic/fonts/Regular.ttf");
 }
 
-// Helper: Calculate distance in meters using Haversine formula
 function getDistanceFromLatLonInMeters(lat1: number, lon1: number, lat2: number, lon2: number) {
-    var R = 6371; // Radius of the earth in km
+    var R = 6371;
     var dLat = deg2rad(lat2 - lat1);
     var dLon = deg2rad(lon2 - lon1);
     var a =
@@ -29,15 +26,14 @@ function getDistanceFromLatLonInMeters(lat1: number, lon1: number, lat2: number,
         Math.sin(dLon / 2) * Math.sin(dLon / 2)
         ;
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    var d = R * c; // Distance in km
-    return d * 1000; // Distance in meters
+    var d = R * c;
+    return d * 1000;
 }
 
 function deg2rad(deg: number) {
     return deg * (Math.PI / 180)
 }
 
-// Helper function to serialize BigInt values to strings for JSON
 const serializeBigInt = (obj: any): any => {
     return JSON.parse(JSON.stringify(obj, (_, value) =>
         typeof value === 'bigint' ? value.toString() : value
@@ -66,7 +62,6 @@ export const manualAttend = catchAsync(async (req: Request, res: Response, next:
         throw new AppError("بيانات الطالب غير مكتملة. يرجى التواصل مع الإدارة.", 400);
     }
 
-    // Find active sessions for this student's department and stage
     const activeSessions = await prisma.session.findMany({
         where: {
             is_active: true,
@@ -85,7 +80,6 @@ export const manualAttend = catchAsync(async (req: Request, res: Response, next:
         throw new AppError("لا توجد جلسات مفتوحة حالياً لمرحلتك وقسمك", 404);
     }
 
-    // Try to find a session where this OTP is valid
     let matchedSession = null;
     for (const session of activeSessions) {
         if (verifyTOTP(otp, session.qr_secret, 30, 1)) {
@@ -95,7 +89,6 @@ export const manualAttend = catchAsync(async (req: Request, res: Response, next:
     }
 
     if (!matchedSession) {
-        // Log failed attempt for the first active session as a fallback representation
         await prisma.failedAttempt.create({
             data: {
                 student_id: studentId,
@@ -109,7 +102,6 @@ export const manualAttend = catchAsync(async (req: Request, res: Response, next:
         throw new AppError("الرمز غير صحيح أو منتهي الصلاحية", 400);
     }
 
-    // Geofence Validation
     if (matchedSession.geofence) {
         const distance = getDistanceFromLatLonInMeters(
             parseFloat(latitude),
@@ -133,7 +125,6 @@ export const manualAttend = catchAsync(async (req: Request, res: Response, next:
         }
     }
 
-    // Check if already attended
     const existingRecord = await prisma.attendanceRecord.findUnique({
         where: {
             student_id_session_id: {
@@ -147,7 +138,6 @@ export const manualAttend = catchAsync(async (req: Request, res: Response, next:
         throw new AppError("لقد قمت بتسجيل الحضور مسبقاً في هذه الجلسة", 400);
     }
 
-    // Mark attendance
     await prisma.attendanceRecord.create({
         data: {
             student_id: studentId,
@@ -205,7 +195,6 @@ export const getSessionAttendance = catchAsync(
             orderBy: { name: 'asc' }
         });
 
-        // 2. Get existing attendance records
         const records = await prisma.attendanceRecord.findMany({
             where: {
                 session_id: BigInt(sessionId as string),
@@ -222,15 +211,14 @@ export const getSessionAttendance = catchAsync(
 
         const attendedStudentIds = new Set(records.map(r => r.student_id.toString()));
 
-        // 3. Synthesize "Absent" records for students who haven't attended
         const combinedRecords = [
             ...records,
             ...allStudents.filter(s => !attendedStudentIds.has(s.id.toString())).map(student => ({
                 id: BigInt(0), // Placeholder ID
                 session_id: session.id,
                 student_id: student.id,
-                marked_at: new Date(), // Or session start time?
-                status: 'ABSENT', // Virtual status
+                marked_at: new Date(),
+                status: 'ABSENT',
                 token_hash: null,
                 marked_by: 'system_pending',
                 student: student,
@@ -240,7 +228,6 @@ export const getSessionAttendance = catchAsync(
 
         logger.info("📊 Found", records.length, "actual records and", combinedRecords.length - records.length, "absent students");
 
-        // Serialize BigInt values
         const serializedRecords = serializeBigInt(combinedRecords);
 
         logger.info("✅ Sending serialized records:", serializedRecords.length);
@@ -1179,9 +1166,6 @@ export const getSessionAttendanceReport = catchAsync(
         const presentCount = presentStudents.length;
         const absentCount = absentStudents.length;
 
-        // Attendance rate based on Roster only? Or Total Attendees / Class Size?
-        // Usually Rate = (Roster Present) / (Class Size). Guests shouldn't inflate rate ideally, but handling simplisticly:
-        // Let's use Roster Present Count for rate to be more accurate to the class.
         const rosterPresentCount = presentStudents.filter(s => !s.isGuest).length;
 
         const attendanceRate = totalStudents > 0

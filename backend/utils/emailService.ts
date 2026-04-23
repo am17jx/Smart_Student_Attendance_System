@@ -213,7 +213,7 @@ class EmailService {
    * Send email verification email
    */
   async sendVerificationEmail(studentEmail: string, studentName: string, verificationToken: string): Promise<void> {
-    const verificationUrl = `${process.env.FRONTEND_URL || 'http://localhost:3001'}/student/verify-email?token=${verificationToken}`;
+    const verificationUrl = `${process.env.FRONTEND_URL || 'http://localhost:3001'}/verify-email/${verificationToken}`;
 
     const html = `
       <!DOCTYPE html>
