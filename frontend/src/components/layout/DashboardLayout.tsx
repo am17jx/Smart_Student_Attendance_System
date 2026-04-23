@@ -74,6 +74,13 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           <main className="flex-1 p-4 md:p-6 overflow-auto">
             {children}
           </main>
+
+          {/* Footer */}
+          <footer className="py-6 px-6 border-t bg-muted/20 text-center">
+            <p className="text-xs text-muted-foreground">
+              جميع الحقوق محفوظة © 2024-{new Date().getFullYear()} نظام الحضور الذكي. لا يجوز نسخ أو توزيع هذا العمل دون إذن صريح.
+            </p>
+          </footer>
         </SidebarInset>
       </div>
     </SidebarProvider>
