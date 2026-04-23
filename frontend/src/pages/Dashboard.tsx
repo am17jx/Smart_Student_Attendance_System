@@ -75,6 +75,7 @@ function StatCard({
 }
 
 function AdminDashboard() {
+  const { user } = useAuth();
   const { data, isLoading, error } = useQuery({
     queryKey: ['adminDashboard'],
     queryFn: async () => {
