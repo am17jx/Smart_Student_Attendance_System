@@ -11,11 +11,7 @@ RUN npm install
 # Copy source
 COPY . .
 
-# Check if .env exists, otherwise warn (Prisma needs it for some generators but usually mostly for runtime)
-# We will rely on env vars at runtime or build time.
 # Generate Prisma Client
-# Generate Prisma Client
-# We need a dummy DATABASE_URL because prisma.config.ts requires it, even for generation
 RUN DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummy" ./node_modules/.bin/prisma generate
 
 # Build TypeScript
@@ -37,6 +33,9 @@ ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 
 # Create non-root user
 RUN addgroup --system appgroup && adduser --system --ingroup appgroup appuser
+
+# Create logs directory with correct permissions
+RUN mkdir -p /app/logs && chown -R appuser:appgroup /app/logs
 
 COPY --chown=appuser:appgroup --from=builder /app/node_modules ./node_modules
 COPY --chown=appuser:appgroup --from=builder /app/dist ./dist
