@@ -18,19 +18,15 @@ ENV VITE_API_URL=$VITE_API_URL
 RUN npm run build
 
 
-# Stage 2: Serve static files (NO NGINX)
-FROM node:20-alpine
-
-WORKDIR /app
-
-# Install simple static server
-RUN npm install -g serve
+# Stage 2: Serve with Nginx
+FROM nginx:alpine
 
 # Copy build output
-COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Expose port
+# Copy nginx config
+COPY nginx.conf /etc/nginx/nginx.conf
+
 EXPOSE 80
 
-# Run frontend
-CMD ["serve", "-s", "dist", "-l", "80"]
+CMD ["nginx", "-g", "daemon off;"]
