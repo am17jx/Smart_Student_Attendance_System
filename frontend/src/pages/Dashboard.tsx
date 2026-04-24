@@ -13,8 +13,11 @@ import {
   Clock,
   CheckCircle2,
   XCircle,
-  Building2
+  Building2,
+  AlertTriangle
 } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 // Demo data removed - using Real API
 
@@ -201,7 +204,7 @@ function AdminDashboard() {
         <CardContent>
           <div className="space-y-3">
             {data.failedAttempts && data.failedAttempts.length > 0 ? (
-              data.failedAttempts.map((attempt: any) => (
+              data.failedAttempts.slice(0, 5).map((attempt: any) => (
                 <div
                   key={attempt.id}
                   className="p-3 rounded-lg bg-destructive/5 border border-destructive/20 hover:bg-destructive/10 transition-colors"
@@ -234,6 +237,11 @@ function AdminDashboard() {
             ) : (
               <p className="text-center text-muted-foreground py-4">لا توجد محاولات فاشلة</p>
             )}
+          </div>
+          <div className="mt-4">
+            <Button variant="outline" size="sm" className="w-full" asChild>
+              <Link to="/failed-attempts">عرض كافة المحاولات</Link>
+            </Button>
           </div>
         </CardContent>
       </Card>
@@ -329,7 +337,7 @@ function TeacherDashboard() {
                     <div>
                       <p className="font-medium text-sm">{session.material?.name || 'مادة'}</p>
                       <p className="text-xs text-muted-foreground">
-                        {session._count?.attendance_records || 0} طالب حضر
+                        {session._count?.attendance_records || 0} حاضر / {session.total_students || 0} إجمالي
                       </p>
                     </div>
                   </div>
@@ -395,38 +403,33 @@ function TeacherDashboard() {
         <CardContent>
           <div className="space-y-3">
             {data.failedAttempts && data.failedAttempts.length > 0 ? (
-              data.failedAttempts.map((attempt: any) => (
+              data.failedAttempts.slice(0, 5).map((attempt: any) => (
                 <div
                   key={attempt.id}
-                  className="p-3 rounded-lg bg-destructive/5 border border-destructive/20 hover:bg-destructive/10 transition-colors"
+                  className="flex items-center justify-between p-3 rounded-lg bg-destructive/5 hover:bg-destructive/10 transition-colors"
                 >
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
+                  <div className="flex items-center gap-3">
+                    <AlertTriangle className="h-4 w-4 text-destructive" />
+                    <div>
                       <p className="font-medium text-sm">{attempt.student?.name || 'طالب غير معروف'}</p>
                       <p className="text-xs text-muted-foreground">
-                        {attempt.student?.student_id ? `الرقم الجامعي: ${attempt.student.student_id}` : ''}
-                      </p>
-                      <p className="text-xs text-muted-foreground mt-1">
-                        المادة: {attempt.session?.material?.name || 'غير محدد'}
-                      </p>
-                      <p className="text-xs text-destructive mt-1">
-                        {attempt.error_type}: {attempt.error_message || 'محاولة غير مصرح بها'}
+                        {attempt.error_type} - {attempt.session?.material?.name || 'جلسة غير محددة'}
                       </p>
                     </div>
-                    <span className="text-xs text-muted-foreground">
-                      {new Date(attempt.attempted_at).toLocaleString('ar-EG', {
-                        month: 'short',
-                        day: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit'
-                      })}
-                    </span>
                   </div>
+                  <span className="text-xs text-muted-foreground">
+                    {new Date(attempt.attempted_at).toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' })}
+                  </span>
                 </div>
               ))
             ) : (
               <p className="text-center text-muted-foreground py-4">لا توجد محاولات فاشلة</p>
             )}
+          </div>
+          <div className="mt-4">
+            <Button variant="outline" size="sm" className="w-full" asChild>
+              <Link to="/failed-attempts">عرض كافة المحاولات</Link>
+            </Button>
           </div>
         </CardContent>
       </Card>
@@ -539,7 +542,6 @@ function StudentDashboard() {
         />
       </div>
 
-      {/* Status Message */}
       {/* Status Message */}
       {stats.totalSessions === 0 ? (
         <Card className="shadow-card bg-muted/20 border-dashed">

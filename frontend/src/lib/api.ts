@@ -99,9 +99,13 @@ export interface DashboardStats {
   materials?: number;
   sessions?: number;
   attendanceRate?: number;
+  yesterdayAttendanceRate?: number;
   sessionsThisMonth?: number;
   todayAttendance?: number;
   totalStudentsAttended?: number;
+  studentsTrend?: number;
+  teachersTrend?: number;
+  materialsTrend?: number;
   // Student-specific stats
   totalSessions?: number;
   attended?: number;

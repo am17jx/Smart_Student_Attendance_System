@@ -64,13 +64,13 @@ export default function TeacherAttendanceStats() {
 }
 
 // Reusable content component
-export function TeacherAttendanceStatsContent({ stats, pieData }: {
+export function TeacherAttendanceStatsContent({ stats, pieData, hideLayout = false }: {
     stats: NonNullable<Awaited<ReturnType<typeof attendanceApi.getTeacherStats>>['data']>;
     pieData: { name: string; value: number; color: string }[];
+    hideLayout?: boolean;
 }) {
-    return (
-        <DashboardLayout>
-            <div className="space-y-6 animate-in fade-in duration-500">
+    const content = (
+        <div className="space-y-6 animate-in fade-in duration-500">
                 <div>
                     <h1 className="text-3xl font-bold flex items-center gap-2">
                         <TrendingUp className="h-8 w-8 text-primary" />
@@ -320,7 +320,9 @@ export function TeacherAttendanceStatsContent({ stats, pieData }: {
                         )}
                     </CardContent>
                 </Card>
-            </div>
-        </DashboardLayout>
+        </div>
     );
+
+    if (hideLayout) return content;
+    return <DashboardLayout>{content}</DashboardLayout>;
 }

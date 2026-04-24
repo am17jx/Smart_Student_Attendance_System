@@ -101,15 +101,15 @@ const App = () => (
               <Route path="/materials" element={<ProtectedRoute allowedRoles={['admin']}><Materials /></ProtectedRoute>} />
               <Route path="/departments" element={<ProtectedRoute allowedRoles={['admin']} deanOnly><Departments /></ProtectedRoute>} />
               <Route path="/stages" element={<ProtectedRoute allowedRoles={['admin']}><Stages /></ProtectedRoute>} />
-              <Route path="/sessions" element={<ProtectedRoute allowedRoles={['admin']}><Sessions /></ProtectedRoute>} />
-              <Route path="/sessions/:id" element={<ProtectedRoute allowedRoles={['admin']}><SessionDetails /></ProtectedRoute>} />
+              <Route path="/sessions" element={<ProtectedRoute allowedRoles={['admin', 'teacher']}><Sessions /></ProtectedRoute>} />
+              <Route path="/sessions/:id" element={<ProtectedRoute allowedRoles={['admin', 'teacher']}><SessionDetails /></ProtectedRoute>} />
               <Route path="/geofences" element={<ProtectedRoute allowedRoles={['admin']}><Geofences /></ProtectedRoute>} />
-              <Route path="/attendance" element={<ProtectedRoute allowedRoles={['admin']}><Attendance /></ProtectedRoute>} />
+              <Route path="/attendance" element={<ProtectedRoute allowedRoles={['admin', 'teacher']}><Attendance /></ProtectedRoute>} />
               <Route path="/attendance/stats" element={<ProtectedRoute allowedRoles={['admin']}><AttendanceStats /></ProtectedRoute>} />
               <Route path="/promotion" element={<ProtectedRoute allowedRoles={['admin']}><StudentPromotion /></ProtectedRoute>} />
               <Route path="/promotion-config" element={<ProtectedRoute allowedRoles={['admin']}><PromotionConfig /></ProtectedRoute>} />
               <Route path="/enrollments" element={<ProtectedRoute allowedRoles={['admin']}><StudentEnrollments /></ProtectedRoute>} />
-              <Route path="/failed-attempts" element={<ProtectedRoute allowedRoles={['admin']}><FailedAttempts /></ProtectedRoute>} />
+              <Route path="/failed-attempts" element={<ProtectedRoute allowedRoles={['admin', 'teacher']}><FailedAttempts /></ProtectedRoute>} />
               <Route path="/student-leaves" element={<ProtectedRoute allowedRoles={['admin']}><StudentLeaves /></ProtectedRoute>} />
 
               {/* Teacher Routes */}
@@ -121,7 +121,7 @@ const App = () => (
 
               {/* Student Routes */}
               <Route path="/dashboard/student" element={<ProtectedRoute allowedRoles={['student']}><Dashboard /></ProtectedRoute>} />
-              <Route path="/my-materials" element={<ProtectedRoute allowedRoles={['student']}><MyMaterials /></ProtectedRoute>} />
+              <Route path="/my-materials" element={<ProtectedRoute allowedRoles={['student', 'teacher']}><MyMaterials /></ProtectedRoute>} />
               <Route path="/my-attendance" element={<ProtectedRoute allowedRoles={['student']}><Attendance /></ProtectedRoute>} />
               <Route path="/scan-qr" element={<ProtectedRoute allowedRoles={['student']}><ScanQR /></ProtectedRoute>} />
 

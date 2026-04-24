@@ -143,14 +143,65 @@ export default function Attendance() {
 
   if (isLoading) return <LoadingSpinner />;
 
-  // For teachers, show the TeacherAttendanceStats page content
+  // For teachers, show the TeacherAttendanceStats page content AND a record table
   if (user?.role === 'teacher' && teacherStats) {
     const pieData = teacherStats.byMaterial.map((item, index) => ({
       name: item.materialName,
       value: item.totalAttendees,
       color: COLORS[index % COLORS.length]
     }));
-    return <TeacherAttendanceStatsContent stats={teacherStats} pieData={pieData} />;
+
+    return (
+      <DashboardLayout>
+        <div className="space-y-8">
+          {/* Stats Section */}
+          <TeacherAttendanceStatsContent stats={teacherStats} pieData={pieData} hideLayout />
+
+          {/* History Section */}
+          <div className="space-y-4">
+            <h2 className="text-xl font-bold flex items-center gap-2">
+              <ClipboardCheck className="h-5 w-5 text-primary" />
+              سجل الحضور التفصيلي
+            </h2>
+            <Card className="shadow-card">
+              <CardContent className="p-0">
+                <DataTable
+                  data={teacherStats.recentSessions.map(s => ({
+                    id: s.id,
+                    materialName: s.materialName,
+                    location: s.location,
+                    date: s.date,
+                    attendees: s.attendeeCount,
+                    status: s.isActive ? "نشطة" : "منتهية"
+                  }))}
+                  columns={[
+                    { key: "materialName", header: "المادة" },
+                    { key: "location", header: "الموقع" },
+                    {
+                      key: "date",
+                      header: "التاريخ",
+                      render: (row: any) => <span>{new Date(row.date).toLocaleDateString('ar-EG')}</span>
+                    },
+                    { key: "attendees", header: "عدد الحاضرين" },
+                    {
+                      key: "status",
+                      header: "الحالة",
+                      render: (row: any) => (
+                        <Badge variant={row.status === "نشطة" ? "default" : "secondary"}>
+                          {row.status}
+                        </Badge>
+                      )
+                    }
+                  ]}
+                  searchKey="materialName"
+                  searchPlaceholder="بحث عن مادة..."
+                />
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </DashboardLayout>
+    );
   }
 
   // For admin users, show a message

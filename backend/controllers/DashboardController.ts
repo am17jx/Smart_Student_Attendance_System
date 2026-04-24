@@ -253,15 +253,36 @@ export const getTeacherDashboard = catchAsync(async (req: Request, res: Response
             : 0;
 
         // Recent sessions
-        const recentSessions = await prisma.session.findMany({
+        const recentSessionsRaw = await prisma.session.findMany({
             where: { teacher_id: teacherId },
             take: 5,
             orderBy: { created_at: 'desc' },
             include: {
-                material: { select: { name: true } },
+                material: {
+                    select: {
+                        name: true,
+                        stage_id: true,
+                        department_id: true
+                    }
+                },
                 _count: { select: { attendance_records: true } }
             }
         });
+
+        // Add total_students to each session
+        const recentSessions = await Promise.all(recentSessionsRaw.map(async (session) => {
+            const studentCount = await prisma.student.count({
+                where: {
+                    stage_id: session.material.stage_id,
+                    department_id: session.material.department_id
+                }
+            });
+            return {
+                ...session,
+                id: session.id.toString(),
+                total_students: studentCount
+            };
+        }));
 
         // Recent attendance for this teacher's sessions (only PRESENT or LATE, not ABSENT)
         const allSessionIds = allTeacherSessions.map(s => s.id);
