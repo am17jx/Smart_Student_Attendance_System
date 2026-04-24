@@ -10,7 +10,7 @@ interface EmailOptions {
 class EmailService {
 
   /**
-   * Send email via Brevo REST API (port 443 - never blocked by cloud providers)
+   * Send email via Brevo REST API
    */
   async sendEmail(options: EmailOptions): Promise<void> {
     const apiKey = process.env.BREVO_API_KEY;
@@ -23,7 +23,7 @@ class EmailService {
     const payload = {
       sender: {
         name: process.env.EMAIL_FROM_NAME || 'نظام الحضور الإلكتروني',
-        email: process.env.EMAIL_FROM || 'ameerahmed0780@gmail.com',
+        email: process.env.EMAIL_FROM || 'info@smart-attend.tech',
       },
       to: [{ email: options.to }],
       subject: options.subject,
@@ -43,7 +43,7 @@ class EmailService {
     if (!response.ok) {
       const errorBody = await response.text();
       logger.error(`Brevo API error: ${response.status} - ${errorBody}`);
-      throw new Error('Failed to send email');
+      throw new Error('Failed to send email via Brevo');
     }
 
     logger.info(`✅ Email sent to ${options.to} via Brevo API`);
