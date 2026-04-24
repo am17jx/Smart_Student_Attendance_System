@@ -337,7 +337,6 @@ export const sign_student = catchAsync(async (req: Request, res: Response, next:
 
         logger.info(`[ADMIN] Student created: ${email}, ID: ${newUser.id}`);
 
-        // ✅ Background the welcome email sending
         emailService.sendWelcomeEmail(email, name, tempPassword)
             .then(() => logger.info(`✅ Welcome email sent to ${email}`))
             .catch(err => logger.error(`❌ Failed to send welcome email to ${email}`, err));

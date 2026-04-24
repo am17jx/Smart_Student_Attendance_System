@@ -416,7 +416,7 @@ export const sessionsApi = {
   getAll: (page = 1, limit = 10, search = "") => apiRequest<{ sessions: Session[]; meta?: PaginationMeta }>(`/sessions?page=${page}&limit=${limit}&search=${encodeURIComponent(search)}`),
   getMySessions: (page = 1, limit = 10, search = "") => apiRequest<{ sessions: Session[]; meta?: PaginationMeta }>(`/sessions/my-sessions?page=${page}&limit=${limit}&search=${encodeURIComponent(search)}`),
   getById: (id: string) => apiRequest<{ session: Session }>(`/sessions/${id}`),
-  create: (data: { materialId: string; teacherId: string; geofenceId: string }) =>
+  create: (data: { materialId: string; teacherId: string; geofenceId: string; durationMinutes?: number }) =>
     apiRequest<{ session: Session }>('/sessions', {
       method: 'POST',
       body: JSON.stringify(data),

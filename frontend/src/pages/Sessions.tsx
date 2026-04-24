@@ -134,9 +134,10 @@ export default function Sessions() {
 
   // 2. Mutations
   const createMutation = useMutation({
-    mutationFn: (data: { materialId: string; geofenceId: string; teacherId: string }) => sessionsApi.create(data),
+    mutationFn: (data: { materialId: string; geofenceId: string; teacherId: string; durationMinutes?: number }) => sessionsApi.create(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['sessions'] });
+      queryClient.invalidateQueries({ queryKey: ['my-sessions'] });
       toast({ title: "تم إنشاء الجلسة", description: "تم إنشاء جلسة جديدة بنجاح" });
       setIsDialogOpen(false);
     },
@@ -184,32 +185,22 @@ export default function Sessions() {
     const formData = new FormData(e.currentTarget);
     const materialId = formData.get("material") as string;
     const geofenceId = formData.get("geofence") as string;
+    const durationMinutes = Number(formData.get("durationMinutes")) || 5;
 
-    // Assuming current user is the teacher or admin selecting a teacher?
-    // For now hardcode a teacher ID or get from AuthContext if I had it accessable here.
-    // But this page might be Admin view. Admin should probably select teacher?
-    // Or if Teacher view, use their ID.
-    // The previous code had "Dr. Ahmed" hardcoded.
-    // I will use a placeholder teacher ID or user's ID if I can import useAuth.
-    // Let's assume for now we just pass a string or if the API handles it from Token.
-    // API `create` takes `teacherId`.
-    // I'll assume the logged in user is the teacher if role is teacher, or admin selects.
-    // Since UI doesn't have Teacher Select, I'll assume logged-in user OR hardcode for now to satisfy type.
-    // "1" is a safe bet for dev.
-    // Use logged-in user's ID if they are a teacher.
-    // If admin, we ideally need a teacher selector, but for now we'll use a placeholder or handle it later.
-    // The immediate fix is for the Teacher role.
     const teacherId = user?.role === 'teacher' ? user.id : (user?.id || "1");
 
     createMutation.mutate({
       materialId,
       geofenceId,
-      teacherId
+      teacherId,
+      durationMinutes
     });
   };
 
   const handleEndSession = (id: string) => {
-    endSessionMutation.mutate(id);
+    if (window.confirm("هل أنت متأكد من إنهاء هذه الجلسة؟ سيتم تسجيل الطلاب الذين لم يسجلوا حضورهم كغائبين تلقائياً.")) {
+      endSessionMutation.mutate(id);
+    }
   };
 
 
@@ -306,6 +297,20 @@ export default function Sessions() {
                           ))}
                         </SelectContent>
                       </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label>مدة الجلسة (بالدقائق)</Label>
+                      <Input 
+                        name="durationMinutes" 
+                        type="number" 
+                        min="1" 
+                        max="180" 
+                        defaultValue="5" 
+                        required 
+                      />
+                      <p className="text-[10px] text-muted-foreground">
+                        سيتم إغلاق الجلسة تلقائياً وتسجيل الغيابات بعد هذه المدة.
+                      </p>
                     </div>
                   </div>
                   <DialogFooter>

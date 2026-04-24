@@ -7,7 +7,7 @@ import logger from "../utils/logger";
 import absenceWarningService from "../utils/absenceWarningService";
 
 export const createSession = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const { materialId, teacherId, geofenceId } = req.body;
+    const { materialId, teacherId, geofenceId, durationMinutes } = req.body;
 
     // Validate required fields
     if (!materialId || !teacherId || !geofenceId) {
@@ -46,7 +46,7 @@ export const createSession = catchAsync(async (req: Request, res: Response, next
             teacher_id: BigInt(teacherId as string),
             geofence_id: BigInt(geofenceId as string),
             qr_secret: crypto.randomInt(100000, 999999).toString(),
-            expires_at: new Date(Date.now() + 5 * 60 * 1000),
+            expires_at: new Date(Date.now() + (Number(durationMinutes) || 5) * 60 * 1000),
         },
     })
     res.status(201).json({
@@ -148,6 +148,11 @@ export const endSession = catchAsync(async (req: Request, res: Response, next: N
 
     if (!session) {
         return next(new AppError('Session not found', 404));
+    }
+
+    // 1.5. Authorization check: Teachers can only end their own sessions
+    if (req.user?.role === 'teacher' && session.teacher_id !== BigInt(req.user.id)) {
+        return next(new AppError('Unauthorized to end this session', 403));
     }
 
     // 2. Mark session as inactive
