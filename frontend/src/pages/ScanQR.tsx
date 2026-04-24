@@ -119,7 +119,7 @@ export default function ScanQR() {
         // Store attendance details for display
         setAttendanceDetails({
           materialName: response.data?.materialName || "المادة",
-          timestamp: new Date().toLocaleString('ar-SA'),
+          timestamp: new Date().toISOString(),
           sessionId: data.id
         });
 
@@ -289,8 +289,8 @@ export default function ScanQR() {
               <p className="text-muted-foreground">المادة: {attendanceDetails?.materialName || "غير معروف"}</p>
               <p className="text-sm text-muted-foreground mt-1">
                 {attendanceDetails?.timestamp
-                  ? new Date(attendanceDetails.timestamp).toLocaleTimeString('ar-SA')
-                  : new Date().toLocaleTimeString('ar-SA')}
+                  ? new Date(attendanceDetails.timestamp).toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' })
+                  : new Date().toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' })}
               </p>
               <Button
                 variant="outline"
