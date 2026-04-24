@@ -185,7 +185,12 @@ export default function Sessions() {
     const formData = new FormData(e.currentTarget);
     const materialId = formData.get("material") as string;
     const geofenceId = formData.get("geofence") as string;
-    const durationMinutes = Number(formData.get("durationMinutes")) || 5;
+    let durationMinutes = Number(formData.get("durationMinutes")) || 5;
+
+    if (durationMinutes > 30) {
+      durationMinutes = 30;
+      toast({ title: "تنبيه", description: "الحد الأقصى لمدّة الجلسة هو 30 دقيقة" });
+    }
 
     const teacherId = user?.role === 'teacher' ? user.id : (user?.id || "1");
 
@@ -299,17 +304,17 @@ export default function Sessions() {
                       </Select>
                     </div>
                     <div className="space-y-2">
-                      <Label>مدة الجلسة (بالدقائق)</Label>
+                      <Label>مدة الجلسة (1 - 30 دقيقة)</Label>
                       <Input 
                         name="durationMinutes" 
                         type="number" 
                         min="1" 
-                        max="180" 
+                        max="30" 
                         defaultValue="5" 
                         required 
                       />
                       <p className="text-[10px] text-muted-foreground">
-                        سيتم إغلاق الجلسة تلقائياً وتسجيل الغيابات بعد هذه المدة.
+                        الحد الأقصى هو 30 دقيقة لضمان أمان الحضور.
                       </p>
                     </div>
                   </div>
@@ -371,6 +376,9 @@ export default function Sessions() {
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <Clock className="h-4 w-4" />
                     <span>{formatTime(session.created_at)} - {formatTime(session.expires_at)}</span>
+                    <Badge variant="outline" className="text-[10px] py-0 px-1 ml-auto">
+                      {Math.round((new Date(session.expires_at).getTime() - new Date(session.created_at).getTime()) / 60000)} د
+                    </Badge>
                   </div>
                   {/* <div className="flex items-center gap-2 text-muted-foreground">
                     <Users className="h-4 w-4" />

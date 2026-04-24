@@ -46,7 +46,7 @@ export const createSession = catchAsync(async (req: Request, res: Response, next
             teacher_id: BigInt(teacherId as string),
             geofence_id: BigInt(geofenceId as string),
             qr_secret: crypto.randomInt(100000, 999999).toString(),
-            expires_at: new Date(Date.now() + (Number(durationMinutes) || 5) * 60 * 1000),
+            expires_at: new Date(Date.now() + Math.min(Number(durationMinutes) || 5, 30) * 60 * 1000),
         },
     })
     res.status(201).json({
