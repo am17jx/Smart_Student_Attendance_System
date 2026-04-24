@@ -32,12 +32,12 @@ import rateLimit from 'express-rate-limit';
 const app = express();
 app.set('trust proxy', 1); // Enable trusting the reverse proxy (Traefik/Coolify) for rate limiting and IP detection
 
-// Global Rate Limiter
+// Global Rate Limiter - increased for classroom scenarios
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
-    standardHeaders: 'draft-7', // set `RateLimit` and `RateLimit-Policy` headers
-    legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
+    limit: 1000, // Increased from 100 to 1000 to handle many students on the same WiFi
+    standardHeaders: 'draft-7',
+    legacyHeaders: false,
     message: 'Too many requests from this IP, please try again after 15 minutes',
 });
 
