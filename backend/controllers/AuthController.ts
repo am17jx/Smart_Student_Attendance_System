@@ -337,14 +337,10 @@ export const sign_student = catchAsync(async (req: Request, res: Response, next:
 
         logger.info(`[ADMIN] Student created: ${email}, ID: ${newUser.id}`);
 
-        // ✅ Background the email sending to avoid blocking the response
+        // ✅ Background the welcome email sending
         emailService.sendWelcomeEmail(email, name, tempPassword)
             .then(() => logger.info(`✅ Welcome email sent to ${email}`))
             .catch(err => logger.error(`❌ Failed to send welcome email to ${email}`, err));
-
-        emailService.sendVerificationEmail(email, name, verificationToken)
-            .then(() => logger.info(`✅ Verification email sent to ${email}`))
-            .catch(err => logger.error(`❌ Failed to send verification email to ${email}`, err));
 
         res.status(201).json({
             status: "success",
@@ -438,7 +434,7 @@ export const change_student_password = catchAsync(async (req: Request, res: Resp
 
     await prisma.student.update({
         where: { id: BigInt(studentId as string) },
-        data: { password: hashedNewPassword, must_change_password: false },
+        data: { password: hashedNewPassword, must_change_password: false, is_verified: true },
     });
 
     logger.info(`[AUTH] Password changed for student: ${user.email}`);
@@ -479,7 +475,7 @@ export const changeMyPassword = catchAsync(async (req: Request, res: Response, n
         const hashed = await bcrypt.hash(newPassword, 10);
         await prisma.student.update({
             where: { id: userId },
-            data: { password: hashed, must_change_password: false },
+            data: { password: hashed, must_change_password: false, is_verified: true },
         });
     } else if (role === 'teacher') {
         const user = await prisma.teacher.findUnique({ where: { id: userId } });
