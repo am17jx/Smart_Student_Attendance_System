@@ -4,8 +4,8 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     container_name: attendance-backend
-    expose:
-      - "4000"
+    ports:
+      - '4000:4000'
     env_file:
       - ./backend/.env
     dns:
@@ -13,53 +13,47 @@ services:
       - 8.8.4.4
     restart: always
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - 'host.docker.internal:host-gateway'
     depends_on:
       - db
       - redis
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.backend.rule=PathPrefix(`/api`)"
-      - "traefik.http.services.backend.loadbalancer.server.port=4000"
-
+      - traefik.enable=true
+      - traefik.http.routers.backend.rule=PathPrefix(`/api`)
+      - traefik.http.services.backend.loadbalancer.server.port=4000
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        - VITE_API_URL=${SERVICE_URL_BACKEND}/api/v1
+        - 'VITE_API_URL=https://api.smart-attend.tech/api/v1'
     container_name: attendance-frontend
-    expose:
-      - "80"
+    ports:
+      - '8080:80'
     depends_on:
       - backend
     restart: always
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.frontend.rule=PathPrefix(`/`)"
-      - "traefik.http.services.frontend.loadbalancer.server.port=80"
-
+      - traefik.enable=true
+      - traefik.http.routers.frontend.rule=PathPrefix(`/`)
+      - traefik.http.services.frontend.loadbalancer.server.port=80
   db:
-    image: postgres:15-alpine
+    image: 'postgres:15-alpine'
     container_name: attendance-db
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: ameer
       POSTGRES_DB: attendance_system
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - 'pgdata:/var/lib/postgresql/data'
     restart: always
-
   redis:
-    image: redis:7-alpine
+    image: 'redis:7-alpine'
     container_name: attendance-redis
     ports:
-      - "6379:6379"
+      - '6379:6379'
     restart: always
-
 volumes:
-  pgdata:
-
-
+  pgdata: null
