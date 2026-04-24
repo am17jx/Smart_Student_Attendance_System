@@ -241,6 +241,17 @@ export default function Students() {
     { key: "email", header: "البريد الإلكتروني" },
     { key: "student_id", header: "الرقم الجامعي" },
     {
+      key: "isActive",
+      header: "الحالة",
+      render: (student: StudentType) => (
+        student.isActive ? (
+          <Badge className="bg-success/20 text-success border-success/30 hover:bg-success/30 transition-colors">نشط</Badge>
+        ) : (
+          <Badge variant="secondary" className="bg-muted text-muted-foreground opacity-70">غير نشط</Badge>
+        )
+      )
+    },
+    {
       key: "department",
       header: "القسم",
       render: (student: StudentType) => student.department?.name || getDeptName(student.department_id)

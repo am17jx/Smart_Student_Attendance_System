@@ -51,12 +51,13 @@ export interface Student {
   id: string;
   name: string;
   email: string;
-  student_id?: string; // University ID (optional on read if legacy, or required)
+  student_id?: string;
   stage_id?: string;
   department_id?: string;
   department?: Department;
   stage?: Stage;
-  attendanceRate?: number; // Optional based on usage
+  attendanceRate?: number;
+  isActive?: boolean;
 }
 
 export interface Session {

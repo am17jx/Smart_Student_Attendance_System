@@ -72,6 +72,7 @@ export const getAllStudents = catchAsync(async (req: Request, res: Response, nex
                 id: s.id.toString(),
                 department_id: s.department_id?.toString(),
                 stage_id: s.stage_id?.toString(),
+                isActive: !s.must_change_password,
                 department: s.department ? { ...s.department, id: s.department.id.toString() } : undefined,
                 stage: s.stage ? { ...s.stage, id: s.stage.id.toString() } : undefined,
             }));

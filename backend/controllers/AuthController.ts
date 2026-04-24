@@ -614,36 +614,14 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
         }
 
         if (student.must_change_password) {
-            // Generate reset token for email flow
-            const resetToken = generateToken();
-            const resetTokenHash = crypto.createHash('sha256').update(resetToken).digest('hex');
-            const resetExpires = new Date(Date.now() + 30 * 60 * 1000); // 30 minutes
-
-            // Save token to DB
-            await prisma.student.update({
-                where: { id: student.id },
-                data: {
-                    password_reset_token: resetTokenHash,
-                    password_reset_expires: resetExpires,
-                },
-            });
-
-            // Send Email
-            try {
-                await emailService.sendPasswordResetEmail(student.email, student.name, resetToken);
-                logger.info(`✅ Password reset email sent to ${student.email} (Triggered by temp password login)`);
-            } catch (error) {
-                logger.error('Failed to send password reset email', { error, email: student.email });
-            }
-
-            // Generate token (JWT) so they can also change it manually if they want
+            // Generate token (JWT) so they can change it manually
             const token = signToken({ id: student.id.toString(), email: student.email, role: "student" });
 
             return res.status(200).json({
                 status: "must_change_password",
-                message: "تم إرسال رابط تعيين كلمة المرور إلى بريدك الإلكتروني. يرجى تغيير كلمة المرور.",
+                message: "يرجى تغيير كلمة المرور المؤقتة لمتابعة استخدام النظام.",
                 data: {
-                    token,  // ✅ Include token for authentication
+                    token,
                     user: {
                         id: student.id.toString(),
                         name: student.name,

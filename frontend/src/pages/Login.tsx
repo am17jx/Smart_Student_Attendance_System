@@ -31,8 +31,8 @@ export default function Login() {
 
       if (response?.status === 'must_change_password') {
         toast({
-          title: "يرجى التحقق من بريدك الإلكتروني",
-          description: response.message || "تم إرسال رابط تعيين كلمة المرور إلى بريدك الإلكتروني.",
+          title: "تنبيه: يلزم تغيير كلمة المرور",
+          description: response.message || "يرجى تغيير كلمة المرور المؤقتة لمتابعة استخدام النظام.",
           variant: "default",
           duration: 6000,
         });
