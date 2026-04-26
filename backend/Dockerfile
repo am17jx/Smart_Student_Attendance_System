@@ -8,7 +8,8 @@ RUN apt-get update -y && apt-get install -y openssl
 COPY package*.json ./
 RUN npm install
 
-# Copy source
+# Copy source — ARG forces cache bust on every deploy
+ARG CACHEBUST=1
 COPY . .
 
 # Generate Prisma Client
