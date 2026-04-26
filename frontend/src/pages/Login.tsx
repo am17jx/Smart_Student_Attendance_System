@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -19,7 +18,6 @@ export default function Login() {
 
   const { login, user, isLoading: authLoading } = useAuth();
   const navigate = useNavigate();
-  const { toast } = useToast();
 
   useEffect(() => {
     if (!authLoading && user) {
@@ -39,22 +37,14 @@ export default function Login() {
       console.log('🚀 [Login] login() returned:', JSON.stringify(response, null, 2));
 
       if ((response as any)?.status === 'must_change_password') {
-        console.log('🚀 [Login] ✅ DETECTED must_change_password in Login.tsx');
-        toast({
-          title: "تنبيه: يلزم تغيير كلمة المرور",
-          description: (response as any).message || "يرجى تغيير كلمة المرور المؤقتة لمتابعة استخدام النظام.",
-          variant: "default",
-          duration: 6000,
-        });
-        console.log('🚀 [Login] Setting sessionStorage must_change_password=true');
         sessionStorage.setItem('must_change_password', 'true');
-
-        console.log('🚀 [Login] Navigating to /change-password');
-        navigate("/change-password", { state: { forced: true } });
+        // Hard navigation avoids React state race condition:
+        // token + user are already in localStorage (set by AuthContext.login),
+        // so on reload ProtectedRoute finds user immediately — no redirect loop.
+        window.location.replace('/change-password');
         return;
       }
 
-      console.log('🚀 [Login] Navigating to /dashboard');
       navigate("/dashboard");
     } catch (err: any) {
       console.error('🚀 [Login] ❌ Catch block triggered:', err.message || err);
