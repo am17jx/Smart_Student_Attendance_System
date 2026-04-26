@@ -102,6 +102,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     authApi.logout().catch(console.error); // Best effort logout from server
     setAuthToken(null);
     localStorage.removeItem('user');
+    sessionStorage.removeItem('must_change_password');
     setUser(null);
   };
 

@@ -36,6 +36,7 @@ export default function Login() {
           variant: "default",
           duration: 6000,
         });
+        sessionStorage.setItem('must_change_password', 'true');
         navigate("/change-password", { state: { forced: true } });
         return;
       }

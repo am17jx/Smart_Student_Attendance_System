@@ -15,7 +15,7 @@ export default function ChangePassword() {
     const { user, refreshUser } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
-    const isForced = location.state?.forced || false;
+    const isForced = location.state?.forced === true || sessionStorage.getItem('must_change_password') === 'true';
 
     const [oldPassword, setOldPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
@@ -54,9 +54,11 @@ export default function ChangePassword() {
             if (!isForced && oldPassword) body.oldPassword = oldPassword;
 
             await authApi.changeMyPassword(body.newPassword, body.oldPassword);
-            // Refresh user profile from server to get correct role/department_id
-            await refreshUser();
+            // Clear the forced-change flag from sessionStorage
+            sessionStorage.removeItem('must_change_password');
+            // Navigate immediately, refresh profile in background
             navigate("/dashboard");
+            refreshUser(); // fire-and-forget — updates user state after navigation
         } catch (err: any) {
             setError(err.message || "فشل تغيير كلمة المرور");
         } finally {
