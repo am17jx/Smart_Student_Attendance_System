@@ -1062,11 +1062,55 @@ export const getProfile = catchAsync(async (req: Request, res: Response) => {
         throw new AppError('غير مصرح', 401);
     }
 
-    // Return the user data attached by the auth middleware
+    const { id, role } = req.user;
+    let userData: any = null;
+
+    if (role === 'admin') {
+        const admin = await prisma.admin.findUnique({
+            where: { id: BigInt(id) },
+            select: { id: true, name: true, email: true, role: true, department_id: true }
+        });
+        if (!admin) throw new AppError('المستخدم غير موجود', 404);
+        userData = {
+            id: admin.id.toString(),
+            name: admin.name,
+            email: admin.email,
+            role: 'admin',
+            department_id: admin.department_id ? admin.department_id.toString() : undefined
+        };
+    } else if (role === 'teacher') {
+        const teacher = await prisma.teacher.findUnique({
+            where: { id: BigInt(id) },
+            select: { id: true, name: true, email: true }
+        });
+        if (!teacher) throw new AppError('المستخدم غير موجود', 404);
+        userData = {
+            id: teacher.id.toString(),
+            name: teacher.name,
+            email: teacher.email,
+            role: 'teacher'
+        };
+    } else if (role === 'student') {
+        const student = await prisma.student.findUnique({
+            where: { id: BigInt(id) },
+            select: { id: true, name: true, email: true, department_id: true, stage_id: true }
+        });
+        if (!student) throw new AppError('المستخدم غير موجود', 404);
+        userData = {
+            id: student.id.toString(),
+            name: student.name,
+            email: student.email,
+            role: 'student',
+            department_id: student.department_id ? student.department_id.toString() : undefined
+        };
+    } else {
+        throw new AppError('دور غير معروف', 403);
+    }
+
     res.status(200).json({
         status: 'success',
         data: {
-            user: req.user
+            user: userData
         }
     });
 });

@@ -12,7 +12,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { PasswordValidator } from "@/components/auth/PasswordValidator";
 
 export default function ChangePassword() {
-    const { user } = useAuth();
+    const { user, refreshUser } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
     const isForced = location.state?.forced || false;
@@ -54,6 +54,8 @@ export default function ChangePassword() {
             if (!isForced && oldPassword) body.oldPassword = oldPassword;
 
             await authApi.changeMyPassword(body.newPassword, body.oldPassword);
+            // Refresh user profile from server to get correct role/department_id
+            await refreshUser();
             navigate("/dashboard");
         } catch (err: any) {
             setError(err.message || "فشل تغيير كلمة المرور");

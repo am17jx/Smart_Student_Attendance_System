@@ -7,6 +7,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<any>;
   logout: () => void;
+  refreshUser: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -84,6 +85,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const refreshUser = async () => {
+    try {
+      const response = await authApi.getProfile();
+      const freshUser = response.data?.user;
+      if (freshUser) {
+        localStorage.setItem('user', JSON.stringify(freshUser));
+        setUser(freshUser);
+      }
+    } catch {
+      // If profile fetch fails, keep existing user data
+    }
+  };
+
   const logout = () => {
     authApi.logout().catch(console.error); // Best effort logout from server
     setAuthToken(null);
@@ -99,6 +113,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         isAuthenticated: !!user,
         login,
         logout,
+        refreshUser,
       }}
     >
       {children}
