@@ -7,7 +7,8 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 
-# Copy source code
+# Copy source code — ARG forces cache bust on every deploy
+ARG CACHEBUST=1
 COPY . .
 
 # Pass VITE_API_URL from build args
