@@ -12,6 +12,7 @@ import AppError from "../utils/AppError";
 import { logFailedAttemptUtil } from "../utils/FailedAttemptUtill";
 import emailService from "../utils/emailService";
 import logger from "../utils/logger";
+import { invalidateCachePattern } from "../utils/cacheUtils";
 dotenv.config();
 
 
@@ -338,6 +339,9 @@ export const sign_student = catchAsync(async (req: Request, res: Response, next:
         });
 
         logger.info(`[ADMIN] Student created: ${email}, ID: ${newUser.id}`);
+
+        // Invalidate students cache
+        await invalidateCachePattern("students:*");
 
         emailService.sendWelcomeEmail(email, name, tempPassword)
             .then(() => logger.info(`✅ Welcome email sent to ${email}`))
