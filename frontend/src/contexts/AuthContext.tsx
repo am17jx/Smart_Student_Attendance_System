@@ -52,9 +52,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       // Handle "Must Change Password" scenario
       if (response.status === 'must_change_password' as any) {
-        // Temporarily set token to allow change password request
+        // Save token AND user so ProtectedRoute allows access to /change-password
         if (response.data?.token) {
           setAuthToken(response.data.token);
+        }
+        if (response.data?.user) {
+          localStorage.setItem('user', JSON.stringify(response.data.user));
+          setUser(response.data.user);
         }
         return response; // Return full response for UI to handle redirect
       }

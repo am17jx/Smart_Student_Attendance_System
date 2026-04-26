@@ -92,14 +92,15 @@ export const createAdmin = catchAsync(async (req: Request, res: Response, next: 
     if (password) validateStrongPassword(password);
     const hashedPassword = await bcrypt.hash(finalPassword, 10);
 
-    // Create new admin
+    // Create new admin — must_change_password=true only when password was auto-generated
     const newAdmin = await prisma.admin.create({
         data: {
             name,
             email,
             password: hashedPassword,
             department_id: departmentId ? BigInt(departmentId) : null,
-            role: departmentId ? 'DEPARTMENT_HEAD' : 'DEAN'
+            role: departmentId ? 'DEPARTMENT_HEAD' : 'DEAN',
+            must_change_password: !password // true if temp-generated, false if admin set it manually
         },
     });
 
@@ -262,6 +263,7 @@ export const Teacher_sign = catchAsync(async (req: Request, res: Response, next:
             email,
             password: hashedPassword,
             department_id: departmentId ? BigInt(departmentId) : null,
+            must_change_password: !password // true if temp-generated, false if admin set it manually
         },
     });
 
@@ -480,16 +482,35 @@ export const changeMyPassword = catchAsync(async (req: Request, res: Response, n
         const user = await prisma.teacher.findUnique({ where: { id: userId } });
         if (!user) throw new AppError("User not found", 404);
 
-        // Teachers always need to provide old password
-        if (!oldPassword) throw new AppError("Current password is required", 400);
-        const valid = await bcrypt.compare(oldPassword, user.password);
-        if (!valid) throw new AppError("Current password is incorrect", 401);
+        // Skip old password check for temp-password flow
+        if (!user.must_change_password) {
+            if (!oldPassword) throw new AppError("Current password is required", 400);
+            const valid = await bcrypt.compare(oldPassword, user.password);
+            if (!valid) throw new AppError("Current password is incorrect", 401);
+        }
 
         validateStrongPassword(newPassword);
         const hashed = await bcrypt.hash(newPassword, 10);
         await prisma.teacher.update({
             where: { id: userId },
-            data: { password: hashed },
+            data: { password: hashed, must_change_password: false },
+        });
+    } else if (role === 'admin') {
+        const user = await prisma.admin.findUnique({ where: { id: userId } });
+        if (!user) throw new AppError("User not found", 404);
+
+        // Skip old password check for temp-password flow
+        if (!user.must_change_password) {
+            if (!oldPassword) throw new AppError("Current password is required", 400);
+            const valid = await bcrypt.compare(oldPassword, user.password);
+            if (!valid) throw new AppError("Current password is incorrect", 401);
+        }
+
+        validateStrongPassword(newPassword);
+        const hashed = await bcrypt.hash(newPassword, 10);
+        await prisma.admin.update({
+            where: { id: userId },
+            data: { password: hashed, must_change_password: false },
         });
     } else {
         throw new AppError("Not allowed for this role", 403);
@@ -553,6 +574,26 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
         if (!ok) throw new AppError("Invalid email or password", 401);
 
         const token = signToken({ id: admin.id.toString(), email: admin.email, role: "admin" });
+
+        // Force password change if using a temporary password
+        if (admin.must_change_password) {
+            return res.status(200).json({
+                status: "must_change_password",
+                message: "يرجى تغيير كلمة المرور المؤقتة لمتابعة استخدام النظام.",
+                data: {
+                    token,
+                    user: {
+                        id: admin.id.toString(),
+                        name: admin.name,
+                        email: admin.email,
+                        role: "admin",
+                        department_id: admin.department_id ? admin.department_id.toString() : undefined
+                    },
+                    redirect: "/change-password",
+                }
+            });
+        }
+
         return res.status(200).json({
             status: "success",
             message: "Login successful",
@@ -576,6 +617,25 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
         if (!ok) throw new AppError("Invalid email or password", 401);
 
         const token = signToken({ id: teacher.id.toString(), email: teacher.email, role: "teacher" });
+
+        // Force password change if using a temporary password
+        if (teacher.must_change_password) {
+            return res.status(200).json({
+                status: "must_change_password",
+                message: "يرجى تغيير كلمة المرور المؤقتة لمتابعة استخدام النظام.",
+                data: {
+                    token,
+                    user: {
+                        id: teacher.id.toString(),
+                        name: teacher.name,
+                        email: teacher.email,
+                        role: "teacher"
+                    },
+                    redirect: "/change-password",
+                }
+            });
+        }
+
         return res.status(200).json({
             status: "success",
             message: "Login successful",

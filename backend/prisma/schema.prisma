@@ -110,12 +110,13 @@ model Student {
 }
 
 model Teacher {
-  id         BigInt   @id @default(autoincrement())
-  name       String
-  email      String   @unique
-  password   String
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  id                   BigInt   @id @default(autoincrement())
+  name                 String
+  email                String   @unique
+  password             String
+  must_change_password Boolean  @default(false)
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
 
   // Password Reset Fields
   password_reset_token   String?   @unique
@@ -147,13 +148,14 @@ model TeacherMaterial {
 }
 
 model Admin {
-  id         BigInt   @id @default(autoincrement())
-  name       String
-  email      String   @unique
-  password   String
-  role       AdminRole @default(DEPARTMENT_HEAD)
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  id                   BigInt    @id @default(autoincrement())
+  name                 String
+  email                String    @unique
+  password             String
+  role                 AdminRole @default(DEPARTMENT_HEAD)
+  must_change_password Boolean   @default(false)
+  created_at           DateTime  @default(now())
+  updated_at           DateTime  @updatedAt
 
   // Password Reset Fields
   password_reset_token   String?   @unique
