@@ -49,17 +49,13 @@ export default function Login() {
         console.log('🚀 [Login] Setting sessionStorage must_change_password=true');
         sessionStorage.setItem('must_change_password', 'true');
         
-        console.log('🚀 [Login] Scheduling navigation to /change-password');
-        setTimeout(() => {
-          navigate("/change-password", { state: { forced: true } });
-        }, 100);
+        console.log('🚀 [Login] Navigating to /change-password');
+        navigate("/change-password", { state: { forced: true } });
         return;
       }
 
-      console.log('🚀 [Login] Scheduling navigation to /dashboard');
-      setTimeout(() => {
-        navigate("/dashboard");
-      }, 100);
+      console.log('🚀 [Login] Navigating to /dashboard');
+      navigate("/dashboard");
     } catch (err: any) {
       console.error('🚀 [Login] ❌ Catch block triggered:', err.message || err);
       setError(err instanceof Error ? err.message : "حدث خطأ في تسجيل الدخول");
