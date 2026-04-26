@@ -46,20 +46,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = async (email: string, password: string): Promise<any> => {
-    setIsLoading(true);
     try {
       // Real API call
       const response = await authApi.login(email, password, fingerprint);
 
       // Handle "Must Change Password" scenario
-      if (response.status === 'must_change_password' as any) {
+      if ((response as any).status === 'must_change_password') {
         // Save token AND user so ProtectedRoute allows access to /change-password
-        if (response.data?.token) {
-          setAuthToken(response.data.token);
+        if ((response as any).data?.token) {
+          setAuthToken((response as any).data.token);
         }
-        if (response.data?.user) {
-          localStorage.setItem('user', JSON.stringify(response.data.user));
-          setUser(response.data.user);
+        if ((response as any).data?.user) {
+          localStorage.setItem('user', JSON.stringify((response as any).data.user));
+          setUser((response as any).data.user);
         }
         return response; // Return full response for UI to handle redirect
       }
@@ -80,8 +79,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } catch (error: any) {
       console.error("Login failed:", error);
       throw error;
-    } finally {
-      setIsLoading(false);
     }
   };
 

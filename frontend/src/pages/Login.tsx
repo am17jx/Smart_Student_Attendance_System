@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
@@ -17,9 +17,16 @@ export default function Login() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const { login } = useAuth();
+  const { login, user, isLoading: authLoading } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  // Redirect already-authenticated users away from /login
+  useEffect(() => {
+    if (!authLoading && user) {
+      navigate(`/dashboard/${user.role}`, { replace: true });
+    }
+  }, [user, authLoading, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,10 +36,10 @@ export default function Login() {
     try {
       const response = await login(email, password);
 
-      if (response?.status === 'must_change_password') {
+      if ((response as any)?.status === 'must_change_password') {
         toast({
           title: "تنبيه: يلزم تغيير كلمة المرور",
-          description: response.message || "يرجى تغيير كلمة المرور المؤقتة لمتابعة استخدام النظام.",
+          description: (response as any).message || "يرجى تغيير كلمة المرور المؤقتة لمتابعة استخدام النظام.",
           variant: "default",
           duration: 6000,
         });
