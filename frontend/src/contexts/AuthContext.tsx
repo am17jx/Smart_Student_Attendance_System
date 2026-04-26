@@ -45,14 +45,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsLoading(false);
   }, []);
 
-  const login = async (email: string, password: string): Promise<any> => {
-    console.log('🔐 [AuthContext] login() called');
+  const login = async (email: string, password: string, role?: string): Promise<any> => {
+    console.log('🔐 [AuthContext] login() called', { role });
     try {
       // Real API call
-      const response = await authApi.login(email, password, fingerprint);
+      const response = await authApi.login(email, password, fingerprint, role);
       console.log('🔐 [AuthContext] Raw API response:', JSON.stringify(response, null, 2));
-      console.log('🔐 [AuthContext] response.status =', (response as any).status);
-      console.log('🔐 [AuthContext] typeof response.status =', typeof (response as any).status);
+
+      // Handle "Multi Role" selection scenario
+      if ((response as any).status === 'multi_role') {
+        return response; // Return to UI for selection
+      }
 
       // Handle "Must Change Password" scenario
       if ((response as any).status === 'must_change_password') {

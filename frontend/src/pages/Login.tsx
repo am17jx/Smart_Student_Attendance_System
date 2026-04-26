@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
-import { Mail, Lock, Eye, EyeOff, AlertCircle } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, AlertCircle, UserCircle, Briefcase, GraduationCap, ChevronLeft } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 export default function Login() {
@@ -15,8 +15,25 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [multiRoles, setMultiRoles] = useState<{ role: string; name: string; label: string }[]>([]);
 
   const { login } = useAuth();
+
+  const handleLoginResponse = (response: any) => {
+    if (response?.status === 'multi_role') {
+      setMultiRoles(response.data.roles);
+      return;
+    }
+
+    if (response?.status === 'must_change_password') {
+      sessionStorage.setItem('must_change_password', 'true');
+      window.location.replace('/change-password');
+      return;
+    }
+
+    // Hard navigation so the page reloads fresh with the new user's data
+    window.location.replace('/dashboard');
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,19 +42,22 @@ export default function Login() {
 
     try {
       const response = await login(email, password);
-
-      if ((response as any)?.status === 'must_change_password') {
-        sessionStorage.setItem('must_change_password', 'true');
-        window.location.replace('/change-password');
-        return;
-      }
-
-      // Hard navigation so the page reloads fresh with the new user's data
-      // from localStorage — avoids React state race conditions on /dashboard
-      window.location.replace('/dashboard');
+      handleLoginResponse(response);
     } catch (err: any) {
       setError(err instanceof Error ? err.message : "حدث خطأ في تسجيل الدخول");
     } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSelectRole = async (role: string) => {
+    setError("");
+    setIsLoading(true);
+    try {
+      const response = await login(email, password, role);
+      handleLoginResponse(response);
+    } catch (err: any) {
+      setError(err instanceof Error ? err.message : "حدث خطأ في اختيار الوظيفة");
       setIsLoading(false);
     }
   };
@@ -60,13 +80,63 @@ export default function Login() {
             <p className="text-muted-foreground mt-2">قم بتسجيل الدخول للمتابعة</p>
           </div>
 
-          <Card className="border-0 shadow-elegant">
-            <CardHeader className="space-y-1 pb-4">
-              <CardTitle className="text-xl">تسجيل الدخول</CardTitle>
-              <CardDescription>أدخل بياناتك للوصول إلى حسابك</CardDescription>
+          <Card className="border-0 shadow-elegant overflow-hidden">
+            <CardHeader className="space-y-1 pb-4 bg-muted/30">
+              <CardTitle className="text-xl flex items-center gap-2">
+                {multiRoles.length > 0 ? (
+                  <>
+                    <button 
+                      onClick={() => setMultiRoles([])}
+                      className="p-1 hover:bg-muted rounded-full transition-colors"
+                    >
+                      <ChevronLeft className="h-5 w-5" />
+                    </button>
+                    اختر الوظيفة للمتابعة
+                  </>
+                ) : (
+                  "تسجيل الدخول"
+                )}
+              </CardTitle>
+              <CardDescription>
+                {multiRoles.length > 0 
+                  ? "تم العثور على أكثر من وظيفة مرتبطة بهذا الحساب" 
+                  : "أدخل بياناتك للوصول إلى حسابك"}
+              </CardDescription>
             </CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-4">
+            <CardContent className="pt-6">
+              {multiRoles.length > 0 ? (
+                <div className="space-y-3 animate-slide-up">
+                  {error && (
+                    <Alert variant="destructive" className="mb-4">
+                      <AlertCircle className="h-4 w-4" />
+                      <AlertDescription>{error}</AlertDescription>
+                    </Alert>
+                  )}
+                  {multiRoles.map((roleObj) => (
+                    <Button
+                      key={roleObj.role}
+                      variant="outline"
+                      className="w-full h-16 justify-between px-6 hover:border-primary hover:bg-primary/5 transition-all group"
+                      onClick={() => handleSelectRole(roleObj.role)}
+                      disabled={isLoading}
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+                          {roleObj.role === 'admin' && <Briefcase className="h-5 w-5" />}
+                          {roleObj.role === 'teacher' && <UserCircle className="h-5 w-5" />}
+                          {roleObj.role === 'student' && <GraduationCap className="h-5 w-5" />}
+                        </div>
+                        <div className="text-right">
+                          <p className="font-semibold">{roleObj.label}</p>
+                          <p className="text-xs text-muted-foreground">{roleObj.name}</p>
+                        </div>
+                      </div>
+                      <ChevronLeft className="h-5 w-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-[-4px] transition-all" />
+                    </Button>
+                  ))}
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-4">
                 {error && (
                   <Alert variant="destructive" className="animate-scale-in">
                     <AlertCircle className="h-4 w-4" />

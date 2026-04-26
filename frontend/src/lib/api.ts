@@ -321,10 +321,10 @@ async function apiRequest<T>(
 
 // Auth API
 export const authApi = {
-  login: (email: string, password: string, fingerprint?: string) =>
-    apiRequest<{ token: string; user: User; status?: string; studentId?: string; redirect?: string }>('/auth/login', {
+  login: (email: string, password: string, fingerprint?: string, role?: string) =>
+    apiRequest<{ token: string; user: User; status?: string; studentId?: string; redirect?: string; roles?: { role: string; name: string; label: string }[] }>('/auth/login', {
       method: 'POST',
-      body: JSON.stringify({ email, password, fingerprint }),
+      body: JSON.stringify({ email, password, fingerprint, role }),
     }),
 
   logout: () => apiRequest('/auth/logout', { method: 'POST' }),

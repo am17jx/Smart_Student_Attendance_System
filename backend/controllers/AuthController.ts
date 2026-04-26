@@ -566,100 +566,35 @@ export const reset_student_password = catchAsync(async (req: Request, res: Respo
 export const login = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     handleValidationErrors(req, res);
 
-    const { email, password, fingerprint } = req.body;
+    const { email, password, fingerprint, role: selectedRole } = req.body;
 
     const signToken = (payload: any) =>
         jwt.sign(payload, process.env.JWT_SECRET as string, { expiresIn: "24h" });
 
-    // Admin
-    const admin = await prisma.admin.findUnique({ where: { email } });
-    if (admin) {
-        const ok = await bcrypt.compare(password, admin.password);
-        if (!ok) throw new AppError("Invalid email or password", 401);
+    // 1) Find all potential users across tables
+    const [admin, teacher, student] = await Promise.all([
+        prisma.admin.findUnique({ where: { email } }),
+        prisma.teacher.findUnique({ where: { email } }),
+        prisma.student.findUnique({ where: { email } })
+    ]);
 
-        const token = signToken({ id: admin.id.toString(), email: admin.email, role: "admin" });
-
-        // Force password change if using a temporary password
-        if (admin.must_change_password) {
-            return res.status(200).json({
-                status: "must_change_password",
-                message: "يرجى تغيير كلمة المرور المؤقتة لمتابعة استخدام النظام.",
-                data: {
-                    token,
-                    user: {
-                        id: admin.id.toString(),
-                        name: admin.name,
-                        email: admin.email,
-                        role: "admin",
-                        department_id: admin.department_id ? admin.department_id.toString() : undefined
-                    },
-                    redirect: "/change-password",
-                }
-            });
-        }
-
-        return res.status(200).json({
-            status: "success",
-            message: "Login successful",
-            data: {
-                token,
-                user: {
-                    id: admin.id.toString(),
-                    name: admin.name,
-                    email: admin.email,
-                    role: "admin",
-                    department_id: admin.department_id ? admin.department_id.toString() : undefined
-                }
-            }
-        });
+    // 2) Verify password for each found record
+    const validCandidates: any[] = [];
+    
+    if (admin && await bcrypt.compare(password, admin.password)) {
+        validCandidates.push({ type: 'admin', user: admin });
+    }
+    if (teacher && await bcrypt.compare(password, teacher.password)) {
+        validCandidates.push({ type: 'teacher', user: teacher });
+    }
+    if (student && await bcrypt.compare(password, student.password)) {
+        validCandidates.push({ type: 'student', user: student });
     }
 
-    // Teacher
-    const teacher = await prisma.teacher.findUnique({ where: { email } });
-    if (teacher) {
-        const ok = await bcrypt.compare(password, teacher.password);
-        if (!ok) throw new AppError("Invalid email or password", 401);
-
-        const token = signToken({ id: teacher.id.toString(), email: teacher.email, role: "teacher" });
-
-        // Force password change if using a temporary password
-        if (teacher.must_change_password) {
-            return res.status(200).json({
-                status: "must_change_password",
-                message: "يرجى تغيير كلمة المرور المؤقتة لمتابعة استخدام النظام.",
-                data: {
-                    token,
-                    user: {
-                        id: teacher.id.toString(),
-                        name: teacher.name,
-                        email: teacher.email,
-                        role: "teacher"
-                    },
-                    redirect: "/change-password",
-                }
-            });
-        }
-
-        return res.status(200).json({
-            status: "success",
-            message: "Login successful",
-            data: {
-                token,
-                user: {
-                    id: teacher.id.toString(),
-                    name: teacher.name,
-                    email: teacher.email,
-                    role: "teacher"
-                }
-            }
-        });
-    }
-
-    // Student
-    const student = await prisma.student.findUnique({ where: { email } });
-    if (student) {
-        const ok = await bcrypt.compare(password, student.password);
-        if (!ok) {
+    // 3) Handle no matches
+    if (validCandidates.length === 0) {
+        // Log failed attempt for student if they exist but password was wrong
+        if (student) {
             await logFailedAttemptUtil({
                 errorType: "INVALID_CREDENTIALS",
                 errorMessage: `Student login failed: Invalid password for ${email}`,
@@ -669,36 +604,101 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
                 deviceInfo: req.headers["user-agent"] || "Unknown",
                 ipAddress: req.ip || req.socket.remoteAddress || "Unknown",
             });
-            throw new AppError("Invalid email or password", 401);
         }
+        throw new AppError("Invalid email or password", 401);
+    }
 
-        if (student.must_change_password) {
-            // Generate token (JWT) so they can change it manually
-            const token = signToken({ id: student.id.toString(), email: student.email, role: "student" });
+    // 4) Role Selection Logic
+    let activeCandidate = null;
+    
+    if (selectedRole) {
+        activeCandidate = validCandidates.find(c => c.type === selectedRole);
+        if (!activeCandidate) {
+            throw new AppError(`You do not have the role: ${selectedRole}`, 403);
+        }
+    } else if (validCandidates.length === 1) {
+        activeCandidate = validCandidates[0];
+    } else {
+        // Multiple valid roles detected, return choice to frontend
+        return res.status(200).json({
+            status: "multi_role",
+            message: "Multiple roles detected. Please select one.",
+            data: {
+                roles: validCandidates.map(c => ({
+                    role: c.type,
+                    name: c.user.name,
+                    label: c.type === 'admin' ? (c.user.role === 'DEAN' ? 'عميد' : 'رئيس قسم') : (c.type === 'teacher' ? 'أستاذ' : 'طالب')
+                }))
+            }
+        });
+    }
 
+    const { type: role, user } = activeCandidate;
+    const token = signToken({ id: user.id.toString(), email: user.email, role });
+
+    // 5) Role-Specific Processing (Admin/Teacher)
+    if (role === 'admin' || role === 'teacher') {
+        if (user.must_change_password) {
             return res.status(200).json({
                 status: "must_change_password",
                 message: "يرجى تغيير كلمة المرور المؤقتة لمتابعة استخدام النظام.",
                 data: {
                     token,
                     user: {
-                        id: student.id.toString(),
-                        name: student.name,
-                        email: student.email,
-                        role: "student"
+                        id: user.id.toString(),
+                        name: user.name,
+                        email: user.email,
+                        role: role,
+                        department_id: user.department_id ? user.department_id.toString() : undefined
                     },
-                    studentId: student.id.toString(),
                     redirect: "/change-password",
                 }
             });
         }
 
-        // ✅ Check if email is verified
-        if (!student.is_verified) {
+        return res.status(200).json({
+            status: "success",
+            message: "Login successful",
+            data: {
+                token,
+                user: {
+                    id: user.id.toString(),
+                    name: user.name,
+                    email: user.email,
+                    role: role,
+                    department_id: user.department_id ? user.department_id.toString() : undefined
+                }
+            }
+        });
+    }
+
+    // 6) Student-Specific Processing
+    if (role === 'student') {
+        const studentUser = user;
+
+        if (studentUser.must_change_password) {
+            return res.status(200).json({
+                status: "must_change_password",
+                message: "يرجى تغيير كلمة المرور المؤقتة لمتابعة استخدام النظام.",
+                data: {
+                    token,
+                    user: {
+                        id: studentUser.id.toString(),
+                        name: studentUser.name,
+                        email: studentUser.email,
+                        role: "student"
+                    },
+                    studentId: studentUser.id.toString(),
+                    redirect: "/change-password",
+                }
+            });
+        }
+
+        if (!studentUser.is_verified) {
             await logFailedAttemptUtil({
                 errorType: "EMAIL_NOT_VERIFIED",
                 errorMessage: `Student login failed: Email not verified for ${email}`,
-                studentId: student.id.toString(),
+                studentId: studentUser.id.toString(),
                 sessionId: null,
                 fingerprintHash: fingerprint ? hashFingerprint(fingerprint) : null,
                 deviceInfo: req.headers["user-agent"] || "Unknown",
@@ -709,14 +709,13 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
 
         if (fingerprint) {
             const fpHash = hashFingerprint(fingerprint);
-
-            if (!student.fingerprint_hash) {
-                await prisma.student.update({ where: { id: student.id }, data: { fingerprint_hash: fpHash } });
-            } else if (student.fingerprint_hash !== fpHash) {
+            if (!studentUser.fingerprint_hash) {
+                await prisma.student.update({ where: { id: studentUser.id }, data: { fingerprint_hash: fpHash } });
+            } else if (studentUser.fingerprint_hash !== fpHash) {
                 await logFailedAttemptUtil({
                     errorType: "FINGERPRINT_MISMATCH",
                     errorMessage: `Student login failed: Device fingerprint mismatch for ${email}`,
-                    studentId: student.id.toString(),
+                    studentId: studentUser.id.toString(),
                     sessionId: null,
                     fingerprintHash: fpHash,
                     deviceInfo: req.headers["user-agent"] || "Unknown",
@@ -726,18 +725,11 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
             }
         }
 
-        const token = signToken({ id: student.id.toString(), email: student.email, role: "student" });
-
-        // Send login notification email asynchronously (fire and forget)
+        // Send login notification email
         const ipAddress = req.ip || req.socket.remoteAddress;
-        emailService.sendLoginNotification(
-            student.email,
-            student.name,
-            new Date(),
-            ipAddress
-        )
-            .then(() => logger.info(`✅ Login notification sent to ${student.email}`))
-            .catch((error) => logger.error('Failed to send login notification', { error, email: student.email }));
+        emailService.sendLoginNotification(studentUser.email, studentUser.name, new Date(), ipAddress)
+            .then(() => logger.info(`✅ Login notification sent to ${studentUser.email}`))
+            .catch((error) => logger.error('Failed to send login notification', { error, email: studentUser.email }));
 
         return res.status(200).json({
             status: "success",
@@ -745,14 +737,18 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
             data: {
                 token,
                 user: {
-                    id: student.id.toString(),
-                    name: student.name,
-                    email: student.email,
-                    role: "student"
+                    id: studentUser.id.toString(),
+                    name: studentUser.name,
+                    email: studentUser.email,
+                    role: "student",
+                    department_id: studentUser.department_id ? studentUser.department_id.toString() : undefined
                 }
             }
         });
     }
+
+    throw new AppError("Unauthorized", 401);
+});
 
     // Not found
     await logFailedAttemptUtil({
