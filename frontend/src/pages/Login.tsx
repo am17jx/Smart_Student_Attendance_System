@@ -21,12 +21,11 @@ export default function Login() {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  // Redirect already-authenticated users away from /login
   useEffect(() => {
     if (!authLoading && user) {
       navigate(`/dashboard/${user.role}`, { replace: true });
     }
-  }, [user, authLoading, navigate]);
+  }, [authLoading]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
