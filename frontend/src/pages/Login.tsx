@@ -48,7 +48,7 @@ export default function Login() {
         });
         console.log('🚀 [Login] Setting sessionStorage must_change_password=true');
         sessionStorage.setItem('must_change_password', 'true');
-        
+
         console.log('🚀 [Login] Navigating to /change-password');
         navigate("/change-password", { state: { forced: true } });
         return;
