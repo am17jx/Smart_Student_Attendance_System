@@ -549,12 +549,21 @@ export const getTeacherAttendanceStats = catchAsync(
             return count;
         };
 
-        // Pre-fetch all class sizes needed
-        for (const session of teacherSessions) {
-            if (session.material) {
-                await getClassSize(session.material.department_id, session.material.stage_id);
-            }
-        }
+        // Pre-fetch all unique class sizes needed in parallel
+        const uniqueClasses = new Set<string>();
+        teacherSessions.forEach(s => {
+            if (s.material) uniqueClasses.add(`${s.material.department_id}-${s.material.stage_id}`);
+        });
+
+        await Promise.all(
+            Array.from(uniqueClasses).map(async (key) => {
+                const [deptId, stageId] = key.split('-').map(BigInt);
+                const count = await prisma.student.count({
+                    where: { department_id: deptId, stage_id: stageId }
+                });
+                classSizeCache.set(key, count);
+            })
+        );
 
         // Calculate statistics
         let totalSessions = 0;

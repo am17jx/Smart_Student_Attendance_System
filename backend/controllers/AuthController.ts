@@ -107,7 +107,6 @@ export const createAdmin = catchAsync(async (req: Request, res: Response, next: 
 
     logger.info(`[ADMIN] New admin created: ${email}, ID: ${newAdmin.id}`);
 
-    // ✅ Send temporary/initial password in background
     emailService.sendTempPasswordEmail(email, name, finalPassword, true)
         .then(() => logger.info(`✅ Welcome email sent to admin: ${email}`))
         .catch(err => logger.error(`❌ Failed to send welcome email to admin ${email}`, err));
@@ -580,7 +579,7 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
 
     // 2) Verify password for each found record
     const validCandidates: any[] = [];
-    
+
     if (admin && await bcrypt.compare(password, admin.password)) {
         validCandidates.push({ type: 'admin', user: admin });
     }
@@ -613,7 +612,7 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
 
     // 4) Role Selection Logic
     let activeCandidate = null;
-    
+
     if (selectedRole) {
         activeCandidate = validCandidates.find(c => c.type === selectedRole);
         if (!activeCandidate) {

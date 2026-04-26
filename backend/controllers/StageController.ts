@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { prisma } from "../prisma/client";
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/AppError";
+import { withCache, invalidateCachePattern } from "../utils/cacheUtils";
 
 export const createStage = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { name, level } = req.body;
@@ -34,6 +35,9 @@ export const createStage = catchAsync(async (req: Request, res: Response, next: 
         },
     });
 
+    // Invalidate cache
+    await invalidateCachePattern("stages:list:*");
+
     res.status(201).json({
         status: "success",
         data: {
@@ -43,12 +47,16 @@ export const createStage = catchAsync(async (req: Request, res: Response, next: 
 });
 
 export const getAllStages = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const stages = await prisma.stage.findMany({
-        orderBy: {
-            level: 'asc' // Sort by level
-        }
+    const cacheKey = "stages:list:all";
+
+    const safeStages = await withCache(cacheKey, 3600, async () => {
+        const stages = await prisma.stage.findMany({
+            orderBy: {
+                level: 'asc' // Sort by level
+            }
+        });
+        return stages.map(s => ({ ...s, id: s.id.toString() }));
     });
-    const safeStages = stages.map(s => ({ ...s, id: s.id.toString() }));
 
     res.status(200).json({
         status: "success",
@@ -75,6 +83,9 @@ export const deleteStage = catchAsync(async (req: Request, res: Response, next: 
             id: BigInt(id as string),
         },
     });
+
+    // Invalidate cache
+    await invalidateCachePattern("stages:list:*");
 
     res.status(200).json({
         status: "success",
@@ -113,6 +124,9 @@ export const updateStage = catchAsync(async (req: Request, res: Response, next: 
             ...(level && { level }) // Only update level if provided
         },
     });
+
+    // Invalidate cache
+    await invalidateCachePattern("stages:list:*");
 
     res.status(200).json({
         status: "success",

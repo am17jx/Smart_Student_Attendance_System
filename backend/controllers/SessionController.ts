@@ -308,7 +308,7 @@ export const getAllSessions = catchAsync(async (req: Request, res: Response, nex
     const skip = (page - 1) * limit;
 
     const where: any = {};
-    
+
     if (deptFilter) {
         where.material = {
             department_id: deptFilter.department_id

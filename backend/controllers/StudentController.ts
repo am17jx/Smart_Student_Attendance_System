@@ -128,7 +128,7 @@ export const updateStudent = catchAsync(async (req: Request, res: Response, next
 
 export const deleteStudent = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
-    
+
     try {
         await prisma.student.delete({
             where: { id: BigInt(id as string) }

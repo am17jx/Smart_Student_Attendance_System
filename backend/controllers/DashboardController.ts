@@ -77,8 +77,8 @@ export const getAdminDashboard = catchAsync(async (req: Request, res: Response, 
         let totalExpectedToday = 0;
         for (const session of todaysSessions) {
             if (session.material) {
-                totalExpectedToday += await prisma.student.count({ 
-                    where: { stage_id: session.material.stage_id, department_id: session.material.department_id } 
+                totalExpectedToday += await prisma.student.count({
+                    where: { stage_id: session.material.stage_id, department_id: session.material.department_id }
                 });
             }
         }
@@ -104,8 +104,8 @@ export const getAdminDashboard = catchAsync(async (req: Request, res: Response, 
         let totalExpectedYesterday = 0;
         for (const session of yesterdaysSessions) {
             if (session.material) {
-                totalExpectedYesterday += await prisma.student.count({ 
-                    where: { stage_id: session.material.stage_id, department_id: session.material.department_id } 
+                totalExpectedYesterday += await prisma.student.count({
+                    where: { stage_id: session.material.stage_id, department_id: session.material.department_id }
                 });
             }
         }
@@ -465,7 +465,7 @@ export const getStudentDashboard = catchAsync(async (req: Request, res: Response
         const percentNum = parseFloat(percentage);
 
         if (totalSessions === 0) {
-            status = 'excellent'; 
+            status = 'excellent';
         } else if (percentNum >= 90) {
             status = 'excellent';
         } else if (percentNum >= 75) {

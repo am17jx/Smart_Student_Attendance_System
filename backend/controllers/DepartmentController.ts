@@ -3,6 +3,7 @@ import { prisma } from "../prisma/client";
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/AppError";
 import { getDepartmentFilter } from "../utils/accessControl";
+import { withCache, invalidateCachePattern } from "../utils/cacheUtils";
 
 export const createDepartment = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { name } = req.body;
@@ -27,6 +28,9 @@ export const createDepartment = catchAsync(async (req: Request, res: Response, n
         },
     });
 
+    // Invalidate cache
+    await invalidateCachePattern("departments:list:*");
+
     res.status(201).json({
         status: "success",
         data: {
@@ -41,16 +45,21 @@ export const createDepartment = catchAsync(async (req: Request, res: Response, n
 export const getAllDepartments = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const admin = (req as any).user;
     const deptFilter = getDepartmentFilter(admin);
+    const adminId = admin?.id?.toString() || 'all';
+    const deptId = admin?.department_id?.toString() || 'all';
     
-    // For Dept Heads, we filter the departments list to only include THEIR department
-    const where = deptFilter ? { id: deptFilter.department_id } : {};
+    const cacheKey = `departments:list:${adminId}:${deptId}`;
 
-    const departments = await prisma.department.findMany({ where });
-    // Helper to serialize BigInt
-    const safeDepartments = departments.map(d => ({
-        ...d,
-        id: d.id.toString()
-    }));
+    const safeDepartments = await withCache(cacheKey, 3600, async () => {
+        // For Dept Heads, we filter the departments list to only include THEIR department
+        const where = deptFilter ? { id: deptFilter.department_id } : {};
+        const departments = await prisma.department.findMany({ where });
+        
+        return departments.map(d => ({
+            ...d,
+            id: d.id.toString()
+        }));
+    });
 
     res.status(200).json({
         status: "success",
@@ -77,6 +86,9 @@ export const deleteDepartment = catchAsync(async (req: Request, res: Response, n
             id: BigInt(id as string),
         },
     });
+
+    // Invalidate cache
+    await invalidateCachePattern("departments:list:*");
 
     res.status(200).json({
         status: "success",
@@ -110,6 +122,9 @@ export const updateDeparment = catchAsync(async (req: Request, res: Response, ne
             name: name.trim(),
         },
     });
+
+    // Invalidate cache
+    await invalidateCachePattern("departments:list:*");
 
     res.status(200).json({
         status: "success",

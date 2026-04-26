@@ -101,18 +101,23 @@ export const scanQrAndAttend = catchAsync(async (req: Request, res: Response, ne
         throw new AppError("Token, ID, and Location (GPS) are required", 400);
     }
 
-    // ✅ البحث عن token محدد
-    const qrToken = await prisma.qRToken.findUnique({
-        where: { id: BigInt(id as string) },
-        include: {
-            session: {
-                include: {
-                    geofence: true,
-                    material: true  // ✅ Added to check student eligibility
+    // ✅ Parallel lookup for speed
+    const [qrToken, student] = await Promise.all([
+        prisma.qRToken.findUnique({
+            where: { id: BigInt(id as string) },
+            include: {
+                session: {
+                    include: {
+                        geofence: true,
+                        material: true
+                    }
                 }
-            }
-        },
-    });
+            },
+        }),
+        prisma.student.findUnique({
+            where: { id: studentId }
+        })
+    ]);
 
     // التحقق من صلاحية الـ token
     if (!qrToken) {
@@ -206,11 +211,6 @@ export const scanQrAndAttend = catchAsync(async (req: Request, res: Response, ne
         });
         throw new AppError("Invalid QR code", 400);
     }
-
-    // ✅ التحقق من أن الطالب ينتمي لنفس المرحلة/القسم الذي تنتمي له المادة
-    const student = await prisma.student.findUnique({
-        where: { id: studentId }
-    });
 
     if (!student) {
         throw new AppError("Student not found", 404);

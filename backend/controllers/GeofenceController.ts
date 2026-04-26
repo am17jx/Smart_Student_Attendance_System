@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { prisma } from "../prisma/client";
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/AppError";
+import { withCache, invalidateCachePattern } from "../utils/cacheUtils";
 
 export const createGeofence = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { name, latitude, longitude, radius_meters } = req.body;
@@ -55,6 +56,9 @@ export const createGeofence = catchAsync(async (req: Request, res: Response, nex
         },
     });
 
+    // Invalidate cache
+    await invalidateCachePattern("geofences:list:*");
+
     res.status(201).json({
         status: "success",
         data: {
@@ -67,16 +71,20 @@ export const createGeofence = catchAsync(async (req: Request, res: Response, nex
 });
 
 export const getAllGeofences = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const geofences = await prisma.geofence.findMany({
-        orderBy: {
-            name: 'asc'
-        }
-    });
+    const cacheKey = "geofences:list:all";
 
-    const safeGeofences = geofences.map(g => ({
-        ...g,
-        id: g.id.toString(),
-    }));
+    const safeGeofences = await withCache(cacheKey, 3600, async () => {
+        const geofences = await prisma.geofence.findMany({
+            orderBy: {
+                name: 'asc'
+            }
+        });
+
+        return geofences.map(g => ({
+            ...g,
+            id: g.id.toString(),
+        }));
+    });
 
     res.status(200).json({
         status: "success",
@@ -140,6 +148,9 @@ export const updateGeofence = catchAsync(async (req: Request, res: Response, nex
         },
     });
 
+    // Invalidate cache
+    await invalidateCachePattern("geofences:list:*");
+
     res.status(200).json({
         status: "success",
         data: {
@@ -166,6 +177,9 @@ export const deleteGeofence = catchAsync(async (req: Request, res: Response, nex
     await prisma.geofence.delete({
         where: { id: BigInt(id as string) },
     });
+
+    // Invalidate cache
+    await invalidateCachePattern("geofences:list:*");
 
     res.status(200).json({
         status: "success",
