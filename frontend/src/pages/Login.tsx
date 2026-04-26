@@ -85,7 +85,7 @@ export default function Login() {
               <CardTitle className="text-xl flex items-center gap-2">
                 {multiRoles.length > 0 ? (
                   <>
-                    <button 
+                    <button
                       onClick={() => setMultiRoles([])}
                       className="p-1 hover:bg-muted rounded-full transition-colors"
                     >
@@ -98,8 +98,8 @@ export default function Login() {
                 )}
               </CardTitle>
               <CardDescription>
-                {multiRoles.length > 0 
-                  ? "تم العثور على أكثر من وظيفة مرتبطة بهذا الحساب" 
+                {multiRoles.length > 0
+                  ? "تم العثور على أكثر من وظيفة مرتبطة بهذا الحساب"
                   : "أدخل بياناتك للوصول إلى حسابك"}
               </CardDescription>
             </CardHeader>
@@ -137,78 +137,79 @@ export default function Login() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
-                {error && (
-                  <Alert variant="destructive" className="animate-scale-in">
-                    <AlertCircle className="h-4 w-4" />
-                    <AlertDescription>{error}</AlertDescription>
-                  </Alert>
-                )}
-
-                <div className="space-y-2">
-                  <Label htmlFor="email">البريد الإلكتروني</Label>
-                  <div className="relative">
-                    <Mail className="absolute start-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="example@email.com"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="ps-10"
-                      required
-                      dir="ltr"
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="password">كلمة المرور</Label>
-                  <div className="relative">
-                    <Lock className="absolute start-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      id="password"
-                      type={showPassword ? "text" : "password"}
-                      placeholder="••••••••"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      className="ps-10 pe-10"
-                      required
-                      dir="ltr"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute end-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                      {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                    </button>
-                  </div>
-                </div>
-
-                <div className="flex justify-end">
-                  <Link
-                    to="/forgot-password"
-                    className="text-sm text-primary hover:underline"
-                  >
-                    نسيت كلمة المرور؟
-                  </Link>
-                </div>
-
-                <Button
-                  type="submit"
-                  className="w-full gradient-primary hover:opacity-90 transition-opacity"
-                  disabled={isLoading}
-                >
-                  {isLoading ? (
-                    <>
-                      <LoadingSpinner size="sm" className="ml-2 border-primary-foreground border-t-transparent" />
-                      جاري تسجيل الدخول...
-                    </>
-                  ) : (
-                    "تسجيل الدخول"
+                  {error && (
+                    <Alert variant="destructive" className="animate-scale-in">
+                      <AlertCircle className="h-4 w-4" />
+                      <AlertDescription>{error}</AlertDescription>
+                    </Alert>
                   )}
-                </Button>
-              </form>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="email">البريد الإلكتروني</Label>
+                    <div className="relative">
+                      <Mail className="absolute start-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <Input
+                        id="email"
+                        type="email"
+                        placeholder="example@email.com"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="ps-10"
+                        required
+                        dir="ltr"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="password">كلمة المرور</Label>
+                    <div className="relative">
+                      <Lock className="absolute start-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <Input
+                        id="password"
+                        type={showPassword ? "text" : "password"}
+                        placeholder="••••••••"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className="ps-10 pe-10"
+                        required
+                        dir="ltr"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute end-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-end">
+                    <Link
+                      to="/forgot-password"
+                      className="text-sm text-primary hover:underline"
+                    >
+                      نسيت كلمة المرور؟
+                    </Link>
+                  </div>
+
+                  <Button
+                    type="submit"
+                    className="w-full gradient-primary hover:opacity-90 transition-opacity"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? (
+                      <>
+                        <LoadingSpinner size="sm" className="ml-2 border-primary-foreground border-t-transparent" />
+                        جاري تسجيل الدخول...
+                      </>
+                    ) : (
+                      "تسجيل الدخول"
+                    )}
+                  </Button>
+                </form>
+              )}
             </CardContent>
           </Card>
         </div>
@@ -218,3 +219,4 @@ export default function Login() {
     </div>
   );
 }
+
