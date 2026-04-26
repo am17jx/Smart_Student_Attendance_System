@@ -571,11 +571,11 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
     const signToken = (payload: any) =>
         jwt.sign(payload, process.env.JWT_SECRET as string, { expiresIn: "24h" });
 
-    // 1) Find all potential users across tables
+    // 1) Find all potential users across tables (Case-Insensitive)
     const [admin, teacher, student] = await Promise.all([
-        prisma.admin.findUnique({ where: { email } }),
-        prisma.teacher.findUnique({ where: { email } }),
-        prisma.student.findUnique({ where: { email } })
+        prisma.admin.findFirst({ where: { email: { equals: email, mode: 'insensitive' } } }),
+        prisma.teacher.findFirst({ where: { email: { equals: email, mode: 'insensitive' } } }),
+        prisma.student.findFirst({ where: { email: { equals: email, mode: 'insensitive' } } })
     ]);
 
     // 2) Verify password for each found record
@@ -590,6 +590,9 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
     if (student && await bcrypt.compare(password, student.password)) {
         validCandidates.push({ type: 'student', user: student });
     }
+
+    console.log(`[LoginDebug] Email: ${email}, Found records: Admin=${!!admin}, Teacher=${!!teacher}, Student=${!!student}`);
+    console.log(`[LoginDebug] Valid candidates found: ${validCandidates.length} (${validCandidates.map(c => c.type).join(', ')})`);
 
     // 3) Handle no matches
     if (validCandidates.length === 0) {
@@ -748,20 +751,6 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
     }
 
     throw new AppError("Unauthorized", 401);
-});
-
-    // Not found
-    await logFailedAttemptUtil({
-        errorType: "INVALID_CREDENTIALS",
-        errorMessage: `Login failed: Email not found - ${email}`,
-        studentId: null,
-        sessionId: null,
-        fingerprintHash: fingerprint ? hashFingerprint(fingerprint) : null,
-        deviceInfo: req.headers["user-agent"] || "Unknown",
-        ipAddress: req.ip || req.socket.remoteAddress || "Unknown",
-    });
-
-    throw new AppError("Invalid email or password", 401);
 });
 
 
