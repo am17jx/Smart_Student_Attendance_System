@@ -46,23 +46,32 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = async (email: string, password: string): Promise<any> => {
+    console.log('🔐 [AuthContext] login() called');
     try {
       // Real API call
       const response = await authApi.login(email, password, fingerprint);
+      console.log('🔐 [AuthContext] Raw API response:', JSON.stringify(response, null, 2));
+      console.log('🔐 [AuthContext] response.status =', (response as any).status);
+      console.log('🔐 [AuthContext] typeof response.status =', typeof (response as any).status);
 
       // Handle "Must Change Password" scenario
       if ((response as any).status === 'must_change_password') {
+        console.log('🔐 [AuthContext] ✅ DETECTED must_change_password');
         // Save token AND user so ProtectedRoute allows access to /change-password
         if ((response as any).data?.token) {
+          console.log('🔐 [AuthContext] Setting auth token');
           setAuthToken((response as any).data.token);
         }
         if ((response as any).data?.user) {
+          console.log('🔐 [AuthContext] Setting user:', (response as any).data.user);
           localStorage.setItem('user', JSON.stringify((response as any).data.user));
           setUser((response as any).data.user);
         }
+        console.log('🔐 [AuthContext] Returning response to Login.tsx');
         return response; // Return full response for UI to handle redirect
       }
 
+      console.log('🔐 [AuthContext] Standard login flow');
       // Standard Login
       const token = response.data?.token;
       const userData = response.data?.user;
@@ -71,13 +80,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setAuthToken(token);
         localStorage.setItem('user', JSON.stringify(userData));
         setUser(userData);
+        console.log('🔐 [AuthContext] Standard login success, user set');
         return response;
       } else {
+        console.error('🔐 [AuthContext] ❌ No token or userData in response');
         throw new Error('فشل تسجيل الدخول: استجابة غير صالحة من الخادم');
       }
 
     } catch (error: any) {
-      console.error("Login failed:", error);
+      console.error('🔐 [AuthContext] ❌ Login failed:', error.message || error);
       throw error;
     }
   };

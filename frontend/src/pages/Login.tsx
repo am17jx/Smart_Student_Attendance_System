@@ -29,28 +29,42 @@ export default function Login() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('🚀 [Login] handleSubmit started for email:', email);
     setError("");
     setIsLoading(true);
 
     try {
+      console.log('🚀 [Login] calling login() from useAuth');
       const response = await login(email, password);
+      console.log('🚀 [Login] login() returned:', JSON.stringify(response, null, 2));
 
       if ((response as any)?.status === 'must_change_password') {
+        console.log('🚀 [Login] ✅ DETECTED must_change_password in Login.tsx');
         toast({
           title: "تنبيه: يلزم تغيير كلمة المرور",
           description: (response as any).message || "يرجى تغيير كلمة المرور المؤقتة لمتابعة استخدام النظام.",
           variant: "default",
           duration: 6000,
         });
+        console.log('🚀 [Login] Setting sessionStorage must_change_password=true');
         sessionStorage.setItem('must_change_password', 'true');
-        navigate("/change-password", { state: { forced: true } });
+        
+        console.log('🚀 [Login] Scheduling navigation to /change-password');
+        setTimeout(() => {
+          navigate("/change-password", { state: { forced: true } });
+        }, 100);
         return;
       }
 
-      navigate("/dashboard");
-    } catch (err) {
+      console.log('🚀 [Login] Scheduling navigation to /dashboard');
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 100);
+    } catch (err: any) {
+      console.error('🚀 [Login] ❌ Catch block triggered:', err.message || err);
       setError(err instanceof Error ? err.message : "حدث خطأ في تسجيل الدخول");
     } finally {
+      console.log('🚀 [Login] Finally block - setting isLoading(false)');
       setIsLoading(false);
     }
   };
