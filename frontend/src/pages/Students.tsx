@@ -27,7 +27,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Plus, MoreHorizontal, Pencil, Trash2, GraduationCap, Search, Laptop } from "lucide-react";
+import { Plus, MoreHorizontal, Pencil, Trash2, GraduationCap, Search, Laptop, Key } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
@@ -147,6 +147,19 @@ export default function Students() {
     }
   });
 
+  const resetPasswordMutation = useMutation({
+    mutationFn: (id: string) => adminApi.resetStudentPassword(id),
+    onSuccess: (data) => {
+      toast({ 
+        title: "تم إعادة تعيين كلمة المرور", 
+        description: data?.message || "تم إرسال كلمة مرور جديدة إلى بريد الطالب بنجاح." 
+      });
+    },
+    onError: (error: Error) => {
+      toast({ title: "فشل إعادة تعيين كلمة المرور", description: error.message, variant: "destructive" });
+    }
+  });
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -164,10 +177,11 @@ export default function Students() {
 
       const stageId = formData.get("stageId") as string;
       const departmentId = formData.get("departmentId") as string;
+      const studentId = formData.get("studentId") as string;
 
       updateMutation.mutate({
         id: editingStudent.id,
-        data: { name, email, stageId, departmentId }
+        data: { name, email, stageId, departmentId, studentId }
       });
     } else {
 
@@ -223,6 +237,12 @@ export default function Students() {
   const handleEdit = (student: StudentType) => {
     setEditingStudent(student);
     setIsDialogOpen(true);
+  };
+
+  const handleResetPassword = (id: string) => {
+    if (confirm("هل أنت متأكد من إرسال كلمة مرور مؤقتة جديدة لهذا الطالب عبر البريد الإلكتروني؟")) {
+      resetPasswordMutation.mutate(id);
+    }
   };
 
 
@@ -283,6 +303,10 @@ export default function Students() {
             <DropdownMenuItem onClick={() => handleEdit(student)}>
               <Pencil className="h-4 w-4 ms-2" />
               تعديل
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleResetPassword(student.id)}>
+              <Key className="h-4 w-4 ms-2 text-primary" />
+              إرسال رمز مؤقت جديد
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => handleResetFingerprint(student.id)}>
               <Laptop className="h-4 w-4 ms-2" />
@@ -350,13 +374,13 @@ export default function Students() {
                     <Input name="email" type="email" defaultValue={editingStudent?.email} required dir="ltr" />
                   </div>
 
+                  <div className="space-y-2">
+                    <Label>الرقم الجامعي (Student ID)</Label>
+                    <Input name="studentId" defaultValue={(editingStudent as any)?.student_id} required dir="ltr" placeholder="ex: 2023001" />
+                  </div>
+
                   {!editingStudent && (
                     <>
-                      <div className="space-y-2">
-                        <Label>الرقم الجامعي (Student ID)</Label>
-                        <Input name="studentId" required dir="ltr" placeholder="ex: 2023001" />
-                      </div>
-
                       <div className="space-y-2">
                         <Label>كلمة المرور</Label>
                         <Input 

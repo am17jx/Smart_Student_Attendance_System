@@ -379,6 +379,11 @@ export const adminApi = {
       body: JSON.stringify(data),
     }),
 
+  resetStudentPassword: (studentId: string) =>
+    apiRequest<{ message: string }>(`/auth/student/reset-password/${studentId}`, {
+      method: 'POST',
+    }),
+
   // Manage Admins (Heads of Departments)
   getAllAdmins: () =>
     apiRequest<{ admins: Admin[] }>('/auth/admins'),
@@ -629,7 +634,7 @@ export const studentsApi = {
       method: 'POST',
       body: JSON.stringify(data),
     }),
-  update: (id: string, data: { name: string; email: string; stageId?: string; departmentId?: string }) =>
+  update: (id: string, data: { name: string; email: string; studentId?: string; stageId?: string; departmentId?: string }) =>
     apiRequest<{ student: Student }>(`/students/${id}`, {
       method: 'PUT',
       body: JSON.stringify(data),
@@ -788,3 +793,4 @@ export const leavesApi = {
   revokeLeave: (recordId: string) =>
     apiRequest('/attendance/leave/' + recordId, { method: 'DELETE' }),
 };
+

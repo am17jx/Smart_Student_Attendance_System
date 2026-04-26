@@ -96,13 +96,14 @@ export const getAllStudents = catchAsync(async (req: Request, res: Response, nex
 
 export const updateStudent = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
-    const { name, email, departmentId, stageId } = req.body;
+    const { name, email, departmentId, stageId, studentId } = req.body;
 
     const student = await prisma.student.update({
         where: { id: BigInt(id as string) },
         data: {
             name,
             email,
+            student_id: studentId,
             department_id: departmentId ? BigInt(departmentId as string) : undefined,
             stage_id: stageId ? BigInt(stageId as string) : undefined
         },
@@ -127,9 +128,17 @@ export const updateStudent = catchAsync(async (req: Request, res: Response, next
 
 export const deleteStudent = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
-    await prisma.student.delete({
-        where: { id: BigInt(id as string) }
-    });
+    
+    try {
+        await prisma.student.delete({
+            where: { id: BigInt(id as string) }
+        });
+    } catch (error: any) {
+        if (error.code === 'P2025') {
+            throw new AppError("Student not found or already deleted", 404);
+        }
+        throw error;
+    }
 
     // Invalidate all student list cache entries
     await invalidateCachePattern("students:*");
