@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,41 +16,28 @@ export default function Login() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const { login, user, isLoading: authLoading } = useAuth();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!authLoading && user) {
-      navigate(`/dashboard/${user.role}`, { replace: true });
-    }
-  }, [authLoading]);
+  const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('🚀 [Login] handleSubmit started for email:', email);
     setError("");
     setIsLoading(true);
 
     try {
-      console.log('🚀 [Login] calling login() from useAuth');
       const response = await login(email, password);
-      console.log('🚀 [Login] login() returned:', JSON.stringify(response, null, 2));
 
       if ((response as any)?.status === 'must_change_password') {
         sessionStorage.setItem('must_change_password', 'true');
-        // Hard navigation avoids React state race condition:
-        // token + user are already in localStorage (set by AuthContext.login),
-        // so on reload ProtectedRoute finds user immediately — no redirect loop.
         window.location.replace('/change-password');
         return;
       }
 
-      navigate("/dashboard");
+      // Hard navigation so the page reloads fresh with the new user's data
+      // from localStorage — avoids React state race conditions on /dashboard
+      window.location.replace('/dashboard');
     } catch (err: any) {
-      console.error('🚀 [Login] ❌ Catch block triggered:', err.message || err);
       setError(err instanceof Error ? err.message : "حدث خطأ في تسجيل الدخول");
     } finally {
-      console.log('🚀 [Login] Finally block - setting isLoading(false)');
       setIsLoading(false);
     }
   };
