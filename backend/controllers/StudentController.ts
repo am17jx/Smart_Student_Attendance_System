@@ -5,6 +5,7 @@ import { getDepartmentFilter, validateDepartmentAccess } from "../utils/accessCo
 import AppError from "../utils/AppError";
 import logger from "../utils/logger";
 import { withCache, invalidateCachePattern } from "../utils/cacheUtils";
+import { validateEmail } from "./AuthController";
 
 
 export const getAllStudents = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
@@ -97,6 +98,7 @@ export const getAllStudents = catchAsync(async (req: Request, res: Response, nex
 export const updateStudent = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
     const { name, email, departmentId, stageId, studentId } = req.body;
+    if (email) validateEmail(email);
 
     const student = await prisma.student.update({
         where: { id: BigInt(id as string) },

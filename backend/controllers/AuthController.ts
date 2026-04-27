@@ -39,13 +39,27 @@ function generateTempPassword(): string {
 export function validateStrongPassword(password: string | undefined): void {
     if (!password) return; // Skip if no password provided (e.g., auto-generate cases)
     const minLength = 8;
+    const maxLength = 50;
     const hasUpper = /[A-Z]/.test(password);
     const hasLower = /[a-z]/.test(password);
     const hasNumber = /[0-9]/.test(password);
-    const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    const hasSpecial = /[!@#$%^&*(),.?\":{}|<>]/.test(password);
 
-    if (password.length < minLength || !hasUpper || !hasLower || !hasNumber || !hasSpecial) {
-        throw new AppError("كلمة المرور يجب أن لا تقل عن 8 أحرف وأن تحتوي على الأقل على: حرف كبير، حرف صغير، رقم، ورمز خاص.", 400);
+    if (password.length < minLength || password.length > maxLength || !hasUpper || !hasLower || !hasNumber || !hasSpecial) {
+        throw new AppError("كلمة المرور يجب أن تكون بين 8 و 50 حرفاً وأن تحتوي على الأقل على: حرف كبير، حرف صغير، رقم، ورمز خاص.", 400);
+    }
+}
+
+export function validateEmail(email: string | undefined): void {
+    if (!email) {
+        throw new AppError("البريد الإلكتروني مطلوب", 400);
+    }
+    if (email.length > 100) {
+        throw new AppError("البريد الإلكتروني يجب أن لا يتجاوز 100 حرف", 400);
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        throw new AppError("البريد الإلكتروني غير صالح", 400);
     }
 }
 
@@ -77,10 +91,11 @@ export const createAdmin = catchAsync(async (req: Request, res: Response, next: 
 
     const { name, email, departmentId, password } = req.body;
 
-
     if (!name) {
         throw new AppError("Name is required", 400);
     }
+
+    validateEmail(email);
 
     // Check if email already exists
     const existingAdmin = await prisma.admin.findUnique({ where: { email } });
@@ -189,6 +204,7 @@ export const updateAdmin = catchAsync(async (req: Request, res: Response, next: 
     const updateData: any = {};
     if (name) updateData.name = name;
     if (email) {
+        validateEmail(email);
         const emailExists = await prisma.admin.findFirst({
             where: {
                 email,
@@ -235,6 +251,8 @@ export const Teacher_sign = catchAsync(async (req: Request, res: Response, next:
     if (!name) {
         throw new AppError("Name is required", 400);
     }
+
+    validateEmail(email);
 
     // ✅ Generate or use provided password
     const finalPassword = password || generateTempPassword();
@@ -295,6 +313,8 @@ export const sign_student = catchAsync(async (req: Request, res: Response, next:
     if (!name) {
         throw new AppError("Name is required", 400);
     }
+
+    validateEmail(email);
 
     const checkemail = await prisma.student.findUnique({ where: { email } });
     if (checkemail) {
@@ -460,9 +480,10 @@ export const changeMyPassword = catchAsync(async (req: Request, res: Response, n
     const userId = BigInt(req.user.id);
     const role = req.user.role;
 
-    if (!newPassword || newPassword.length < 8) {
-        throw new AppError("New password must be at least 8 characters", 400);
+    if (!newPassword) {
+        throw new AppError("New password is required", 400);
     }
+    validateStrongPassword(newPassword);
 
     if (role === 'student') {
         const user = await prisma.student.findUnique({ where: { id: userId } });
@@ -567,12 +588,14 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
 
     const { email, password, fingerprint, role: selectedRole } = req.body;
 
+    validateEmail(email);
+
     const signToken = (payload: any) =>
         jwt.sign(payload, process.env.JWT_SECRET as string, { expiresIn: "24h" });
 
     // 1) Find all potential users across tables (Case-Insensitive)
     const [admin, teacher, student] = await Promise.all([
-        prisma.admin.findFirst({ where: { email: { equals: email, mode: 'insensitive' } } }),
+        prisma.admin.findFirst({ where: { email: { equals: email, mode: 'insensitive' } }, select: { id: true, name: true, email: true, password: true, role: true, must_change_password: true, department_id: true } }),
         prisma.teacher.findFirst({ where: { email: { equals: email, mode: 'insensitive' } } }),
         prisma.student.findFirst({ where: { email: { equals: email, mode: 'insensitive' } } })
     ]);
@@ -581,7 +604,7 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
     const validCandidates: any[] = [];
 
     if (admin && await bcrypt.compare(password, admin.password)) {
-        validCandidates.push({ type: 'admin', user: admin });
+        validCandidates.push({ type: 'admin', user: admin, adminRole: admin.role });
     }
     if (teacher && await bcrypt.compare(password, teacher.password)) {
         validCandidates.push({ type: 'teacher', user: teacher });
@@ -629,7 +652,9 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
                 roles: validCandidates.map(c => ({
                     role: c.type,
                     name: c.user.name,
-                    label: c.type === 'admin' ? (c.user.role === 'DEAN' ? 'عميد' : 'رئيس قسم') : (c.type === 'teacher' ? 'أستاذ' : 'طالب')
+                    label: c.type === 'admin'
+                        ? (c.user.role === 'UNIVERSITY_ADMIN' ? 'مدير جامعة' : c.user.role === 'DEAN' ? 'عميد' : 'رئيس قسم')
+                        : (c.type === 'teacher' ? 'أستاذ' : 'طالب')
                 }))
             }
         });

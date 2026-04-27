@@ -43,10 +43,9 @@ export const generateQrForSession = catchAsync(async (req: Request, res: Respons
         },
     });
 
-    // Send tokenId with rawToken in QR
     const qrData = JSON.stringify({
         token: rawToken,
-        id: qrToken.id.toString() // Use the auto-generated ID
+        id: qrToken.id.toString()
     });
 
     const qrCode = await QRCode.toDataURL(qrData);
@@ -94,14 +93,10 @@ export const scanQrAndAttend = catchAsync(async (req: Request, res: Response, ne
         throw new AppError("Student not authenticated", 401);
     }
 
-    // ✅ التحقق من وجود البيانات المطلوبة
     if (!token || !id || !latitude || !longitude) {
-        // Log attempt if ID is present but location missing? 
-        // For now just throw error.
         throw new AppError("Token, ID, and Location (GPS) are required", 400);
     }
 
-    // ✅ Parallel lookup for speed
     const [qrToken, student] = await Promise.all([
         prisma.qRToken.findUnique({
             where: { id: BigInt(id as string) },
@@ -119,7 +114,6 @@ export const scanQrAndAttend = catchAsync(async (req: Request, res: Response, ne
         })
     ]);
 
-    // التحقق من صلاحية الـ token
     if (!qrToken) {
         logger.warn(`❌ [scanQrAndAttend] QR Token not found:`, { tokenId: id });
         await prisma.failedAttempt.create({
@@ -142,7 +136,6 @@ export const scanQrAndAttend = catchAsync(async (req: Request, res: Response, ne
         now: new Date()
     });
 
-    // Geofence Validation
     if (qrToken.session.geofence) {
         const distance = getDistanceFromLatLonInMeters(
             parseFloat(latitude),
@@ -191,7 +184,6 @@ export const scanQrAndAttend = catchAsync(async (req: Request, res: Response, ne
         throw new AppError("QR code expired", 400);
     }
 
-    // ✅ التحقق من الـ hash باستخدام constant-time comparison
     const expectedHash = crypto
         .createHash("sha256")
         .update(token + qrToken.session.qr_secret)
@@ -236,7 +228,6 @@ export const scanQrAndAttend = catchAsync(async (req: Request, res: Response, ne
         throw new AppError("عذراً، أنت غير مسجل في هذه المادة. هذه الجلسة مخصصة لطلاب قسم ومرحلة أخرى.", 403);
     }
 
-    // ✅ تسجيل الحضور
     await prisma.attendanceRecord.create({
         data: {
             student_id: studentId,
@@ -258,7 +249,6 @@ export const scanQrAndAttend = catchAsync(async (req: Request, res: Response, ne
     });
 });
 
-//   - [ ] GET /qrcode/session/:sessionId (Get session QRs - Teacher)
 
 export const getSessionQrCodes = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { session_id } = req.params;

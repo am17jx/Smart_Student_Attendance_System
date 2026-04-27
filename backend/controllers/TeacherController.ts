@@ -5,9 +5,12 @@ import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/AppError";
 import { getDepartmentFilter } from "../utils/accessControl";
 import logger from "../utils/logger";
+import { validateEmail, validateStrongPassword } from "./AuthController";
 
 export const createTeacher = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { name, email, password, departmentId, materialIds } = req.body;
+    validateEmail(email);
+    validateStrongPassword(password);
     const admin = (req as any).user;
 
     logger.info('🔍 [createTeacher] Request:', {
@@ -124,6 +127,7 @@ export const getAllTeachers = catchAsync(async (req: Request, res: Response, nex
 export const updateTeacher = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
     const { name, email, departmentId, materialIds } = req.body;
+    if (email) validateEmail(email);
 
     const teacher = await prisma.teacher.update({
         where: { id: BigInt(id as string) },
