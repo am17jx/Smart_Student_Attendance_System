@@ -182,7 +182,14 @@ function AdminDashboard() {
                     <p className="text-sm text-muted-foreground">{activity.session?.material?.name || 'مادة'}</p>
                   </div>
                 </div>
-                <span className="text-sm text-muted-foreground">{new Date(activity.marked_at).toLocaleTimeString('ar-EG')}</span>
+                <span className="text-sm text-muted-foreground">
+                  {new Date(activity.marked_at).toLocaleString('ar-EG', {
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  })}
+                </span>
               </div>
             ))}
             {(!recentActivity || recentActivity.length === 0) && (
@@ -379,7 +386,12 @@ function TeacherDashboard() {
                     </div>
                   </div>
                   <span className="text-xs text-muted-foreground">
-                    {new Date(record.marked_at).toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' })}
+                    {new Date(record.marked_at).toLocaleString('ar-EG', {
+                      month: 'short',
+                      day: 'numeric',
+                      hour: '2-digit',
+                      minute: '2-digit'
+                    })}
                   </span>
                 </div>
               ))}
