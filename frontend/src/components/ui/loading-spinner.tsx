@@ -29,7 +29,7 @@ export function PageLoader() {
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-4 bg-background">
       <div className="h-10 w-10 animate-spin rounded-full border-4 border-muted border-t-primary" />
-      <p className="text-sm text-muted-foreground">جاري التحميل...</p>
+      <p className="text-sm text-muted-foreground"><span>جاري التحميل...</span></p>
     </div>
   );
 }

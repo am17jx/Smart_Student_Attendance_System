@@ -76,8 +76,8 @@ export default function Login() {
             <div className="inline-flex items-center justify-center h-24 w-24 rounded-2xl mb-4 shadow-elegant overflow-hidden">
               <img src="/logo.png" alt="Logo" className="h-full w-full object-cover" />
             </div>
-            <h1 className="text-2xl font-bold text-foreground">نظام تسجيل حضور الطلاب الذكي</h1>
-            <p className="text-muted-foreground mt-2">قم بتسجيل الدخول للمتابعة</p>
+            <h1 className="text-2xl font-bold text-foreground"><span>نظام تسجيل حضور الطلاب الذكي</span></h1>
+            <p className="text-muted-foreground mt-2"><span>قم بتسجيل الدخول للمتابعة</span></p>
           </div>
 
           <Card className="border-0 shadow-elegant overflow-hidden">
@@ -91,16 +91,16 @@ export default function Login() {
                     >
                       <ChevronLeft className="h-5 w-5" />
                     </button>
-                    اختر الوظيفة للمتابعة
+                    <span>اختر الوظيفة للمتابعة</span>
                   </>
                 ) : (
-                  "تسجيل الدخول"
+                  <span>تسجيل الدخول</span>
                 )}
               </CardTitle>
               <CardDescription>
                 {multiRoles.length > 0
-                  ? "تم العثور على أكثر من وظيفة مرتبطة بهذا الحساب"
-                  : "أدخل بياناتك للوصول إلى حسابك"}
+                  ? <span>تم العثور على أكثر من وظيفة مرتبطة بهذا الحساب</span>
+                  : <span>أدخل بياناتك للوصول إلى حسابك</span>}
               </CardDescription>
             </CardHeader>
             <CardContent className="pt-6">
@@ -109,7 +109,7 @@ export default function Login() {
                   {error && (
                     <Alert variant="destructive" className="mb-4">
                       <AlertCircle className="h-4 w-4" />
-                      <AlertDescription>{error}</AlertDescription>
+                      <AlertDescription><span>{error}</span></AlertDescription>
                     </Alert>
                   )}
                   {multiRoles.map((roleObj) => (
@@ -127,8 +127,8 @@ export default function Login() {
                           {roleObj.role === 'student' && <GraduationCap className="h-5 w-5" />}
                         </div>
                         <div className="text-right">
-                          <p className="font-semibold">{roleObj.label}</p>
-                          <p className="text-xs text-muted-foreground">{roleObj.name}</p>
+                          <p className="font-semibold"><span>{roleObj.label}</span></p>
+                          <p className="text-xs text-muted-foreground"><span>{roleObj.name}</span></p>
                         </div>
                       </div>
                       <ChevronLeft className="h-5 w-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-[-4px] transition-all" />
@@ -140,12 +140,12 @@ export default function Login() {
                   {error && (
                     <Alert variant="destructive" className="animate-scale-in">
                       <AlertCircle className="h-4 w-4" />
-                      <AlertDescription>{error}</AlertDescription>
+                      <AlertDescription><span>{error}</span></AlertDescription>
                     </Alert>
                   )}
 
                   <div className="space-y-2">
-                    <Label htmlFor="email">البريد الإلكتروني</Label>
+                    <Label htmlFor="email"><span>البريد الإلكتروني</span></Label>
                     <div className="relative">
                       <Mail className="absolute start-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                       <Input
@@ -162,7 +162,7 @@ export default function Login() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="password">كلمة المرور</Label>
+                    <Label htmlFor="password"><span>كلمة المرور</span></Label>
                     <div className="relative">
                       <Lock className="absolute start-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                       <Input
@@ -190,7 +190,7 @@ export default function Login() {
                       to="/forgot-password"
                       className="text-sm text-primary hover:underline"
                     >
-                      نسيت كلمة المرور؟
+                      <span>نسيت كلمة المرور؟</span>
                     </Link>
                   </div>
 
@@ -202,10 +202,10 @@ export default function Login() {
                     {isLoading ? (
                       <>
                         <LoadingSpinner size="sm" className="ml-2 border-primary-foreground border-t-transparent" />
-                        جاري تسجيل الدخول...
+                        <span>جاري تسجيل الدخول...</span>
                       </>
                     ) : (
-                      "تسجيل الدخول"
+                      <span>تسجيل الدخول</span>
                     )}
                   </Button>
                 </form>
