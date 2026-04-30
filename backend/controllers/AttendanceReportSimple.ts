@@ -84,13 +84,43 @@ export const generateSimpleAttendanceReport = catchAsync(
             }
         });
 
-        // Sort and add index
-        studentList.sort((a, b) => a.name.localeCompare(b.name));
-        studentList.forEach((s, i) => s.index = i + 1);
+        // Sort: present first (alphabetically), then absent (alphabetically)
+        const presentStudents = studentList
+            .filter(s => s.status === 'حاضر')
+            .sort((a, b) => a.name.localeCompare(b.name));
+        const absentStudents = studentList
+            .filter(s => s.status === 'غائب')
+            .sort((a, b) => a.name.localeCompare(b.name));
+
+        presentStudents.forEach((s, i) => s.index = i + 1);
+        absentStudents.forEach((s, i) => s.index = i + 1);
 
         // 5. Stats
-        const presentCount = studentList.filter(s => s.status === 'حاضر').length;
-        const absentCount = studentList.filter(s => s.status === 'غائب').length;
+        const presentCount = presentStudents.length;
+        const absentCount = absentStudents.length;
+
+        const tableHeaders = `
+            <thead>
+                <tr>
+                    <th style="width: 40px;">ت</th>
+                    <th style="width: 180px;">الرقم الجامعي</th>
+                    <th style="width: 180px;">الاسم</th>
+                    <th>القسم</th>
+                    <th style="width: 100px;">الوقت</th>
+                </tr>
+            </thead>`;
+
+        const renderRows = (list: any[], rowClass: string) =>
+            list.map((s: any) => `
+                <tr class="${rowClass}">
+                    <td>${s.index}</td>
+                    <td style="font-family: monospace;">${s.student_id}</td>
+                    <td style="font-weight: 600;">${s.name}</td>
+                    <td>${s.department}</td>
+                    <td>${s.time}</td>
+                </tr>
+            `).join('');
+
         const html = `
 <!DOCTYPE html>
 <html dir="rtl" lang="ar">
@@ -106,10 +136,9 @@ export const generateSimpleAttendanceReport = catchAsync(
             color: #333;
             background: white;
             width: 800px;
-            min-height: 1000px;
             direction: rtl;
         }
-        
+
         /* HEADER */
         .header-section {
             text-align: center;
@@ -165,57 +194,102 @@ export const generateSimpleAttendanceReport = catchAsync(
             text-align: center;
         }
         .stat-present { background-color: #dcfce7; color: #166534; }
-        .stat-absent  { background-color: #f8fafc; color: #333; border: 1px solid #e2e8f0; } /* Matches image (light/none) */
+        .stat-absent  { background-color: #fee2e2; color: #991b1b; }
         .stat-total   { background-color: #e2e3e5; color: #333; }
+
+        /* SECTION TITLE */
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            padding: 10px 14px;
+            border-radius: 6px 6px 0 0;
+            margin-bottom: 0;
+            border-bottom: none;
+        }
+        .section-title-present {
+            background-color: #dcfce7;
+            color: #166534;
+            border: 2px solid #86efac;
+        }
+        .section-title-absent {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 2px solid #fca5a5;
+        }
 
         /* MAIN TABLE */
         .main-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 40px;
-            border: 1px solid #dee2e6;
+            margin-bottom: 0;
         }
         .main-table th {
             background-color: #f8f9fa;
             color: #333;
             font-weight: 700;
-            padding: 12px;
+            padding: 11px;
             border: 1px solid #dee2e6;
             font-size: 14px;
         }
         .main-table td {
-            padding: 12px;
+            padding: 10px 11px;
             border: 1px solid #dee2e6;
             text-align: center;
             font-size: 14px;
             color: #333;
             vertical-align: middle;
         }
-        
-        /* STATUS BADGE STYLING (matching exactly the image) */
-        .status-cell {
-            padding: 0 !important;
+        .row-present td { background-color: #f0fdf4; }
+        .row-absent  td { background-color: #fff5f5; }
+
+        /* TABLE WRAPPER */
+        .table-section {
+            margin-bottom: 30px;
         }
-        .status-badge {
-            display: block;
-            width: 100%;
-            padding: 12px 0;
-            font-weight: 700;
+        .table-section-present .main-table {
+            border: 2px solid #86efac;
+            border-top: none;
         }
-        .status-present { background-color: #dcfce7; color: #166534; }
-        .status-absent  { background-color: #f8d7da; color: #a01c2a; }
+        .table-section-absent .main-table {
+            border: 2px solid #fca5a5;
+            border-top: none;
+        }
+
+        /* Prevent section title from being orphaned at page bottom */
+        .section-title {
+            page-break-after: avoid;
+        }
+
+        /* Prevent individual rows from splitting across pages */
+        .main-table tr {
+            page-break-inside: avoid;
+        }
+
+        /* Absent section always starts on a fresh page */
+        .absent-section {
+            page-break-before: always;
+        }
+
+        /* Keep header info + stats on first page together */
+        .report-header-block {
+            page-break-inside: avoid;
+            page-break-after: avoid;
+        }
 
         .footer {
             text-align: center;
             font-size: 11px;
             color: #888;
-            margin-top: auto;
+            margin-top: 40px;
             line-height: 1.6;
+            page-break-inside: avoid;
         }
     </style>
 </head>
 <body>
     <div id="report-container">
+        <!-- Header + Info + Stats grouped to stay on first page -->
+        <div class="report-header-block">
         <!-- Header -->
         <div class="header-section">
             <h1>تقرير الحضور</h1>
@@ -252,36 +326,29 @@ export const generateSimpleAttendanceReport = catchAsync(
             <div class="stat-badge stat-absent">الغياب: ${absentCount}</div>
             <div class="stat-badge stat-total">العدد الكلي: ${presentCount + absentCount}</div>
         </div>
+        </div><!-- end report-header-block -->
 
-        <!-- Table -->
-        <table class="main-table">
-            <thead>
-                <tr>
-                    <th style="width: 40px;">ت</th>
-                    <th style="width: 180px;">الرقم الجامعي</th>
-                    <th style="width: 180px;">الاسم</th>
-                    <th>القسم</th>
-                    <th style="width: 80px;">الحالة</th>
-                    <th style="width: 100px;">الوقت</th>
-                </tr>
-            </thead>
-            <tbody>
-                ${studentList.map((s: any) => `
-                    <tr>
-                        <td>${s.index}</td>
-                        <td style="font-family: monospace;">${s.student_id}</td>
-                        <td style="font-weight: 600;">${s.name}</td>
-                        <td>${s.department}</td>
-                        <td class="status-cell">
-                            <span class="status-badge ${s.status === 'حاضر' ? 'status-present' : 'status-absent'}">
-                                ${s.status}
-                            </span>
-                        </td>
-                        <td>${s.time}</td>
-                    </tr>
-                `).join('')}
-            </tbody>
-        </table>
+        <!-- Present Section -->
+        <div class="table-section table-section-present">
+            <div class="section-title section-title-present">&#x2705; الحاضرون (${presentCount})</div>
+            <table class="main-table">
+                ${tableHeaders}
+                <tbody>
+                    ${presentStudents.length > 0 ? renderRows(presentStudents, 'row-present') : `<tr><td colspan="5" style="text-align:center;padding:20px;color:#999;">لا يوجد حضور</td></tr>`}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Absent Section -->
+        <div class="table-section table-section-absent absent-section">
+            <div class="section-title section-title-absent">&#x274C; الغائبون (${absentCount})</div>
+            <table class="main-table">
+                ${tableHeaders}
+                <tbody>
+                    ${absentStudents.length > 0 ? renderRows(absentStudents, 'row-absent') : `<tr><td colspan="5" style="text-align:center;padding:20px;color:#999;">لا يوجد غياب</td></tr>`}
+                </tbody>
+            </table>
+        </div>
 
         <div class="footer">
             <p>تم إنشاء التقرير في: ${new Date().toLocaleString('ar-IQ')}</p>
