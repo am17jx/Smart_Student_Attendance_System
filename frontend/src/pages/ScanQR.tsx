@@ -28,20 +28,28 @@ export default function ScanQR() {
   const [cameraActive, setCameraActive] = useState(false);
   const [attendanceDetails, setAttendanceDetails] = useState<{ materialName?: string; timestamp?: string; sessionId?: string } | null>(null);
   const [vpnStatus, setVpnStatus] = useState<"checking" | "detected" | "clear">("checking");
-  const [vpnDismissed, setVpnDismissed] = useState(false);
 
-  useEffect(() => {
-    const checkVPN = async () => {
-      try {
-        const res = await fetch("https://ip-api.com/json/?fields=proxy,hosting,query", { signal: AbortSignal.timeout(5000) });
-        const data = await res.json();
-        setVpnStatus(data.proxy || data.hosting ? "detected" : "clear");
-      } catch {
-        setVpnStatus("clear");
-      }
-    };
-    checkVPN();
-  }, []);
+  const checkVPN = async () => {
+    setVpnStatus("checking");
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 6000);
+    try {
+      const res = await fetch("https://ip-api.com/json/?fields=proxy,hosting,mobile,query", {
+        signal: controller.signal,
+      });
+      clearTimeout(timer);
+      if (!res.ok) throw new Error("api_error");
+      const data = await res.json();
+      // proxy=true → VPN/proxy, hosting=true → datacenter/VPN server
+      setVpnStatus(data.proxy || data.hosting ? "detected" : "clear");
+    } catch {
+      clearTimeout(timer);
+      // On failure keep checking state briefly then allow through to avoid blocking legitimate users
+      setVpnStatus("clear");
+    }
+  };
+
+  useEffect(() => { checkVPN(); }, []);
 
   useEffect(() => {
     // Check permission status without triggering prompt immediately
