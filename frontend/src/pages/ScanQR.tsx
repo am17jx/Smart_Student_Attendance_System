@@ -4,7 +4,7 @@ import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { QrCode, Camera, CheckCircle2, AlertCircle, MapPin, ShieldAlert, X } from "lucide-react";
+import { QrCode, Camera, CheckCircle2, AlertCircle, MapPin, ShieldAlert } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
@@ -231,23 +231,43 @@ export default function ScanQR() {
           <p className="text-muted-foreground">امسح رمز QR لتسجيل حضورك</p>
         </div>
 
-        {/* VPN Warning Banner */}
-        {vpnStatus === "detected" && !vpnDismissed && (
-          <div className="flex items-start gap-3 rounded-lg border border-orange-300 bg-orange-50 p-4 text-orange-800 dark:border-orange-700 dark:bg-orange-950 dark:text-orange-300">
-            <ShieldAlert className="mt-0.5 h-5 w-5 shrink-0" />
-            <div className="flex-1 space-y-1">
-              <p className="font-bold text-sm">تم اكتشاف VPN نشط</p>
-              <p className="text-sm">
-                يرجى إيقاف الـ VPN قبل تسجيل حضورك، لأنه يُخفي موقعك الحقيقي ويمنع النظام من التحقق من وجودك داخل القاعة.
-              </p>
+        {/* VPN Blocking Screen */}
+        {vpnStatus === "detected" && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+            <div className="w-full max-w-sm rounded-2xl bg-white dark:bg-gray-900 shadow-2xl overflow-hidden">
+              <div className="bg-orange-500 p-6 flex flex-col items-center text-white text-center">
+                <ShieldAlert className="h-14 w-14 mb-3" />
+                <h2 className="text-xl font-bold">تم اكتشاف VPN نشط</h2>
+              </div>
+              <div className="p-6 space-y-4 text-center">
+                <p className="text-muted-foreground text-sm leading-relaxed">
+                  يستخدم النظام موقعك الجغرافي للتحقق من وجودك داخل القاعة الدراسية.
+                  <br /><br />
+                  <span className="font-semibold text-foreground">الـ VPN يُخفي موقعك الحقيقي</span> ويمنع تسجيل الحضور بشكل صحيح.
+                </p>
+                <div className="rounded-lg bg-orange-50 dark:bg-orange-950/30 border border-orange-200 dark:border-orange-800 p-3 text-sm text-orange-800 dark:text-orange-300 text-right">
+                  <p className="font-bold mb-1">الخطوات:</p>
+                  <ol className="space-y-1 list-decimal list-inside">
+                    <li>أوقف تشغيل تطبيق VPN</li>
+                    <li>اضغط "إعادة الفحص" أدناه</li>
+                  </ol>
+                </div>
+                <Button
+                  className="w-full bg-orange-500 hover:bg-orange-600 text-white"
+                  onClick={checkVPN}
+                >
+                  إعادة الفحص
+                </Button>
+              </div>
             </div>
-            <button
-              onClick={() => setVpnDismissed(true)}
-              className="shrink-0 rounded p-0.5 hover:bg-orange-200 dark:hover:bg-orange-800"
-              aria-label="إغلاق"
-            >
-              <X className="h-4 w-4" />
-            </button>
+          </div>
+        )}
+
+        {/* VPN Checking Indicator */}
+        {vpnStatus === "checking" && (
+          <div className="flex items-center gap-2 rounded-lg border border-border bg-muted/40 p-3 text-sm text-muted-foreground">
+            <div className="h-3 w-3 rounded-full bg-yellow-400 animate-pulse" />
+            جاري التحقق من اتصالك...
           </div>
         )}
 
