@@ -3,7 +3,6 @@ import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
 
-// 🔴 تهيئة Sentry
 Sentry.init({
     dsn: "https://c6bfb5e91607c2050b02c74593a55ae8@o4511065101565952.ingest.de.sentry.io/4511065108512848",
     sendDefaultPii: true,
@@ -18,7 +17,6 @@ Sentry.init({
     enableLogs: true
 });
 
-// تحميل الثيم المحفوظ
 const savedTheme = localStorage.getItem('theme');
 if (savedTheme === 'dark') {
     document.documentElement.classList.add('dark');
@@ -26,5 +24,4 @@ if (savedTheme === 'dark') {
     document.documentElement.classList.remove('dark');
 }
 
-// 🔴 تشغيل التطبيق
 createRoot(document.getElementById("root")!).render(<App />);

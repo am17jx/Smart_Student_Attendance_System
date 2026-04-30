@@ -4,7 +4,7 @@ import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { QrCode, Camera, CheckCircle2, AlertCircle, MapPin } from "lucide-react";
+import { QrCode, Camera, CheckCircle2, AlertCircle, MapPin, ShieldAlert, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
@@ -27,6 +27,21 @@ export default function ScanQR() {
   const [coords, setCoords] = useState<{ latitude: number; longitude: number } | null>(null);
   const [cameraActive, setCameraActive] = useState(false);
   const [attendanceDetails, setAttendanceDetails] = useState<{ materialName?: string; timestamp?: string; sessionId?: string } | null>(null);
+  const [vpnStatus, setVpnStatus] = useState<"checking" | "detected" | "clear">("checking");
+  const [vpnDismissed, setVpnDismissed] = useState(false);
+
+  useEffect(() => {
+    const checkVPN = async () => {
+      try {
+        const res = await fetch("https://ip-api.com/json/?fields=proxy,hosting,query", { signal: AbortSignal.timeout(5000) });
+        const data = await res.json();
+        setVpnStatus(data.proxy || data.hosting ? "detected" : "clear");
+      } catch {
+        setVpnStatus("clear");
+      }
+    };
+    checkVPN();
+  }, []);
 
   useEffect(() => {
     // Check permission status without triggering prompt immediately
@@ -203,11 +218,30 @@ export default function ScanQR() {
   return (
     <DashboardLayout>
       <div className="max-w-2xl mx-auto space-y-6">
-        {/* ... existing header */}
         <div className="text-center">
           <h1 className="text-2xl font-bold">تسجيل الحضور</h1>
           <p className="text-muted-foreground">امسح رمز QR لتسجيل حضورك</p>
         </div>
+
+        {/* VPN Warning Banner */}
+        {vpnStatus === "detected" && !vpnDismissed && (
+          <div className="flex items-start gap-3 rounded-lg border border-orange-300 bg-orange-50 p-4 text-orange-800 dark:border-orange-700 dark:bg-orange-950 dark:text-orange-300">
+            <ShieldAlert className="mt-0.5 h-5 w-5 shrink-0" />
+            <div className="flex-1 space-y-1">
+              <p className="font-bold text-sm">تم اكتشاف VPN نشط</p>
+              <p className="text-sm">
+                يرجى إيقاف الـ VPN قبل تسجيل حضورك، لأنه يُخفي موقعك الحقيقي ويمنع النظام من التحقق من وجودك داخل القاعة.
+              </p>
+            </div>
+            <button
+              onClick={() => setVpnDismissed(true)}
+              className="shrink-0 rounded p-0.5 hover:bg-orange-200 dark:hover:bg-orange-800"
+              aria-label="إغلاق"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+        )}
 
         {/* ... existing Alerts (keep them as inline feedback) */}
         {/* Location Permission Request UI - Prominent */}
