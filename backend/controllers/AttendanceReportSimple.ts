@@ -68,7 +68,7 @@ export const generateSimpleAttendanceReport = catchAsync(
                     department: student.department?.name || '',
                     status: 'حاضر',
                     statusClass: 'present',
-                    time: `${record.marked_at.getHours().toString().padStart(2, '0')}:${record.marked_at.getMinutes().toString().padStart(2, '0')}`
+                    time: record.marked_at.toLocaleTimeString('en-GB', { timeZone: 'Asia/Baghdad', hour: '2-digit', minute: '2-digit', hour12: false })
                 });
             } else {
                 // ABSENT
