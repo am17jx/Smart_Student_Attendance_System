@@ -231,6 +231,14 @@ export default function ScanQR() {
           <p className="text-muted-foreground">امسح رمز QR لتسجيل حضورك</p>
         </div>
 
+        {/* Static VPN notice */}
+        <div className="flex items-start gap-3 rounded-lg border border-orange-200 bg-orange-50 dark:border-orange-800 dark:bg-orange-950/40 p-4">
+          <ShieldAlert className="mt-0.5 h-5 w-5 shrink-0 text-orange-500" />
+          <p className="text-sm text-orange-800 dark:text-orange-300">
+            <span className="font-bold">تنبيه مهم:</span> يجب إيقاف تشغيل الـ VPN قبل تسجيل الحضور، لأنه يُخفي موقعك الحقيقي ويمنع النظام من التحقق من وجودك داخل القاعة.
+          </p>
+        </div>
+
         {/* VPN Blocking Screen */}
         {vpnStatus === "detected" && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
