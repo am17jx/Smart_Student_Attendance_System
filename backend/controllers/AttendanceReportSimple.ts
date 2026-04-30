@@ -68,7 +68,7 @@ export const generateSimpleAttendanceReport = catchAsync(
                     department: student.department?.name || '',
                     status: 'حاضر',
                     statusClass: 'present',
-                    time: record.marked_at.toLocaleTimeString('ar-IQ', { hour: '2-digit', minute: '2-digit' })
+                    time: `${record.marked_at.getHours().toString().padStart(2, '0')}:${record.marked_at.getMinutes().toString().padStart(2, '0')}`
                 });
             } else {
                 // ABSENT
@@ -103,9 +103,8 @@ export const generateSimpleAttendanceReport = catchAsync(
             <thead>
                 <tr>
                     <th style="width: 40px;">ت</th>
-                    <th style="width: 180px;">الرقم الجامعي</th>
-                    <th style="width: 180px;">الاسم</th>
-                    <th>القسم</th>
+                    <th style="width: 200px;">الرقم الجامعي</th>
+                    <th>الاسم</th>
                     <th style="width: 100px;">الوقت</th>
                 </tr>
             </thead>`;
@@ -116,7 +115,6 @@ export const generateSimpleAttendanceReport = catchAsync(
                     <td>${s.index}</td>
                     <td style="font-family: monospace;">${s.student_id}</td>
                     <td style="font-weight: 600;">${s.name}</td>
-                    <td>${s.department}</td>
                     <td>${s.time}</td>
                 </tr>
             `).join('');
@@ -223,7 +221,7 @@ export const generateSimpleAttendanceReport = catchAsync(
                 <tbody>
                     ${presentStudents.length > 0
                         ? renderRows(presentStudents, 'row-present')
-                        : `<tr><td colspan="5" style="text-align:center;padding:20px;color:#999;">لا يوجد حضور</td></tr>`}
+                        : `<tr><td colspan="4" style="text-align:center;padding:20px;color:#999;">لا يوجد حضور</td></tr>`}
                 </tbody>
             </table>
         </div>
@@ -248,7 +246,7 @@ export const generateSimpleAttendanceReport = catchAsync(
                 <tbody>
                     ${absentStudents.length > 0
                         ? renderRows(absentStudents, 'row-absent')
-                        : `<tr><td colspan="5" style="text-align:center;padding:20px;color:#999;">لا يوجد غياب</td></tr>`}
+                        : `<tr><td colspan="4" style="text-align:center;padding:20px;color:#999;">لا يوجد غياب</td></tr>`}
                 </tbody>
             </table>
         </div>
