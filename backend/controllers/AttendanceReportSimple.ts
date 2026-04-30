@@ -121,16 +121,11 @@ export const generateSimpleAttendanceReport = catchAsync(
                 </tr>
             `).join('');
 
-        const html = `
-<!DOCTYPE html>
-<html dir="rtl" lang="ar">
-<head>
-    <meta charset="UTF-8">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <style>
+        const sharedStyles = `
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: white; width: 800px; margin: 0; padding: 0; }
-        #report-container {
+
+        .page {
             padding: 50px 60px;
             font-family: 'Cairo', sans-serif;
             color: #333;
@@ -139,213 +134,96 @@ export const generateSimpleAttendanceReport = catchAsync(
             direction: rtl;
         }
 
+        /* Force a clean page break — html2pdf slices here */
+        .page-break {
+            page-break-before: always;
+        }
+
         /* HEADER */
-        .header-section {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-        .header-section h1 {
-            font-size: 32px;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 15px;
-        }
-        .header-line {
-            width: 100%;
-            height: 3px;
-            background-color: #333;
-            margin-bottom: 30px;
-        }
+        .header-section { text-align: center; margin-bottom: 25px; }
+        .header-section h1 { font-size: 32px; font-weight: 700; color: #333; margin-bottom: 15px; }
+        .header-line { width: 100%; height: 3px; background-color: #333; margin-bottom: 30px; }
 
-        /* INFO SECTION */
-        .info-table {
-            width: 100%;
-            margin-bottom: 30px;
-        }
-        .info-table td {
-            text-align: right;
-            padding: 4px 0;
-            font-size: 15px;
-        }
-        .info-label {
-            font-weight: 700;
-            width: 100px;
-            color: #333;
-        }
-        .info-value {
-            color: #444;
-            font-weight: 400;
-            padding-right: 15px;
-        }
+        /* PAGE 2 MINI HEADER */
+        .mini-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding-bottom: 12px; border-bottom: 2px solid #333; }
+        .mini-header h2 { font-size: 20px; font-weight: 700; color: #333; }
+        .mini-header span { font-size: 13px; color: #666; }
 
-        /* STATS BOXES */
-        .stats-area {
-            display: flex;
-            justify-content: flex-end;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-        .stat-badge {
-            padding: 8px 25px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 16px;
-            min-width: 120px;
-            text-align: center;
-        }
+        /* INFO TABLE */
+        .info-table { width: 100%; margin-bottom: 30px; }
+        .info-table td { text-align: right; padding: 4px 0; font-size: 15px; }
+        .info-label { font-weight: 700; width: 100px; color: #333; }
+        .info-value { color: #444; font-weight: 400; padding-right: 15px; }
+
+        /* STATS */
+        .stats-area { display: flex; justify-content: flex-end; gap: 15px; margin-bottom: 30px; }
+        .stat-badge { padding: 8px 25px; border-radius: 8px; font-weight: 700; font-size: 16px; min-width: 120px; text-align: center; }
         .stat-present { background-color: #dcfce7; color: #166534; }
         .stat-absent  { background-color: #fee2e2; color: #991b1b; }
         .stat-total   { background-color: #e2e3e5; color: #333; }
 
         /* SECTION TITLE */
-        .section-title {
-            font-size: 18px;
-            font-weight: 700;
-            padding: 10px 14px;
-            border-radius: 6px 6px 0 0;
-            margin-bottom: 0;
-            border-bottom: none;
-        }
-        .section-title-present {
-            background-color: #dcfce7;
-            color: #166534;
-            border: 2px solid #86efac;
-        }
-        .section-title-absent {
-            background-color: #fee2e2;
-            color: #991b1b;
-            border: 2px solid #fca5a5;
-        }
+        .section-title { font-size: 18px; font-weight: 700; padding: 10px 14px; margin-bottom: 0; border-bottom: none; }
+        .section-title-present { background-color: #dcfce7; color: #166534; border: 2px solid #86efac; border-radius: 6px 6px 0 0; }
+        .section-title-absent  { background-color: #fee2e2; color: #991b1b; border: 2px solid #fca5a5; border-radius: 6px 6px 0 0; }
 
         /* MAIN TABLE */
-        .main-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 0;
-        }
-        .main-table th {
-            background-color: #f8f9fa;
-            color: #333;
-            font-weight: 700;
-            padding: 11px;
-            border: 1px solid #dee2e6;
-            font-size: 14px;
-        }
-        .main-table td {
-            padding: 10px 11px;
-            border: 1px solid #dee2e6;
-            text-align: center;
-            font-size: 14px;
-            color: #333;
-            vertical-align: middle;
-        }
+        .main-table { width: 100%; border-collapse: collapse; }
+        .main-table th { background-color: #f8f9fa; color: #333; font-weight: 700; padding: 11px; border: 1px solid #dee2e6; font-size: 14px; }
+        .main-table td { padding: 10px 11px; border: 1px solid #dee2e6; text-align: center; font-size: 14px; color: #333; vertical-align: middle; }
         .row-present td { background-color: #f0fdf4; }
         .row-absent  td { background-color: #fff5f5; }
 
-        /* TABLE WRAPPER */
-        .table-section {
-            margin-bottom: 30px;
-        }
-        .table-section-present .main-table {
-            border: 2px solid #86efac;
-            border-top: none;
-        }
-        .table-section-absent .main-table {
-            border: 2px solid #fca5a5;
-            border-top: none;
-        }
+        .table-section { margin-bottom: 30px; }
+        .table-section-present .main-table { border: 2px solid #86efac; border-top: none; }
+        .table-section-absent  .main-table { border: 2px solid #fca5a5; border-top: none; }
 
-        /* Prevent section title from being orphaned at page bottom */
-        .section-title {
-            page-break-after: avoid;
-        }
+        /* Prevent rows from splitting mid-row */
+        .main-table tr { page-break-inside: avoid; }
 
-        /* Prevent individual rows from splitting across pages */
-        .main-table tr {
-            page-break-inside: avoid;
-        }
+        .footer { text-align: center; font-size: 11px; color: #888; margin-top: 40px; line-height: 1.6; }
+        `;
 
-        /* Absent section always starts on a fresh page */
-        .absent-section {
-            page-break-before: always;
-        }
-
-        /* Keep header info + stats on first page together */
-        .report-header-block {
-            page-break-inside: avoid;
-            page-break-after: avoid;
-        }
-
-        .footer {
-            text-align: center;
-            font-size: 11px;
-            color: #888;
-            margin-top: 40px;
-            line-height: 1.6;
-            page-break-inside: avoid;
-        }
-    </style>
+        const html = `
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>${sharedStyles}</style>
 </head>
 <body>
-    <div id="report-container">
-        <!-- Header + Info + Stats grouped to stay on first page -->
-        <div class="report-header-block">
-        <!-- Header -->
+<div id="report-container">
+
+    <!-- ═══════════ PAGE 1: Header + Info + Stats + Present table ═══════════ -->
+    <div class="page">
         <div class="header-section">
             <h1>تقرير الحضور</h1>
             <div class="header-line"></div>
         </div>
 
-        <!-- Info -->
         <table class="info-table">
-            <tr>
-                <td class="info-label">المادة:</td>
-                <td class="info-value">${session.material.name}</td>
-            </tr>
-            <tr>
-                <td class="info-label">القسم:</td>
-                <td class="info-value">${session.material.department.name}</td>
-            </tr>
-            <tr>
-                <td class="info-label">المرحلة:</td>
-                <td class="info-value">${session.material.stage.name}</td>
-            </tr>
-            <tr>
-                <td class="info-label">الأستاذ:</td>
-                <td class="info-value">${session.teacher.name}</td>
-            </tr>
-            <tr>
-                <td class="info-label">التاريخ:</td>
-                <td class="info-value">${session.session_date.toLocaleDateString('ar-IQ')}</td>
-            </tr>
+            <tr><td class="info-label">المادة:</td>   <td class="info-value">${session.material.name}</td></tr>
+            <tr><td class="info-label">القسم:</td>    <td class="info-value">${session.material.department.name}</td></tr>
+            <tr><td class="info-label">المرحلة:</td>  <td class="info-value">${session.material.stage.name}</td></tr>
+            <tr><td class="info-label">الأستاذ:</td>  <td class="info-value">${session.teacher.name}</td></tr>
+            <tr><td class="info-label">التاريخ:</td>  <td class="info-value">${session.session_date.toLocaleDateString('ar-IQ')}</td></tr>
         </table>
 
-        <!-- Stats -->
         <div class="stats-area">
             <div class="stat-badge stat-present">الحضور: ${presentCount}</div>
             <div class="stat-badge stat-absent">الغياب: ${absentCount}</div>
             <div class="stat-badge stat-total">العدد الكلي: ${presentCount + absentCount}</div>
         </div>
-        </div><!-- end report-header-block -->
 
-        <!-- Present Section -->
         <div class="table-section table-section-present">
             <div class="section-title section-title-present">&#x2705; الحاضرون (${presentCount})</div>
             <table class="main-table">
                 ${tableHeaders}
                 <tbody>
-                    ${presentStudents.length > 0 ? renderRows(presentStudents, 'row-present') : `<tr><td colspan="5" style="text-align:center;padding:20px;color:#999;">لا يوجد حضور</td></tr>`}
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Absent Section -->
-        <div class="table-section table-section-absent absent-section">
-            <div class="section-title section-title-absent">&#x274C; الغائبون (${absentCount})</div>
-            <table class="main-table">
-                ${tableHeaders}
-                <tbody>
-                    ${absentStudents.length > 0 ? renderRows(absentStudents, 'row-absent') : `<tr><td colspan="5" style="text-align:center;padding:20px;color:#999;">لا يوجد غياب</td></tr>`}
+                    ${presentStudents.length > 0
+                        ? renderRows(presentStudents, 'row-present')
+                        : `<tr><td colspan="5" style="text-align:center;padding:20px;color:#999;">لا يوجد حضور</td></tr>`}
                 </tbody>
             </table>
         </div>
@@ -355,6 +233,33 @@ export const generateSimpleAttendanceReport = catchAsync(
             <p>Privacy-Preserving Student Attendance System</p>
         </div>
     </div>
+
+    <!-- ═══════════ PAGE 2: Absent table ═══════════ -->
+    <div class="page page-break">
+        <div class="mini-header">
+            <h2>تقرير الحضور — ${session.material.name}</h2>
+            <span>${session.session_date.toLocaleDateString('ar-IQ')} | ${session.teacher.name}</span>
+        </div>
+
+        <div class="table-section table-section-absent">
+            <div class="section-title section-title-absent">&#x274C; الغائبون (${absentCount})</div>
+            <table class="main-table">
+                ${tableHeaders}
+                <tbody>
+                    ${absentStudents.length > 0
+                        ? renderRows(absentStudents, 'row-absent')
+                        : `<tr><td colspan="5" style="text-align:center;padding:20px;color:#999;">لا يوجد غياب</td></tr>`}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="footer">
+            <p>تم إنشاء التقرير في: ${new Date().toLocaleString('ar-IQ')}</p>
+            <p>Privacy-Preserving Student Attendance System</p>
+        </div>
+    </div>
+
+</div>
 </body>
 </html>
         `;
