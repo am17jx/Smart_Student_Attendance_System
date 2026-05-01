@@ -74,23 +74,24 @@ export const getAdminDashboard = catchAsync(async (req: Request, res: Response, 
             include: { material: true }
         });
 
-        let totalExpectedToday = 0;
+        let totalActualToday = 0;
+        let totalAbsentToday = 0;
+
         for (const session of todaysSessions) {
             if (session.material) {
-                totalExpectedToday += await prisma.student.count({
+                const classSize = await prisma.student.count({
                     where: { stage_id: session.material.stage_id, department_id: session.material.department_id }
                 });
+                const attendeesCount = await prisma.attendanceRecord.count({
+                    where: { session_id: session.id, status: { in: ['PRESENT', 'LATE'] } }
+                });
+                totalActualToday += attendeesCount;
+                totalAbsentToday += Math.max(0, classSize - attendeesCount);
             }
         }
 
-        const todayActual = await prisma.attendanceRecord.count({
-            where: {
-                session_id: { in: todaysSessions.map(s => s.id) },
-                status: { in: ['PRESENT', 'LATE'] }
-            }
-        });
-
-        const todayAttendanceRate = totalExpectedToday > 0 ? Math.round((todayActual / totalExpectedToday) * 100) : 0;
+        const totalPotentialToday = totalActualToday + totalAbsentToday;
+        const todayAttendanceRate = totalPotentialToday > 0 ? Math.round((totalActualToday / totalPotentialToday) * 100) : 0;
 
         // 2. Attendance Rate Yesterday
         const yesterdaysSessions = await prisma.session.findMany({
@@ -101,23 +102,24 @@ export const getAdminDashboard = catchAsync(async (req: Request, res: Response, 
             include: { material: true }
         });
 
-        let totalExpectedYesterday = 0;
+        let totalActualYesterday = 0;
+        let totalAbsentYesterday = 0;
+
         for (const session of yesterdaysSessions) {
             if (session.material) {
-                totalExpectedYesterday += await prisma.student.count({
+                const classSize = await prisma.student.count({
                     where: { stage_id: session.material.stage_id, department_id: session.material.department_id }
                 });
+                const attendeesCount = await prisma.attendanceRecord.count({
+                    where: { session_id: session.id, status: { in: ['PRESENT', 'LATE'] } }
+                });
+                totalActualYesterday += attendeesCount;
+                totalAbsentYesterday += Math.max(0, classSize - attendeesCount);
             }
         }
 
-        const yesterdayActual = await prisma.attendanceRecord.count({
-            where: {
-                session_id: { in: yesterdaysSessions.map(s => s.id) },
-                status: { in: ['PRESENT', 'LATE'] }
-            }
-        });
-
-        const yesterdayAttendanceRate = totalExpectedYesterday > 0 ? Math.round((yesterdayActual / totalExpectedYesterday) * 100) : 0;
+        const totalPotentialYesterday = totalActualYesterday + totalAbsentYesterday;
+        const yesterdayAttendanceRate = totalPotentialYesterday > 0 ? Math.round((totalActualYesterday / totalPotentialYesterday) * 100) : 0;
 
         // 3. Trends (Growth this month)
         const studentsThisMonth = await prisma.student.count({ where: { ...departmentFilter, created_at: { gte: firstDayOfMonth } } });
@@ -235,21 +237,28 @@ export const getTeacherDashboard = catchAsync(async (req: Request, res: Response
             }
         });
 
-        let totalExpectedAttendance = 0;
         let totalActualAttendance = 0;
+        let totalAbsentCount = 0;
 
         for (const session of allTeacherSessions) {
             if (session.material) {
-                const studentCount = await prisma.student.count({
-                    where: { stage_id: session.material.stage_id }
+                const classSize = await prisma.student.count({
+                    where: { 
+                        stage_id: session.material.stage_id,
+                        department_id: session.material.department_id
+                    }
                 });
-                totalExpectedAttendance += studentCount;
+                const attendeesCount = session.attendance_records.length;
+                totalActualAttendance += attendeesCount;
+                totalAbsentCount += Math.max(0, classSize - attendeesCount);
+            } else {
+                totalActualAttendance += session.attendance_records.length;
             }
-            totalActualAttendance += session.attendance_records.length;
         }
 
-        const attendanceRate = totalExpectedAttendance > 0
-            ? Math.round((totalActualAttendance / totalExpectedAttendance) * 100)
+        const totalPotentialRecords = totalActualAttendance + totalAbsentCount;
+        const attendanceRate = totalPotentialRecords > 0
+            ? Math.round((totalActualAttendance / totalPotentialRecords) * 100)
             : 0;
 
         // Recent sessions

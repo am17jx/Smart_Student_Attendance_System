@@ -662,20 +662,23 @@ export const getTeacherAttendanceStats = catchAsync(
 
         const uniqueStudents = uniqueStudentIds.size;
 
-        const byMaterial = Array.from(materialStats.values()).map(stat => ({
-            materialId: stat.materialId.toString(),
-            materialName: stat.materialName,
-            totalSessions: stat.totalSessions,
-            totalAttendees: stat.totalAttendees,
-            totalAbsent: stat.totalAbsent,
-            totalExpected: stat.totalExpected,
-            attendanceRate: stat.totalExpected > 0
-                ? Math.round((stat.totalAttendees / stat.totalExpected) * 100)
-                : 0,
-            avgPerSession: stat.totalSessions > 0
-                ? Math.round(stat.totalAttendees / stat.totalSessions)
-                : 0
-        }));
+        const byMaterial = Array.from(materialStats.values()).map(stat => {
+            const totalRecords = stat.totalAttendees + stat.totalAbsent;
+            return {
+                materialId: stat.materialId.toString(),
+                materialName: stat.materialName,
+                totalSessions: stat.totalSessions,
+                totalAttendees: stat.totalAttendees,
+                totalAbsent: stat.totalAbsent,
+                totalExpected: stat.totalExpected,
+                attendanceRate: totalRecords > 0
+                    ? Math.round((stat.totalAttendees / totalRecords) * 100)
+                    : 0,
+                avgPerSession: stat.totalSessions > 0
+                    ? Math.round(stat.totalAttendees / stat.totalSessions)
+                    : 0
+            };
+        });
 
         const monthlyStatsArray = Array.from(monthlyStats.entries())
             .map(([month, stats]) => ({
