@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,6 +18,8 @@ export default function Login() {
   const [multiRoles, setMultiRoles] = useState<{ role: string; name: string; label: string }[]>([]);
 
   const { login } = useAuth();
+  const [searchParams] = useSearchParams();
+  const isExpired = searchParams.get('expired') === 'true';
 
   const handleLoginResponse = (response: any) => {
     if (response?.status === 'multi_role') {
@@ -141,6 +143,13 @@ export default function Login() {
                     <Alert variant="destructive" className="animate-scale-in">
                       <AlertCircle className="h-4 w-4" />
                       <AlertDescription><span>{error}</span></AlertDescription>
+                    </Alert>
+                  )}
+
+                  {isExpired && !error && (
+                    <Alert className="bg-amber-50 border-amber-200 text-amber-800 animate-scale-in">
+                      <AlertCircle className="h-4 w-4 text-amber-600" />
+                      <AlertDescription><span>انتهت صلاحية الجلسة، يرجى تسجيل الدخول مرة أخرى.</span></AlertDescription>
                     </Alert>
                   )}
 

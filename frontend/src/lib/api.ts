@@ -1,6 +1,8 @@
 // API Configuration - Uses Vite proxy in development, can be overridden with VITE_API_URL env variable
 const API_BASE_URL = import.meta.env.VITE_API_URL || '/api/v1';
 
+import { toast } from '@/components/ui/sonner';
+
 // Types based on backend controllers
 export interface User {
   id: string;
@@ -206,6 +208,33 @@ export const setAuthToken = (token: string | null) => {
 
 export const getAuthToken = () => authToken;
 
+// Handle unauthorized access (Session expired)
+let isSessionAlertShown = false;
+
+const handleUnauthorized = () => {
+  if (isSessionAlertShown || window.location.pathname.includes('/login')) return;
+  
+  isSessionAlertShown = true;
+  setAuthToken(null);
+  localStorage.removeItem('user');
+  
+  toast.error("انتهت الجلسة", {
+    description: "انتهت صلاحية الجلسة، يرجى تسجيل الدخول مرة أخرى للمتابعة.",
+    duration: Infinity,
+    action: {
+      label: "تسجيل الدخول",
+      onClick: () => {
+        window.location.href = "/login?expired=true";
+      }
+    }
+  });
+
+  // Automatically redirect after 4 seconds if they don't click
+  setTimeout(() => {
+    window.location.href = "/login?expired=true";
+  }, 4000);
+};
+
 // API request helper
 // Custom options interface extending RequestInit
 interface ApiRequestOptions extends RequestInit {
@@ -232,6 +261,9 @@ async function apiBlobRequest(
 
 
     if (!response.ok) {
+      if (response.status === 401) {
+        handleUnauthorized();
+      }
       // Try to get error message from response
       const errorText = await response.text();
       console.error('❌ [API] Blob request failed:', errorText);
@@ -306,6 +338,9 @@ async function apiRequest<T>(
     }
 
     if (!response.ok) {
+      if (response.status === 401 && !endpoint.includes('/auth/login')) {
+        handleUnauthorized();
+      }
       throw new Error(data.message || 'حدث خطأ في الطلب');
     }
 
